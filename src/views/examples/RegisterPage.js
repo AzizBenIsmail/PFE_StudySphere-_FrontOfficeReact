@@ -23,7 +23,7 @@ import {
 } from "reactstrap";
 
 // core components
-import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
+import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 
 export default function RegisterPage() {
@@ -41,7 +41,7 @@ export default function RegisterPage() {
       document.documentElement.removeEventListener("mousemove", followCursor);
     };
   }, []);
-  const followCursor = (event) => {
+  const followCursor = (event) => { 
     let posX = event.clientX - window.innerWidth / 2;
     let posY = event.clientY - window.innerWidth / 6;
     setSquares1to6(
@@ -61,16 +61,16 @@ export default function RegisterPage() {
   };
   return (
     <>
-      <ExamplesNavbar />
+      <Navbar />
       <div className="wrapper">
         <div className="page-header">
           <div className="page-header-image" />
           <div className="content">
             <Container>
               <Row>
-                <Col className="offset-lg-0 offset-md-3" lg="5" md="6">
+                <Col className="offset-lg-0 offset-md-2 ml-5" lg="5" md="6">
                   <div
-                    className="square square-7"
+                    className="square square-7 mr-2"
                     id="square7"
                     style={{ transform: squares7and8 }}
                   />
@@ -79,13 +79,13 @@ export default function RegisterPage() {
                     id="square8"
                     style={{ transform: squares7and8 }}
                   />
-                  <Card className="card-register">
+                  <Card className="card-register ">
                     <CardHeader>
                       <CardImg
                         alt="..."
                         src={require("assets/img/square-purple-1.png")}
                       />
-                      <CardTitle tag="h4">Register</CardTitle>
+                      <CardTitle tag="h4" className="ml-2">Register</CardTitle>
                     </CardHeader>
                     <CardBody>
                       <Form className="form">
@@ -156,7 +156,7 @@ export default function RegisterPage() {
                       </Form>
                     </CardBody>
                     <CardFooter>
-                      <Button className="btn-round" color="primary" size="lg">
+                      <Button className="btn-round"  size="lg">
                         Get Started
                       </Button>
                     </CardFooter>
@@ -190,7 +190,7 @@ export default function RegisterPage() {
                 style={{ transform: squares1to6 }}
               />
               <div
-                className="square square-6"
+                className=  "square square-6"
                 id="square6"
                 style={{ transform: squares1to6 }}
               />

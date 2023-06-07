@@ -201,7 +201,7 @@ export default function IndexNavbar() {
                 onClick={scrollToDownload}
               >
                 <FaSignOutAlt/>
-                Logout
+                Exit
               </Button>
             </NavItem>
           </Nav>
