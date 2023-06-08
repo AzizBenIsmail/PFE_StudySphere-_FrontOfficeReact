@@ -2,6 +2,12 @@ import axios from "axios";
 
 const apiURL = "http://localhost:5000/users";
 
+export async function register(formData) {
+  return await axios.post(`${apiURL}/register`, formData ,{
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
+
 export async function getUsers() {
   return await axios.get(apiURL);
 }
@@ -19,9 +25,8 @@ export async function addUser(formData) {
       'Content-Type': 'multipart/form-data',
       'foo': 'bar'
     },
-    ...config
   });
-}
+} 
 
 export async function updateUser(id, User) {
   return await axios.put(`${apiURL}/${id}`, User);
@@ -35,11 +40,7 @@ export async function LoginUser(User) {
   return await axios.post(`${apiURL}/login`, User);
 }
 
-export async function register(formData) {
-  return await axios.post(`${apiURL}/register`, formData ,{
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-}
+
 
 export async function forgotpwd(User) {
   return await axios.post(`${apiURL}/forgotpwd`, User.email);

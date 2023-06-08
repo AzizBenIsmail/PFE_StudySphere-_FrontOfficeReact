@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { AiOutlineUser, AiOutlineLogin, AiFillFileImage } from "react-icons/ai";
 import { MdPassword, MdMarkEmailUnread } from "react-icons/md";
+import { register } from "../../Service/apiUser";
 
 // reactstrap components
 import {
@@ -45,6 +46,19 @@ export default function RegisterPage() {
   const handlechangeFile = (e) => {
     setImage(e.target.files[0]);
     console.log(e.target.files[0]);
+  };
+  let formData = new FormData();
+  const add = async (e) => {
+    formData.append("username", User.username);
+    formData.append("email", User.email);
+    formData.append("password", User.password);
+    formData.append("image_user", image);
+    const res = await register(formData)
+      .then(console.log("ajout passe Normalement"))
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+    console.log(res.data);
   };
   React.useEffect(() => {
     document.body.classList.toggle("register-page");
@@ -120,7 +134,7 @@ export default function RegisterPage() {
                             <Form.Control
                               placeholder="Username"
                               type="text"
-                              name="title"
+                              name="username"
                               onChange={(e) => handlechange(e)}
                               label="Username"
                               aria-label="Username"
@@ -137,7 +151,7 @@ export default function RegisterPage() {
                             <Form.Control
                               placeholder="Email Address"
                               type="text"
-                              name="title"
+                              name="email"
                               onChange={(e) => handlechange(e)}
                               label="Email"
                               aria-label="Email"
@@ -154,7 +168,7 @@ export default function RegisterPage() {
                             <Form.Control
                               placeholder="Password"
                               type="text"
-                              name="title"
+                              name="password"
                               onChange={(e) => handlechange(e)}
                               label="Password"
                               aria-label="Password"
@@ -170,9 +184,9 @@ export default function RegisterPage() {
                             </InputGroupAddon>
                             <Form.Control
                               placeholder="Image"
-                              type="text"
-                              name="title"
-                              onChange={(e) => handlechange(e)}
+                              type="file"
+                              name="image_user"
+                              onChange={(e) => handlechangeFile(e)}
                               label="Username"
                               aria-label="Username"
                             />
@@ -201,8 +215,8 @@ export default function RegisterPage() {
                           backgroundImage:
                             "linear-gradient(to bottom left, #edae3c, #dc5949, #344675)",
                         }}
+                        onClick={(e) => add(e)}
                       >
-                        {" "}
                         <AiOutlineLogin className=" mr-2" />
                         Get Started
                       </Button>
