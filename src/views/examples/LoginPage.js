@@ -1,8 +1,9 @@
 import React from "react";
-import classnames from "classnames";
+import { useState } from "react";
 // reactstrap components
+import {  AiOutlineLogin } from "react-icons/ai";
+import { MdPassword, MdMarkEmailUnread } from "react-icons/md";
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
@@ -11,25 +12,23 @@ import {
   CardTitle,
   Label,
   FormGroup,
-  Form,
   Input,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
-  Container,
   Row,
   Col,
 } from "reactstrap";
+import { Button, Container, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 // core components
-import Navbar from "components/Navbars/Navbar.js";
+import Navbar from "components/Navbars/LoginNavbar";
 import Footer from "components/Footer/Footer.js";
 
 export default function LoginPage() {
   const [squares1to6, setSquares1to6] = React.useState("");
   const [squares7and8, setSquares7and8] = React.useState("");
-  const [emailFocus, setEmailFocus] = React.useState(false);
-  const [passwordFocus, setPasswordFocus] = React.useState(false);
   React.useEffect(() => {
     document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
@@ -57,6 +56,22 @@ export default function LoginPage() {
         "deg)"
     );
   };
+  const navigate = useNavigate();
+  const [image, setImage] = useState();
+  const [User, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    image_user: "",
+  });
+  const handlechange = (e) => {
+    setUser({ ...User, [e.target.name]: e.target.value });
+    console.log(User);
+  };
+  const handlechangeFile = (e) => {
+    setImage(e.target.files[0]);
+    console.log(e.target.files[0]);
+  };
   return (
     <>
       <Navbar />
@@ -78,7 +93,7 @@ export default function LoginPage() {
                     style={{ transform: squares7and8 }}
                   />
                   <Card className="card-register ">
-                    <CardHeader>
+                  <CardHeader>
                       <CardImg
                         className="mt-1"
                         alt="..."
@@ -90,40 +105,40 @@ export default function LoginPage() {
                     </CardHeader>
                     <CardBody>
                       <Form className="form mt-2">
-                        <InputGroup
-                          className={classnames({
-                            "input-group-focus": emailFocus,
-                          })}
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-email-85" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            placeholder="Email"
-                            type="text"
-                            onFocus={(e) => setEmailFocus(true)}
-                            onBlur={(e) => setEmailFocus(false)}
-                          />
-                        </InputGroup>
-                        <InputGroup
-                          className={classnames({
-                            "input-group-focus": passwordFocus,
-                          })}
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-lock-circle" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            placeholder="Password"
-                            type="text"
-                            onFocus={(e) => setPasswordFocus(true)}
-                            onBlur={(e) => setPasswordFocus(false)}
-                          />
-                        </InputGroup>
+                      <Form.Group>
+                          <InputGroup className="input-group-alternative mb-3">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <MdMarkEmailUnread />
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Form.Control
+                              placeholder="Email Address"
+                              type="text"
+                              name="title"
+                              onChange={(e) => handlechange(e)}
+                              label="Email"
+                              aria-label="Email"
+                            />
+                          </InputGroup>
+                        </Form.Group>
+                        <Form.Group>
+                          <InputGroup className="input-group-alternative mb-3">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>
+                                <MdPassword />
+                              </InputGroupText>
+                            </InputGroupAddon>
+                            <Form.Control
+                              placeholder="Password"
+                              type="text"
+                              name="title"
+                              onChange={(e) => handlechange(e)}
+                              label="Password"
+                              aria-label="Password"
+                            />
+                          </InputGroup>
+                        </Form.Group>
                         <FormGroup check className="text-left">
                           <Label check>
                             <Input type="checkbox" />
@@ -143,14 +158,14 @@ export default function LoginPage() {
                       <Button
                         className="btn-round"
                         size="lg"
-                        style={{
+                        style={{  
                           backgroundImage:
                             "linear-gradient(to bottom left, #edae3c, #dc5949, #344675)",
                         }}
-                      >
+                      > <AiOutlineLogin className=" mr-2"/>
                         Get Started
                       </Button>
-                    </CardFooter>
+                    </CardFooter> 
                   </Card>
                 </Col>
               </Row>

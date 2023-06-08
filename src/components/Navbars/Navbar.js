@@ -4,10 +4,6 @@ import { Link } from "react-router-dom";
 import {
   Button,
   Collapse,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
   NavbarBrand,
   Navbar,
   NavItem,
@@ -18,9 +14,10 @@ import {
   Col,
   UncontrolledTooltip,
 } from "reactstrap";
-import { FaSignOutAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function IndexNavbar() {
+  const navigate = useNavigate();
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
   const [color, setColor] = React.useState("navbar-transparent");
@@ -53,15 +50,10 @@ export default function IndexNavbar() {
   const onCollapseExited = () => {
     setCollapseOut("");
   };
-  const scrollToDownload = () => {
-    document
-      .getElementById("download-section")
-      .scrollIntoView({ behavior: "smooth" });
-  };
   const logoStyle = {
-    width: '25px', // ajustez la largeur selon vos besoins
-    height: '25px', // ajustez la hauteur selon vos besoins
-    marginRight: '5px', // ajustez la marge droite selon vos besoins
+    width: "25px", // ajustez la largeur selon vos besoins
+    height: "25px", // ajustez la hauteur selon vos besoins
+    marginRight: "5px", // ajustez la marge droite selon vos besoins
   };
   return (
     <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
@@ -69,7 +61,12 @@ export default function IndexNavbar() {
         <div className="navbar-translate">
           <NavbarBrand to="/" tag={Link} id="navbar-brand">
             <span>
-              <img src={require("assets/img/favicon.png")} alt="Attijari Bank Logo" className="logo-image" style={logoStyle}/>
+              <img
+                src={require("assets/img/favicon.png")}
+                alt="Attijari Bank Logo"
+                className="logo-image"
+                style={logoStyle}
+              />
               •
             </span>
             Attijari Bank
@@ -161,27 +158,18 @@ export default function IndexNavbar() {
                 <p className="d-lg-none d-xl-none">Instagram</p>
               </NavLink>
             </NavItem>
-            
+
             <NavItem>
               <Button
                 className="nav-link d-none d-lg-block"
                 style={{
                   backgroundImage:
-                    "linear-gradient(to bottom left, #edae3c, #dc5949, #344675)",
-                }}                href="login-page"
+                    "linear-gradient(to bottom left, #edae3c, #dc5949, #120f11)",
+                }}
+                onClick={(e) => navigate(`/login-page`)}
               >
                 <i className="fa fa-user-plus mr-1" />
-                Create new account
-              </Button>
-            </NavItem>
-            <NavItem>
-              <Button
-                className="nav-link d-none d-lg-block"
-                color="default"
-                onClick={scrollToDownload}
-              >
-                <FaSignOutAlt />
-                Exit
+                create an account
               </Button>
             </NavItem>
           </Nav>

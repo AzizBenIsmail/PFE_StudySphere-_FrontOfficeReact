@@ -14,8 +14,10 @@ import {
   Col,
   UncontrolledTooltip,
 } from "reactstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function ExamplesNavbar() {
+  const navigate = useNavigate();
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
   const [color, setColor] = React.useState("navbar-transparent");
@@ -52,12 +54,12 @@ export default function ExamplesNavbar() {
     <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
       <Container>
         <div className="navbar-translate">
-          <NavbarBrand to="/" id="navbar-brand" tag={Link}>
-            <span>BLK• </span>
-            Design System React
+          <NavbarBrand to="/" tag={Link} id="navbar-brand">
+            <span>ABT• </span>
+            Attijari Bank
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
-            Designed and Coded by Creative Tim
+            Attijari Bank
           </UncontrolledTooltip>
           <button
             aria-expanded={collapseOpen}
@@ -98,7 +100,7 @@ export default function ExamplesNavbar() {
             <NavItem className="p-0">
               <NavLink
                 data-placement="bottom"
-                href="https://twitter.com/CreativeTim"
+                href="https://twitter.com/AttijariwafaB"
                 rel="noopener noreferrer"
                 target="_blank"
                 title="Follow us on Twitter"
@@ -110,7 +112,19 @@ export default function ExamplesNavbar() {
             <NavItem className="p-0">
               <NavLink
                 data-placement="bottom"
-                href="https://www.facebook.com/CreativeTim"
+                href="https://www.attijaribank.com.tn/Fr/ "
+                rel="noopener noreferrer"
+                target="_blank"
+                title="Like us on Facebook"
+              >
+                <i className="tim-icons icon-world" />
+                <p className="d-lg-none d-xl-none">WebSite</p>
+              </NavLink>
+            </NavItem>
+            <NavItem className="p-0">
+              <NavLink
+                data-placement="bottom"
+                href="https://www.facebook.com/AttijariBankTunisie/"
                 rel="noopener noreferrer"
                 target="_blank"
                 title="Like us on Facebook"
@@ -122,7 +136,7 @@ export default function ExamplesNavbar() {
             <NavItem className="p-0">
               <NavLink
                 data-placement="bottom"
-                href="https://www.instagram.com/CreativeTimOfficial"
+                href="https://www.instagram.com/attijari_bank_tunisie/?hl=fr"
                 rel="noopener noreferrer"
                 target="_blank"
                 title="Follow us on Instagram"
@@ -134,22 +148,11 @@ export default function ExamplesNavbar() {
             <NavItem>
               <Button
                 className="nav-link d-none d-lg-block"
-                color="primary"
-                target="_blank"
-                href="https://www.creative-tim.com/product/blk-design-system-pro-react?ref=bdsr-examples-navbar-upgrade-pro"
+                color="default"
+                onClick={(e) => navigate(`/register-page`)}
               >
-                <i className="tim-icons icon-spaceship" /> Upgrade to PRO
+                Exit
               </Button>
-            </NavItem>
-            <NavItem>
-              <NavLink tag={Link} to="/">
-                Back to Kit
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://github.com/creativetimofficial/blk-design-system-react/issues">
-                Have an issue?
-              </NavLink>
             </NavItem>
           </Nav>
         </Collapse>
