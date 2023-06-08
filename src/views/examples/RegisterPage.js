@@ -1,4 +1,3 @@
-
 import React from "react";
 import classnames from "classnames";
 // reactstrap components
@@ -29,7 +28,6 @@ import Footer from "components/Footer/Footer.js";
 export default function RegisterPage() {
   const [squares1to6, setSquares1to6] = React.useState("");
   const [squares7and8, setSquares7and8] = React.useState("");
-  const [fullNameFocus, setFullNameFocus] = React.useState(false);
   const [emailFocus, setEmailFocus] = React.useState(false);
   const [passwordFocus, setPasswordFocus] = React.useState(false);
   React.useEffect(() => {
@@ -41,7 +39,7 @@ export default function RegisterPage() {
       document.documentElement.removeEventListener("mousemove", followCursor);
     };
   }, []);
-  const followCursor = (event) => { 
+  const followCursor = (event) => {
     let posX = event.clientX - window.innerWidth / 2;
     let posY = event.clientY - window.innerWidth / 6;
     setSquares1to6(
@@ -82,30 +80,16 @@ export default function RegisterPage() {
                   <Card className="card-register ">
                     <CardHeader>
                       <CardImg
+                        className="mt-1"
                         alt="..."
-                        src={require("assets/img/square-purple-1.png")}
+                        src={require("assets/img/square-purple-2.png")}
                       />
-                      <CardTitle tag="h4" className="ml-2">Register</CardTitle>
+                      <CardTitle tag="h4" className="ml-2 mt-3">
+                        Signup
+                      </CardTitle>
                     </CardHeader>
                     <CardBody>
-                      <Form className="form">
-                        <InputGroup
-                          className={classnames({
-                            "input-group-focus": fullNameFocus,
-                          })}
-                        >
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-single-02" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            placeholder="Full Name"
-                            type="text"
-                            onFocus={(e) => setFullNameFocus(true)}
-                            onBlur={(e) => setFullNameFocus(false)}
-                          />
-                        </InputGroup>
+                      <Form className="form mt-2">
                         <InputGroup
                           className={classnames({
                             "input-group-focus": emailFocus,
@@ -156,7 +140,14 @@ export default function RegisterPage() {
                       </Form>
                     </CardBody>
                     <CardFooter>
-                      <Button className="btn-round"  size="lg">
+                      <Button
+                        className="btn-round"
+                        size="lg"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to bottom left, #edae3c, #dc5949, #344675)",
+                        }}
+                      >
                         Get Started
                       </Button>
                     </CardFooter>
@@ -190,7 +181,7 @@ export default function RegisterPage() {
                 style={{ transform: squares1to6 }}
               />
               <div
-                className=  "square square-6"
+                className="square square-6"
                 id="square6"
                 style={{ transform: squares1to6 }}
               />
