@@ -5,7 +5,7 @@ const apiURL = "http://localhost:5000/auth";
 export async function register(formData) {
   return await axios.post(`${apiURL}/signup`, formData ,{
     headers: { "Content-Type": "multipart/form-data" },
-    credentials: "include",
+    withCredentials: true,
   });
 }
 
