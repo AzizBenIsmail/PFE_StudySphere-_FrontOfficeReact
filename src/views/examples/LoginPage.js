@@ -99,8 +99,8 @@ export default function LoginPage() {
                         alt="..."
                         src={require("assets/img/square-purple-2.png")}
                       />
-                      <CardTitle tag="h4" className="ml-2 mt-3">
-                        Signup
+                      <CardTitle tag="h4" className="ml-5 mt-3">
+                        Login
                       </CardTitle>
                     </CardHeader>
                     <CardBody>

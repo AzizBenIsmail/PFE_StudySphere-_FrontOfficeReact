@@ -115,7 +115,7 @@ export default function RegisterPage() {
                         src={require("assets/img/square-purple-2.png")}
                       />
                       <CardTitle tag="h4" className="ml-2 mt-3">
-                        register
+                      Signup 
                       </CardTitle>
                     </CardHeader>
                     <CardBody>

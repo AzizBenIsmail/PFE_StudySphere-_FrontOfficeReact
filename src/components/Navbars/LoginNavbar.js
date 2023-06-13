@@ -168,9 +168,8 @@ export default function LoginNavbar() {
                     "linear-gradient(to bottom left, #edae3c, #dc5949, #120f11)",
                 }}
               >
-                {" "}
                 <FiLogIn className="mr-2" />
-                Signup
+                create an account
               </Button>
             </NavItem>
           </Nav>
