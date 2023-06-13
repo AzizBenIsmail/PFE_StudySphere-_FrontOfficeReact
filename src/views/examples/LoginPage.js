@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 // reactstrap components
-import {  AiOutlineLogin } from "react-icons/ai";
+import { AiOutlineLogin } from "react-icons/ai";
 import { MdPassword, MdMarkEmailUnread } from "react-icons/md";
 import {
   Card,
@@ -21,6 +21,9 @@ import {
 } from "reactstrap";
 import { Button, Container, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { LoginUser } from "../../Service/apiUser";
+import axios from "axios";
+import Cookies from 'js-cookie';
 
 // core components
 import Navbar from "components/Navbars/LoginNavbar";
@@ -29,6 +32,7 @@ import Footer from "components/Footer/Footer.js";
 export default function LoginPage() {
   const [squares1to6, setSquares1to6] = React.useState("");
   const [squares7and8, setSquares7and8] = React.useState("");
+
   React.useEffect(() => {
     document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
@@ -57,21 +61,27 @@ export default function LoginPage() {
     );
   };
   const navigate = useNavigate();
-  const [image, setImage] = useState();
   const [User, setUser] = useState({
-    username: "",
     email: "",
     password: "",
-    image_user: "",
   });
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value });
     console.log(User);
   };
-  const handlechangeFile = (e) => {
-    setImage(e.target.files[0]);
-    console.log(e.target.files[0]);
-  };
+  const Login = async (user) => {
+    const res = await axios.post('http://localhost:5000/auth/login', user, {
+      // credentials: "include" , 
+      withCredentials: true,
+    }).then(console.log("ajout passe Normalement"))
+    .catch((error) => {
+      console.log(error.response.data);
+    });
+  console.log(res.data);
+  console.log(res.status);
+  console.log(user);
+};
+  
   return (
     <>
       <Navbar />
@@ -93,7 +103,7 @@ export default function LoginPage() {
                     style={{ transform: squares7and8 }}
                   />
                   <Card className="card-register ">
-                  <CardHeader>
+                    <CardHeader>
                       <CardImg
                         className="mt-1"
                         alt="..."
@@ -105,7 +115,7 @@ export default function LoginPage() {
                     </CardHeader>
                     <CardBody>
                       <Form className="form mt-2">
-                      <Form.Group>
+                        <Form.Group>
                           <InputGroup className="input-group-alternative mb-3">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>
@@ -115,7 +125,7 @@ export default function LoginPage() {
                             <Form.Control
                               placeholder="Email Address"
                               type="text"
-                              name="title"
+                              name="email"
                               onChange={(e) => handlechange(e)}
                               label="Email"
                               aria-label="Email"
@@ -132,7 +142,7 @@ export default function LoginPage() {
                             <Form.Control
                               placeholder="Password"
                               type="text"
-                              name="title"
+                              name="password"
                               onChange={(e) => handlechange(e)}
                               label="Password"
                               aria-label="Password"
@@ -155,17 +165,29 @@ export default function LoginPage() {
                       </Form>
                     </CardBody>
                     <CardFooter>
-                      <Button
+                      {/* <Button
                         className="btn-round"
                         size="lg"
                         style={{  
                           backgroundImage:
                             "linear-gradient(to bottom left, #edae3c, #dc5949, #344675)",
                         }}
+                      //   onClick={(user) => {
+                      //     console.log(user);
+                      //  // sendRequest();
+                      //   Login(user);
+                      //   }}
                       > <AiOutlineLogin className=" mr-2"/>
                         Get Started
+                      </Button> */}
+                      <Button
+                        color="primary"
+                        type="button"
+                        onClick={() => Login(User)}
+                      >
+                        Sign in
                       </Button>
-                    </CardFooter> 
+                    </CardFooter>
                   </Card>
                 </Col>
               </Row>

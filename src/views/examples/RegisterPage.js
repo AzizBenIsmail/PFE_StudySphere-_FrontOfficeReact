@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AiOutlineUser, AiOutlineLogin, AiFillFileImage } from "react-icons/ai";
 import { MdPassword, MdMarkEmailUnread } from "react-icons/md";
 import { register } from "../../Service/apiUser";
+import AddImage from "./addImage";
 
 // reactstrap components
 import {
@@ -31,12 +32,19 @@ import { useNavigate } from "react-router-dom";
 export default function RegisterPage() {
   const navigate = useNavigate();
   const [image, setImage] = useState();
+  const [croppedImage, setCroppedImage] = useState(null);
   const [User, setUser] = useState({
     username: "",
     email: "",
     password: "",
     image_user: "",
   });
+  const handleEvent = (croppedImageUrl, croppedImageBlob) => {
+    setCroppedImage(croppedImageUrl);
+    setImage(croppedImageBlob);
+    console.log(croppedImageUrl);
+    console.log(croppedImageBlob);
+  };
   const [squares1to6, setSquares1to6] = useState("");
   const [squares7and8, setSquares7and8] = useState("");
   const handlechange = (e) => {
@@ -52,8 +60,9 @@ export default function RegisterPage() {
     formData.append("username", User.username);
     formData.append("email", User.email);
     formData.append("password", User.password);
-    formData.append("image_user", image);
-    const res = await register(formData)
+    if (image) {
+      formData.append("image_user", image, `${User.username}+cropped.jpg`);
+    }    const res = await register(formData)
       .then(console.log("ajout passe Normalement"))
       .catch((error) => {
         console.log(error.response.data);
@@ -176,21 +185,18 @@ export default function RegisterPage() {
                           </InputGroup>
                         </Form.Group>
                         <Form.Group>
-                          <InputGroup className="input-group-alternative mb-3">
-                            <InputGroupAddon addonType="prepend">
-                              <InputGroupText>
-                                <AiFillFileImage />
-                              </InputGroupText>
-                            </InputGroupAddon>
-                            <Form.Control
-                              placeholder="Image"
-                              type="file"
-                              name="image_user"
-                              onChange={(e) => handlechangeFile(e)}
-                              label="Username"
-                              aria-label="Username"
-                            />
-                          </InputGroup>
+                        <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <AddImage
+                          className="input-group-alternative"
+                          onEvent={handleEvent}
+                          aspect={1 / 1}
+                          holder={"add Profile Image"}
+                        />
+                      </InputGroup>
                         </Form.Group>
                         <FormGroup check className="text-left">
                           <Label check>

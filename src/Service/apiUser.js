@@ -9,9 +9,12 @@ export async function register(formData) {
   });
 }
 
-// export async function signup() {
-//   return await axios.post(`${apiURL}/signup`);
-// }
+    export async function login(user) {
+      return await axios.post(`${apiURL}/login`,user, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      });
+    }
 
 export async function getUsers() {
   return await axios.get(apiURL);
