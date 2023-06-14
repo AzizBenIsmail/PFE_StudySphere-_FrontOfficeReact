@@ -9,9 +9,8 @@ export async function register(formData) {
   });
 }
 
-    export async function login(user) {
+    export async function LoginUser(user) {
       return await axios.post(`${apiURL}/login`,user, {
-        headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
     }
@@ -42,10 +41,6 @@ export async function updateUser(id, User) {
 
 export async function deleteUser(id) {
   return await axios.delete(`${apiURL}/${id}`);
-}
-
-export async function LoginUser(User) {
-  return await axios.post(`${apiURL}/login`, User);
 }
 
 

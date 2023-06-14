@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 // reactstrap components
-import { AiOutlineLogin } from "react-icons/ai";
 import { MdPassword, MdMarkEmailUnread } from "react-icons/md";
 import {
   Card,
@@ -22,9 +21,7 @@ import {
 import { Button, Container, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { LoginUser } from "../../Service/apiUser";
-import axios from "axios";
 import Cookies from 'js-cookie';
-
 // core components
 import Navbar from "components/Navbars/LoginNavbar";
 import Footer from "components/Footer/Footer.js";
@@ -70,17 +67,22 @@ export default function LoginPage() {
     console.log(User);
   };
   const Login = async (user) => {
-    const res = await axios.post('http://localhost:5000/auth/login', user, {
-      // credentials: "include" , 
-      withCredentials: true,
-    }).then(console.log("ajout passe Normalement"))
-    .catch((error) => {
+    try {
+      const res = await LoginUser(user);
+      console.log("Login passe Normalement");
+      console.log(res);
+      // console.log(res.user);
+      // console.log(res.session);
+      console.log(res.status);
+      const allCookies = Cookies.get();
+    console.log('Cookies existants:', allCookies);
+  
+      // Continue avec le reste du code ici...
+    } catch (error) {
       console.log(error.response.data);
-    });
-  console.log(res.data);
-  console.log(res.status);
-  console.log(user);
-};
+    }
+  };
+  
   
   return (
     <>
