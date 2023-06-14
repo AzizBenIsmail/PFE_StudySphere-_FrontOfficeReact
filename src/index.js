@@ -26,7 +26,7 @@ root.render(
       <Route path="/login-page" element={<LoginPage />} />
       <Route path="/profile-page" element={<ProfilePage />} />
       <Route path="/admin/*" element={<AdminLayout />} />
-      <Route path="*" element={<Navigate to="/components" replace />} />
+      <Route path="*" element={<Navigate to="/login-page" replace />} />
     </Routes>
   </BrowserRouter>
 );

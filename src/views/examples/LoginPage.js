@@ -69,17 +69,20 @@ export default function LoginPage() {
   const Login = async (user) => {
     try {
       const res = await LoginUser(user);
-      console.log("Login passe Normalement");
-      console.log(res);
-      // console.log(res.user);
-      // console.log(res.session);
+      console.log(res.data.message);
       console.log(res.status);
-      const allCookies = Cookies.get();
-    console.log('Cookies existants:', allCookies);
-  
+      const jwt_token = Cookies.get('jwt_token');
+      console.log('Valeur du cookie jwt_token :', jwt_token);
+      console.log(res.data.user.userType)
+
+      if(res.data.user.userType === "admin")
+      {
+        window.location.replace(`/admin/`);
+      }else{
+      window.location.replace(`/landing-page/`);}
       // Continue avec le reste du code ici...
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error);
     }
   };
   

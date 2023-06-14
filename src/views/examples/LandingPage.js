@@ -21,8 +21,14 @@ import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import Footer from "components/Footer/Footer.js";
 
 import bigChartData from "variables/charts.js";
+import Cookies from 'js-cookie';
 
 export default function LandingPage() {
+     /////cookies
+     if (!Cookies.get("jwt_token")) {
+      window.location.replace("/login-page");
+    }
+    ////////
   React.useEffect(() => {
     document.body.classList.toggle("landing-page");
     // Specify how to clean up after this effect:
@@ -30,6 +36,8 @@ export default function LandingPage() {
       document.body.classList.toggle("landing-page");
     };
   }, []);
+
+  
   return (
     <>
       <ExamplesNavbar />
