@@ -18,6 +18,7 @@ import Cookies from "js-cookie";
 import moment from 'moment';
 
 function Tables() {
+  //session
   if (!Cookies.get("jwt_token")) {
     window.location.replace("/login-page");
   }

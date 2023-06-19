@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useMemo} from "react";
 // react plugin used to create charts
 // import { Line } from "react-chartjs-2";
 // reactstrap components
@@ -24,11 +24,22 @@ import Footer from "components/Footer/Footer.js";
 import Cookies from 'js-cookie';
 
 export default function LandingPage() {
+  //session
+  if (!Cookies.get("jwt_token")) {
+    window.location.replace("/login-page");
+  }  
      /////cookies
-     if (!Cookies.get("jwt_token")) {
-      window.location.replace("/login-page");
-    }
-    ////////
+
+const jwt_token = Cookies.get("jwt_token");
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+  }, [jwt_token]);
+
   React.useEffect(() => {
     document.body.classList.toggle("landing-page");
     // Specify how to clean up after this effect:

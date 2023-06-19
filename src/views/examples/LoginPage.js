@@ -28,6 +28,12 @@ import Navbar from "components/Navbars/LoginNavbar";
 import Footer from "components/Footer/Footer.js";
 
 export default function LoginPage() {
+
+    //session
+    if (Cookies.get("jwt_token")) {
+      window.location.replace("/landing-page");
+    }
+
   const [squares1to6, setSquares1to6] = React.useState("");
   const [squares7and8, setSquares7and8] = React.useState("");
 

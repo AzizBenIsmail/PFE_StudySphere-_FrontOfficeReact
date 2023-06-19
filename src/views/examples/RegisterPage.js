@@ -29,11 +29,11 @@ import Navbar from "components/Navbars/Navbar";
 import Footer from "components/Footer/Footer.js";
 
 export default function RegisterPage() {
-    /////cookies
-    if (Cookies.get("jwt_token")) {
-      window.location.replace("/landing-page");
-    }
-    ////////
+
+  //session
+  if (Cookies.get("jwt_token")) {
+    window.location.replace("/landing-page");
+  }
   const [image, setImage] = useState();
   const [setCroppedImage] = useState(null);
   const [User, setUser] = useState({

@@ -1,5 +1,5 @@
 
-import React from "react";
+import React,{useMemo} from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react plugin used to create charts
@@ -35,24 +35,25 @@ import {
 } from "variables/charts.js";
 import Cookies from 'js-cookie';
 
-
-  ////////  
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
-    /////cookies
-    if (!Cookies.get("jwt_token")) {
-      window.location.replace("/login-page");
-    }
-    const jwt_token = Cookies.get("jwt_token");
-  
-    const config = {
+  //session
+  if (!Cookies.get("jwt_token")) {
+    window.location.replace("/login-page");
+  }  
+
+const jwt_token = Cookies.get("jwt_token");
+
+  const config = useMemo(() => {
+    return {
       headers: {
         Authorization: `Bearer ${jwt_token}`,
       },
     };
+  }, [jwt_token]);
   return (
     <>
       <div className="content">

@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-// reactstrap components
 import {
   Button,
   Collapse,
@@ -14,23 +13,30 @@ import {
   Col,
   UncontrolledTooltip,
 } from "reactstrap";
-import { logout ,getUserAuth } from "../../Service/apiUser";
+import { logout, getUserAuth } from "../../Service/apiUser";
 import Cookies from "js-cookie";
-import { useState, useEffect } from "react";
 
 export default function ExamplesNavbar() {
-  const [collapseOpen, setCollapseOpen] = React.useState(false);
-  const [collapseOut, setCollapseOut] = React.useState("");
-  const [setColor] = React.useState("navbar-transparent");
+  if (!Cookies.get("jwt_token")) {
+    window.location.replace("/login-page");
+  }
+
+  const jwt_token = Cookies.get("jwt_token");
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+  }, [jwt_token]);
+
+  const [collapseOpen, setCollapseOpen] = useState(false);
+  const [collapseOut, setCollapseOut] = useState("");
+  const [setColor] = useState("navbar-transparent");
   const [user, setUser] = useState([]);
 
-  React.useEffect(() => {
-    window.addEventListener("scroll", changeColor);
-    return function cleanup() {
-      window.removeEventListener("scroll", changeColor);
-    };
-  }, []);
-  const changeColor = () => {
+  const changeColor = useCallback(() => {
     if (
       document.documentElement.scrollTop > 99 ||
       document.body.scrollTop > 99
@@ -42,63 +48,58 @@ export default function ExamplesNavbar() {
     ) {
       setColor("navbar-transparent");
     }
-  };
+  }, [setColor]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", changeColor);
+    return function cleanup() {
+      window.removeEventListener("scroll", changeColor);
+    };
+  }, [changeColor]);
+
   const toggleCollapse = () => {
     document.documentElement.classList.toggle("nav-open");
     setCollapseOpen(!collapseOpen);
   };
+
   const onCollapseExiting = () => {
     setCollapseOut("collapsing-out");
   };
+
   const onCollapseExited = () => {
     setCollapseOut("");
   };
-  /////cookies
-  if (!Cookies.get("jwt_token")) {
-    window.location.replace("/login-page");
-  }
-  const jwt_token = Cookies.get("jwt_token");
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${jwt_token}`,
-    },
-  };
-  ////////
   const log = async () => {
     try {
-      const res = logout(config)  .then((res) => {
-        console.log(res.data.user);
-        window.location.reload(); // Recharge la page
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-      console.log(res.status);
-      console.log("Valeur du cookie jwt_token :", jwt_token);
-      // window.location.replace(`/login-page/`);
+      const res = await logout(config);
+      console.log(res.data.user);
+      window.location.reload(); // Recharge la page
     } catch (error) {
       console.log(error);
     }
   };
-  const getAuthUser = async () => {
-    await getUserAuth(config)
-      .then((res) => {
+
+  useEffect(() => {
+    const getAuthUser = async () => {
+      try {
+        const res = await getUserAuth(config);
         setUser(res.data.user);
         console.log(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  useEffect(() => {
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getAuthUser();
 
     const interval = setInterval(() => {
-      getAuthUser(); // appel répété toutes les 10 secondes
+      getAuthUser();
     }, 300000);
-    return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
-  }, []);
+
+    return () => clearInterval(interval);
+  }, [config]);
+
   return (
     <Navbar className={"fixed-top "} color-on-scroll="100" expand="lg">
       <Container>
@@ -201,12 +202,11 @@ export default function ExamplesNavbar() {
                 style={{ width: "35px", height: "35px" }}
               />
             </NavItem>
-
             <NavItem>
               <Button
                 className="nav-link d-none d-lg-block"
                 color="default"
-                onClick={() => log()}
+                onClick={log}
               >
                 Quitter
               </Button>
