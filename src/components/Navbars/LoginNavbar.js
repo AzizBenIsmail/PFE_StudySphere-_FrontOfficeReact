@@ -96,7 +96,16 @@ export default function LoginNavbar() {
             <Row>
               <Col className="collapse-brand" xs="6">
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                  BLK•React
+                <span>
+              <img
+                src={require("assets/img/favicon.png")}
+                alt="Attijari Bank Logo"
+                className="logo-image"
+                style={logoStyle}
+              />
+              •
+            </span>
+            Attijari Bank
                 </a>
               </Col>
               <Col className="collapse-close text-right" xs="6">
@@ -169,7 +178,7 @@ export default function LoginNavbar() {
                 }}
               >
                 <FiLogIn className="mr-2" />
-                create an account
+                créer un compte
               </Button>
             </NavItem>
           </Nav>

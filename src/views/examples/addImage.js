@@ -9,7 +9,7 @@ export default function AddImage (props) {
     const [croppedImage, setCroppedImage] = useState(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
-    const [aspectRatio, setAspectRatio] = useState(props.aspect);
+    const [aspectRatio] = useState(props.aspect);
     const [showModal, setShowModal] = useState(false);
   
     const onFileChange = (event) => {

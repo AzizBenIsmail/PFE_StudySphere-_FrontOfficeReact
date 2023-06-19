@@ -1,17 +1,17 @@
 import React from "react";
 // react plugin used to create charts
-import { Line } from "react-chartjs-2";
+// import { Line } from "react-chartjs-2";
 // reactstrap components
 import {
   Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  ListGroupItem,
-  ListGroup,
-  Container,
+  // Card,
+  // CardHeader,
+  // CardBody,
+  // CardFooter,
+  // CardTitle,
+  // ListGroupItem,
+  // ListGroup,
+  // Container,
   Row,
   Col,
 } from "reactstrap";
@@ -20,7 +20,7 @@ import {
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import Footer from "components/Footer/Footer.js";
 
-import bigChartData from "variables/charts.js";
+// import bigChartData from "variables/charts.js";
 import Cookies from 'js-cookie';
 
 export default function LandingPage() {
@@ -37,7 +37,6 @@ export default function LandingPage() {
     };
   }, []);
 
-  
   return (
     <>
       <ExamplesNavbar />
@@ -138,7 +137,7 @@ export default function LandingPage() {
             </Row>
           </div>
         </div>
-        <section className="section section-lg">
+        {/* <section className="section section-lg">
           <section className="section">
             <img
               alt="..."
@@ -574,7 +573,7 @@ export default function LandingPage() {
               </Col>
             </Row>
           </Container>
-        </section>
+        </section> */}
         <Footer />
       </div>
     </>

@@ -1,6 +1,4 @@
-import React from "react";
-
-// reactstrap components
+import React, { useState, useEffect, useCallback , useMemo } from "react";
 import {
   Card,
   CardHeader,
@@ -8,44 +6,24 @@ import {
   CardTitle,
   Table,
   Media,
-  Row,  DropdownMenu,
+  Row,
+  DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
   Col,
 } from "reactstrap";
 import { getUsers } from "../Service/apiUser";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import moment from 'moment';
 
 function Tables() {
-  /////cookies
   if (!Cookies.get("jwt_token")) {
     window.location.replace("/login-page");
   }
-  const jwt_token = Cookies.get("jwt_token");
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${jwt_token}`,
-    },
-  };
-  ////////
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    getAllUsers();
-
-    const interval = setInterval(() => {
-      getAllUsers(); // appel répété toutes les 10 secondes
-    }, 30000);
-    return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
-  }, []);
-
-  const getAllUsers = async () => {
-    const res = await getUsers(config)
+  const getAllUsers = useCallback(async (config) => {
+    await getUsers(config)
       .then((res) => {
         setUsers(res.data.users);
         console.log(res.data.users);
@@ -53,7 +31,29 @@ function Tables() {
       .catch((err) => {
         console.log(err);
       });
-  };
+  }, []);
+
+  const jwt_token = Cookies.get("jwt_token");
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+  }, [jwt_token]);
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    getAllUsers(config);
+
+    const interval = setInterval(() => {
+      getAllUsers(config);
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [getAllUsers, config]);
   return (
     <>
       <div className="content">
@@ -105,103 +105,39 @@ function Tables() {
                         <td>{user.enabled ? 'Active' : 'N/A'}</td>
                         <td>{user.phoneNumber}</td>
                         <td className="text-right">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            <i className="fas fa-ellipsis-v" />
-                          </DropdownToggle>
-                          <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                              href=""
-                              // onClick={(e) => deleteAUser(user)}
+                          <UncontrolledDropdown>
+                            <DropdownToggle
+                              className="btn-icon-only text-light"
+                              href="#pablo"
+                              role="button"
+                              size="sm"
+                              color=""
+                              onClick={(e) => e.preventDefault()}
                             >
-                              <i
-                                class="fa fa-user-times"
-                                aria-hidden="true"
-                              ></i>
-                              Supprimer
-                            </DropdownItem>
-                            <DropdownItem
-                              href=""
-                              // onClick={(e) => Modifier(user)}
-                            >
-                              Modifier
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </td>
+                              <i className="fas fa-ellipsis-v" />
+                            </DropdownToggle>
+                            <DropdownMenu className="dropdown-menu-arrow" right>
+                              <DropdownItem
+                                href=""
+                                // onClick={(e) => deleteAUser(user)}
+                              >
+                                <i
+                                  className="fa fa-user-times"
+                                  aria-hidden="true"
+                                ></i>
+                                Supprimer
+                              </DropdownItem>
+                              <DropdownItem
+                                href=""
+                                // onClick={(e) => Modifier(user)}
+                              >
+                                Modifier
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </UncontrolledDropdown>
+                        </td>
                       </tr>
                     ))}
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md="12">
-            <Card className="card-plain">
-              <CardHeader>
-                <CardTitle tag="h4">Table on Plain Background</CardTitle>
-                <p className="category">Here is a subtitle for this table</p>
-              </CardHeader>
-              <CardBody>
-                <Table className="tablesorter" responsive>
-                  <thead className="text-primary">
-                    <tr>
-                      <th>Name</th>
-                      <th>Country</th>
-                      <th>City</th>
-                      <th className="text-center">Salary</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Dakota Rice</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                      <td className="text-center">$36,738</td>
-                    </tr>
-                    <tr>
-                      <td>Minerva Hooper</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                      <td className="text-center">$23,789</td>
-                    </tr>
-                    <tr>
-                      <td>Sage Rodriguez</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                      <td className="text-center">$56,142</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td className="text-center">$38,735</td>
-                    </tr>
-                    <tr>
-                      <td>Doris Greene</td>
-                      <td>Malawi</td>
-                      <td>Feldkirchen in Kärnten</td>
-                      <td className="text-center">$63,542</td>
-                    </tr>
-                    <tr>
-                      <td>Mason Porter</td>
-                      <td>Chile</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$78,615</td>
-                    </tr>
-                    <tr>
-                      <td>Jon Porter</td>
-                      <td>Portugal</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$98,615</td>
-                    </tr>
                   </tbody>
                 </Table>
               </CardBody>

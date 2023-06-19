@@ -33,12 +33,26 @@ import {
   chartExample3,
   chartExample4,
 } from "variables/charts.js";
+import Cookies from 'js-cookie';
 
+
+  ////////  
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
+    /////cookies
+    if (!Cookies.get("jwt_token")) {
+      window.location.replace("/login-page");
+    }
+    const jwt_token = Cookies.get("jwt_token");
+  
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
   return (
     <>
       <div className="content">

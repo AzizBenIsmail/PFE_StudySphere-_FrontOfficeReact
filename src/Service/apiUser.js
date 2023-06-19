@@ -18,13 +18,16 @@ export async function LoginUser(user) {
 export async function getUsers(config) {
   return await axios.get(`${apiURL}/AllUsers`,config);
 }
-// export async function getUser(id) {
-//   return await axios.get(`${apiURL}/getUser/${id}`);
-// }
 
-// export async function getUserAuth(id) {
-//   return await axios.get(`${apiURL}/getUser`);
-// }
+export async function logout(config) {
+  return await axios.get(`${apiURL}/logout`,{config,
+    withCredentials: true,
+  });
+}
+
+export async function getUserAuth(config) {
+  return await axios.get(`${apiURL}/`,config);
+}
 
 // export async function addUser(formData) {
 //   return await axios.post(apiURL, formData, {

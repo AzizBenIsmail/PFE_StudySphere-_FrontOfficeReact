@@ -14,13 +14,16 @@ import {
   Col,
   UncontrolledTooltip,
 } from "reactstrap";
-import { useNavigate } from "react-router-dom";
+import { logout ,getUserAuth } from "../../Service/apiUser";
+import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
 
 export default function ExamplesNavbar() {
-  const navigate = useNavigate();
   const [collapseOpen, setCollapseOpen] = React.useState(false);
   const [collapseOut, setCollapseOut] = React.useState("");
-  const [color, setColor] = React.useState("navbar-transparent");
+  const [setColor] = React.useState("navbar-transparent");
+  const [user, setUser] = useState([]);
+
   React.useEffect(() => {
     window.addEventListener("scroll", changeColor);
     return function cleanup() {
@@ -50,10 +53,56 @@ export default function ExamplesNavbar() {
   const onCollapseExited = () => {
     setCollapseOut("");
   };
+  /////cookies
+  if (!Cookies.get("jwt_token")) {
+    window.location.replace("/login-page");
+  }
+  const jwt_token = Cookies.get("jwt_token");
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${jwt_token}`,
+    },
+  };
+  ////////
+  const log = async () => {
+    try {
+      const res = logout(config)  .then((res) => {
+        console.log(res.data.user);
+        window.location.reload(); // Recharge la page
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      console.log(res.status);
+      console.log("Valeur du cookie jwt_token :", jwt_token);
+      // window.location.replace(`/login-page/`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getAuthUser = async () => {
+    await getUserAuth(config)
+      .then((res) => {
+        setUser(res.data.user);
+        console.log(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getAuthUser();
+
+    const interval = setInterval(() => {
+      getAuthUser(); // appel répété toutes les 10 secondes
+    }, 300000);
+    return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
+  }, []);
   return (
-    <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
+    <Navbar className={"fixed-top "} color-on-scroll="100" expand="lg">
       <Container>
-        <div className="navbar-translate">
+        <div className="navbar-translate mb-5 ">
           <NavbarBrand to="/" tag={Link} id="navbar-brand">
             <span>ABT• </span>
             Attijari Bank
@@ -146,12 +195,20 @@ export default function ExamplesNavbar() {
               </NavLink>
             </NavItem>
             <NavItem>
+              <img
+                alt="..."
+                src={`http://localhost:5000/images/${user.image_user}`}
+                style={{ width: "35px", height: "35px" }}
+              />
+            </NavItem>
+
+            <NavItem>
               <Button
                 className="nav-link d-none d-lg-block"
                 color="default"
-                onClick={(e) => navigate(`/register-page`)}
+                onClick={() => log()}
               >
-                Exit
+                Quitter
               </Button>
             </NavItem>
           </Nav>

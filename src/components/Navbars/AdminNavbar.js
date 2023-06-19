@@ -22,11 +22,16 @@ import {
   NavbarToggler,
   ModalHeader,
 } from "reactstrap";
+import { logout ,getUserAuth } from "../../Service/apiUser";
+import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
+  const [user, setUser] = useState([]);
+
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
     // Specify how to clean up after this effect:
@@ -55,6 +60,52 @@ function AdminNavbar(props) {
   const toggleModalSearch = () => {
     setmodalSearch(!modalSearch);
   };
+  /////cookies
+  if (!Cookies.get("jwt_token")) {
+    window.location.replace("/login-page");
+  }
+  const jwt_token = Cookies.get("jwt_token");
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${jwt_token}`,
+    },
+  };
+  ////////
+  const log = async () => {
+    try {
+      const res = logout(config)  .then((res) => {
+        console.log(res.data.user);
+        window.location.reload(); // Recharge la page
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      console.log(res.status);
+      console.log("Valeur du cookie jwt_token :", jwt_token);
+      // window.location.replace(`/login-page/`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getAuthUser = async () => {
+    const res = await getUserAuth(config)
+      .then((res) => {
+        setUser(res.data.user);
+        console.log(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getAuthUser();
+
+    const interval = setInterval(() => {
+      getAuthUser(); // appel répété toutes les 10 secondes
+    }, 300000);
+    return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
+  }, []);
   return (
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand="lg">
@@ -135,10 +186,10 @@ function AdminNavbar(props) {
                   onClick={(e) => e.preventDefault()}
                 >
                   <div className="photo">
-                    <img alt="..." src={require("assets/img/anime3.png")} />
+                    <img alt="..." src={`http://localhost:5000/images/${user.image_user}`}
+                style={{ width: "35px", height: "35px" }} />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
-                  <p className="d-lg-none">Log out</p>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li">
@@ -149,7 +200,7 @@ function AdminNavbar(props) {
                   </NavLink>
                   <DropdownItem divider tag="li" />
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                    <DropdownItem className="nav-item" onClick={() => log()}>Log out</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>

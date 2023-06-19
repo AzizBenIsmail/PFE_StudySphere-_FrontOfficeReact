@@ -169,7 +169,7 @@ export default function IndexNavbar() {
                 onClick={(e) => navigate(`/login-page`)}
               >
                 <i className="fa fa-user-plus mr-1" />
-                login
+                connexion
               </Button>
             </NavItem>
           </Nav>

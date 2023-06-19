@@ -18,10 +18,11 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Button, Container, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { LoginUser } from "../../Service/apiUser";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 // core components
 import Navbar from "components/Navbars/LoginNavbar";
 import Footer from "components/Footer/Footer.js";
@@ -57,7 +58,6 @@ export default function LoginPage() {
         "deg)"
     );
   };
-  const navigate = useNavigate();
   const [User, setUser] = useState({
     email: "",
     password: "",
@@ -71,25 +71,25 @@ export default function LoginPage() {
       const res = await LoginUser(user);
       console.log(res.data.message);
       console.log(res.status);
-      const jwt_token = Cookies.get('jwt_token');
-      console.log('Valeur du cookie jwt_token :', jwt_token);
-      console.log(res.data.user.userType)
-
-      if(res.data.user.userType === "admin")
-      {
+      const jwt_token = Cookies.get("jwt_token");
+      console.log("Valeur du cookie jwt_token :", jwt_token);
+      console.log(res.data.user.userType);
+      if (res.data.user.userType === "admin") {
         window.location.replace(`/admin/`);
-      }else{
-      window.location.replace(`/landing-page/`);}
+      } else {
+        window.location.replace(`/landing-page/`);
+      }
       // Continue avec le reste du code ici...
     } catch (error) {
+      toast("Ceci est une notification !", { position: "top-center" });
       console.log(error);
     }
   };
-  
-  
+
   return (
     <>
       <Navbar />
+      <ToastContainer />
       <div className="wrapper">
         <div className="page-header">
           <div className="page-header-image" />
@@ -113,9 +113,10 @@ export default function LoginPage() {
                         className="mt-1"
                         alt="..."
                         src={require("assets/img/square-purple-2.png")}
+                        
                       />
-                      <CardTitle tag="h4" className="ml-5 mt-3">
-                        Login
+                      <CardTitle tag="h4" className=" mt-3">
+                      connexion
                       </CardTitle>
                     </CardHeader>
                     <CardBody>
@@ -190,7 +191,7 @@ export default function LoginPage() {
                         type="button"
                         onClick={() => Login(User)}
                       >
-                        Sign in
+                        connexion
                       </Button>
                     </CardFooter>
                   </Card>

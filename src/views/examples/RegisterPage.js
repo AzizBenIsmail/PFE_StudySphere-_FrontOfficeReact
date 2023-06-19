@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { AiOutlineUser, AiOutlineLogin, AiFillFileImage } from "react-icons/ai";
+import { AiOutlineUser, AiOutlineLogin } from "react-icons/ai";
 import { MdPassword, MdMarkEmailUnread } from "react-icons/md";
 import { register } from "../../Service/apiUser";
 import AddImage from "./addImage";
@@ -23,16 +23,19 @@ import {
   Col,
 } from "reactstrap";
 import { Button, Container, Form } from "react-bootstrap";
-
+import Cookies from 'js-cookie';
 // core components
 import Navbar from "components/Navbars/Navbar";
 import Footer from "components/Footer/Footer.js";
-import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
-  const navigate = useNavigate();
+    /////cookies
+    if (Cookies.get("jwt_token")) {
+      window.location.replace("/landing-page");
+    }
+    ////////
   const [image, setImage] = useState();
-  const [croppedImage, setCroppedImage] = useState(null);
+  const [setCroppedImage] = useState(null);
   const [User, setUser] = useState({
     username: "",
     email: "",
@@ -50,10 +53,6 @@ export default function RegisterPage() {
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value });
     console.log(User);
-  };
-  const handlechangeFile = (e) => {
-    setImage(e.target.files[0]);
-    console.log(e.target.files[0]);
   };
   let formData = new FormData();
   const add = async (e) => {
@@ -124,7 +123,7 @@ export default function RegisterPage() {
                         src={require("assets/img/square-purple-2.png")}
                       />
                       <CardTitle tag="h4" className="ml-2 mt-3">
-                      Signup 
+                      s'inscrire 
                       </CardTitle>
                     </CardHeader>
                     <CardBody>
@@ -224,7 +223,7 @@ export default function RegisterPage() {
                         onClick={(e) => add(e)}
                       >
                         <AiOutlineLogin className=" mr-2" />
-                        Get Started
+                        Commencer
                       </Button>
                     </CardFooter>
                   </Card>
