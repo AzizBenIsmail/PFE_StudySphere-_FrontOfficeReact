@@ -64,16 +64,17 @@ export default function LoginNavbar() {
             <span>
               <img
                 src={require("assets/img/favicon.png")}
-                alt="PFA Logo"
+                alt="            Company Sms
+ Logo"
                 className="logo-image"
                 style={logoStyle}
               />
               •
             </span>
-            PFA
+            Company Sms
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
-            PFA
+            Company Sms
           </UncontrolledTooltip>
           <button
             aria-expanded={collapseOpen}
@@ -96,16 +97,17 @@ export default function LoginNavbar() {
             <Row>
               <Col className="collapse-brand" xs="6">
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                <span>
-              <img
-                src={require("assets/img/favicon.png")}
-                alt="Attijari Bank Logo"
-                className="logo-image"
-                style={logoStyle}
-              />
-              •
-            </span>
-            PFA
+                  <span>
+                    <img
+                      src={require("assets/img/favicon.png")}
+                      alt="            Company Sms
+ Logo"
+                      className="logo-image"
+                      style={logoStyle}
+                    />
+                    •
+                  </span>
+                  Company Sms
                 </a>
               </Col>
               <Col className="collapse-close text-right" xs="6">

@@ -107,7 +107,6 @@ function AdminNavbar(props) {
   };
   useEffect(() => {
     getAuthUser(config);
-
     const interval = setInterval(() => {
       getAuthUser(config); // appel répété toutes les 10 secondes
     }, 300000);

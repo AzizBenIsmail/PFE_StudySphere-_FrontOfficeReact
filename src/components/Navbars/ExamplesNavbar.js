@@ -33,7 +33,7 @@ export default function ExamplesNavbar() {
 
   const [collapseOpen, setCollapseOpen] = useState(false);
   const [collapseOut, setCollapseOut] = useState("");
-  const [setColor] = useState("navbar-transparent");
+  const [color, setColor] = useState("navbar-transparent");
   const [user, setUser] = useState([]);
 
   const changeColor = useCallback(() => {
@@ -48,7 +48,7 @@ export default function ExamplesNavbar() {
     ) {
       setColor("navbar-transparent");
     }
-  }, [setColor]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", changeColor);
@@ -99,15 +99,15 @@ export default function ExamplesNavbar() {
   }, [config]);
 
   return (
-    <Navbar className={"fixed-top "} color-on-scroll="100" expand="lg">
+    <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
       <Container>
         <div className="navbar-translate mb-5 ">
           <NavbarBrand to="/" tag={Link} id="navbar-brand">
             <span>ABT• </span>
-            PFA
+            Company Sms
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
-            PFA 
+            Company Sms
           </UncontrolledTooltip>
           <button
             aria-expanded={collapseOpen}
@@ -131,7 +131,7 @@ export default function ExamplesNavbar() {
               <Col className="collapse-brand" xs="6">
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
                   <span>ABT• </span>
-                  Attijari Bank 
+                  Company Sms
                 </a>
               </Col>
               <Col className="collapse-close text-right" xs="6">
