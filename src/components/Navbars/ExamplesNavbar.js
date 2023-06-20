@@ -17,9 +17,7 @@ import { logout, getUserAuth } from "../../Service/apiUser";
 import Cookies from "js-cookie";
 
 export default function ExamplesNavbar() {
-  if (!Cookies.get("jwt_token")) {
-    window.location.replace("/login-page");
-  }
+
 
   const jwt_token = Cookies.get("jwt_token");
 
@@ -31,6 +29,10 @@ export default function ExamplesNavbar() {
     };
   }, [jwt_token]);
 
+  if (!Cookies.get("jwt_token")) {
+    window.location.replace("/login-page");
+  }
+  
   const [collapseOpen, setCollapseOpen] = useState(false);
   const [collapseOut, setCollapseOut] = useState("");
   const [setColor] = useState("navbar-transparent");

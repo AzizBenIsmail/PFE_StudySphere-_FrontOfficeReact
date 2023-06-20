@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useState } from "react";
 // reactstrap components
 import { MdPassword, MdMarkEmailUnread } from "react-icons/md";
@@ -26,13 +26,39 @@ import Cookies from "js-cookie";
 // core components
 import Navbar from "components/Navbars/LoginNavbar";
 import Footer from "components/Footer/Footer.js";
+import { getUserAuth } from "../../Service/apiUser";
 
 export default function LoginPage() {
+  //cookies
 
-    //session
-    if (Cookies.get("jwt_token")) {
-      window.location.replace("/landing-page");
-    }
+  const jwt_token = Cookies.get("jwt_token");
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+  }, [jwt_token]);
+
+  //session
+  if (Cookies.get("jwt_token")) {
+    const fetchData = async () => {
+      try {
+        await getUserAuth(config).then((res) => {
+          if (res.data.user.userType == "admin") {
+            window.location.replace(`/admin/`);
+          } else {
+            window.location.replace(`/landing-page/`);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }
 
   const [squares1to6, setSquares1to6] = React.useState("");
   const [squares7and8, setSquares7and8] = React.useState("");
@@ -118,10 +144,9 @@ export default function LoginPage() {
                         className="mt-1"
                         alt="..."
                         src={require("assets/img/square-purple-2.png")}
-                        
                       />
                       <CardTitle tag="h4" className=" mt-3">
-                      connexion
+                        connexion
                       </CardTitle>
                     </CardHeader>
                     <CardBody>

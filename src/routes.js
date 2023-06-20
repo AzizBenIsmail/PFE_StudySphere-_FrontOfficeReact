@@ -28,7 +28,7 @@ var routes = [
   },
   {
     path: "/tables",
-    name: "Table List",
+    name: "List Users",
     icon: "tim-icons icon-puzzle-10",
     component: <TableList />,
     layout: "/admin",
