@@ -17,8 +17,6 @@ import { logout, getUserAuth } from "../../Service/apiUser";
 import Cookies from "js-cookie";
 
 export default function ExamplesNavbar() {
-
-
   const jwt_token = Cookies.get("jwt_token");
 
   const config = useMemo(() => {
@@ -32,7 +30,7 @@ export default function ExamplesNavbar() {
   if (!Cookies.get("jwt_token")) {
     window.location.replace("/login-page");
   }
-  
+
   const [collapseOpen, setCollapseOpen] = useState(false);
   const [collapseOut, setCollapseOut] = useState("");
   const [setColor] = useState("navbar-transparent");
@@ -74,7 +72,7 @@ export default function ExamplesNavbar() {
 
   const log = async () => {
     try {
-    await logout(config);
+      await logout(config);
       window.location.reload(); // Recharge la page
     } catch (error) {
       console.log(error);
@@ -82,7 +80,7 @@ export default function ExamplesNavbar() {
   };
 
   useEffect(() => {
-    const getAuthUser = async () => {
+    const getAuthUser = async (config) => {
       try {
         const res = await getUserAuth(config);
         setUser(res.data.user);
@@ -91,10 +89,10 @@ export default function ExamplesNavbar() {
       }
     };
 
-    getAuthUser();
+    getAuthUser(config);
 
     const interval = setInterval(() => {
-      getAuthUser();
+      getAuthUser(config);
     }, 300000);
 
     return () => clearInterval(interval);
@@ -106,10 +104,10 @@ export default function ExamplesNavbar() {
         <div className="navbar-translate mb-5 ">
           <NavbarBrand to="/" tag={Link} id="navbar-brand">
             <span>ABT• </span>
-            Attijari Bank
+            PFA
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
-            Attijari Bank
+            PFA 
           </UncontrolledTooltip>
           <button
             aria-expanded={collapseOpen}
@@ -132,7 +130,8 @@ export default function ExamplesNavbar() {
             <Row>
               <Col className="collapse-brand" xs="6">
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                  BLK•React
+                  <span>ABT• </span>
+                  Attijari Bank 
                 </a>
               </Col>
               <Col className="collapse-close text-right" xs="6">

@@ -46,9 +46,10 @@ export default function LoginPage() {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {
-          if (res.data.user.userType == "admin") {
+          if (res.data.user.userType === "admin") {
             window.location.replace(`/admin/`);
-          } else {
+          }
+          if (res.data.user.userType === "user") {
             window.location.replace(`/landing-page/`);
           }
         });
@@ -96,7 +97,7 @@ export default function LoginPage() {
   });
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value });
-    console.log(User);
+    // console.log(User);
   };
   const Login = async (user) => {
     try {

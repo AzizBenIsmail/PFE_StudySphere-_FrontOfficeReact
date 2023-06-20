@@ -1,8 +1,6 @@
-
-import React from "react";
+import React , { useMemo } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-
 // reactstrap components
 import {
   Button,
@@ -22,7 +20,7 @@ import {
   NavbarToggler,
   ModalHeader,
 } from "reactstrap";
-import { logout ,getUserAuth } from "../../Service/apiUser";
+import { logout, getUserAuth } from "../../Service/apiUser";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 
@@ -64,48 +62,57 @@ function AdminNavbar(props) {
   if (!Cookies.get("jwt_token")) {
     window.location.replace("/login-page");
   }
+
+  //cookies
+
   const jwt_token = Cookies.get("jwt_token");
 
-  const config = {
-    headers: {
-      Authorization: `Bearer ${jwt_token}`,
-    },
-  };
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+  }, [jwt_token]);
+
+
   ////////
+
   const log = async () => {
     try {
-      const res = logout(config)  .then((res) => {
-        console.log(res.data.user);
-        window.location.reload(); // Recharge la page
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-      console.log(res.status);
+      logout(config)
+        .then((res) => {
+          // console.log(res.data.user);
+          window.location.reload(); // Recharge la page
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      // console.log(res.status);
       console.log("Valeur du cookie jwt_token :", jwt_token);
       // window.location.replace(`/login-page/`);
     } catch (error) {
       console.log(error);
     }
   };
-  const getAuthUser = async () => {
-    const res = await getUserAuth(config)
+  const getAuthUser = async (config) => {
+    await getUserAuth(config)
       .then((res) => {
         setUser(res.data.user);
-        console.log(res.data.user);
+        // console.log(res.data.user);
       })
       .catch((err) => {
         console.log(err);
       });
   };
   useEffect(() => {
-    getAuthUser();
+    getAuthUser(config);
 
     const interval = setInterval(() => {
-      getAuthUser(); // appel répété toutes les 10 secondes
+      getAuthUser(config); // appel répété toutes les 10 secondes
     }, 300000);
     return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
-  }, []);
+  }, [config]);
   return (
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand="lg">
@@ -186,8 +193,11 @@ function AdminNavbar(props) {
                   onClick={(e) => e.preventDefault()}
                 >
                   <div className="photo">
-                    <img alt="..." src={`http://localhost:5000/images/${user.image_user}`}
-                style={{ width: "35px", height: "35px" }} />
+                    <img
+                      alt="..."
+                      src={`http://localhost:5000/images/${user.image_user}`}
+                      style={{ width: "35px", height: "35px" }}
+                    />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
                 </DropdownToggle>
@@ -200,7 +210,9 @@ function AdminNavbar(props) {
                   </NavLink>
                   <DropdownItem divider tag="li" />
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item" onClick={() => log()}>Log out</DropdownItem>
+                    <DropdownItem className="nav-item" onClick={() => log()}>
+                      Log out
+                    </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>

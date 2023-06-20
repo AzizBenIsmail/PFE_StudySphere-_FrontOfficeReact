@@ -63,16 +63,16 @@ export default function IndexNavbar() {
             <span>
               <img
                 src={require("assets/img/favicon.png")}
-                alt="Attijari Bank Logo"
+                alt="PFA Logo"
                 className="logo-image"
                 style={logoStyle}
               />
               •
             </span>
-            Attijari Bank
+            PFA
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
-            Attijari Bank
+            PFA
           </UncontrolledTooltip>
           <button
             aria-expanded={collapseOpen}
