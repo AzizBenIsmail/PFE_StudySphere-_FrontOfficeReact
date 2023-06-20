@@ -72,8 +72,7 @@ export default function ExamplesNavbar() {
 
   const log = async () => {
     try {
-      const res = await logout(config);
-      console.log(res.data.user);
+    await logout(config);
       window.location.reload(); // Recharge la page
     } catch (error) {
       console.log(error);
@@ -85,7 +84,6 @@ export default function ExamplesNavbar() {
       try {
         const res = await getUserAuth(config);
         setUser(res.data.user);
-        console.log(res.data.user);
       } catch (error) {
         console.log(error);
       }

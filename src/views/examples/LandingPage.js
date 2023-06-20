@@ -1,4 +1,4 @@
-import React , {useMemo} from "react";
+import React, { useMemo } from "react";
 // react plugin used to create charts
 // import { Line } from "react-chartjs-2";
 // reactstrap components
@@ -19,18 +19,39 @@ import {
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import Footer from "components/Footer/Footer.js";
+import { useState } from "react";
+import { getUserAuth } from "../../Service/apiUser";
 
 // import bigChartData from "variables/charts.js";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 export default function LandingPage() {
   //session
-  if (!Cookies.get("jwt_token")) {
-    window.location.replace("/login-page");
-  }  
-     /////cookies
+  const [user, setUser] = useState([]);
 
-const jwt_token = Cookies.get("jwt_token");
+  //session
+  if (Cookies.get("jwt_token")) {
+    const getAuthUser = async () => {
+      try {
+        const res = await getUserAuth(config);
+        setUser(res.data.user);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+    getAuthUser();
+  
+    if (user.userType === "admin") {
+      window.location.replace(`/admin/`);
+    } else {
+      window.location.replace(`/landing-page/`);
+    }
+  }
+  
+  /////cookies
+
+  const jwt_token = Cookies.get("jwt_token");
 
   const config = useMemo(() => {
     return {
