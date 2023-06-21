@@ -23,19 +23,18 @@ import {
   Col,
 } from "reactstrap";
 import { Button, Container, Form } from "react-bootstrap";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 // core components
 import Navbar from "components/Navbars/Navbar";
 import Footer from "components/Footer/Footer.js";
 
 export default function RegisterPage() {
-
   //session
   if (Cookies.get("jwt_token")) {
     window.location.replace("/landing-page");
   }
   const [image, setImage] = useState();
-  const [setCroppedImage] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(null);
   const [User, setUser] = useState({
     username: "",
     email: "",
@@ -44,12 +43,14 @@ export default function RegisterPage() {
   });
   const handleEvent = (croppedImageUrl, croppedImageBlob) => {
     setCroppedImage(croppedImageUrl);
+    console.log(croppedImage);
     setImage(croppedImageBlob);
     console.log(croppedImageUrl);
     console.log(croppedImageBlob);
   };
   const [squares1to6, setSquares1to6] = useState("");
   const [squares7and8, setSquares7and8] = useState("");
+
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value });
     console.log(User);
@@ -60,9 +61,10 @@ export default function RegisterPage() {
     formData.append("email", User.email);
     formData.append("password", User.password);
     if (image) {
-      formData.append("image_user", image, `${User.username}+cropped.jpg`);
-    }    const res = await register(formData)
-      .then(console.log("ajout passe Normalement"))
+      formData.append("image_user", image, `${User.username}+.jpg`);
+    }
+    const res = await register(formData)
+      .then(window.location.replace(`/login-page/`))
       .catch((error) => {
         console.log(error.response.data);
       });
@@ -123,7 +125,7 @@ export default function RegisterPage() {
                         src={require("assets/img/square-purple-2.png")}
                       />
                       <CardTitle tag="h4" className="ml-2 mt-3">
-                      s'inscrire 
+                        s'inscrire
                       </CardTitle>
                     </CardHeader>
                     <CardBody>
@@ -184,18 +186,17 @@ export default function RegisterPage() {
                           </InputGroup>
                         </Form.Group>
                         <Form.Group>
-                        <InputGroup className="input-group-alternative">
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <AddImage
-                          className="input-group-alternative"
-                          onEvent={handleEvent}
-                          aspect={1 / 1}
-                          holder={"add Profile Image"}
-                        />
-                      </InputGroup>
+                          <InputGroup className="input-group-alternative">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText></InputGroupText>
+                            </InputGroupAddon>
+                            <AddImage
+                              className="input-group-alternative"
+                              onEvent={handleEvent}
+                              aspect={1 / 1}
+                              holder={"add Profile Image"}
+                            />
+                          </InputGroup>
                         </Form.Group>
                         <FormGroup check className="text-left">
                           <Label check>

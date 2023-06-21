@@ -1,4 +1,3 @@
-
 /*eslint-disable*/
 import React from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
@@ -10,9 +9,7 @@ import PerfectScrollbar from "perfect-scrollbar";
 
 // reactstrap components
 import { Nav, NavLink as ReactstrapNavLink } from "reactstrap";
-import {
-  BackgroundColorContext,
-} from "contexts/BackgroundColorContext";
+import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 
 var ps;
 
@@ -53,7 +50,8 @@ function Sidebar(props) {
           onClick={props.toggleSidebar}
         >
           <div className="logo-img">
-            <img src={logo.imgSrc} alt="react-logo" />
+            <img                 src={require("assets/img/favicon.png")}
+ alt="react-logo" />
           </div>
         </a>
       );
@@ -64,7 +62,7 @@ function Sidebar(props) {
           target="_blank"
           onClick={props.toggleSidebar}
         >
-          {logo.text}
+          COMPANY SMS
         </a>
       );
     } else {

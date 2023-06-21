@@ -42,11 +42,17 @@ export async function getUserAuth(config) {
 //   return await axios.put(`${apiURL}/${id}`, User);
 // }
 
-// export async function deleteUser(id) {
-//   return await axios.delete(`${apiURL}/${id}`);
-// }
+export async function deleteUser(id,config) {
+  return await axios.delete(`${apiURL}/${id}`,config);
+}
 
+export async function upgrade(id,config) {
+  return await axios.put(`${apiURL}/upgrade`,{id},config);
+}
 
+export async function downgrade(id,config) {
+  return await axios.put(`${apiURL}/downgrade`,{id},config);
+}
 
 // export async function forgotpwd(User) {
 //   return await axios.post(`${apiURL}/forgotpwd`, User.email);

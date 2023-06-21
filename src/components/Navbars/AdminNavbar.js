@@ -1,4 +1,4 @@
-import React , { useMemo } from "react";
+import React, { useMemo } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // reactstrap components
@@ -75,7 +75,6 @@ function AdminNavbar(props) {
     };
   }, [jwt_token]);
 
-
   ////////
 
   const log = async () => {
@@ -83,13 +82,13 @@ function AdminNavbar(props) {
       logout(config)
         .then((res) => {
           // console.log(res.data.user);
-          window.location.reload(); // Recharge la page
+          window.location.replace(`/login-page/`);
         })
         .catch((err) => {
           console.log(err);
         });
       // console.log(res.status);
-      console.log("Valeur du cookie jwt_token :", jwt_token);
+      // console.log("Valeur du cookie jwt_token :", jwt_token);
       // window.location.replace(`/login-page/`);
     } catch (error) {
       console.log(error);

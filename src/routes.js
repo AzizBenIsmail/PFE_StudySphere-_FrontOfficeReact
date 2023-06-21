@@ -6,7 +6,7 @@ import UserProfile from "views/UserProfile.js";
 
 var routes = [
   {
-    path: "/tables",
+    path: "/tablesUsers",
     name: "List Users",
     icon: "tim-icons icon-single-02",
     component: <TableList />,

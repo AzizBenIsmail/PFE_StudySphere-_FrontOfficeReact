@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback , useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Card,
   CardHeader,
@@ -13,9 +13,11 @@ import {
   DropdownToggle,
   Col,
 } from "reactstrap";
-import { getUsers } from "../Service/apiUser";
+import { getUsers, deleteUser, downgrade, upgrade } from "../Service/apiUser";
 import Cookies from "js-cookie";
-import moment from 'moment';
+import moment from "moment";
+import { FaUserAltSlash, FaUserCog } from "react-icons/fa";
+import { GiUpgrade } from "react-icons/gi";
 
 function Tables() {
   //session
@@ -55,6 +57,32 @@ function Tables() {
 
     return () => clearInterval(interval);
   }, [getAllUsers, config]);
+
+  const deleteAuser = async (user, config) => {
+    const result = window.confirm(
+      "Êtes-vous sûr de vouloir supprimer ? " + user.username + "?"
+    );
+    if (result) {
+      //console.log(user);
+      deleteUser(user._id, config);
+      getAllUsers(config);
+    }
+  };
+
+  const upgradeAuser = async (user, config) => {
+    upgrade(user._id, config);
+    setTimeout(() => {
+      getAllUsers(config);
+    }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
+  };
+
+  const downgradeAuser = async (user, config) => {
+    downgrade(user._id, config);
+    setTimeout(() => {
+      getAllUsers(config);
+    }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
+  };
+
   return (
     <>
       <div className="content">
@@ -62,7 +90,7 @@ function Tables() {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Simple Table</CardTitle>
+                <CardTitle tag="h4">Liste des utilisateur </CardTitle>
               </CardHeader>
               <CardBody>
                 <Table className="tablesorter" responsive>
@@ -85,10 +113,7 @@ function Tables() {
                     {users.map((user) => (
                       <tr key={user._id}>
                         <Media className="align-items-center">
-                          <a
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
+                          <a href="#pablo" onClick={(e) => e.preventDefault()}>
                             <img
                               alt="..."
                               src={`http://localhost:5000/images/${user.image_user}`}
@@ -100,10 +125,14 @@ function Tables() {
                         <td>{user.first_Name}</td>
                         <td>{user.last_Name}</td>
                         <td>{user.email}</td>
-                        <td>{moment(user.createdAt).format('YYYY-MM-DD HH:mm')}</td>
-                        <td>{moment(user.updatedAt).format('YYYY-MM-DD HH:mm')}</td>
+                        <td>
+                          {moment(user.createdAt).format("YYYY-MM-DD HH:mm")}
+                        </td>
+                        <td>
+                          {moment(user.updatedAt).format("YYYY-MM-DD HH:mm")}
+                        </td>
                         <td>{user.userType}</td>
-                        <td>{user.enabled ? 'Active' : 'N/A'}</td>
+                        <td>{user.enabled ? "Active" : "N/A"}</td>
                         <td>{user.phoneNumber}</td>
                         <td className="text-right">
                           <UncontrolledDropdown>
@@ -120,19 +149,43 @@ function Tables() {
                             <DropdownMenu className="dropdown-menu-arrow" right>
                               <DropdownItem
                                 href=""
-                                // onClick={(e) => deleteAUser(user)}
+                                onClick={(e) => deleteAuser(user, config)}
                               >
-                                <i
-                                  className="fa fa-user-times"
-                                  aria-hidden="true"
-                                ></i>
+                                <FaUserAltSlash
+                                  className=" mr-2"
+                                  style={{ fontSize: "20px" }}
+                                />
                                 Supprimer
                               </DropdownItem>
                               <DropdownItem
                                 href=""
                                 // onClick={(e) => Modifier(user)}
                               >
+                                <FaUserCog
+                                  className=" mr-2"
+                                  style={{ fontSize: "20px" }}
+                                />
                                 Modifier
+                              </DropdownItem>
+                              <DropdownItem
+                                href=""
+                                onClick={(e) => upgradeAuser(user, config)}
+                              >
+                                <GiUpgrade
+                                  className=" mr-2"
+                                  style={{ fontSize: "20px" }}
+                                />
+                                mise à niveau vers administrateur
+                              </DropdownItem>
+                              <DropdownItem
+                                href=""
+                                onClick={(e) => downgradeAuser(user, config)}
+                              >
+                                <GiUpgrade
+                                  className=" mr-2"
+                                  style={{ fontSize: "20px" }}
+                                />
+                                mise à niveau vers un simple utilisateur
                               </DropdownItem>
                             </DropdownMenu>
                           </UncontrolledDropdown>

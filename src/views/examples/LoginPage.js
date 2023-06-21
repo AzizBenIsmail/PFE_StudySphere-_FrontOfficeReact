@@ -108,7 +108,7 @@ export default function LoginPage() {
       // console.log("Valeur du cookie jwt_token :", jwt_token);
       // console.log(res.data.user.userType);
       if (res.data.user.userType === "admin") {
-        window.location.replace(`/admin/`);
+        window.location.replace(`/admin/tablesUsers`);
       } else {
         window.location.replace(`/landing-page/`);
       }
