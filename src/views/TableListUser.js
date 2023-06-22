@@ -22,13 +22,17 @@ import {
   AiOutlineMail,
   AiOutlineFieldTime,
   AiOutlinePhone,
+  AiFillSetting,
+  AiOutlineUser,
 } from "react-icons/ai";
 // import { FaUserCheck, FaUserMinus } from "react-icons/fa";
 import { SiVerizon, SiVexxhost, SiCriticalrole } from "react-icons/si";
 import { BiShowAlt, BiRename } from "react-icons/bi";
 import { GoVerified } from "react-icons/go";
+import { GiWideArrowDunk } from "react-icons/gi";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { BsImageFill } from "react-icons/bs";
+import { RiAdminFill } from "react-icons/ri";
 
 import { useNavigate } from "react-router-dom";
 import { getUserAuth } from "../Service/apiUser";
@@ -117,7 +121,15 @@ function TableListUser() {
 
     return firstPart;
   }
-
+  function getUserTypeAbbreviation(userType) {
+    if (userType === "admin") {
+      return <RiAdminFill className="mr-2" style={{ fontSize: "24px" }} />;
+    } else if (userType === "user") {
+      return <AiOutlineUser className="mr-2" style={{ fontSize: "24px" }} />;
+    } else {
+      return ""; // Valeur par défaut si le type d'utilisateur n'est ni "admin" ni "user"
+    }
+  }
   return (
     <>
       <div className="content">
@@ -139,21 +151,21 @@ function TableListUser() {
                         />
                       </th>
                       <th>
-                        SurNomImg
+                        SurNom
                         <BiRename
                           className="ml-2"
                           style={{ fontSize: "15px" }}
                         />
                       </th>
                       <th>
-                        NomImg
+                        Nom
                         <MdOutlineDriveFileRenameOutline
                           className="ml-2"
                           style={{ fontSize: "15px" }}
                         />
                       </th>
                       <th>
-                        PrenomImg
+                        Prenom
                         <MdOutlineDriveFileRenameOutline
                           className="ml-2"
                           style={{ fontSize: "15px" }}
@@ -167,41 +179,47 @@ function TableListUser() {
                         />
                       </th>
                       <th>
-                        Cree_AtImg
+                        Cree_At
                         <AiOutlineFieldTime
                           className="ml-2"
                           style={{ fontSize: "15px" }}
                         />
                       </th>
                       <th>
-                        Modifier_ATImg
+                        Modifier_AT
                         <AiOutlineFieldTime
                           className="ml-2"
                           style={{ fontSize: "15px" }}
                         />
                       </th>
                       <th>
-                        RoleImg
+                        Role
                         <SiCriticalrole
                           className="ml-2"
                           style={{ fontSize: "15px" }}
                         />
                       </th>
                       <th>
-                        VerificarionImg
+                        Verif
                         <GoVerified
                           className="ml-2"
                           style={{ fontSize: "15px" }}
                         />
                       </th>
                       <th>
-                        Num_telImg
+                        tel
                         <AiOutlinePhone
                           className="ml-2"
                           style={{ fontSize: "15px" }}
                         />
                       </th>
-                      <th>Action</th>
+                      <th>
+                        Action
+                        <AiFillSetting
+                          className="ml-2"
+                          style={{ fontSize: "15px" }}
+                        />
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -247,15 +265,15 @@ function TableListUser() {
                           )}
                         </td>
                         <td>
-                            <botton
-                              onClick={(e) =>
-                                navigate(`/admin/UserDetails/${user._id}`)
-                              }
-                            >
-                          {getFirstTenWords(user.email)}
+                          <botton
+                            onClick={(e) =>
+                              navigate(`/admin/UserDetails/${user._id}`)
+                            }
+                          >
+                            {getFirstTenWords(user.email)}
 
-                              <i class="fa fa-sort-desc" aria-hidden="true"></i>
-                            </botton>
+                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                          </botton>
                         </td>
                         <td>
                           {moment(user.createdAt).format("YYYY-MM-DD HH:mm")}
@@ -263,7 +281,7 @@ function TableListUser() {
                         <td>
                           {moment(user.updatedAt).format("YYYY-MM-DD HH:mm")}
                         </td>
-                        <td>{user.userType}</td>
+                        <td>{getUserTypeAbbreviation(user.userType)}</td>
                         <td>
                           {user.enabled ? (
                             <SiVerizon
@@ -334,7 +352,7 @@ function TableListUser() {
                                 href=""
                                 onClick={(e) => downgradeAuser(user, config)}
                               >
-                                <GiUpgrade
+                                <GiWideArrowDunk
                                   className=" mr-2"
                                   style={{ fontSize: "20px" }}
                                 />

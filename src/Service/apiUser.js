@@ -29,6 +29,9 @@ export async function getUserAuth(config) {
   return await axios.get(`${apiURL}/`,config);
 }
 
+export async function getUserByID(id,config) {
+  return await axios.get(`${apiURL}/User/${id}`,config);
+}
 // export async function addUser(formData) {
 //   return await axios.post(apiURL, formData, {
 //     headers: {

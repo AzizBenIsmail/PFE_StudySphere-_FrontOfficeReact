@@ -1,23 +1,68 @@
-import React from "react";
+import React, { useMemo } from "react";
+import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
+import { getUserAuth } from "../Service/apiUser";
+import { useParams } from "react-router-dom";
 
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardText,
-  Row,
-  Col,
-} from "reactstrap";
+import { Card, CardBody, CardText, Row, Col } from "reactstrap";
+import { getUserByID } from "../Service/apiUser";
 
 function UserDetails() {
+  const param = useParams();
+
+  const [user, setUser] = useState([]);
+  //cookies
+  const jwt_token = Cookies.get("jwt_token");
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+  }, [jwt_token]);
+
+  //session
+  if (Cookies.get("jwt_token")) {
+    const fetchData = async () => {
+      try {
+        await getUserAuth(config).then((res) => {
+          if (res.data.user.userType === "user") {
+            window.location.replace(`/landing-page/`);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  } else {
+    window.location.replace(`/login-page/`);
+  }
+  useEffect(() => {
+    const getUser = async (config) => {
+      await getUserByID(param.id, config)
+        .then((res) => {
+          setUser(res.data.user); 
+          console.log(res.data.user.enabled);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getUser(config);
+    const interval = setInterval(() => {
+      getUser(config); // appel répété toutes les 10 secondes
+    }, 300000);
+    return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
+  }, [config, param.id]);
 
   return (
     <>
       <div className="content">
         <Row>
-          <Col md="20">
+          <Col md="12">
             <Card className="card-user">
               <CardBody>
                 <CardText />
@@ -30,31 +75,22 @@ function UserDetails() {
                     <img
                       alt="..."
                       className="avatar"
-                      src={require("assets/img/emilyz.jpg")}
+                      src={`http://localhost:5000/images/${user.image_user}`}
                     />
-                    <h5 className="title">Mike Andrew</h5>
+                    <h3 className="title">{user.username}</h3>
                   </a>
-                  <p className="description">Ceo/Co-Founder</p>
+                  <p className="description">{user.userType}</p>
+                </div>
+                <div className="card-description">Email : {user.email}</div>
+                <div className="card-description">enabled : {user.enabled}</div>
+                <div className="card-description">
+                  cree le : {user.createdAt}
                 </div>
                 <div className="card-description">
-                  Do not be scared of the truth because we need to restart the
-                  human foundation in truth And I love you like Kanye loves
-                  Kanye I love Rick Owens’ bed design but the back is...
+                  modifier le : {user.updatedAt}
                 </div>
+                <div className="card-description">{user.phoneNumber}</div>
               </CardBody>
-              <CardFooter>
-                <div className="button-container">
-                  <Button className="btn-icon btn-round" color="facebook">
-                    <i className="fab fa-facebook" />
-                  </Button>
-                  <Button className="btn-icon btn-round" color="twitter">
-                    <i className="fab fa-twitter" />
-                  </Button>
-                  <Button className="btn-icon btn-round" color="google">
-                    <i className="fab fa-google-plus" />
-                  </Button>
-                </div>
-              </CardFooter>
             </Card>
           </Col>
         </Row>
