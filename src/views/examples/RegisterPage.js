@@ -89,7 +89,7 @@ export default function RegisterPage() {
     formData.append("email", User.email);
     formData.append("password", User.password);
     if (image) {
-      formData.append("image_user", image, `${User.username}+.jpg`);
+      formData.append("image_user", image, `${User.username}+.png`);
     }
     const res = await register(formData)
       .then(window.location.replace(`/login-page/`))

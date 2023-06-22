@@ -23,12 +23,14 @@ import {
 import { logout, getUserAuth } from "../../Service/apiUser";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
   const [user, setUser] = useState([]);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
@@ -201,7 +203,13 @@ function AdminNavbar(props) {
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Profile</DropdownItem>
+                    <DropdownItem
+                      className="nav-item"
+                      onClick={(e) =>                               navigate(`/admin/UserDetails/${user._id}`)
+                    }
+                    >
+                      Profile
+                    </DropdownItem>
                   </NavLink>
                   <NavLink tag="li">
                     <DropdownItem className="nav-item">Settings</DropdownItem>

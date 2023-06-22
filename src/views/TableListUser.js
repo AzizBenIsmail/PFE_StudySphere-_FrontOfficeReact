@@ -33,9 +33,10 @@ import { GiWideArrowDunk } from "react-icons/gi";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { BsImageFill } from "react-icons/bs";
 import { RiAdminFill } from "react-icons/ri";
-
 import { useNavigate } from "react-router-dom";
 import { getUserAuth } from "../Service/apiUser";
+import { Button } from "react-bootstrap";
+
 function TableListUser() {
   const navigate = useNavigate();
 
@@ -137,8 +138,21 @@ function TableListUser() {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Liste des utilisateur </CardTitle>
+                <CardTitle
+                  tag="h4"
+                  className="d-flex justify-content-between align-items-center"
+                >
+                  <span>Liste des utilisateurs</span>
+                  <Button
+                    color="primary"
+                    type="button"
+                    // onClick={() => }
+                  >
+                    Ajouter un utilisateur
+                  </Button>
+                </CardTitle>
               </CardHeader>
+
               <CardBody>
                 <Table className="tablesorter" responsive>
                   <thead className="text-primary">

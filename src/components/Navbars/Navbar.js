@@ -63,16 +63,17 @@ export default function IndexNavbar() {
             <span>
               <img
                 src={require("assets/img/favicon.png")}
-                alt="PFA Logo"
+                alt="                  Company Sms
+ Logo"
                 className="logo-image"
                 style={logoStyle}
               />
               •
             </span>
-            PFA
+            Company Sms
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
-            PFA
+            Company Sms
           </UncontrolledTooltip>
           <button
             aria-expanded={collapseOpen}
