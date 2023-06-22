@@ -18,7 +18,7 @@
     &.active:hover
      {
         background-color: $btn-states-color !important;
-        background-image: linear-gradient(to bottom left, $btn-color, $btn-states-color, $btn-color) !important;
+        background-image: linear-gradient(to bottom left, #ffa600, #ff1e00 , #120f11) !important;
         background-image: -webkit-linear-gradient(to bottom left, $btn-color, $btn-states-color, $btn-color) !important;
         background-image: -o-linear-gradient(to bottom left, $btn-color, $btn-states-color, $btn-color) !important;
         background-image: -moz-linear-gradient(to bottom left, $btn-color, $btn-states-color, $btn-color) !important;
