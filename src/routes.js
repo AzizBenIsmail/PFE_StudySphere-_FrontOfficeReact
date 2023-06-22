@@ -1,8 +1,8 @@
-
 import Dashboard from "views/Dashboard.js";
 import Notifications from "views/Notifications.js";
 import TableListUser from "views/TableListUser.js";
 import UserProfile from "views/UserProfile.js";
+import UserDetails from "views/UserDetails.js";
 
 var routes = [
   {
@@ -33,6 +33,12 @@ var routes = [
     component: <UserProfile />,
     layout: "/admin",
   },
-
+  {
+    path: "/UserDetails/:id/",
+    name: "UserDetails",
+    icon: "tim-icons icon-single-02",
+    component: <UserDetails />,
+    layout: "/admin",
+  },
 ];
 export default routes;

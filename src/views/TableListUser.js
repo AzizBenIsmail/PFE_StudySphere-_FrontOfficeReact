@@ -18,11 +18,50 @@ import Cookies from "js-cookie";
 import moment from "moment";
 import { FaUserAltSlash, FaUserCog } from "react-icons/fa";
 import { GiUpgrade } from "react-icons/gi";
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import {
+  AiOutlineMail,
+  AiOutlineFieldTime,
+  AiOutlinePhone,
+} from "react-icons/ai";
+// import { FaUserCheck, FaUserMinus } from "react-icons/fa";
+import { SiVerizon, SiVexxhost, SiCriticalrole } from "react-icons/si";
+import { BiShowAlt, BiRename } from "react-icons/bi";
+import { GoVerified } from "react-icons/go";
+import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
+import { BsImageFill } from "react-icons/bs";
+
+import { useNavigate } from "react-router-dom";
+import { getUserAuth } from "../Service/apiUser";
 function TableListUser() {
+  const navigate = useNavigate();
+
+  //cookies
+  const jwt_token = Cookies.get("jwt_token");
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+  }, [jwt_token]);
+
   //session
-  if (!Cookies.get("jwt_token")) {
-    window.location.replace("/login-page");
+  if (Cookies.get("jwt_token")) {
+    const fetchData = async () => {
+      try {
+        await getUserAuth(config).then((res) => {
+          if (res.data.user.userType === "user") {
+            window.location.replace(`/landing-page/`);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  } else {
+    window.location.replace(`/login-page/`);
   }
 
   const getAllUsers = useCallback(async (config) => {
@@ -35,16 +74,6 @@ function TableListUser() {
         console.log(err);
       });
   }, []);
-
-  const jwt_token = Cookies.get("jwt_token");
-
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    };
-  }, [jwt_token]);
 
   const [users, setUsers] = useState([]);
 
@@ -82,6 +111,12 @@ function TableListUser() {
       getAllUsers(config);
     }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
   };
+  function getFirstTenWords(str) {
+    const splittedWord = str.split("@"); // Diviser le mot en fonction du caractère "@"
+    const firstPart = splittedWord[0]; // Récupérer la première partie du mot (avant "@")
+
+    return firstPart;
+  }
 
   return (
     <>
@@ -96,17 +131,77 @@ function TableListUser() {
                 <Table className="tablesorter" responsive>
                   <thead className="text-primary">
                     <tr>
-                      <th>Image</th>
-                      <th>Surnom</th>
-                      <th>Nom</th>
-                      <th>Prenom</th>
-                      <th>email</th>
-                      <th>cree_At</th>
-                      <th>modifier_AT</th>
-                      <th>Role</th>
-                      <th>verificarion</th>
-                      <th>numero telephone</th>
-                      <th>action</th>
+                      <th>
+                        Img
+                        <BsImageFill
+                          className="ml-2"
+                          style={{ fontSize: "15px" }}
+                        />
+                      </th>
+                      <th>
+                        SurNomImg
+                        <BiRename
+                          className="ml-2"
+                          style={{ fontSize: "15px" }}
+                        />
+                      </th>
+                      <th>
+                        NomImg
+                        <MdOutlineDriveFileRenameOutline
+                          className="ml-2"
+                          style={{ fontSize: "15px" }}
+                        />
+                      </th>
+                      <th>
+                        PrenomImg
+                        <MdOutlineDriveFileRenameOutline
+                          className="ml-2"
+                          style={{ fontSize: "15px" }}
+                        />
+                      </th>
+                      <th>
+                        Email
+                        <AiOutlineMail
+                          className="ml-2"
+                          style={{ fontSize: "15px" }}
+                        />
+                      </th>
+                      <th>
+                        Cree_AtImg
+                        <AiOutlineFieldTime
+                          className="ml-2"
+                          style={{ fontSize: "15px" }}
+                        />
+                      </th>
+                      <th>
+                        Modifier_ATImg
+                        <AiOutlineFieldTime
+                          className="ml-2"
+                          style={{ fontSize: "15px" }}
+                        />
+                      </th>
+                      <th>
+                        RoleImg
+                        <SiCriticalrole
+                          className="ml-2"
+                          style={{ fontSize: "15px" }}
+                        />
+                      </th>
+                      <th>
+                        VerificarionImg
+                        <GoVerified
+                          className="ml-2"
+                          style={{ fontSize: "15px" }}
+                        />
+                      </th>
+                      <th>
+                        Num_telImg
+                        <AiOutlinePhone
+                          className="ml-2"
+                          style={{ fontSize: "15px" }}
+                        />
+                      </th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -125,24 +220,43 @@ function TableListUser() {
                           {user.username ? (
                             user.username
                           ) : (
-                            <AiOutlineCloseCircle className="mr-2" />
+                            <SiVexxhost
+                              className="mr-2"
+                              style={{ fontSize: "24px" }}
+                            />
                           )}
                         </td>
                         <td>
                           {user.first_Name ? (
                             user.first_Name
                           ) : (
-                            <AiOutlineCloseCircle className="mr-2" />
+                            <SiVexxhost
+                              className="mr-2"
+                              style={{ fontSize: "24px" }}
+                            />
                           )}
                         </td>
                         <td>
                           {user.last_Name ? (
                             user.last_Name
                           ) : (
-                            <AiOutlineCloseCircle className="mr-2" />
+                            <SiVexxhost
+                              className="mr-2"
+                              style={{ fontSize: "24px" }}
+                            />
                           )}
                         </td>
-                        <td>{user.email}</td>
+                        <td>
+                            <botton
+                              onClick={(e) =>
+                                navigate(`/admin/UserDetails/${user._id}`)
+                              }
+                            >
+                          {getFirstTenWords(user.email)}
+
+                              <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                            </botton>
+                        </td>
                         <td>
                           {moment(user.createdAt).format("YYYY-MM-DD HH:mm")}
                         </td>
@@ -150,8 +264,29 @@ function TableListUser() {
                           {moment(user.updatedAt).format("YYYY-MM-DD HH:mm")}
                         </td>
                         <td>{user.userType}</td>
-                        <td>{user.enabled ? "Active" : "N/A"}</td>
-                        <td>{user.phoneNumber}</td>
+                        <td>
+                          {user.enabled ? (
+                            <SiVerizon
+                              className="mr-2"
+                              style={{ fontSize: "24px" }}
+                            />
+                          ) : (
+                            <SiVexxhost
+                              className="mr-2"
+                              style={{ fontSize: "24px" }}
+                            />
+                          )}
+                        </td>
+                        <td>
+                          {user.phoneNumber ? (
+                            user.phoneNumber
+                          ) : (
+                            <SiVexxhost
+                              className="mr-2"
+                              style={{ fontSize: "24px" }}
+                            />
+                          )}
+                        </td>
                         <td className="text-right">
                           <UncontrolledDropdown>
                             <DropdownToggle
@@ -204,6 +339,18 @@ function TableListUser() {
                                   style={{ fontSize: "20px" }}
                                 />
                                 mise à niveau vers un simple utilisateur
+                              </DropdownItem>
+                              <DropdownItem
+                                href=""
+                                onClick={(e) =>
+                                  navigate(`/admin/UserDetails/${user._id}`)
+                                }
+                              >
+                                <BiShowAlt
+                                  className=" mr-2"
+                                  style={{ fontSize: "20px" }}
+                                />
+                                Details
                               </DropdownItem>
                             </DropdownMenu>
                           </UncontrolledDropdown>

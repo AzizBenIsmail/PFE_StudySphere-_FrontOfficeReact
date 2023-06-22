@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { getUserAuth } from "../Service/apiUser";
+import Cookies from "js-cookie";
 
 // reactstrap components
 import {
@@ -16,7 +18,35 @@ import {
 } from "reactstrap";
 
 function UserProfile() {
+  //cookies
+  const jwt_token = Cookies.get("jwt_token");
 
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+  }, [jwt_token]);
+
+  //session
+  if (Cookies.get("jwt_token")) {
+    const fetchData = async () => {
+      try {
+        await getUserAuth(config).then((res) => {
+          if (res.data.user.userType === "user") {
+            window.location.replace(`/landing-page/`);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  } else {
+    window.location.replace(`/login-page/`);
+  }
   return (
     <>
       <div className="content">
