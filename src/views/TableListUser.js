@@ -18,8 +18,8 @@ import Cookies from "js-cookie";
 import moment from "moment";
 import { FaUserAltSlash, FaUserCog } from "react-icons/fa";
 import { GiUpgrade } from "react-icons/gi";
-
-function Tables() {
+import { AiOutlineCloseCircle } from "react-icons/ai";
+function TableListUser() {
   //session
   if (!Cookies.get("jwt_token")) {
     window.location.replace("/login-page");
@@ -121,9 +121,27 @@ function Tables() {
                             />
                           </a>
                         </Media>
-                        <td>{user.username}</td>
-                        <td>{user.first_Name}</td>
-                        <td>{user.last_Name}</td>
+                        <td>
+                          {user.username ? (
+                            user.username
+                          ) : (
+                            <AiOutlineCloseCircle className="mr-2" />
+                          )}
+                        </td>
+                        <td>
+                          {user.first_Name ? (
+                            user.first_Name
+                          ) : (
+                            <AiOutlineCloseCircle className="mr-2" />
+                          )}
+                        </td>
+                        <td>
+                          {user.last_Name ? (
+                            user.last_Name
+                          ) : (
+                            <AiOutlineCloseCircle className="mr-2" />
+                          )}
+                        </td>
                         <td>{user.email}</td>
                         <td>
                           {moment(user.createdAt).format("YYYY-MM-DD HH:mm")}
@@ -203,4 +221,4 @@ function Tables() {
   );
 }
 
-export default Tables;
+export default TableListUser;
