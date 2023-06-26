@@ -84,7 +84,7 @@ export default function AddImage (props) {
               return;
             }
             resolve(blob);
-          }, 'image/jpeg', 1);
+          }, 'image/png', 1);
         });
       };
       
