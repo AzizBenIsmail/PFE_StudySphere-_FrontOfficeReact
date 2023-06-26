@@ -13,12 +13,20 @@ import {
   DropdownToggle,
   Col,
 } from "reactstrap";
-import { getUsers, deleteUser, downgrade, upgrade } from "../Service/apiUser";
+import {
+  getUsers,
+  active,
+  desactive,
+  deleteUser,
+  downgrade,
+  upgrade,
+} from "../Service/apiUser";
 import Cookies from "js-cookie";
 import moment from "moment";
 import { FaUserAltSlash, FaUserCog } from "react-icons/fa";
 import { GiUpgrade } from "react-icons/gi";
 import {
+  AiOutlineReload,
   AiOutlineMail,
   AiOutlineFieldTime,
   AiOutlinePhone,
@@ -100,7 +108,7 @@ function TableListUser() {
     if (result) {
       deleteUser(user._id, config);
       getAllUsers(config);
-    }else {
+    } else {
       setDeletedUsers([...deletedUsers, user]);
     }
   };
@@ -114,6 +122,20 @@ function TableListUser() {
 
   const downgradeAuser = async (user, config) => {
     downgrade(user._id, config);
+    setTimeout(() => {
+      getAllUsers(config);
+    }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
+  };
+
+  const ActiveCompte = async (user, config) => {
+    active(user._id, config);
+    setTimeout(() => {
+      getAllUsers(config);
+    }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
+  };
+
+  const DesactiveCompte = async (user, config) => {
+    desactive(user._id, config);
     setTimeout(() => {
       getAllUsers(config);
     }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
@@ -144,7 +166,14 @@ function TableListUser() {
                   tag="h4"
                   className="d-flex justify-content-between align-items-center"
                 >
-                  <span>Liste des utilisateurs</span>
+                  <span>
+                    Liste des utilisateurs
+                    <AiOutlineReload
+                      onClick={(e) =>     getAllUsers(config)}
+                      className="ml-2"
+                      style={{ fontSize: "15px" }}
+                    />
+                  </span>
                   <Button
                     color="primary"
                     type="button"
@@ -239,175 +268,197 @@ function TableListUser() {
                     </tr>
                   </thead>
                   <tbody>
-                    {users.filter((user) => !deletedUsers.includes(user))
-                    .map((user) => (
-                      <tr key={user._id}>
-                        <Media className="align-items-center">
-                          <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                            <img
-                              alt="..."
-                              src={`http://localhost:5000/images/${user.image_user}`}
-                              style={{ width: "80px", height: "80px" }}
-                            />
-                          </a>
-                        </Media>
-                        <td>
-                          {user.username ? (
-                            user.username
-                          ) : (
-                            <SiVexxhost
-                              className="mr-2"
-                              style={{ fontSize: "24px" }}
-                            />
-                          )}
-                        </td>
-                        <td>
-                          {user.first_Name ? (
-                            user.first_Name
-                          ) : (
-                            <SiVexxhost
-                              className="mr-2"
-                              style={{ fontSize: "24px" }}
-                            />
-                          )}
-                        </td>
-                        <td>
-                          {user.last_Name ? (
-                            user.last_Name
-                          ) : (
-                            <SiVexxhost
-                              className="mr-2"
-                              style={{ fontSize: "24px" }}
-                            />
-                          )}
-                        </td>
-                        <td>
-                          <botton
-                            onClick={(e) =>
-                              navigate(`/admin/UserDetails/${user._id}`)
-                            }
-                          >
-                            {getFirstTenWords(user.email)}
-
-                            <i class="fa fa-sort-desc" aria-hidden="true"></i>
-                          </botton>
-                        </td>
-                        <td>
-                          {moment(user.createdAt).format("YYYY-MM-DD HH:mm")}
-                        </td>
-                        <td>
-                          {moment(user.updatedAt).format("YYYY-MM-DD HH:mm")}
-                        </td>
-                        <td>{getUserTypeAbbreviation(user.userType)}</td>
-                        <td>
-                          {user.enabled ? (
-                            <SiVerizon
-                              className="mr-2"
-                              style={{ fontSize: "24px" }}
-                            />
-                          ) : (
-                            <SiVexxhost
-                              className="mr-2"
-                              style={{ fontSize: "24px" }}
-                            />
-                          )}
-                        </td>
-                        <td>
-                          {user.phoneNumber ? (
-                            user.phoneNumber
-                          ) : (
-                            <SiVexxhost
-                              className="mr-2"
-                              style={{ fontSize: "24px" }}
-                            />
-                          )}
-                        </td>
-                        <td className="text-right">
-                          <UncontrolledDropdown>
-                            <DropdownToggle
-                              className="btn-icon-only text-light"
+                    {users
+                      .filter((user) => !deletedUsers.includes(user))
+                      .map((user) => (
+                        <tr key={user._id}>
+                          <Media className="align-items-center">
+                            <a
                               href="#pablo"
-                              role="button"
-                              size="sm"
-                              color=""
                               onClick={(e) => e.preventDefault()}
                             >
-                              <i className="fas fa-ellipsis-v" />
-                            </DropdownToggle>
-                            <DropdownMenu className="dropdown-menu-arrow" right>
-                              <DropdownItem
-                                href=""
-                                onClick={(e) => deleteAuser(user, config)}
-                              >
-                                <FaUserAltSlash
-                                  className=" mr-2"
-                                  style={{ fontSize: "20px" }}
-                                />
-                                Supprimer
-                              </DropdownItem>
-                              <DropdownItem
-                                href=""
-                                // onClick={(e) => Modifier(user)}
-                              >
-                                <FaUserCog
-                                  className=" mr-2"
-                                  style={{ fontSize: "20px" }}
-                                />
-                                Modifier
-                              </DropdownItem>
-                              {user.userType === "user" ? (
-                                <DropdownItem
-                                  href=""
-                                  onClick={(e) => upgradeAuser(user, config)}
-                                >
-                                  <GiUpgrade
-                                    className="mr-2"
-                                    style={{ fontSize: "20px" }}
-                                  />
-                                  mise à niveau vers administrateur
-                                </DropdownItem>
-                              ) : (
-                                <DropdownItem
-                                  href=""
-                                  onClick={(e) => downgradeAuser(user, config)}
-                                >
-                                  <GiWideArrowDunk
-                                    className="mr-2"
-                                    style={{ fontSize: "20px" }}
-                                  />
-                                  mise à niveau vers un simple utilisateur
-                                </DropdownItem>
-                              )}
+                              <img
+                                alt="..."
+                                src={`http://localhost:5000/images/${user.image_user}`}
+                                style={{ width: "80px", height: "80px" }}
+                              />
+                            </a>
+                          </Media>
+                          <td>
+                            {user.username ? (
+                              user.username
+                            ) : (
+                              <SiVexxhost
+                                className="mr-2"
+                                style={{ fontSize: "24px" }}
+                              />
+                            )}
+                          </td>
+                          <td>
+                            {user.first_Name ? (
+                              user.first_Name
+                            ) : (
+                              <SiVexxhost
+                                className="mr-2"
+                                style={{ fontSize: "24px" }}
+                              />
+                            )}
+                          </td>
+                          <td>
+                            {user.last_Name ? (
+                              user.last_Name
+                            ) : (
+                              <SiVexxhost
+                                className="mr-2"
+                                style={{ fontSize: "24px" }}
+                              />
+                            )}
+                          </td>
+                          <td>
+                            <botton
+                              onClick={(e) =>
+                                navigate(`/admin/UserDetails/${user._id}`)
+                              }
+                            >
+                              {getFirstTenWords(user.email)}
 
-                              <DropdownItem
-                                href=""
-                                onClick={(e) =>
-                                  navigate(`/admin/UserDetails/${user._id}`)
-                                }
+                              <i class="fa fa-sort-desc" aria-hidden="true"></i>
+                            </botton>
+                          </td>
+                          <td>
+                            {moment(user.createdAt).format("YYYY-MM-DD HH:mm")}
+                          </td>
+                          <td>
+                            {moment(user.updatedAt).format("YYYY-MM-DD HH:mm")}
+                          </td>
+                          <td>{getUserTypeAbbreviation(user.userType)}</td>
+                          <td>
+                            {user.enabled ? (
+                              <SiVerizon
+                                className="mr-2"
+                                style={{ fontSize: "24px" }}
+                              />
+                            ) : (
+                              <SiVexxhost
+                                className="mr-2"
+                                style={{ fontSize: "24px" }}
+                              />
+                            )}
+                          </td>
+                          <td>
+                            {user.phoneNumber ? (
+                              user.phoneNumber
+                            ) : (
+                              <SiVexxhost
+                                className="mr-2"
+                                style={{ fontSize: "24px" }}
+                              />
+                            )}
+                          </td>
+                          <td className="text-right">
+                            <UncontrolledDropdown>
+                              <DropdownToggle
+                                className="btn-icon-only text-light"
+                                href="#pablo"
+                                role="button"
+                                size="sm"
+                                color=""
+                                onClick={(e) => e.preventDefault()}
                               >
-                                <BiShowAlt
-                                  className=" mr-2"
-                                  style={{ fontSize: "20px" }}
-                                />
-                                Details
-                              </DropdownItem>
-                              <DropdownItem
-                                href=""
-                                onClick={(e) =>
-                                  navigate(`/admin/UserDetails/${user._id}`)
-                                }
+                                <i className="fas fa-ellipsis-v" />
+                              </DropdownToggle>
+                              <DropdownMenu
+                                className="dropdown-menu-arrow"
+                                right
                               >
-                                <BiShowAlt
-                                  className=" mr-2"
-                                  style={{ fontSize: "20px" }}
-                                />
-                                Active
-                              </DropdownItem>
-                            </DropdownMenu>
-                          </UncontrolledDropdown>
-                        </td>
-                      </tr>
-                    ))}
+                                <DropdownItem
+                                  href=""
+                                  onClick={(e) => deleteAuser(user, config)}
+                                >
+                                  <FaUserAltSlash
+                                    className=" mr-2"
+                                    style={{ fontSize: "20px" }}
+                                  />
+                                  Supprimer
+                                </DropdownItem>
+                                <DropdownItem
+                                  href=""
+                                  // onClick={(e) => Modifier(user)}
+                                >
+                                  <FaUserCog
+                                    className=" mr-2"
+                                    style={{ fontSize: "20px" }}
+                                  />
+                                  Modifier
+                                </DropdownItem>
+                                {user.userType === "user" ? (
+                                  <DropdownItem
+                                    href=""
+                                    onClick={(e) => upgradeAuser(user, config)}
+                                  >
+                                    <GiUpgrade
+                                      className="mr-2"
+                                      style={{ fontSize: "20px" }}
+                                    />
+                                    mise à niveau vers administrateur
+                                  </DropdownItem>
+                                ) : (
+                                  <DropdownItem
+                                    href=""
+                                    onClick={(e) =>
+                                      downgradeAuser(user, config)
+                                    }
+                                  >
+                                    <GiWideArrowDunk
+                                      className="mr-2"
+                                      style={{ fontSize: "20px" }}
+                                    />
+                                    mise à niveau vers un simple utilisateur
+                                  </DropdownItem>
+                                )}
+                                {user.enabled === false ? (
+                                  <DropdownItem
+                                    href=""
+                                    onClick={(e) => ActiveCompte(user, config)}
+                                  >
+                                    <SiVerizon
+                                      className="mr-2"
+                                      style={{ fontSize: "20px" }}
+                                    />
+                                    Active Un Compte
+                                  </DropdownItem>
+                                ) : (
+                                  <DropdownItem
+                                    href=""
+                                    onClick={(e) =>
+                                      DesactiveCompte(user, config)
+                                    }
+                                  >
+                                    <SiVexxhost
+                                      className="mr-2"
+                                      style={{ fontSize: "20px" }}
+                                    />
+                                    Desactive Un Compte
+                                  </DropdownItem>
+                                )}
+
+                                <DropdownItem
+                                  href=""
+                                  onClick={(e) =>
+                                    navigate(`/admin/UserDetails/${user._id}`)
+                                  }
+                                >
+                                  <BiShowAlt
+                                    className=" mr-2"
+                                    style={{ fontSize: "20px" }}
+                                  />
+                                  Details
+                                </DropdownItem>
+                              </DropdownMenu>
+                            </UncontrolledDropdown>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </Table>
               </CardBody>

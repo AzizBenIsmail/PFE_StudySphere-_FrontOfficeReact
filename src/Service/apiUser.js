@@ -57,6 +57,14 @@ export async function downgrade(id,config) {
   return await axios.put(`${apiURL}/downgrade`,{id},config);
 }
 
+export async function active(id,config) {
+  return await axios.put(`${apiURL}/active`,{id},config);
+}
+
+export async function desactive(id,config) {
+  return await axios.put(`${apiURL}/desactive`,{id},config);
+}
+
 // export async function forgotpwd(User) {
 //   return await axios.post(`${apiURL}/forgotpwd`, User.email);
 // }
