@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import { getUserAuth } from "../Service/apiUser";
 import { useParams } from "react-router-dom";
+import { SiVerizon, SiVexxhost,} from "react-icons/si";
 
 // reactstrap components
 import { Card, CardBody, CardText, Row, Col } from "reactstrap";
@@ -82,7 +83,17 @@ function UserDetails() {
                   <p className="description">{user.userType}</p>
                 </div>
                 <div className="card-description">Email : {user.email}</div>
-                <div className="card-description">enabled : {user.enabled}</div>
+                <div className="card-description">enabled :                           {user.enabled ? (
+                            <SiVerizon
+                              className="mr-2"
+                              style={{ fontSize: "24px" }}
+                            />
+                          ) : (
+                            <SiVexxhost
+                              className="mr-2"
+                              style={{ fontSize: "24px" }}
+                            />
+                          )}</div>
                 <div className="card-description">
                   cree le : {user.createdAt}
                 </div>

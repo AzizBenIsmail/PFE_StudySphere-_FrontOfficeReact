@@ -81,6 +81,7 @@ function TableListUser() {
   }, []);
 
   const [users, setUsers] = useState([]);
+  const [deletedUsers, setDeletedUsers] = useState([]);
 
   useEffect(() => {
     getAllUsers(config);
@@ -94,12 +95,13 @@ function TableListUser() {
 
   const deleteAuser = async (user, config) => {
     const result = window.confirm(
-      "Êtes-vous sûr de vouloir supprimer ? " + user.username + "?"
+      "Êtes-vous sûr de vouloir supprimer de la base ? " + user.username + "?"
     );
     if (result) {
-      //console.log(user);
       deleteUser(user._id, config);
       getAllUsers(config);
+    }else {
+      setDeletedUsers([...deletedUsers, user]);
     }
   };
 
@@ -237,7 +239,8 @@ function TableListUser() {
                     </tr>
                   </thead>
                   <tbody>
-                    {users.map((user) => (
+                    {users.filter((user) => !deletedUsers.includes(user))
+                    .map((user) => (
                       <tr key={user._id}>
                         <Media className="align-items-center">
                           <a href="#pablo" onClick={(e) => e.preventDefault()}>
@@ -352,26 +355,30 @@ function TableListUser() {
                                 />
                                 Modifier
                               </DropdownItem>
-                              <DropdownItem
-                                href=""
-                                onClick={(e) => upgradeAuser(user, config)}
-                              >
-                                <GiUpgrade
-                                  className=" mr-2"
-                                  style={{ fontSize: "20px" }}
-                                />
-                                mise à niveau vers administrateur
-                              </DropdownItem>
-                              <DropdownItem
-                                href=""
-                                onClick={(e) => downgradeAuser(user, config)}
-                              >
-                                <GiWideArrowDunk
-                                  className=" mr-2"
-                                  style={{ fontSize: "20px" }}
-                                />
-                                mise à niveau vers un simple utilisateur
-                              </DropdownItem>
+                              {user.userType === "user" ? (
+                                <DropdownItem
+                                  href=""
+                                  onClick={(e) => upgradeAuser(user, config)}
+                                >
+                                  <GiUpgrade
+                                    className="mr-2"
+                                    style={{ fontSize: "20px" }}
+                                  />
+                                  mise à niveau vers administrateur
+                                </DropdownItem>
+                              ) : (
+                                <DropdownItem
+                                  href=""
+                                  onClick={(e) => downgradeAuser(user, config)}
+                                >
+                                  <GiWideArrowDunk
+                                    className="mr-2"
+                                    style={{ fontSize: "20px" }}
+                                  />
+                                  mise à niveau vers un simple utilisateur
+                                </DropdownItem>
+                              )}
+
                               <DropdownItem
                                 href=""
                                 onClick={(e) =>
@@ -383,6 +390,18 @@ function TableListUser() {
                                   style={{ fontSize: "20px" }}
                                 />
                                 Details
+                              </DropdownItem>
+                              <DropdownItem
+                                href=""
+                                onClick={(e) =>
+                                  navigate(`/admin/UserDetails/${user._id}`)
+                                }
+                              >
+                                <BiShowAlt
+                                  className=" mr-2"
+                                  style={{ fontSize: "20px" }}
+                                />
+                                Active
                               </DropdownItem>
                             </DropdownMenu>
                           </UncontrolledDropdown>
