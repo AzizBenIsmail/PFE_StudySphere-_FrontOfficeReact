@@ -1,8 +1,11 @@
-import Dashboard from "views/Dashboard.js";
-import Notifications from "views/Notifications.js";
-import TableListUser from "views/TableListUser.js";
-import UserProfile from "views/UserProfile.js";
-import UserDetails from "views/UserDetails.js";
+import React, { lazy } from "react";
+
+const Dashboard = lazy(() => import("views/Dashboard.js"));
+const Notifications = lazy(() => import("views/Notifications.js"));
+const TableListUser = lazy(() => import("views/TableListUser.js"));
+const UserProfile = lazy(() => import("views/UserProfile.js"));
+const UserDetails = lazy(() => import("views/UserDetails.js"));
+const AddUser = lazy(() => import("views/AddUser.js"));
 
 var routes = [
   {
@@ -38,6 +41,11 @@ var routes = [
     name: "UserDetails",
     icon: "tim-icons icon-single-02",
     component: <UserDetails />,
+    layout: "/admin",
+  },
+  {
+    path: "/AddUser",
+    component: <AddUser />,
     layout: "/admin",
   },
 ];
