@@ -44,7 +44,7 @@ import { RiAdminFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { getUserAuth } from "../Service/apiUser";
 import { Button } from "react-bootstrap";
-
+import { Watch, FallingLines, Puff } from "react-loader-spinner";
 function TableListUser() {
   const navigate = useNavigate();
 
@@ -148,7 +148,13 @@ function TableListUser() {
   }
   function getUserTypeAbbreviation(userType) {
     if (userType === "admin") {
-      return <RiAdminFill className="mr-2" style={{ fontSize: "24px" }} />;
+      return (
+        <RiAdminFill
+          className="mr-2"
+          color="#4fa94d"
+          style={{ fontSize: "24px" }}
+        />
+      );
     } else if (userType === "user") {
       return <AiOutlineUser className="mr-2" style={{ fontSize: "24px" }} />;
     } else {
@@ -169,15 +175,26 @@ function TableListUser() {
                   <span>
                     Liste des utilisateurs
                     <AiOutlineReload
-                      onClick={(e) =>     getAllUsers(config)}
+                      onClick={(e) => getAllUsers(config)}
                       className="ml-2"
                       style={{ fontSize: "15px" }}
+                    />
+                    <Puff
+                      height="20"
+                      width="20"
+                      radius={1}
+                      color="#4fa94d"
+                      ariaLabel="puff-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                      visible={true}
+                      onClick={(e) => getAllUsers(config)}
                     />
                   </span>
                   <Button
                     color="primary"
                     type="button"
-                    // onClick={() => }
+                    onClick={(e) => navigate(`/admin/AddUser`)}
                   >
                     Ajouter un utilisateur
                   </Button>
@@ -185,7 +202,7 @@ function TableListUser() {
               </CardHeader>
 
               <CardBody>
-                <Table className="tablesorter" responsive>
+                <Table className="tablesorter">
                   <thead className="text-primary">
                     <tr>
                       <th>
@@ -223,13 +240,8 @@ function TableListUser() {
                           style={{ fontSize: "15px" }}
                         />
                       </th>
-                      <th>
-                        Cree_At
-                        <AiOutlineFieldTime
-                          className="ml-2"
-                          style={{ fontSize: "15px" }}
-                        />
-                      </th>
+                      <th>CreeAt</th>
+
                       <th>
                         Modifier_AT
                         <AiOutlineFieldTime
@@ -267,7 +279,7 @@ function TableListUser() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody responsive>
                     {users
                       .filter((user) => !deletedUsers.includes(user))
                       .map((user) => (
@@ -326,16 +338,33 @@ function TableListUser() {
                             </botton>
                           </td>
                           <td>
-                            {moment(user.createdAt).format("YYYY-MM-DD HH:mm")}
+                            <Watch
+                              className="ml-2"
+                              height="20"
+                              width="20"
+                              color="#4fa94d"
+                              ariaLabel="watch-loading"
+                              visible={true}
+                            />
+                            {moment(user.createdAt).format("YYYY-MM-DD HH:mm")}{" "}
                           </td>
                           <td>
-                            {moment(user.updatedAt).format("YYYY-MM-DD HH:mm")}
+                            <Watch
+                              className="ml-2"
+                              height="20"
+                              width="20"
+                              color="#4fa94d"
+                              ariaLabel="watch-loading"
+                              visible={true}
+                            />{" "}
+                            {moment(user.updatedAt).format("YYYY-MM-DD HH:mm")}{" "}
                           </td>
                           <td>{getUserTypeAbbreviation(user.userType)}</td>
                           <td>
                             {user.enabled ? (
                               <SiVerizon
                                 className="mr-2"
+                                color="#4fa94d"
                                 style={{ fontSize: "24px" }}
                               />
                             ) : (
@@ -365,7 +394,12 @@ function TableListUser() {
                                 color=""
                                 onClick={(e) => e.preventDefault()}
                               >
-                                <i className="fas fa-ellipsis-v" />
+                                <FallingLines
+                                  color="#00000"
+                                  width="25"
+                                  visible={true}
+                                  ariaLabel="falling-lines-loading"
+                                />
                               </DropdownToggle>
                               <DropdownMenu
                                 className="dropdown-menu-arrow"
