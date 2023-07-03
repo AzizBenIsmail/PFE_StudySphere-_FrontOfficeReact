@@ -1,8 +1,6 @@
 import React, { useMemo } from "react";
 import { useState } from "react";
-import { AiOutlineUser, AiOutlineLogin } from "react-icons/ai";
-import { MdPassword, MdMarkEmailUnread } from "react-icons/md";
-import { register } from "../Service/apiUser";
+import { AddUserService } from "../Service/apiUser";
 import AddImage from "./examples/addImage";
 import { getUserAuth } from "../Service/apiUser";
 
@@ -12,16 +10,10 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  CardImg,
-  CardTitle,
-  Label,
-  Input,
   CardText,
   InputGroupAddon,
-  InputGroupText,
   InputGroup,
   Row,
-  FormGroup,
   Col,
 } from "reactstrap";
 import { Button, Container, Form } from "react-bootstrap";
@@ -64,8 +56,12 @@ export default function AddUser() {
     username: "",
     email: "",
     password: "",
+    first_Name: "",
+    last_Name: "",
+    phoneNumber: "",
     image_user: "",
   });
+
   const handleEvent = (croppedImageUrl, croppedImageBlob) => {
     setCroppedImage(croppedImageUrl);
     console.log(croppedImage);
@@ -73,8 +69,6 @@ export default function AddUser() {
     console.log(croppedImageUrl);
     console.log(croppedImageBlob);
   };
-  const [squares1to6, setSquares1to6] = useState("");
-  const [squares7and8, setSquares7and8] = useState("");
 
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value });
@@ -85,9 +79,12 @@ export default function AddUser() {
     formData.append("username", User.username);
     formData.append("email", User.email);
     formData.append("password", User.password);
+    formData.append("first_Name", User.first_Name);
+    formData.append("last_Name", User.last_Name);
+    formData.append("phoneNumber", User.phoneNumber);
     formData.append("image_user", image, `${User.username}+.png`);
-    const res = await register(formData)
-      .then(window.location.replace(`/login-page/`))
+    const res = await AddUserService(formData,config)
+      .then(console.log("user added"))
       .catch((error) => {
         console.log(error.response.data);
       });
@@ -95,221 +92,196 @@ export default function AddUser() {
   };
   React.useEffect(() => {
     document.body.classList.toggle("register-page");
-    document.documentElement.addEventListener("mousemove", followCursor);
     // Specify how to clean up after this effect:
     return function cleanup() {
       document.body.classList.toggle("register-page");
-      document.documentElement.removeEventListener("mousemove", followCursor);
     };
   }, []);
-  const followCursor = (event) => {
-    let posX = event.clientX - window.innerWidth / 2;
-    let posY = event.clientY - window.innerWidth / 6;
-    setSquares1to6(
-      "perspective(500px) rotateY(" +
-        posX * 0.05 +
-        "deg) rotateX(" +
-        posY * -0.05 +
-        "deg)"
-    );
-    setSquares7and8(
-      "perspective(500px) rotateY(" +
-        posX * 0.02 +
-        "deg) rotateX(" +
-        posY * -0.02 +
-        "deg)"
-    );
-  };
   return (
     <>
-      <div className="wrapper">
-        <div className="page-header">
-          <div className="content">
-            <Container>
-              <Row>
-                <Col md="8">
-                  <Card>
-                    <CardHeader>
-                      <h5 className="title">Ajouter un utlisateur </h5>
-                    </CardHeader>
-                    <CardBody>
-                      <Form
-                        className="form mt-2"
-                        role="form"
-                        encType="multipart/form-data"
-                      >
-                        <Row>
-                          <Col className="pr-md-1" md="5">
-                            <Form.Group>
-                              <InputGroup className="input-group-alternative mb-2 mt-2">
-                                <InputGroupAddon addonType="prepend">
-                                  <label>SurNom</label>
-                                </InputGroupAddon>
-                              </InputGroup>
-                              <Form.Control
-                                placeholder="Username"
-                                type="text"
-                                name="username"
-                                onChange={(e) => handlechange(e)}
-                                label="Username"
-                                aria-label="Username"
-                              />
-                            </Form.Group>
-                          </Col>
-                          <Col className="px-md-1" md="3">
-                            <Form.Group>
-                              <InputGroup className="input-group-alternative mb-2 mt-2">
-                                <InputGroupAddon addonType="prepend">
-                                  <label>Nom</label>
-                                </InputGroupAddon>
-                              </InputGroup>
-                              {/* <Input
+      <div className="content">
+              <Container>
+                <Row>
+                  <Col md="8">
+                    <Card>
+                      <CardHeader>
+                        <h5 className="title">Ajouter un utlisateur </h5>
+                      </CardHeader>
+                      <CardBody>
+                        <Form
+                          className="form mt-2"
+                          role="form"
+                          encType="multipart/form-data"
+                        >
+                          <Row>
+                            <Col className="pr-md-1" md="5">
+                              <Form.Group>
+                                <InputGroup className="input-group-alternative mb-2 mt-2">
+                                  <InputGroupAddon addonType="prepend">
+                                    <label>SurNom</label>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                                <Form.Control
+                                  placeholder="Username"
+                                  type="text"
+                                  name="username"
+                                  onChange={(e) => handlechange(e)}
+                                  label="Username"
+                                  aria-label="Username"
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col className="px-md-1" md="3">
+                              <Form.Group>
+                                <InputGroup className="input-group-alternative mb-2 mt-2">
+                                  <InputGroupAddon addonType="prepend">
+                                    <label>Nom</label>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                                {/* <Input
                                 defaultValue="Aziz"
                                 placeholder="Nom"
                                 type="text"
                               /> */}
-                              <Form.Control
-                                defaultValue="BenIsamil"
-                                placeholder="Nom"
-                                type="text"
-                                name="username"
-                                onChange={(e) => handlechange(e)}
-                                label="Username"
-                                aria-label="Username"
-                              />
-                            </Form.Group>
-                          </Col>
-                          <Col className="pr-md-2" md="3">
-                            <Form.Group>
-                              <InputGroup className="input-group-alternative mb-2 mt-2">
-                                <InputGroupAddon addonType="prepend">
-                                  <label>Prenom</label>
-                                </InputGroupAddon>
-                              </InputGroup>
-                              <Form.Control
-                                defaultValue="Aziz"
-                                placeholder="Prenom"
-                                type="text"
-                                name="username"
-                                onChange={(e) => handlechange(e)}
-                                label="Username"
-                                aria-label="Username"
-                              />
-                            </Form.Group>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col className="pr-md-1" md="6">
-                            <Form.Group>
-                              <InputGroup className="input-group-alternative mb-2 mt-2">
-                                <InputGroupAddon addonType="prepend">
-                                  <label>Email address</label>
-                                </InputGroupAddon>
-                              </InputGroup>
-                              <Form.Control
-                                placeholder="mike@email.com"
-                                type="text"
-                                name="email"
-                                onChange={(e) => handlechange(e)}
-                                label="Email"
-                                aria-label="Email"
-                              />
-                            </Form.Group>
-                          </Col>
-                          <Col className="pl-md-1" md="6">
-                            <Form.Group>
-                              <InputGroup className="input-group-alternative mb-2 mt-2">
-                                <InputGroupAddon addonType="prepend">
-                                  <label>Mot de passe</label>
-                                </InputGroupAddon>
-                              </InputGroup>
-                              <Form.Control
-                                placeholder="Password"
-                                type="text"
-                                name="password"
-                                onChange={(e) => handlechange(e)}
-                                label="Password"
-                                aria-label="Password"
-                              />
-                            </Form.Group>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col md="12">
-                            <Form.Group>
-                              <InputGroup className="input-group-alternative mb-2 mt-2">
-                                <InputGroupAddon addonType="prepend">
-                                  <label>Address</label>
-                                </InputGroupAddon>
-                              </InputGroup>
-                              <Form.Control
-                                placeholder="mike@email.com"
-                                type="text"
-                                name="email"
-                                onChange={(e) => handlechange(e)}
-                                label="Email"
-                                aria-label="Email"
-                              />
-                              <Input
-                                defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                                placeholder="Home Address"
-                                type="text"
-                              />
-                            </Form.Group>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col md="12">
-                            <Form.Group>
-                              <InputGroup className="input-group-alternative mb-2 mt-2">
-                                <InputGroupAddon addonType="prepend">
-                                  <label>Image</label>
-                                </InputGroupAddon>
-                              </InputGroup>
-                              <AddImage
-                                className="input-group-alternative"
-                                onEvent={handleEvent}
-                                aspect={1 / 1}
-                                holder={"add Profile Image"}
-                              />
-                            </Form.Group>
-                          </Col>
-                        </Row>
-                      </Form>
-                    </CardBody>
-                    <CardFooter>
-                      <Button
-                        className="btn-fill"
-                        color="primary"
-                        type="submit"
-                      >
-                        Save
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                </Col>
-                <Col md="4">
-                  <Card className="card-user">
-                    <CardBody>
-                      <CardText />
-                      <div className="author">
-                        <div className="block block-one" />
-                        <div className="block block-four" />
-                        <h5 className="title">° SurNom Doit etre unique </h5>
-                        <h5 className="title">° Email Doit etre unique </h5>
-                        <h5 className="title">
-                          ° cette utilisateur a un role user{" "}
-                        </h5>
-                        <h5 className="title">
-                          ° password Doit contenir un Maj , Min , chiffre{" "}
-                        </h5>
-                        <h5 className="title">° SurNom Doit etre unique </h5>
-                      </div>
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row>
-              {/* <Row>
+                                <Form.Control
+                                  defaultValue="BenIsamil"
+                                  placeholder="Nom"
+                                  type="text"
+                                  name="first_Name"
+                                  onChange={(e) => handlechange(e)}
+                                  label="first_Name"
+                                  aria-label="first_Name"
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col className="pr-md-2" md="3">
+                              <Form.Group>
+                                <InputGroup className="input-group-alternative mb-2 mt-2">
+                                  <InputGroupAddon addonType="prepend">
+                                    <label>Prenom</label>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                                <Form.Control
+                                  defaultValue="Aziz"
+                                  placeholder="Prenom"
+                                  type="text"
+                                  name="last_Name"
+                                  onChange={(e) => handlechange(e)}
+                                  label="last_Name"
+                                  aria-label="last_Name"
+                                />
+                              </Form.Group>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col className="pr-md-1" md="6">
+                              <Form.Group>
+                                <InputGroup className="input-group-alternative mb-2 mt-2">
+                                  <InputGroupAddon addonType="prepend">
+                                    <label>Email address</label>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                                <Form.Control
+                                  placeholder="mike@email.com"
+                                  type="text"
+                                  name="email"
+                                  onChange={(e) => handlechange(e)}
+                                  label="Email"
+                                  aria-label="Email"
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col className="pl-md-1" md="6">
+                              <Form.Group>
+                                <InputGroup className="input-group-alternative mb-2 mt-2">
+                                  <InputGroupAddon addonType="prepend">
+                                    <label>Mot de passe</label>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                                <Form.Control
+                                  placeholder="Password"
+                                  type="text"
+                                  name="password"
+                                  onChange={(e) => handlechange(e)}
+                                  label="Password"
+                                  aria-label="Password"
+                                />
+                              </Form.Group>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col md="12">
+                              <Form.Group>
+                                <InputGroup className="input-group-alternative mb-2 mt-2">
+                                  <InputGroupAddon addonType="prepend">
+                                    <label>phoneNumber</label>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                                <Form.Control
+                                  defaultValue="+216 21 438 447"
+                                  placeholder="phone Number"
+                                  type="number"
+                                  name="phoneNumber"
+                                  onChange={(e) => handlechange(e)}
+                                  label="phoneNumber"
+                                  aria-label="phoneNumber"
+                                />
+                              </Form.Group>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col md="12">
+                              <Form.Group>
+                                <InputGroup className="input-group-alternative mb-2 mt-2">
+                                  <InputGroupAddon addonType="prepend">
+                                    <label>Image</label>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                                <AddImage
+                                  className="input-group-alternative"
+                                  onEvent={handleEvent}
+                                  aspect={1 / 1}
+                                  holder={"add Profile Image"}
+                                />
+                              </Form.Group>
+                            </Col>
+                          </Row>
+                        </Form>
+                      </CardBody>
+                      <CardFooter>
+                        <Button
+                          className="btn-fill"
+                          color="primary"
+                          type="submit"
+                          onClick={(e) => add(e)}
+                        >
+                          Save
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  </Col>
+                  <Col md="4">
+                    <Card className="card-user">
+                      <CardBody>
+                        <CardText />
+                        <div className="author">
+                          <div className="block block-one" />
+                          <div className="block block-four" />
+                          <h5 className="title">° SurNom Doit etre unique </h5>
+                          <h5 className="title">° Email Doit etre unique </h5>
+                          <h5 className="title">
+                            ° cette utilisateur a un role user{" "}
+                          </h5>
+                          <h5 className="title">
+                            ° password Doit contenir un Maj , Min , chiffre{" "}
+                          </h5>
+                          <h5 className="title">° SurNom Doit etre unique </h5>
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+                {/* <Row>
                 <Col className="offset-lg-0 offset-md-2 ml-5" lg="5" md="6">
                   <div
                     className="square square-7 mr-2"
@@ -434,10 +406,8 @@ export default function AddUser() {
                   </Card>
                 </Col>
               </Row> */}
-              <div className="register-bg" />
-            </Container>
-          </div>
-        </div>
+                <div className="register-bg" />
+              </Container>
       </div>
     </>
   );

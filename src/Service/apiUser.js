@@ -9,6 +9,14 @@ export async function register(formData) {
   });
 }
 
+export async function AddUserService(formData,config) {
+  return await axios.post(`${apiURL}/register`, formData ,config,{
+    headers: { "Content-Type": "multipart/form-data" },
+    withCredentials: true,
+  });
+}
+
+
 export async function LoginUser(user) {
   return await axios.post(`${apiURL}/login`,user, {
     withCredentials: true,
