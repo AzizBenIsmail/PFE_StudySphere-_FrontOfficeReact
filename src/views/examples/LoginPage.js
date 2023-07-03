@@ -30,7 +30,6 @@ import { getUserAuth } from "../../Service/apiUser";
 
 export default function LoginPage() {
   //cookies
-
   const jwt_token = Cookies.get("jwt_token");
 
   const config = useMemo(() => {
@@ -113,7 +112,7 @@ export default function LoginPage() {
         window.location.replace(`/landing-page/`);
       }
     } catch (error) {
-      toast("Ceci est une notification !", { position: "top-center" });
+      toast("email or password incorrect  !", { position: "top-center" });
       console.log(error);
     }
   };
