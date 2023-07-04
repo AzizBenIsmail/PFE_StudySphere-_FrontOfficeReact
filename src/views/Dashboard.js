@@ -1,10 +1,9 @@
-
-import React,{useMemo} from "react";
+import React from "react";
+// import {useMemo} from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar } from "react-chartjs-2";
-
 // reactstrap components
 import {
   Button,
@@ -45,18 +44,19 @@ function Dashboard(props) {
     window.location.replace("/login-page");
   }  
 
-const jwt_token = Cookies.get("jwt_token");
+// const jwt_token = Cookies.get("jwt_token");
 
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    };
-  }, [jwt_token]);
+  // const config = useMemo(() => {
+  //   return {
+  //     headers: {
+  //       Authorization: `Bearer ${jwt_token}`,
+  //     },
+  //   };
+  // }, [jwt_token]);
   return (
     <>
       <div className="content">
+
         <Row>
           <Col xs="12">
             <Card className="card-chart">
