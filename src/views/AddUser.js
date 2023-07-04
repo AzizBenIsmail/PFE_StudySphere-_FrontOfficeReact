@@ -84,7 +84,7 @@ export default function AddUser() {
     formData.append("phoneNumber", User.phoneNumber);
     formData.append("image_user", image, `${User.username}+.png`);
     const res = await AddUserService(formData,config)
-      .then(console.log("user added"))
+      .then(window.location.replace(`/admin/tablesUsers`))
       .catch((error) => {
         console.log(error.response.data);
       });
