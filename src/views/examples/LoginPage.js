@@ -27,6 +27,7 @@ import Cookies from "js-cookie";
 import Navbar from "components/Navbars/LoginNavbar";
 import Footer from "components/Footer/Footer.js";
 import { getUserAuth } from "../../Service/apiUser";
+import { useLocation } from "react-router-dom";
 
 export default function LoginPage() {
   //cookies
@@ -60,18 +61,27 @@ export default function LoginPage() {
     fetchData();
   }
 
+  const location = useLocation();
+  const message = new URLSearchParams(location.search).get("message");
+
   const [squares1to6, setSquares1to6] = React.useState("");
   const [squares7and8, setSquares7and8] = React.useState("");
 
   React.useEffect(() => {
     document.body.classList.toggle("register-page");
     document.documentElement.addEventListener("mousemove", followCursor);
-    // Specify how to clean up after this effect:
+
+    const interval = setInterval(() => {
+      console.log(message);
+    }, 3000);
+
     return function cleanup() {
       document.body.classList.toggle("register-page");
       document.documentElement.removeEventListener("mousemove", followCursor);
+      clearInterval(interval);
     };
-  }, []);
+  }, [message]);
+
   const followCursor = (event) => {
     let posX = event.clientX - window.innerWidth / 2;
     let posY = event.clientY - window.innerWidth / 6;
@@ -112,8 +122,17 @@ export default function LoginPage() {
         window.location.replace(`/landing-page/`);
       }
     } catch (error) {
-      toast("email or password incorrect  !", { position: "top-center" });
-      console.log(error);
+      if (error.response.data.erreur === "compte desactive" )
+      {
+        toast("Compte Desactive  !", { position: "top-center" });
+      }else if(error.response.data.erreur === "incorrect password" )
+      {
+        toast("password incorrect  !", { position: "top-center" });
+      }else if(error.response.data.erreur === "incorrect email" )
+      {
+        toast("email incorrect  !", { position: "top-center" });
+      }
+      // console.log(error.response.data);
     }
   };
 
