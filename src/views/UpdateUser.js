@@ -87,10 +87,7 @@ export default function UpdateUser() {
             });
         };
         getUser(config);
-        const interval = setInterval(() => {
-            getUser(config); // appel répété toutes les 10 secondes
-        }, 300000);
-        return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
+
     }, [config, param.id]);
     return (<>
         <div className="content">
@@ -202,8 +199,7 @@ export default function UpdateUser() {
                                                     onChange={ (e) => handlechange(e) }
                                                     label="Password"
                                                     aria-label="Password"
-                                                    value={User.password}
-
+                                                    value="password"
                                                 />
                                             </Form.Group>
                                         </Col>
