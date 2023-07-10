@@ -27,6 +27,7 @@ import {
 import {SiVerizon, SiVexxhost, SiCriticalrole} from "react-icons/si";
 import {BiShowAlt, BiRename} from "react-icons/bi";
 import {GoVerified} from "react-icons/go";
+import {MdOutlineLockReset} from "react-icons/md";
 import {GiWideArrowDunk} from "react-icons/gi";
 import {MdOutlineDriveFileRenameOutline} from "react-icons/md";
 import {BsImageFill} from "react-icons/bs";
@@ -373,7 +374,6 @@ function TableListUser() {
                                                     right
                                                 >
                                                     <DropdownItem
-                                                        href=""
                                                         onClick={ (e) => deleteAuser(user, config) }
                                                     >
                                                         <FaUserAltSlash
@@ -393,7 +393,6 @@ function TableListUser() {
                                                         Modifier
                                                     </DropdownItem>
                                                     { user.userType === "user" ? (<DropdownItem
-                                                        href=""
                                                         onClick={ (e) => upgradeAuser(user, config) }
                                                     >
                                                         <GiUpgrade
@@ -402,7 +401,6 @@ function TableListUser() {
                                                         />
                                                         mise à niveau vers administrateur
                                                     </DropdownItem>) : (<DropdownItem
-                                                        href=""
                                                         onClick={ (e) => downgradeAuser(user, config) }
                                                     >
                                                         <GiWideArrowDunk
@@ -421,7 +419,6 @@ function TableListUser() {
                                                         />
                                                         Active Un Compte
                                                     </DropdownItem>) : (<DropdownItem
-                                                        href=""
                                                         onClick={ (e) => DesactiveCompte(user, config) }
                                                     >
                                                         <SiVexxhost
@@ -432,7 +429,6 @@ function TableListUser() {
                                                     </DropdownItem>) }
 
                                                     <DropdownItem
-                                                        href=""
                                                         onClick={ (e) => navigate(`/admin/UserDetails/${ user._id }`) }
                                                     >
                                                         <BiShowAlt
@@ -440,6 +436,16 @@ function TableListUser() {
                                                             style={ {fontSize: "20px"} }
                                                         />
                                                         Details
+                                                    </DropdownItem>
+
+                                                    <DropdownItem
+                                                        // onClick={ (e) => navigate(`/admin/UserDetails/${ user._id }`) }
+                                                    >
+                                                        <MdOutlineLockReset
+                                                            className=" mr-2"
+                                                            style={ {fontSize: "20px"} }
+                                                        />
+                                                        Reset Password
                                                     </DropdownItem>
                                                 </DropdownMenu>
                                             </UncontrolledDropdown>
