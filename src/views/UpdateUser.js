@@ -116,6 +116,7 @@ export default function UpdateUser() {
                                                     placeholder="Username"
                                                     type="text"
                                                     name="username"
+                                                    disabled
                                                     onChange={ (e) => handlechange(e) }
                                                     label="Username"
                                                     aria-label="Username"
@@ -177,29 +178,11 @@ export default function UpdateUser() {
                                                     placeholder="mike@email.com"
                                                     type="text"
                                                     name="email"
+                                                    disabled
                                                     onChange={ (e) => handlechange(e) }
                                                     label="Email"
                                                     aria-label="Email"
                                                     value={User.email}
-
-                                                />
-                                            </Form.Group>
-                                        </Col>
-                                        <Col className="pl-md-1" md="6">
-                                            <Form.Group>
-                                                <InputGroup className="input-group-alternative mb-2 mt-2">
-                                                    <InputGroupAddon addonType="prepend">
-                                                        <label>Mot de passe</label>
-                                                    </InputGroupAddon>
-                                                </InputGroup>
-                                                <Form.Control
-                                                    placeholder="Password"
-                                                    type="text"
-                                                    name="password"
-                                                    onChange={ (e) => handlechange(e) }
-                                                    label="Password"
-                                                    aria-label="Password"
-                                                    value="password"
                                                 />
                                             </Form.Group>
                                         </Col>
