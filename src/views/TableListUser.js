@@ -14,7 +14,7 @@ import {
     Col
 } from "reactstrap";
 import {
-    getUsers, active, desactive, deleteUser, downgrade, upgrade,
+    getUsers, active, desactive, deleteUser, downgrade, upgrade,forgetPassword
 } from "../Service/apiUser";
 import Cookies from "js-cookie";
 import moment from "moment";
@@ -99,6 +99,10 @@ function TableListUser() {
         } else {
             setDeletedUsers([...deletedUsers, user]);
         }
+    };
+
+    const forget = async (user, config) => {
+        forgetPassword(user.email, config);
     };
 
     const upgradeAuser = async (user, config) => {
@@ -439,7 +443,7 @@ function TableListUser() {
                                                     </DropdownItem>
 
                                                     <DropdownItem
-                                                        // onClick={ (e) => navigate(`/admin/UserDetails/${ user._id }`) }
+                                                        onClick={ (e) => forget(user,config) }
                                                     >
                                                         <MdOutlineLockReset
                                                             className=" mr-2"
