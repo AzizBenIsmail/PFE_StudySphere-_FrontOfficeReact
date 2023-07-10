@@ -1,7 +1,7 @@
 import React, {useMemo , useEffect} from "react";
 import {useState} from "react";
-import {AddUserService, getUserByID} from "../Service/apiUser";
-import AddImage from "./examples/addImage";
+import {updateUser, getUserByID} from "../Service/apiUser";
+// import AddImage from "./examples/addImage";
 import {getUserAuth} from "../Service/apiUser";
 import {useParams} from "react-router-dom";
 
@@ -45,34 +45,34 @@ export default function UpdateUser() {
         window.location.replace(`/login-page/`);
     }
 
-    const [image, setImage] = useState();
-    const [croppedImage, setCroppedImage] = useState(null);
+    // const [image, setImage] = useState();
+    // const [croppedImage, setCroppedImage] = useState(null);
     const [User, setUser] = useState({
         username: "", email: "", password: "", first_Name: "", last_Name: "", phoneNumber: "", image_user: "",
     });
 
-    const handleEvent = (croppedImageUrl, croppedImageBlob) => {
-        setCroppedImage(croppedImageUrl);
-        console.log(croppedImage);
-        setImage(croppedImageBlob);
-        console.log(croppedImageUrl);
-        console.log(croppedImageBlob);
-    };
+    // const handleEvent = (croppedImageUrl, croppedImageBlob) => {
+    //     setCroppedImage(croppedImageUrl);
+    //     console.log(croppedImage);
+    //     setImage(croppedImageBlob);
+    //     console.log(croppedImageUrl);
+    //     console.log(croppedImageBlob);
+    // };
 
     const handlechange = (e) => {
         setUser({...User, [e.target.name]: e.target.value});
         console.log(User);
     };
-    let formData = new FormData();
-    const add = async (e) => {
-        formData.append("username", User.username);
-        formData.append("email", User.email);
-        formData.append("password", User.password);
-        formData.append("first_Name", User.first_Name);
-        formData.append("last_Name", User.last_Name);
-        formData.append("phoneNumber", User.phoneNumber);
-        formData.append("image_user", image, `${ User.username }+.png`);
-        const res = await AddUserService(formData, config).then(window.location.replace(`/admin/tablesUsers`)).catch((error) => {
+    // let formData = new FormData();
+    const update = async (e) => {
+        // formData.append("username", User.username);
+        // formData.append("email", User.email);
+        // formData.append("password", User.password);
+        // formData.append("first_Name", User.first_Name);
+        // formData.append("last_Name", User.last_Name);
+        // formData.append("phoneNumber", User.phoneNumber);
+        // formData.append("image_user", image, `${ User.username }+.png`);
+        const res = await updateUser(User,param.id, config).then(window.location.replace(`/admin/tablesUsers`)).catch((error) => {
             console.log(error.response.data);
         });
         console.log(res.data);
@@ -226,25 +226,25 @@ export default function UpdateUser() {
                                             </Form.Group>
                                         </Col>
                                     </Row>
-                                    <Row>
-                                        <Col md="12">
-                                            <Form.Group>
-                                                <InputGroup className="input-group-alternative mb-2 mt-2">
-                                                    <InputGroupAddon addonType="prepend">
-                                                        <label>Image</label>
-                                                    </InputGroupAddon>
-                                                </InputGroup>
-                                                <AddImage
-                                                    className="input-group-alternative"
-                                                    onEvent={ handleEvent }
-                                                    aspect={ 1 / 1 }
-                                                    holder={ "add Profile Image" }
-                                                    value={`http://localhost:5000/images/${User.image_user}`}
+                                    {/*<Row>*/}
+                                    {/*    <Col md="12">*/}
+                                    {/*        <Form.Group>*/}
+                                    {/*            <InputGroup className="input-group-alternative mb-2 mt-2">*/}
+                                    {/*                <InputGroupAddon addonType="prepend">*/}
+                                    {/*                    <label>Image</label>*/}
+                                    {/*                </InputGroupAddon>*/}
+                                    {/*            </InputGroup>*/}
+                                    {/*            <AddImage*/}
+                                    {/*                className="input-group-alternative"*/}
+                                    {/*                onEvent={ handleEvent }*/}
+                                    {/*                aspect={ 1 / 1 }*/}
+                                    {/*                holder={ "add Profile Image" }*/}
+                                    {/*                value={`http://localhost:5000/images/${User.image_user}`}*/}
 
-                                                />
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
+                                    {/*            />*/}
+                                    {/*        </Form.Group>*/}
+                                    {/*    </Col>*/}
+                                    {/*</Row>*/}
                                 </Form>
                             </CardBody>
                             <CardFooter>
@@ -252,7 +252,7 @@ export default function UpdateUser() {
                                     className="btn-fill"
                                     color="primary"
                                     type="submit"
-                                    onClick={ (e) => add(e) }
+                                    onClick={ (e) => update(e) }
                                 >
                                     Save
                                 </Button>

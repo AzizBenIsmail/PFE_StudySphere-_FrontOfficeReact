@@ -227,7 +227,11 @@ function TableListUser() {
                                             style={ {fontSize: "15px"} }
                                         />
                                     </th>
-                                    <th>CreeAt</th>
+                                    <th>Cree_At
+                                        <AiOutlineFieldTime
+                                            className="ml-2"
+                                            style={ {fontSize: "15px"} }
+                                        /></th>
 
                                     <th>
                                         Modifier_AT
