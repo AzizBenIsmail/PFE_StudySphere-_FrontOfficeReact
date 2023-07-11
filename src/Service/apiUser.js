@@ -25,6 +25,26 @@ export async function getUsers(config) {
     return await axios.get(`${ apiURL }/AllUsers`, config);
 }
 
+export async function getAdmin(config) {
+    return await axios.get(`${ apiURL }/AllAdmin`, config);
+}
+
+export async function getSimpleUser(config) {
+    return await axios.get(`${ apiURL }/AllSimpleUsers`, config);
+}
+
+export async function getUserActive(config) {
+    return await axios.get(`${ apiURL }/AllUsersActive`, config);
+}
+
+export async function getUserDesactive(config) {
+    return await axios.get(`${ apiURL }/AllUsersDesactive`, config);
+}
+
+export async function searchUsers(term,config) {
+    return await axios.get(`${ apiURL }/searchUsers?term=${ term }`, config);
+}
+
 export async function logout(config) {
     return await axios.get(`${ apiURL }/logout`, {
         config, withCredentials: true,
