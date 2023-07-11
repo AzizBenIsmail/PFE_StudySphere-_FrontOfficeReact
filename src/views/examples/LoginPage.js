@@ -9,9 +9,6 @@ import {
   CardFooter,
   CardImg,
   CardTitle,
-  Label,
-  FormGroup,
-  Input,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
@@ -21,7 +18,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button, Container, Form } from "react-bootstrap";
-import { LoginUser } from "../../Service/apiUser";
+import {forgetPassword, LoginUser} from "../../Service/apiUser";
 import Cookies from "js-cookie";
 // core components
 import Navbar from "components/Navbars/LoginNavbar";
@@ -72,7 +69,6 @@ export default function LoginPage() {
     document.documentElement.addEventListener("mousemove", followCursor);
 
     const interval = setInterval(() => {
-      console.log(message);
     }, 3000);
 
     return function cleanup() {
@@ -135,7 +131,20 @@ export default function LoginPage() {
       // console.log(error.response.data);
     }
   };
-
+  const forget = async (email) => {
+    try {
+      const res = await forgetPassword(email);
+      console.log(res);
+      if (res.data.message === "mot de passe modifié avec succès vérifier votre boîte mail") {
+        toast("Vérifier votre boîte mail  !", {position: "top-center"});
+      }
+    }catch (error) {
+      if (error.response.data.message === "User not found!" )
+      {
+        toast("Email n'existe pas !", { position: "top-center" });
+      }
+    }
+  };
   return (
     <>
       <Navbar />
@@ -204,37 +213,18 @@ export default function LoginPage() {
                             />
                           </InputGroup>
                         </Form.Group>
-                        <FormGroup check className="text-left">
-                          <Label check>
-                            <Input type="checkbox" />
-                            <span className="form-check-sign" />I agree to the{" "}
+                            <span className="form-check-sign" /> Je confirme que je veux  {" "}{" "}
                             <a
                               href="#pablo"
-                              onClick={(e) => e.preventDefault()}
+                              onClick={ (e) => forget(User.email) }
                             >
-                              terms and conditions
+                             Réinitialiser mon mot de passe
                             </a>
                             .
-                          </Label>
-                        </FormGroup>
+
                       </Form>
                     </CardBody>
                     <CardFooter>
-                      {/* <Button
-                        className="btn-round"
-                        size="lg"
-                        style={{  
-                          backgroundImage:
-                            "linear-gradient(to bottom left, #edae3c, #dc5949, #344675)",
-                        }}
-                      //   onClick={(user) => {
-                      //     console.log(user);
-                      //  // sendRequest();
-                      //   Login(user);
-                      //   }}
-                      > <AiOutlineLogin className=" mr-2"/>
-                        Get Started
-                      </Button> */}
                       <Button
                         color="primary"
                         type="button"

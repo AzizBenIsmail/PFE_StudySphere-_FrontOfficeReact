@@ -101,8 +101,8 @@ function TableListUser() {
         }
     };
 
-    const forget = async (user, config) => {
-        forgetPassword(user.email, config);
+    const forget = async (email) => {
+        forgetPassword(email);
     };
 
     const upgradeAuser = async (user, config) => {
@@ -443,7 +443,7 @@ function TableListUser() {
                                                     </DropdownItem>
 
                                                     <DropdownItem
-                                                        onClick={ (e) => forget(user,config) }
+                                                        onClick={ (e) => forget(user.email) }
                                                     >
                                                         <MdOutlineLockReset
                                                             className=" mr-2"
