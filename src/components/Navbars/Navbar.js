@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 // reactstrap components
 import {
   Button,
@@ -10,8 +9,6 @@ import {
   NavLink,
   Nav,
   Container,
-  Row,
-  Col,
   UncontrolledTooltip,
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
@@ -59,7 +56,7 @@ export default function IndexNavbar() {
     <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
       <Container>
         <div className="navbar-translate">
-          <NavbarBrand to="/" tag={Link} id="navbar-brand">
+          <NavbarBrand to="/" id="navbar-brand">
             <span>
               <img
                 src={require("assets/img/favicon.png")}
@@ -92,24 +89,6 @@ export default function IndexNavbar() {
           onExiting={onCollapseExiting}
           onExited={onCollapseExited}
         >
-          <div className="navbar-collapse-header">
-            <Row>
-              <Col className="collapse-brand" xs="6">
-                <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                  BLK•React
-                </a>
-              </Col>
-              <Col className="collapse-close text-right" xs="6">
-                <button
-                  aria-expanded={collapseOpen}
-                  className="navbar-toggler"
-                  onClick={toggleCollapse}
-                >
-                  <i className="tim-icons icon-simple-remove" />
-                </button>
-              </Col>
-            </Row>
-          </div>
           <Nav navbar>
             <NavItem className="p-0">
               <NavLink
@@ -167,7 +146,7 @@ export default function IndexNavbar() {
                   backgroundImage:
                     "linear-gradient(to bottom left, #edae3c, #dc5949, #120f11)",
                 }}
-                onClick={(e) => navigate(`/login-page`)}
+                onClick={() => navigate(`/login-page`)}
               >
                 <i className="fa fa-user-plus mr-1" />
                 connexion
