@@ -142,16 +142,16 @@
     }
 
     &.btn-simple{
-        color: $btn-color;
-        border-color: $btn-color;
+        color: #e2a63a;
+        border-color: #dc5949;
         background: $transparent-bg;
 
         &:hover,
         &:focus,
         &:active,
         &:not(:disabled):not(.disabled):active{
-            color: $btn-color;
-            border-color: $btn-color;
+            color: #ff0000;
+            border-color: #dc5949;
             background-color: $transparent-bg !important;
             background-image: none !important;
             box-shadow: none;
