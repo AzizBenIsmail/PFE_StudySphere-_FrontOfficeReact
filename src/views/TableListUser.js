@@ -87,7 +87,7 @@ function TableListUser () {
   const getAllUsers = useCallback(async (config) => {
     await getUsers(config).then((res) => {
       setUsers(res.data.users)
-      console.log(res.data.users)
+      // console.log(res.data.users)
     }).catch((err) => {
       console.log(err)
     })
@@ -137,7 +137,7 @@ function TableListUser () {
 
     const interval = setInterval(() => {
       getAllUsers(config)
-    }, 100000)
+    }, 1000000)
 
     return () => clearInterval(interval)
   }, [getAllUsers, config])
