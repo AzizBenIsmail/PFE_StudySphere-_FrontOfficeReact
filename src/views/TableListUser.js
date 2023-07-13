@@ -9,7 +9,6 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  Media,
   Row,
   Table,
   UncontrolledDropdown,
@@ -40,6 +39,7 @@ import {
   AiOutlineReload,
   AiOutlineUser,
 } from 'react-icons/ai'
+
 // import { FaUserCheck, FaUserMinus } from "react-icons/fa";
 import { SiCriticalrole, SiVerizon, SiVexxhost } from 'react-icons/si'
 import { BiRename, BiShowAlt } from 'react-icons/bi'
@@ -48,7 +48,7 @@ import { MdOutlineDriveFileRenameOutline, MdOutlineLockReset, } from 'react-icon
 import { BsImageFill } from 'react-icons/bs'
 import { RiAdminFill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
+import { Button, Form } from 'react-bootstrap'
 import { FallingLines, Puff, Watch } from 'react-loader-spinner'
 import classNames from 'classnames'
 
@@ -205,20 +205,32 @@ function TableListUser () {
     }
   }
 
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    // Faites quelque chose avec le terme de recherche (par exemple, effectuez une requête API)
+    console.log('Recherche effectuée:', searchTerm)
+  }
+
   return (<>
-    <div className="content">
-      <Row>
-        <Col md="12">
-          <Card>
-            <CardHeader>
-              <CardTitle
-                tag="h4"
-                className="d-flex justify-content-between align-items-center"
-              >
+  <div className="content">
+    <Row>
+      <Col md="12">
+        <Card>
+          <CardHeader>
+            <CardTitle
+              tag="h4"
+              className="d-flex justify-content-between align-items-center"
+            >
                   <span>
                     Liste des utilisateurs
                     <AiOutlineReload
-                      onClick={(e) => getAllUsers(config)}
+                      onClick={() => getAllUsers(config)}
                       className="ml-2"
                       style={{ fontSize: '15px' }}
                     />
@@ -231,372 +243,385 @@ function TableListUser () {
                       wrapperStyle={{}}
                       wrapperClass=""
                       visible={true}
-                      onClick={(e) => getAllUsers(config)}
+                      onClick={() => getAllUsers(config)}
                     />
-                  </span><p> Utilisateurs : </p>
-                <Col sm="1">
-                  <ButtonGroup
-                    className="btn-group-toggle float-right"
-                    data-toggle="buttons"
-                  >
-                    <Button
-                      tag="label"
-                      className={classNames('btn-simple',
-                        {})}
-                      color="info"
-                      id="0"
-                      size="sm"
-                      onClick={(e) => getAllAdmin(
-                        config)}
+                  </span><p> Utilisateurs :</p>
+              <Col sm="1" className="ml-4">
+                <ButtonGroup
+                  className="btn-group-toggle float-right"
+                  data-toggle="buttons"
+                >
+                  <Button
+                    tag="label"
+                    className={classNames('btn-simple',
+                      {})}
+                    color="info"
+                    id="0"
+                    size="sm"
+                    onClick={() => getAllAdmin(
+                      config)}
 
-                    >
+                  >
                         <span
                           className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                            Admin
                         </span>
-                      <span className="d-block d-sm-none">
+                    <span className="d-block d-sm-none">
                           <i className="tim-icons icon-single-02"/>
                         </span>
-                    </Button>
-                    <Button
-                      color="info"
-                      id="1"
-                      size="sm"
-                      tag="label"
-                      className={classNames('btn-simple',
-                        {})}
-                      onClick={(e) => getAllSimpleUser(
-                        config)}
-                    >
+                  </Button>
+                  <Button
+                    color="info"
+                    id="1"
+                    size="sm"
+                    tag="label"
+                    className={classNames('btn-simple',
+                      {})}
+                    onClick={() => getAllSimpleUser(
+                      config)}
+                  >
                         <span
                           className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                           Simple
                         </span>
-                      <span className="d-block d-sm-none">
+                    <span className="d-block d-sm-none">
                           <i className="tim-icons icon-gift-2"/>
                         </span>
-                    </Button>
-                    <Button
-                      color="info"
-                      id="2"
-                      size="sm"
-                      tag="label"
-                      className={classNames('btn-simple',
-                        {})}
-                      onClick={(e) => getAllUserActive(
-                        config)}
-
-                    >
+                  </Button>
+                  <Button
+                    color="info"
+                    id="2"
+                    size="sm"
+                    tag="label"
+                    className={classNames('btn-simple',
+                      {})}
+                    onClick={() => getAllUserActive(
+                      config)}
+                  >
                         <span
                           className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                            Verifier
                         </span>
-                      <span className="d-block d-sm-none">
+                    <span className="d-block d-sm-none">
                           <i className="tim-icons icon-tap-02"/>
                         </span>
-                    </Button>
-                    <Button
-                      tag="label"
-                      className={classNames('btn-simple',
-                        {})}
-                      color="info"
-                      id="0"
-                      size="sm"
-                      onClick={(e) => getAllUserDesactive(
-                        config)}
+                  </Button>
+                  <Button
+                    tag="label"
+                    className={classNames('btn-simple',
+                      {})}
+                    color="info"
+                    id="0"
+                    size="sm"
+                    onClick={() => getAllUserDesactive(
+                      config)}
 
-                    >
+                  >
                         <span
                           className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                             Désactive
                         </span>
-                      <span className="d-block d-sm-none">
+                    <span className="d-block d-sm-none">
                           <i className="tim-icons icon-single-02"/>
                         </span>
-                    </Button>
-                  </ButtonGroup>
-                </Col>
-                <Button
-                  color="primary"
-                  type="button"
-                  onClick={(e) => navigate(
-                    `/admin/AddUser`)}
+                  </Button>
+                </ButtonGroup>
+              </Col>
+              <Button
+                color="primary"
+                type="button"
+                onClick={() => navigate(
+                  `/admin/AddUser`)}
+              >
+                Ajouter un utilisateur
+              </Button>
+            </CardTitle>
+          </CardHeader>
+            <form onSubmit={handleSubmit}>
+
+                <Form.Group className="d-flex ml-2 pl-md-1 ">
+                  <Col className="px-md-1" md="3">
+                  <Form.Control
+                    placeholder="Rechercher..."
+                    type="text"
+                    name="username"
+                    value={searchTerm}
+                    onChange={handleInputChange}
+                    label="Username"
+                    aria-label="Username"
+                  />
+              </Col><Button color="primary" type="submit" >
+              Rechercher
+            </Button>
+            </Form.Group>
+          </form>
+  <CardBody>
+    <Table className="tablesorter" >
+      <thead className="text-primary">
+      <tr>
+        <th>
+          Img
+          <BsImageFill
+            className="ml-2"
+            style={{ fontSize: '15px' }}
+          />
+        </th>
+        <th>
+          SurNom
+          <BiRename
+            className="ml-2"
+            style={{ fontSize: '15px' }}
+          />
+        </th>
+        <th>
+          Nom
+          <MdOutlineDriveFileRenameOutline
+            className="ml-2"
+            style={{ fontSize: '15px' }}
+          />
+        </th>
+        <th>
+          Prenom
+          <MdOutlineDriveFileRenameOutline
+            className="ml-2"
+            style={{ fontSize: '15px' }}
+          />
+        </th>
+        <th>
+          Email
+          <AiOutlineMail
+            className="ml-2"
+            style={{ fontSize: '15px' }}
+          />
+        </th>
+        <th>Cree_At
+          <AiOutlineFieldTime
+            className="ml-2"
+            style={{ fontSize: '15px' }}
+          /></th>
+
+        <th>
+          Modifier_AT
+          <AiOutlineFieldTime
+            className="ml-2"
+            style={{ fontSize: '15px' }}
+          />
+        </th>
+        <th>
+          Role
+          <SiCriticalrole
+            className="ml-2"
+            style={{ fontSize: '15px' }}
+          />
+        </th>
+        <th>
+          Verif
+          <GoVerified
+            className="ml-2"
+            style={{ fontSize: '15px' }}
+          />
+        </th>
+        <th>
+          tel
+          <AiOutlinePhone
+            className="ml-2"
+            style={{ fontSize: '15px' }}
+          />
+        </th>
+        <th>
+          Action
+          <AiFillSetting
+            className="ml-2"
+            style={{ fontSize: '15px' }}
+          />
+        </th>
+      </tr>
+      </thead>
+      <tbody responsive="true">
+      {users.filter((user) => !deletedUsers.includes(user)).map((user) => (
+        <tr key={user._id}>
+          <td className="align-items-center">
+            <a
+              href="#pablo"
+              onClick={(e) => e.preventDefault()}
+            >
+              <img onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
+                   alt="..."
+                   src={`http://localhost:5000/images/${user.image_user}`}
+                   style={{ width: '80px', height: '80px' }}
+              />
+            </a>
+          </td>
+          <td>
+            {user.username ? (user.username) : (<SiVexxhost
+              className="mr-2"
+              style={{ fontSize: '24px' }}
+            />)}
+          </td>
+          <td>
+            {user.first_Name ? (user.first_Name) : (<SiVexxhost
+              className="mr-2"
+              style={{ fontSize: '24px' }}
+            />)}
+          </td>
+          <td>
+            {user.last_Name ? (user.last_Name) : (<SiVexxhost
+              className="mr-2"
+              style={{ fontSize: '24px' }}
+            />)}
+          </td>
+          <td>
+            <a href={`/admin/UserDetails/${user._id}`}>
+              {getFirstTenWords(user.email)}
+              <i className="fa fa-sort-desc" aria-hidden="true"></i>
+            </a>
+          </td>
+          <td>
+            <Watch
+              className="ml-2"
+              height="20"
+              width="20"
+              color="#4fa94d"
+              ariaLabel="watch-loading"
+              visible={true}
+            />
+            {moment(user.createdAt).format('YYYY-MM-DD HH:mm')}{' '}
+          </td>
+          <td>
+            <Watch
+              className="ml-2"
+              height="20"
+              width="20"
+              color="#4fa94d"
+              ariaLabel="watch-loading"
+              visible={true}
+            />{' '}
+            {moment(user.updatedAt).format('YYYY-MM-DD HH:mm')}{' '}
+          </td>
+          <td>{getUserTypeAbbreviation(user.userType)}</td>
+          <td>
+            {user.enabled ? (<SiVerizon
+              className="mr-2"
+              color="#4fa94d"
+              style={{ fontSize: '24px' }}
+            />) : (<SiVexxhost
+              className="mr-2"
+              style={{ fontSize: '24px' }}
+            />)}
+          </td>
+          <td>
+            {user.phoneNumber ? (user.phoneNumber) : (<SiVexxhost
+              className="mr-2"
+              style={{ fontSize: '24px' }}
+            />)}
+          </td>
+          <td className="text-right">
+            <UncontrolledDropdown>
+              <DropdownToggle
+                className="btn-icon-only text-light"
+                href="#pablo"
+                role="button"
+                size="sm"
+                color=""
+                onClick={(e) => e.preventDefault()}
+              >
+                <FallingLines
+                  color="#00000"
+                  width="25"
+                  visible={true}
+                  ariaLabel="falling-lines-loading"
+                />
+              </DropdownToggle>
+              <DropdownMenu
+                className="dropdown-menu-arrow"
+                right
+              >
+                <DropdownItem
+                  onClick={() => deleteAuser(user, config)}
                 >
-                  Ajouter un utilisateur
-                </Button>
-              </CardTitle>
-            </CardHeader>
+                  <FaUserAltSlash
+                    className=" mr-2"
+                    style={{ fontSize: '20px' }}
+                  />
+                  Supprimer
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => navigate(`/admin/UpdateUser/${user._id}`)}
+                  // onClick={(e) => Modifier(user)}
+                >
+                  <FaUserCog
+                    className=" mr-2"
+                    style={{ fontSize: '20px' }}
+                  />
+                  Modifier
+                </DropdownItem>
+                {user.userType === 'user' ? (<DropdownItem
+                  onClick={() => upgradeAuser(user, config)}
+                >
+                  <GiUpgrade
+                    className="mr-2"
+                    style={{ fontSize: '20px' }}
+                  />
+                  mise à niveau vers administrateur
+                </DropdownItem>) : (<DropdownItem
+                  onClick={() => downgradeAuser(user, config)}
+                >
+                  <GiWideArrowDunk
+                    className="mr-2"
+                    style={{ fontSize: '20px' }}
+                  />
+                  mise à niveau vers un simple utilisateur
+                </DropdownItem>)}
+                {user.enabled === false ? (<DropdownItem
+                  href=""
+                  onClick={() => ActiveCompte(user, config)}
+                >
+                  <SiVerizon
+                    className="mr-2"
+                    style={{ fontSize: '20px' }}
+                  />
+                  Active Un Compte
+                </DropdownItem>) : (<DropdownItem
+                  onClick={() => DesactiveCompte(user, config)}
+                >
+                  <SiVexxhost
+                    className="mr-2"
+                    style={{ fontSize: '20px' }}
+                  />
+                  Desactive Un Compte
+                </DropdownItem>)}
 
-            <CardBody>
-              <Table className="tablesorter">
-                <thead className="text-primary">
-                <tr>
-                  <th>
-                    Img
-                    <BsImageFill
-                      className="ml-2"
-                      style={{ fontSize: '15px' }}
-                    />
-                  </th>
-                  <th>
-                    SurNom
-                    <BiRename
-                      className="ml-2"
-                      style={{ fontSize: '15px' }}
-                    />
-                  </th>
-                  <th>
-                    Nom
-                    <MdOutlineDriveFileRenameOutline
-                      className="ml-2"
-                      style={{ fontSize: '15px' }}
-                    />
-                  </th>
-                  <th>
-                    Prenom
-                    <MdOutlineDriveFileRenameOutline
-                      className="ml-2"
-                      style={{ fontSize: '15px' }}
-                    />
-                  </th>
-                  <th>
-                    Email
-                    <AiOutlineMail
-                      className="ml-2"
-                      style={{ fontSize: '15px' }}
-                    />
-                  </th>
-                  <th>Cree_At
-                    <AiOutlineFieldTime
-                      className="ml-2"
-                      style={{ fontSize: '15px' }}
-                    /></th>
+                <DropdownItem
+                  onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
+                >
+                  <BiShowAlt
+                    className=" mr-2"
+                    style={{ fontSize: '20px' }}
+                  />
+                  Details
+                </DropdownItem>
 
-                  <th>
-                    Modifier_AT
-                    <AiOutlineFieldTime
-                      className="ml-2"
-                      style={{ fontSize: '15px' }}
-                    />
-                  </th>
-                  <th>
-                    Role
-                    <SiCriticalrole
-                      className="ml-2"
-                      style={{ fontSize: '15px' }}
-                    />
-                  </th>
-                  <th>
-                    Verif
-                    <GoVerified
-                      className="ml-2"
-                      style={{ fontSize: '15px' }}
-                    />
-                  </th>
-                  <th>
-                    tel
-                    <AiOutlinePhone
-                      className="ml-2"
-                      style={{ fontSize: '15px' }}
-                    />
-                  </th>
-                  <th>
-                    Action
-                    <AiFillSetting
-                      className="ml-2"
-                      style={{ fontSize: '15px' }}
-                    />
-                  </th>
-                </tr>
-                </thead>
-                <tbody responsive>
-                {users.filter((user) => !deletedUsers.includes(user)).map((user) => (
-                  <tr key={user._id}>
-                    <Media className="align-items-center">
-                      <a
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <img onClick={(e) => navigate(`/admin/UserDetails/${user._id}`)}
-                             alt="..."
-                             src={`http://localhost:5000/images/${user.image_user}`}
-                             style={{ width: '80px', height: '80px' }}
-                        />
-                      </a>
-                    </Media>
-                    <td>
-                      {user.username ? (user.username) : (<SiVexxhost
-                        className="mr-2"
-                        style={{ fontSize: '24px' }}
-                      />)}
-                    </td>
-                    <td>
-                      {user.first_Name ? (user.first_Name) : (<SiVexxhost
-                        className="mr-2"
-                        style={{ fontSize: '24px' }}
-                      />)}
-                    </td>
-                    <td>
-                      {user.last_Name ? (user.last_Name) : (<SiVexxhost
-                        className="mr-2"
-                        style={{ fontSize: '24px' }}
-                      />)}
-                    </td>
-                    <td>
-                      <botton
-                        onClick={(e) => navigate(`/admin/UserDetails/${user._id}`)}
-                      >
-                        {getFirstTenWords(user.email)}
-
-                        <i class="fa fa-sort-desc" aria-hidden="true"></i>
-                      </botton>
-                    </td>
-                    <td>
-                      <Watch
-                        className="ml-2"
-                        height="20"
-                        width="20"
-                        color="#4fa94d"
-                        ariaLabel="watch-loading"
-                        visible={true}
-                      />
-                      {moment(user.createdAt).format('YYYY-MM-DD HH:mm')}{' '}
-                    </td>
-                    <td>
-                      <Watch
-                        className="ml-2"
-                        height="20"
-                        width="20"
-                        color="#4fa94d"
-                        ariaLabel="watch-loading"
-                        visible={true}
-                      />{' '}
-                      {moment(user.updatedAt).format('YYYY-MM-DD HH:mm')}{' '}
-                    </td>
-                    <td>{getUserTypeAbbreviation(user.userType)}</td>
-                    <td>
-                      {user.enabled ? (<SiVerizon
-                        className="mr-2"
-                        color="#4fa94d"
-                        style={{ fontSize: '24px' }}
-                      />) : (<SiVexxhost
-                        className="mr-2"
-                        style={{ fontSize: '24px' }}
-                      />)}
-                    </td>
-                    <td>
-                      {user.phoneNumber ? (user.phoneNumber) : (<SiVexxhost
-                        className="mr-2"
-                        style={{ fontSize: '24px' }}
-                      />)}
-                    </td>
-                    <td className="text-right">
-                      <UncontrolledDropdown>
-                        <DropdownToggle
-                          className="btn-icon-only text-light"
-                          href="#pablo"
-                          role="button"
-                          size="sm"
-                          color=""
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <FallingLines
-                            color="#00000"
-                            width="25"
-                            visible={true}
-                            ariaLabel="falling-lines-loading"
-                          />
-                        </DropdownToggle>
-                        <DropdownMenu
-                          className="dropdown-menu-arrow"
-                          right
-                        >
-                          <DropdownItem
-                            onClick={(e) => deleteAuser(user, config)}
-                          >
-                            <FaUserAltSlash
-                              className=" mr-2"
-                              style={{ fontSize: '20px' }}
-                            />
-                            Supprimer
-                          </DropdownItem>
-                          <DropdownItem
-                            onClick={(e) => navigate(`/admin/UpdateUser/${user._id}`)}
-                            // onClick={(e) => Modifier(user)}
-                          >
-                            <FaUserCog
-                              className=" mr-2"
-                              style={{ fontSize: '20px' }}
-                            />
-                            Modifier
-                          </DropdownItem>
-                          {user.userType === 'user' ? (<DropdownItem
-                            onClick={(e) => upgradeAuser(user, config)}
-                          >
-                            <GiUpgrade
-                              className="mr-2"
-                              style={{ fontSize: '20px' }}
-                            />
-                            mise à niveau vers administrateur
-                          </DropdownItem>) : (<DropdownItem
-                            onClick={(e) => downgradeAuser(user, config)}
-                          >
-                            <GiWideArrowDunk
-                              className="mr-2"
-                              style={{ fontSize: '20px' }}
-                            />
-                            mise à niveau vers un simple utilisateur
-                          </DropdownItem>)}
-                          {user.enabled === false ? (<DropdownItem
-                            href=""
-                            onClick={(e) => ActiveCompte(user, config)}
-                          >
-                            <SiVerizon
-                              className="mr-2"
-                              style={{ fontSize: '20px' }}
-                            />
-                            Active Un Compte
-                          </DropdownItem>) : (<DropdownItem
-                            onClick={(e) => DesactiveCompte(user, config)}
-                          >
-                            <SiVexxhost
-                              className="mr-2"
-                              style={{ fontSize: '20px' }}
-                            />
-                            Desactive Un Compte
-                          </DropdownItem>)}
-
-                          <DropdownItem
-                            onClick={(e) => navigate(`/admin/UserDetails/${user._id}`)}
-                          >
-                            <BiShowAlt
-                              className=" mr-2"
-                              style={{ fontSize: '20px' }}
-                            />
-                            Details
-                          </DropdownItem>
-
-                          <DropdownItem
-                            onClick={(e) => forget(user.email)}
-                          >
-                            <MdOutlineLockReset
-                              className=" mr-2"
-                              style={{ fontSize: '20px' }}
-                            />
-                            Reset Password
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                  </tr>))}
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </div>
-  </>)
+                <DropdownItem
+                  onClick={() => forget(user.email)}
+                >
+                  <MdOutlineLockReset
+                    className=" mr-2"
+                    style={{ fontSize: '20px' }}
+                  />
+                  Reset Password
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </td>
+        </tr>))}
+      </tbody>
+    </Table>
+  </CardBody>
+  </Card>
+</Col>
+</Row>
+</div>
+</>)
 }
 
 export default TableListUser
