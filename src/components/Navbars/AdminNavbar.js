@@ -22,14 +22,12 @@ import { useNavigate } from 'react-router-dom'
 function AdminNavbar (props) {
   const [user, setUser] = useState([])
   const navigate = useNavigate()
+  //cookies
+  const jwt_token = Cookies.get('jwt_token')
 /////cookies
   if (!Cookies.get('jwt_token')) {
     window.location.replace('/login-page')
   }
-
-  //cookies
-
-  const jwt_token = Cookies.get('jwt_token')
 
   const config = useMemo(() => {
     return {
@@ -41,6 +39,23 @@ function AdminNavbar (props) {
 
   ////////
 
+  useEffect(() => {
+    const getAuthUser = async (config) => {
+      await getUserAuth(config)
+      .then((res) => {
+        setUser(res.data.user)
+        // console.log(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+    getAuthUser(config)
+    const interval = setInterval(() => {
+      getAuthUser(config) // appel répété toutes les 10 secondes
+    }, 300000)
+    return () => clearInterval(interval) // nettoyage à la fin du cycle de vie du composant
+  }, [config])
   const log = async () => {
     try {
       logout(config)
@@ -58,26 +73,11 @@ function AdminNavbar (props) {
       console.log(error)
     }
   }
-  const getAuthUser = async (config) => {
-    await getUserAuth(config)
-    .then((res) => {
-      setUser(res.data.user)
-      // console.log(res.data.user);
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }
-  useEffect(() => {
-    getAuthUser(config)
-    const interval = setInterval(() => {
-      getAuthUser(config) // appel répété toutes les 10 secondes
-    }, 300000)
-    return () => clearInterval(interval) // nettoyage à la fin du cycle de vie du composant
-  }, [config])
+
+
   return (
     <>
-      <Navbar className='navbar-absolute' expand="lg">
+      <Navbar className="navbar-absolute" expand="lg">
         <Container fluid>
           <div className="navbar-wrapper">
             <div
