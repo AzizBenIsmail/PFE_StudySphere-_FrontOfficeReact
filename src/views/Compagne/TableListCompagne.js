@@ -12,8 +12,8 @@ import {
   Table,
   UncontrolledDropdown,
 } from 'reactstrap'
-import { getUserAuth, } from '../Service/apiUser'
-import { deleteCompagne,getCompagne} from '../Service/apiCompagne'
+import { getUserAuth, } from '../../Service/apiUser'
+import { deleteCompagne, getCompagne } from '../../Service/apiCompagne'
 
 import Cookies from 'js-cookie'
 import { FaUserAltSlash, FaUserCog } from 'react-icons/fa'
@@ -59,7 +59,6 @@ function TableListCompagne () {
   const getAllCompagne = useCallback(async (config) => {
     await getCompagne(config).then((res) => {
       setCompagnes(res.data.Companys)
-      // console.log(res.data.Companys)
     }).catch((err) => {
       console.log(err)
     })
@@ -81,8 +80,9 @@ function TableListCompagne () {
     const result = window.confirm('Êtes-vous sûr de vouloir supprimer de la base ? ' + compagne.username + '?')
     if (result) {
       deleteCompagne(compagne._id, config)
-      getAllCompagne(config)
+
     }
+    getAllCompagne(config)
   }
   return (<>
     <div className="content">
@@ -117,7 +117,7 @@ function TableListCompagne () {
                   color="primary"
                   type="button"
                   onClick={() => navigate(
-                    `/admin/AddUser`)}
+                    `/admin/AddCompagne`)}
                 >
                   Ajouter un Compagne
                 </Button>
@@ -161,10 +161,10 @@ function TableListCompagne () {
                         href="#pablo"
                         onClick={(e) => e.preventDefault()}
                       >
-                        <img
-                             alt="..."
-                             src={`http://localhost:5000/images/${compagne.image_Compagne}`}
-                             style={{ width: '80px', height: '80px' }}
+                        <img onClick={() => navigate(`/admin/UserDetails/${compagne._id}`)}
+                          alt="..."
+                          src={`http://localhost:5000/Xcl/${compagne.image_Compagne}`}
+                          style={{ width: '80px', height: '80px' }}
                         />
                       </a>
                     </td>
@@ -172,7 +172,8 @@ function TableListCompagne () {
                       {compagne.nomCompagne}
                     </td>
                     <td>
-                      <a href={`http://localhost:5000/Xcl/${compagne.fichierExcel}`} target="_self" rel="noopener noreferrer">
+                      <a href={`http://localhost:5000/Xcl/${compagne.fichierExcel}`} target="_self"
+                         rel="noopener noreferrer">
                         {compagne.fichierExcel}
                       </a>
                     </td>
@@ -217,7 +218,7 @@ function TableListCompagne () {
                             Modifier
                           </DropdownItem>
                           <DropdownItem
-                            // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
+                            onClick={() => navigate(`/admin/UserDetails/${compagne._id}`)}
                           >
                             <BiShowAlt
                               className=" mr-2"

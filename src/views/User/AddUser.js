@@ -1,8 +1,8 @@
 import React, {useMemo} from "react";
 import {useState} from "react";
-import {AddUserService} from "../Service/apiUser";
-import AddImage from "./examples/addImage";
-import {getUserAuth} from "../Service/apiUser";
+import {AddUserService} from "../../Service/apiUser";
+import AddImage from "../examples/addImage";
+import {getUserAuth} from "../../Service/apiUser";
 
 // reactstrap components
 import {

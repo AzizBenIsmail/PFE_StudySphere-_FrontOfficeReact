@@ -1,11 +1,11 @@
 import React, {useMemo} from "react";
 import Cookies from "js-cookie";
 import {useState, useEffect} from "react";
-import {getUserAuth} from "../Service/apiUser";
+import {getUserAuth} from "../../Service/apiUser";
 import {useParams} from "react-router-dom";
 import {SiVerizon, SiVexxhost,} from "react-icons/si";
 import {Card, CardBody, CardText, Row, Col} from "reactstrap";
-import {getUserByID} from "../Service/apiUser";
+import {getUserByID} from "../../Service/apiUser";
 
 function UserDetails() {
     const param = useParams();

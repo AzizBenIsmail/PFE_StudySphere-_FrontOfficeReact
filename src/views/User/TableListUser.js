@@ -26,7 +26,7 @@ import {
   getUserDesactive,
   getUsers, searchUsers,
   upgrade,
-} from '../Service/apiUser'
+} from '../../Service/apiUser'
 import Cookies from 'js-cookie'
 import moment from 'moment'
 import { FaUserAltSlash, FaUserCog } from 'react-icons/fa'
