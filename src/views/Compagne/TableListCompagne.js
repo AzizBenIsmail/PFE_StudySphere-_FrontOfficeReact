@@ -14,9 +14,9 @@ import {
 } from 'reactstrap'
 import { getUserAuth, } from '../../Service/apiUser'
 import { deleteCompagne, getCompagne } from '../../Service/apiCompagne'
-
 import Cookies from 'js-cookie'
-import { FaUserAltSlash, FaUserCog } from 'react-icons/fa'
+import { FaUserAltSlash } from 'react-icons/fa'
+import { GrValidate } from 'react-icons/gr'
 import { AiFillSetting, AiOutlineReload, } from 'react-icons/ai'
 import { BiRename, BiShowAlt } from 'react-icons/bi'
 import { BsImageFill } from 'react-icons/bs'
@@ -80,7 +80,6 @@ function TableListCompagne () {
     const result = window.confirm('Êtes-vous sûr de vouloir supprimer de la base ? ' + compagne.username + '?')
     if (result) {
       deleteCompagne(compagne._id, config)
-
     }
     getAllCompagne(config)
   }
@@ -211,14 +210,14 @@ function TableListCompagne () {
                             // onClick={() => navigate(`/admin/UpdateUser/${user._id}`)}
                             // onClick={(e) => Modifier(user)}
                           >
-                            <FaUserCog
+                            <GrValidate
                               className=" mr-2"
                               style={{ fontSize: '20px' }}
                             />
-                            Modifier
+                            Verifier
                           </DropdownItem>
                           <DropdownItem
-                            onClick={() => navigate(`/admin/UserDetails/${compagne._id}`)}
+                            onClick={() => navigate(`/admin/CompagneDetails/${compagne._id}`)}
                           >
                             <BiShowAlt
                               className=" mr-2"

@@ -6,6 +6,10 @@ export async function getCompagne(config) {
   return await axios.get(`${ apiURL }/`, config);
 }
 
+export async function getCompagneById(id,config) {
+  return await axios.get(`${ apiURL }/${ id }`, config);
+}
+
 export async function deleteCompagne(id,config) {
   return await axios.delete(`${ apiURL }/Company/${ id }`, config);
 }
