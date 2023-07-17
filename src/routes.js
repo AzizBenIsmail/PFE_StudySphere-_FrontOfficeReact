@@ -2,12 +2,14 @@ import React, { lazy } from 'react'
 
 const Dashboard = lazy(() => import('views/Dashboard.js'))
 // const Notifications = lazy(() => import('views/Notifications.js'))
-const TableListUser = lazy(() => import('views/TableListUser.js'))
+const TableListUser = lazy(() => import('./views/User/TableListUser.js'))
 // const UserProfile = lazy(() => import('views/UserProfile.js'))
-// const UserDetails = lazy(() => import('views/UserDetails.js'))
-const AddUser = lazy(() => import('views/AddUser.js'))
-const UpdateUser = lazy(() => import('views/UpdateUser.js'))
-const TableListCompagne = lazy(() => import('views/TableListCompagne'))
+const UserDetails = lazy(() => import('./views/User/UserDetails.js'))
+const AddUser = lazy(() => import('./views/User/AddUser.js'))
+const AddCompagne = lazy(() => import('./views/Compagne/AddCompagne'))
+const CompagneDetails = lazy(() => import('./views/Compagne/CompagneDetails'))
+const UpdateUser = lazy(() => import('./views/User/UpdateUser.js'))
+const TableListCompagne = lazy(() => import('./views/Compagne/TableListCompagne'))
 
 var routes = [{
   path: '/tablesUsers',
@@ -16,7 +18,7 @@ var routes = [{
   component: <TableListUser/>,
   layout: '/admin',
 }, {
-  path: '/UserDetails/:id/',
+  path: '/TableListCompagne',
   name: 'Compagne',
   icon: 'tim-icons icon-single-02',
   component: <TableListCompagne/>,
@@ -41,9 +43,17 @@ var routes = [{
 //   component: <UserProfile/>,
 //   layout: '/admin',
 // }
- , {
-  path: '/AddUser', component: <AddUser/>, layout: '/admin',
-}, {
-  path: '/UpdateUser/:id/', component: <UpdateUser/>, layout: '/admin',
-},]
+  , {
+    path: '/UserDetails/:id/', component: <UserDetails/>, layout: '/admin',
+  },
+   {
+    path: '/CompagneDetails/:id/', component: <CompagneDetails/>, layout: '/admin',
+  },
+  {
+    path: '/AddUser', component: <AddUser/>, layout: '/admin',
+  }, {
+    path: '/AddCompagne', component: <AddCompagne/>, layout: '/admin',
+  }, {
+    path: '/UpdateUser/:id/', component: <UpdateUser/>, layout: '/admin',
+  },]
 export default routes
