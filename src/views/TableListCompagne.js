@@ -12,8 +12,8 @@ import {
   Table,
   UncontrolledDropdown,
 } from 'reactstrap'
-import { deleteUser, getUserAuth, } from '../Service/apiUser'
-import { getCompagne} from '../Service/apiCompagne'
+import { getUserAuth, } from '../Service/apiUser'
+import { deleteCompagne,getCompagne} from '../Service/apiCompagne'
 
 import Cookies from 'js-cookie'
 import { FaUserAltSlash, FaUserCog } from 'react-icons/fa'
@@ -66,7 +66,6 @@ function TableListCompagne () {
   }, [])
 
   const [compagnes, setCompagnes] = useState([])
-  const [deletedCompagne, setDeletedCompagne] = useState([])
 
   useEffect(() => {
     getAllCompagne(config)
@@ -81,13 +80,10 @@ function TableListCompagne () {
   const deleteACompagne = async (compagne, config) => {
     const result = window.confirm('Êtes-vous sûr de vouloir supprimer de la base ? ' + compagne.username + '?')
     if (result) {
-      deleteUser(compagne._id, config)
+      deleteCompagne(compagne._id, config)
       getAllCompagne(config)
-    } else {
-      setDeletedCompagne([...deletedCompagne, compagne])
     }
   }
-
   return (<>
     <div className="content">
       <Row>
@@ -167,16 +163,18 @@ function TableListCompagne () {
                       >
                         <img
                              alt="..."
-                             src={`http://localhost:5000/images/${compagne.image_user}`}
+                             src={`http://localhost:5000/images/${compagne.image_Compagne}`}
                              style={{ width: '80px', height: '80px' }}
                         />
                       </a>
                     </td>
                     <td>
-                      {compagne.nomCompany}
+                      {compagne.nomCompagne}
                     </td>
                     <td>
-                      {compagne.fichierExcel }
+                      <a href={`http://localhost:5000/Xcl/${compagne.fichierExcel}`} target="_self" rel="noopener noreferrer">
+                        {compagne.fichierExcel}
+                      </a>
                     </td>
                     <td className="text-right">
                       <UncontrolledDropdown>
@@ -200,7 +198,7 @@ function TableListCompagne () {
                           right
                         >
                           <DropdownItem
-                            // onClick={() => deleteAuser(user, config)}
+                            onClick={() => deleteACompagne(compagne, config)}
                           >
                             <FaUserAltSlash
                               className=" mr-2"
