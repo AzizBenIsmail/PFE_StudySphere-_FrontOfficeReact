@@ -24,7 +24,7 @@ import {
   getUserActive,
   getUserAuth,
   getUserDesactive,
-  getUsers,
+  getUsers, searchUsers,
   upgrade,
 } from '../Service/apiUser'
 import Cookies from 'js-cookie'
@@ -205,6 +205,15 @@ function TableListUser () {
     }
   }
 
+  const getsearchUser = useCallback(async (term,config) => {
+    await searchUsers(term,config).then((res) => {
+      setUsers(res.data.users)
+      console.log(res.data.users)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }, [])
+
   const [searchTerm, setSearchTerm] = useState('')
 
   const handleInputChange = (event) => {
@@ -214,6 +223,8 @@ function TableListUser () {
   const handleSubmit = (event) => {
     event.preventDefault()
     // Faites quelque chose avec le terme de recherche (par exemple, effectuez une requête API)
+    getsearchUser(searchTerm,config);
+
     console.log('Recherche effectuée:', searchTerm)
   }
 
