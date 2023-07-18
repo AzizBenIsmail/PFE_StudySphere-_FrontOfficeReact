@@ -13,7 +13,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap'
 import { getUserAuth, } from '../../Service/apiUser'
-import { deleteCompagne, getCompagne, ValidateCompagneById } from '../../Service/apiCompagne'
+import { deleteCompagne, getCompagne, ValidateCompagneById } from '../../Service/apiCompagneSms'
 import Cookies from 'js-cookie'
 import { FaUserAltSlash } from 'react-icons/fa'
 import { GrValidate } from 'react-icons/gr'
@@ -89,7 +89,7 @@ function TableListCompagne () {
   const ValidateCompagne = async (compagne, config) => {
     try {
       await ValidateCompagneById(compagne._id, config)
-      navigate(`/admin/CompagneDetails/${compagne._id}`)
+      navigate(`/admin/CompagneDetailsSms/${compagne._id}`)
       getAllCompagne(config)
     } catch (error) {
       if (error.response.data.message.substring(0, 15) === 'DejaVerifier') {
@@ -113,7 +113,7 @@ function TableListCompagne () {
                 className="d-flex justify-content-between align-items-center"
               >
                   <span>
-                    Liste des Compagnes Email
+                    Liste des Compagnes Sms
                     <AiOutlineReload
                       onClick={() => getAllCompagne(config)}
                       className="ml-2"
@@ -135,9 +135,9 @@ function TableListCompagne () {
                   color="primary"
                   type="button"
                   onClick={() => navigate(
-                    `/admin/AddCompagne`)}
+                    `/admin/AddCompagneSms`)}
                 >
-                  Ajouter un Compagne Email
+                  Ajouter un Compagne Sms
                 </Button>
               </CardTitle>
             </CardHeader>

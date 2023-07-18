@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Card, CardBody, CardHeader, CardTitle, Col, Row, } from 'reactstrap'
-import { deleteCompagne, getErrorLogContent } from '../../Service/apiCompagne'
+import { deleteCompagne, getErrorLogContent } from '../../Service/apiCompagneSms'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../../Service/apiUser'
 import { Button } from 'react-bootstrap'
@@ -76,7 +76,7 @@ function ErrorLog () {
                   className="d-flex justify-content-between align-items-center"
                 >
                   <span>
-                    Liste des Erreur Compagnes Email
+                    Liste des Erreur Compagnes Sms
       <pre>{errorLogContent}</pre>
 
                   </span>
