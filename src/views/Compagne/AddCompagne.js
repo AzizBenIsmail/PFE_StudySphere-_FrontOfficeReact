@@ -48,15 +48,15 @@ export default function AddCompagne () {
 
   const handlechangeImage = (e) => {
     setImage(e.target.files[0])
-    console.log(e.target.files[0])
+    // console.log(e.target.files[0])
   }
   const handlechangeFile = (e) => {
     setxcl(e.target.files[0])
-    console.log(e.target.files[0])
+    // console.log(e.target.files[0])
   }
   const handlechange = (e) => {
     setCompagnes({ ...compagnes, [e.target.name]: e.target.value })
-    console.log(compagnes)
+    // console.log(compagnes)
   }
   let formData = new FormData()
   const add = async (e) => {
@@ -65,12 +65,17 @@ export default function AddCompagne () {
     formData.append('image_Compagne', image)
     const res = await AddCompagneService(formData, config)
     .then(
-      window.location.replace(`/admin/TableListCompagne`)
+      // window.location.replace(`/admin/TableListCompagne`)
     )
     .catch((error) => {
       console.log(error.response.data)
     })
-    console.log(res.data)
+    if(res.data.hasErrors === 0)
+    {
+      window.location.replace(`/admin/TableListCompagne`)
+    }else {
+      window.location.replace(`/admin/ErrorLog/${res.data.company._id}`)
+    }
   }
   React.useEffect(() => {
     document.body.classList.toggle('register-page')

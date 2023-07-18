@@ -6,6 +6,7 @@ const TableListUser = lazy(() => import('./views/User/TableListUser.js'))
 // const UserProfile = lazy(() => import('views/UserProfile.js'))
 const UserDetails = lazy(() => import('./views/User/UserDetails.js'))
 const AddUser = lazy(() => import('./views/User/AddUser.js'))
+const ErrorLog = lazy(() => import('./views/Compagne/ErrorLog'))
 const AddCompagne = lazy(() => import('./views/Compagne/AddCompagne'))
 const CompagneDetails = lazy(() => import('./views/Compagne/CompagneDetails'))
 const UpdateUser = lazy(() => import('./views/User/UpdateUser.js'))
@@ -55,5 +56,7 @@ var routes = [{
     path: '/AddCompagne', component: <AddCompagne/>, layout: '/admin',
   }, {
     path: '/UpdateUser/:id/', component: <UpdateUser/>, layout: '/admin',
+  },{
+    path: '/ErrorLog/:id', component: <ErrorLog/>, layout: '/admin',
   },]
 export default routes
