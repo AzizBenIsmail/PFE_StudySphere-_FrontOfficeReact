@@ -20,7 +20,7 @@ var routes = [{
   layout: '/admin',
 }, {
   path: '/TableListCompagne',
-  name: 'Compagne',
+  name: 'Compagne Email',
   icon: 'tim-icons icon-single-02',
   component: <TableListCompagne/>,
   layout: '/admin',
