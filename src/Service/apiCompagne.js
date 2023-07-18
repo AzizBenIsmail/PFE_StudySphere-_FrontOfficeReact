@@ -9,7 +9,9 @@ export async function getCompagne(config) {
 export async function getCompagneById(id,config) {
   return await axios.get(`${ apiURL }/${ id }`, config);
 }
-
+export async function ValidateCompagneById(id,config) {
+  return await axios.put(`${ apiURL }/Valider/${ id }`, config);
+}
 export async function deleteCompagne(id,config) {
   return await axios.delete(`${ apiURL }/Company/${ id }`, config);
 }

@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom'
 import { SiVerizon, SiVexxhost, } from 'react-icons/si'
 import { Card, CardBody, CardText, Col, Row } from 'reactstrap'
 import { getCompagneById } from '../../Service/apiCompagne'
+import moment from 'moment/moment'
+import { Table } from 'reactstrap';
 
 function CompagneDetails () {
   const param = useParams()
@@ -88,11 +90,34 @@ function CompagneDetails () {
                 style={{ fontSize: '24px' }}
               />)}</div>
               <div className="card-description">
-                cree le : {compagne.createdAt}
+                Cree le : .
+                {moment(compagne.createdAt).format('YYYY-MM-DD HH:mm')}
               </div>
               <div className="card-description">
-                modifier le : {compagne.updatedAt}
+                Modifier le : .
+                {moment(compagne.updatedAt).format('YYYY-MM-DD HH:mm')}
               </div>
+              <Table striped>
+                <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Email</th>
+                  <th>Continue</th>
+                  <th>Date d'envoi</th>
+                </tr>
+                </thead>
+                <tbody>
+                {compagne.contacts &&
+                  compagne.contacts.map((contact, index) => (
+                    <tr key={index}>
+                      <td>{contact.nom}</td>
+                      <td>{contact.email}</td>
+                      <td>{contact.content}</td>
+                      <td>{moment(contact.dateEnvoi).format('YYYY-MM-DD')}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
             </CardBody>
           </Card>
         </Col>

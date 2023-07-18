@@ -13,7 +13,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap'
 import { getUserAuth, } from '../../Service/apiUser'
-import { deleteCompagne, getCompagne } from '../../Service/apiCompagne'
+import { deleteCompagne, getCompagne, ValidateCompagneById } from '../../Service/apiCompagne'
 import Cookies from 'js-cookie'
 import { FaUserAltSlash } from 'react-icons/fa'
 import { GrValidate } from 'react-icons/gr'
@@ -23,6 +23,8 @@ import { BsImageFill } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { FallingLines, Puff } from 'react-loader-spinner'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function TableListCompagne () {
   const navigate = useNavigate()
@@ -77,17 +79,34 @@ function TableListCompagne () {
   }, [getAllCompagne, config])
 
   const deleteACompagne = async (compagne, config) => {
-    const result = window.confirm('Êtes-vous sûr de vouloir supprimer de la base ? ' + compagne.username + '?')
+    const result = window.confirm('Êtes-vous sûr de vouloir supprimer de la base ? ' + compagne.nomCompagne + '?')
     if (result) {
       deleteCompagne(compagne._id, config)
     }
     getAllCompagne(config)
   }
+
+  const ValidateCompagne = async (compagne, config) => {
+    try {
+      await ValidateCompagneById(compagne._id, config)
+      navigate(`/admin/CompagneDetails/${compagne._id}`)
+      getAllCompagne(config)
+    } catch (error) {
+      if (error.response.data.message.substring(0, 15) === 'DejaVerifier') {
+        toast('Deja Verifier !', { position: 'top-center' })
+      } else if (error.response.data.message.substring(0, 17) === 'DateEnvoiInvalide') {
+        toast(`${error.response.data.message}   !`, { position: 'top-center' })
+      } else if (error.response.data.message.substring(0, 12) === 'EmailInvalid') {
+        toast(`${error.response.data.message}   !`, { position: 'top-center' })
+      }
+    }
+  }
   return (<>
     <div className="content">
       <Row>
         <Col md="12">
-          <Card>
+          <Card>    <ToastContainer />
+
             <CardHeader>
               <CardTitle
                 tag="h4"
@@ -160,10 +179,10 @@ function TableListCompagne () {
                         href="#pablo"
                         onClick={(e) => e.preventDefault()}
                       >
-                        <img onClick={() => navigate(`/admin/UserDetails/${compagne._id}`)}
-                          alt="..."
-                          src={`http://localhost:5000/Xcl/${compagne.image_Compagne}`}
-                          style={{ width: '80px', height: '80px' }}
+                        <img onClick={() => navigate(`/admin/CompagneDetails/${compagne._id}`)}
+                             alt="..."
+                             src={`http://localhost:5000/Xcl/${compagne.image_Compagne}`}
+                             style={{ width: '80px', height: '80px' }}
                         />
                       </a>
                     </td>
@@ -208,7 +227,7 @@ function TableListCompagne () {
                           </DropdownItem>
                           <DropdownItem
                             // onClick={() => navigate(`/admin/UpdateUser/${user._id}`)}
-                            // onClick={(e) => Modifier(user)}
+                            onClick={(e) => ValidateCompagne(compagne, config)}
                           >
                             <GrValidate
                               className=" mr-2"
