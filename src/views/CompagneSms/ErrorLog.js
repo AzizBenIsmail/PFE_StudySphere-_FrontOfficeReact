@@ -84,7 +84,7 @@ function ErrorLog () {
                     color="primary"
                     type="button"
                     onClick={() => {
-                      navigate(`/admin/AddCompagne`);
+                      navigate(`/admin/AddCompagneSms`);
                       deleteACompagne();
                     }}
                   >

@@ -17,14 +17,15 @@ import { deleteCompagne, getCompagne, ValidateCompagneById } from '../../Service
 import Cookies from 'js-cookie'
 import { FaUserAltSlash } from 'react-icons/fa'
 import { GrValidate } from 'react-icons/gr'
-import { AiFillSetting, AiOutlineReload, } from 'react-icons/ai'
+import { AiFillSetting, AiOutlineFieldTime, AiOutlineReload, } from 'react-icons/ai'
 import { BiRename, BiShowAlt } from 'react-icons/bi'
 import { BsImageFill } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
-import { FallingLines, Puff } from 'react-loader-spinner'
+import { FallingLines, Puff, Watch } from 'react-loader-spinner'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import moment from 'moment'
 
 function TableListCompagne () {
   const navigate = useNavigate()
@@ -158,6 +159,18 @@ function TableListCompagne () {
                       className="ml-2"
                       style={{ fontSize: '15px' }}
                     />
+                  </th>        <th>Cree_At
+                  <AiOutlineFieldTime
+                    className="ml-2"
+                    style={{ fontSize: '15px' }}
+                  /></th>
+
+                  <th>
+                    Modifier_AT
+                    <AiOutlineFieldTime
+                      className="ml-2"
+                      style={{ fontSize: '15px' }}
+                    />
                   </th>
                   <th>
                     Excel
@@ -188,6 +201,27 @@ function TableListCompagne () {
                     </td>
                     <td>
                       {compagne.nomCompagne}
+                    </td>
+                    <td>                      <Watch
+                      className="ml-2"
+                      height="20"
+                      width="20"
+                      color="#4fa94d"
+                      ariaLabel="watch-loading"
+                      visible={true}
+                    />
+                      {moment(compagne.createdAt).format('YYYY-MM-DD HH:mm')}{' '}
+                    </td>
+                    <td>
+                      <Watch
+                        className="ml-2"
+                        height="20"
+                        width="20"
+                        color="#4fa94d"
+                        ariaLabel="watch-loading"
+                        visible={true}
+                      />{' '}
+                      {moment(compagne.updatedAt).format('YYYY-MM-DD HH:mm')}{' '}
                     </td>
                     <td>
                       <a href={`http://localhost:5000/Xcl/${compagne.fichierExcel}`} target="_self"
