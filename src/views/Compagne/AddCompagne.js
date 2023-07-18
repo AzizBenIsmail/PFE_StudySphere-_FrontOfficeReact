@@ -84,6 +84,8 @@ export default function AddCompagne () {
       document.body.classList.toggle('register-page')
     }
   }, [])
+  const isButtonDisabled = !(image && xcl); // Vérifier si les champs image et xcl sont remplis
+
   return (<>
     <div className="content">
       <Container>
@@ -91,7 +93,7 @@ export default function AddCompagne () {
           <Col md="8">
             <Card>
               <CardHeader>
-                <h5 className="title">Ajouter un Compagne </h5>
+                <h5 className="title">Ajouter un Compagne Email</h5>
               </CardHeader>
               <CardBody>
                 <Form
@@ -156,6 +158,7 @@ export default function AddCompagne () {
                   color="primary"
                   type="submit"
                   onClick={(e) => add(e)}
+                  disabled={isButtonDisabled}
                 >
                   Save
                 </Button>
