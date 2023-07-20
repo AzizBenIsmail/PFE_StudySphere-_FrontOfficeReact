@@ -61,7 +61,7 @@ function ErrorLog () {
 
   const deleteACompagne = async (compagne, config) => {
 
-      deleteCompagne(param.id, config)
+    deleteCompagne(param.id, config)
   }
   return (
     <>
@@ -69,7 +69,6 @@ function ErrorLog () {
         <Row>
           <Col md="12">
             <Card>
-
               <CardHeader>
                 <CardTitle
                   tag="h4"
@@ -84,11 +83,10 @@ function ErrorLog () {
                     color="primary"
                     type="button"
                     onClick={() => {
-                      navigate(`/admin/AddCompagne`);
-                      deleteACompagne();
+                      navigate(`/admin/AddCompagne`)
+                      deleteACompagne()
                     }}
                   >
-
                     Corriger tout c'est erreur
                   </Button>
                 </CardTitle>
