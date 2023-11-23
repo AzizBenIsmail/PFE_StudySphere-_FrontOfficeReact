@@ -58,22 +58,6 @@ Blk• Design System React is built on top of the much awaited Bootstrap 4 (Reac
 
 [View More](https://demos.creative-tim.com/blk-design-system-react)
 
-## Quick start
-
-- `npm i blk-design-system-react`
-- [Download from Github](https://github.com/creativetimofficial/blk-design-system-react/archive/main.zip).
-- [Download from Creative Tim](https://www.creative-tim.com/product/blk-design-system-react).
-- Install with [Bower](https://bower.io/): `bower install blk-design-system-react`.
-- Clone the repo: `git clone https://github.com/creativetimofficial/blk-design-system-react.git`.
-
-## Documentation
-
-The documentation for the BLK Design System React is hosted at our [website](https://demos.creative-tim.com/blk-design-system-react/#/documentation/overview).
-
-## File Structure
-
-Within the download you'll find the following directories and files:
-
 ```
 Blk• Design System React
 .
@@ -167,6 +151,3 @@ At present, we officially aim to support the last two versions of the following 
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [![Black Dashboard  HTML](https://github.com/creativetimofficial/public-assets/blob/main/black-dashboard/black-dashboard.jpg?raw=true)](https://www.creative-tim.com/product/black-dashboard) | [![Black Dashboard  React](https://github.com/creativetimofficial/public-assets/blob/main/black-dashboard-react/black-dashboard-react.jpg?raw=true)](https://www.creative-tim.com/product/black-dashboard-react) | [![Vue Black Dashboard](https://github.com/creativetimofficial/public-assets/blob/main/vue-black-dashboard/vue-black-dashboard.jpg?raw=true)](https://www.creative-tim.com/product/vue-black-dashboard) |
 
-| Angular                                                                                                                                                                                                                   | Laravel                                                                                                                                                                                                                    | Django                                                                                                                                                                                                                    | Nuxt                                                                                                                                                                                                              |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![Black Dashboard Angular](https://raw.githubusercontent.com/creativetimofficial/public-assets/main/black-dashboard-angular/opt_bd_angular_thumbnail.jpg)](https://www.creative-tim.com/product/black-dashboard-angular) | [![Black Dashboard Laravel](https://raw.githubusercontent.com/creativetimofficial/public-assets/main/black-dashboard-laravel/opt_blk_laravel_thumbnail.jpg)](https://www.creative-tim.com/product/black-dashboard-laravel) | [![Black Dashboard Django](https://raw.githubusercontent.com/creativetimofficial/public-assets/main/black-dashboard-django/opt_bdfree_django_thumbnail.jpg)](https://www.creative-tim.com/product/black-dashboard-django) | [![Nuxt Dashboard Django](https://raw.githubusercontent.com/creativetimofficial/public-assets/main/nuxt-black-dashboard/opt_bd_nuxjs_thumbnail.jpg)](https://www.creative-tim.com/product/black-dashboard-django) |
