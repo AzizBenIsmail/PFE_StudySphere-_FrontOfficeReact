@@ -203,7 +203,7 @@ export default function RegisterPage() {
                             </InputGroupAddon>
                             <Form.Control
                               placeholder="Password"
-                              type="text"
+                              type="password"
                               name="password"
                               onChange={(e) => handlechange(e)}
                               label="Password"

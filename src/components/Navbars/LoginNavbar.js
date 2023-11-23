@@ -70,7 +70,7 @@ export default function LoginNavbar () {
               />
               •
             </span>
-            Company Sms
+              PFA 2023
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
             Company Sms

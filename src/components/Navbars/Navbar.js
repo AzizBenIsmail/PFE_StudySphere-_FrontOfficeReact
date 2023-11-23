@@ -67,7 +67,7 @@ export default function IndexNavbar() {
               />
               •
             </span>
-            Company Sms
+            PFA 2023
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
             Company Sms
