@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+
+  mongodb:
+    image: "mongo:latest"
+    container_name: mongodb
+    # Utilisez l'image la plus récente de MongoDB
+    ports:
+      - "27020:27020"  # Port par défaut de MongoDB
+    command: mongod --port 27020
+    restart: unless-stopped
+    volumes:
+      - db:/data/db  # This line adds a volume to the MongoDB service
+
+  pfa_attijari_bank:
+    image: azizbenismail/pfa-attijari-bank-backendexpress
+    container_name: pfa-attijari-bank-backendexpress-container
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27020/AttijariBank
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+
+  pfa_attijari_bank_frontend_react:
+    image: azizbenismail/pfa-attijari_bank-frontend_react:latest
+    container_name: pfa-attijari-bank-frontend-react-container
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    depends_on:
+      - pfa_attijari_bank
+
+volumes:
+  db:
