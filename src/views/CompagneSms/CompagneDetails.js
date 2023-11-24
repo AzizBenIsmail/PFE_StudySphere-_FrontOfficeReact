@@ -73,7 +73,7 @@ function CompagneDetails () {
                   <img
                     alt="..."
                     className="avatar"
-                    src={`http://localhost:5000/xcl/${compagne.image_Compagne}`}
+                    src={`http://localhost:5000/Xcl/${compagne.image_Compagne}`}
                   />
                   <h3 className="title">{compagne.nomCompagne}</h3>
                 </a>
