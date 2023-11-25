@@ -1,110 +1,24 @@
-# [Blk• Design System React](https://demos.creative-tim.com/blk-design-system-react) 
+# [PFA• Projet Fin D'année Automatisation Campagne Sms & Email pour Attijari Bank React]([https://demos.creative-tim.com/blk-design-system-react](https://hub.docker.com/repository/docker/azizbenismail/pfa-attijari_bank-frontend_react)) 
 
 ![version](https://img.shields.io/badge/version-1.2.2-blue.svg) ![license](https://img.shields.io/badge/license-MIT-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/blk-design-system-react.svg?maxAge=2592000)](https://github.com/creativetimofficial/blk-design-system-react/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/blk-design-system-react.svg?maxAge=2592000)](https://github.com/creativetimofficial/blk-design-system-react/issues?q=is%3Aissue+is%3Aclosed) [![Join the chat at https://gitter.im/NIT-dgp/General](https://badges.gitter.im/NIT-dgp/General.svg)](https://gitter.im/creative-tim-general/Lobby) [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/E4aHAQy)
 
 ![Product Presentation Image](https://github.com/creativetimofficial/public-assets/blob/main/blk-design-system-react/blk-design-system-react.jpg?raw=true)
 
-**[Blk• Design System React](http://demos.creative-tim.com/blk-design-system-react/)** is a responsive Bootstrap 4 kit, developed using [React](https://reactjs.org/), [Reactstrap](https://reactstrap.github.io/) and [create-react-app](https://facebook.github.io/create-react-app/), and it is provided for free by Creative Tim. It is a beautiful cross-platform UI kit featuring over 70 elements and 3 templates.
+# Attijari-Bank-BackendExpress
+Notre projet consiste à mettre en place une solution complète de gestion des campagnes SMS et Email pour Attijari Bank, afin d'optimiser sa communication client et d'obtenir des résultats exceptionnels.
 
-Blk• Design System React will help you create a clean and simple website that is a perfect fit for today's black design. It is built using the 12 column grid system, with components designed to fit together perfectly. It makes use of bold colours, beautiful typography, clear photography and spacious arrangements.
+La plateforme technologique avancée que nous proposons permettra à Attijari Bank de planifier, exécuter et analyser ses campagnes de communication de manière efficace et ciblée.
 
+Grâce à cette solution, Attijari Bank pourra personnaliser les messages envoyés via les canaux SMS et Email en utilisant des informations clients pertinentes telles que leur nom, historique de transactions et préférences. Cela renforcera l'engagement des clients et favorisera une relation de confiance.
 
+De plus, notre solution permettra à Attijari Bank de segmenter sa base de clients de manière précise, en utilisant des critères tels que la localisation géographique, la catégorie socio-professionnelle, les intérêts et les comportements d'achat. Cela permettra d'envoyer des messages ciblés à des groupes spécifiques, augmentant ainsi la pertinence et l'efficacité des campagnes.
 
-| HTML                                                                                                                                                                                                  | React                                                                                                                                                                                                                     | Angular                                                                                                                                                                                                                           |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![BLK Design System  HTML](https://github.com/creativetimofficial/public-assets/blob/main/blk-design-system/opt_blk_thumbnail.jpg?raw=true)](https://www.creative-tim.com/product/blk-design-system) | [![BLK Design System  React](https://raw.githubusercontent.com/creativetimofficial/public-assets/main/blk-design-system-react/blk-design-system-react.jpg)](https://www.creative-tim.com/product/blk-design-system-react) | [![BLK Design System  Angular](https://raw.githubusercontent.com/creativetimofficial/public-assets/main/blk-design-system-angular/opt_blk_angular_thumbnail.jpg)](https://www.creative-tim.com/product/blk-design-system-angular) |
+L'automatisation des campagnes sera également possible, grâce à des scénarios préétablis et des déclencheurs basés sur le comportement des clients. Attijari Bank pourra automatiser l'envoi de messages de bienvenue, de suivi après une demande de prêt ou encore d'offres promotionnelles en fonction des achats précédents. Cette automatisation permettra de gagner du temps, d'optimiser les ressources et de garantir une communication cohérente et opportune.
 
+Enfin, notre solution fournira à Attijari Bank des outils avancés de mesure et d'analyse des résultats des campagnes. Des tableaux de bord clairs et intuitifs permettront de suivre les performances en temps réel, d'évaluer le retour sur investissement (ROI) et d'identifier les opportunités d'optimisation. Les données collectées permettront également d'obtenir des insights précieux sur les préférences et les comportements des clients, facilitant ainsi l'élaboration de stratégies marketing plus efficaces.
 
-## Demo
+En mettant en œuvre cette solution de gestion des campagnes SMS et Email, Attijari Bank pourra améliorer sa communication client, renforcer sa relation avec sa clientèle et atteindre des résultats commerciaux exceptionnels. Notre équipe est déterminée à accompagner Attijari Bank dans ce projet, en fournissant un soutien complet de la mise en place à l'optimisation continue.
 
-| Buttons                                                                                                                                                                              | Inputs                                                                                                                                                                             | Navbars                                                                                                                                                                             |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![Buttons](https://github.com/creativetimofficial/public-assets/blob/main/blk-design-system-react/buttons.png?raw=true)](https://demos.creative-tim.com/blk-design-system-react/#/) | [![Inputs](https://github.com/creativetimofficial/public-assets/blob/main/blk-design-system-react/inputs.png?raw=true)](https://demos.creative-tim.com/blk-design-system-react/#/) | [![Navbar](https://github.com/creativetimofficial/public-assets/blob/main/blk-design-system-react/navbars.png?raw=true)](https://demos.creative-tim.com/blk-design-system-react/#/) |
-
-| Login Page                                                                                                                                                                                                     | Landing Page                                                                                                                                                                                               | Profile Page                                                                                                                                                                                               |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![Register Page](https://raw.githubusercontent.com/creativetimofficial/public-assets/main/blk-design-system-react/register-page.png)](https://demos.creative-tim.com/blk-design-system-react/#/register-page) | [![Landing Page](https://github.com/creativetimofficial/public-assets/blob/main/blk-design-system-react/landing-page.png?raw=true)](https://demos.creative-tim.com/blk-design-system-react/#/landing-page) | [![Profile Page](https://github.com/creativetimofficial/public-assets/blob/main/blk-design-system-react/profile-page.png?raw=true)](https://demos.creative-tim.com/blk-design-system-react/#/profile-page) |
-
-[View More](https://demos.creative-tim.com/blk-design-system-react)
-
-```
-Blk• Design System React
-.
-├── CHANGELOG.md
-├── ISSUE_TEMPLATE.md
-├── README.md
-├── package.json
-├── public
-│   ├── favicon.ico
-│   ├── index.html
-│   └── manifest.json
-└── src
-    ├── index.js
-    ├── variables
-    │   └── charts.js
-    ├── assets
-    │   ├── css
-    │   │   ├── blk-design-system-react.css
-    │   │   ├── blk-design-system-react.css.map
-    │   │   ├── blk-design-system-react.min.css
-    │   │   └── nucleo-icons.css
-    │   ├── demo
-    │   │   └── demo.css
-    │   ├── fonts
-    │   │   ├── nucleo.eot
-    │   │   ├── nucleo.ttf
-    │   │   ├── nucleo.woff
-    │   │   └── nucleo.woff2
-    │   ├── img
-    │   └── scss
-    │       ├── blk-design-system-react
-    │       │   ├── bootstrap
-    │       │   │   ├── mixins
-    │       │   │   └── utilities
-    │       │   ├── custom
-    │       │   │   ├── cards
-    │       │   │   ├── mixins
-    │       │   │   ├── sections
-    │       │   │   ├── utilities
-    │       │   │   └── vendor
-    │       │   └── react
-    │       │       └── react-differences.scss
-    │       └── blk-design-system-react.scss
-    ├── components
-    │   ├── Footer
-    │   │   └── Footer.js
-    │   ├── Navbars
-    │   │   ├── ComponentsNavbar.js
-    │   │   └── ExamplesNavbar.js
-    │   └── PageHeader
-    │       └── PageHeader.js
-    └── views
-        ├── Index.js
-        ├── IndexSections
-        │   ├── Basics.js
-        │   ├── Download.js
-        │   ├── Examples.js
-        │   ├── JavaScript.js
-        │   ├── Navbars.js
-        │   ├── Notifications.js
-        │   ├── NucleoIcons.js
-        │   ├── Pagination.js
-        │   ├── Signup.js
-        │   ├── Tabs.js
-        │   └── Typography.js
-        └── examples
-            ├── LandingPage.js
-            ├── ProfilePage.js
-            └── RegisterPage.js
-```
-
-## Browser Support
-
-At present, we officially aim to support the last two versions of the following browsers:
-
-|                                                              Chrome                                                              |                                                              Firefox                                                               |                                                              Edge                                                               |                                                              Safari                                                               |                                                              Opera                                                               |
-| :------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://github.com/creativetimofficial/public-assets/blob/main/logos/chrome-logo.png?raw=true" width="64" height="64"> | <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/main/logos/firefox-logo.png" width="64" height="64"> | <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/main/logos/edge-logo.png" width="64" height="64"> | <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/main/logos/safari-logo.png" width="64" height="64"> | <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/main/logos/opera-logo.png" width="64" height="64"> |
 
 ![Capture d'écran 2023-11-23 134927](https://github.com/AzizBenIsmail/PFA-FrontendReact/assets/61393700/1b80d4fe-1a9b-4654-82a6-558c896c1bb0)
 ![Capture d'écran 2023-11-23 134912](https://github.com/AzizBenIsmail/PFA-FrontendReact/assets/61393700/a8073c4a-e5a9-4e8e-9c03-61b96ef2d567)
