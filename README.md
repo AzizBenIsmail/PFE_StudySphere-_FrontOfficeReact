@@ -19,7 +19,6 @@ Enfin, notre solution fournira à Attijari Bank des outils avancés de mesure et
 
 En mettant en œuvre cette solution de gestion des campagnes SMS et Email, Attijari Bank pourra améliorer sa communication client, renforcer sa relation avec sa clientèle et atteindre des résultats commerciaux exceptionnels. Notre équipe est déterminée à accompagner Attijari Bank dans ce projet, en fournissant un soutien complet de la mise en place à l'optimisation continue.
 
-
 ![Capture d'écran 2023-11-23 134927](https://github.com/AzizBenIsmail/PFA-FrontendReact/assets/61393700/1b80d4fe-1a9b-4654-82a6-558c896c1bb0)
 ![Capture d'écran 2023-11-23 134912](https://github.com/AzizBenIsmail/PFA-FrontendReact/assets/61393700/a8073c4a-e5a9-4e8e-9c03-61b96ef2d567)
 ![Capture d'écran 2023-11-23 144836](https://github.com/AzizBenIsmail/PFA-FrontendReact/assets/61393700/94e99ff9-0a47-4ddb-830e-6af3eeb4a254)
