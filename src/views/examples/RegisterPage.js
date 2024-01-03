@@ -245,7 +245,7 @@ export default function RegisterPage() {
                         size="lg"
                         style={{
                           backgroundImage:
-                            "linear-gradient(to bottom left, #edae3c, #dc5949, #344675)",
+                            "linear-gradient(to bottom left, #3a4be2, #689dfa)",
                         }}
                         onClick={(e) => add(e)}
                       >
