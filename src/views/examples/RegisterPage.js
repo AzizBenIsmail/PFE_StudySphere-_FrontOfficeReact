@@ -66,6 +66,7 @@ export default function RegisterPage() {
   const [User, setUser] = useState({
     username: "",
     email: "",
+    userType:"",
     password: "",
     image_user: "",
   });
@@ -87,6 +88,7 @@ export default function RegisterPage() {
   const add = async (e) => {
     formData.append("username", User.username);
     formData.append("email", User.email);
+    formData.append("userType", User.userType);
     formData.append("password", User.password);
     formData.append("image_user", image, `${User.username}+.png`);
     const res = await register(formData)
@@ -192,6 +194,24 @@ export default function RegisterPage() {
                               label="Email"
                               aria-label="Email"
                             />
+                          </InputGroup>
+                        </Form.Group>
+                        <Form.Group>
+                          <InputGroup className="input-group-alternative mb-3">
+                            <InputGroupAddon addonType="prepend">
+                              <InputGroupText>User Type</InputGroupText>
+                            </InputGroupAddon>
+                            <Form.Control
+                              as="select"
+                              name="userType"
+                              onChange={(e) => handlechange(e)}
+                            >
+                              <option value="" disabled selected>
+                                Sélectionnez le type d'utilisateur
+                              </option>
+                              <option value="user">Utilisateur</option>
+                              <option value="formateur">Formateur</option>
+                            </Form.Control>
                           </InputGroup>
                         </Form.Group>
                         <Form.Group>

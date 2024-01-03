@@ -1,4 +1,4 @@
-@mixin btn-styles($btn-color, $btn-states-color) {
+  @mixin btn-styles($btn-color, $btn-states-color) {
   @include diagonal-gradient($btn-color, $btn-states-color);
     background-color: $btn-color;
     transition: all 0.15s ease;
@@ -18,7 +18,7 @@
     &.active:hover
      {
         background-color: $btn-states-color !important;
-        background-image: linear-gradient(to bottom left, #ffa600, #ff1e00 , #120f11) !important;
+        background-image: linear-gradient(to bottom left, #800080, #0000FF, #800080) !important;
         background-image: -webkit-linear-gradient(to bottom left, $btn-color, $btn-states-color, $btn-color) !important;
         background-image: -o-linear-gradient(to bottom left, $btn-color, $btn-states-color, $btn-color) !important;
         background-image: -moz-linear-gradient(to bottom left, $btn-color, $btn-states-color, $btn-color) !important;

@@ -91,7 +91,12 @@ function Sidebar(props) {
   return (
     <BackgroundColorContext.Consumer>
       {({ color }) => (
-        <div className="sidebar" data={color}>
+        <div
+          className="sidebar"
+          style={{
+            background: "linear-gradient(0deg, #3649ec 0%, #2a2a46 100%)",
+          }}
+        >
           <div className="sidebar-wrapper" ref={sidebarRef}>
             {logoImg !== null || logoText !== null ? (
               <div className="logo">
