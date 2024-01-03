@@ -169,11 +169,11 @@ export default function LoginPage() {
                   <Card className="card-register ">
                     <CardHeader>
                       <CardImg
-                        className="mt-1"
+                        className="mt-1 w-100 h-50"
                         alt="..."
-                        src={require("assets/img/square-purple-2.png")}
+                        src={require("assets/img/square-purple-10.jpg")}
                       />
-                      <CardTitle tag="h4" className=" mt-3">
+                      <CardTitle className="ml-2 mt-3 text-dark font-weight-bold">
                         connexion
                       </CardTitle>
                     </CardHeader>
@@ -226,7 +226,10 @@ export default function LoginPage() {
                     </CardBody>
                     <CardFooter>
                       <Button
-                        color="primary"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to bottom left, #3a4be2, #689dfa)",
+                        }}
                         type="button"
                         onClick={() => Login(User)}
                       >

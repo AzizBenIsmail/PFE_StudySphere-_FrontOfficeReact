@@ -146,17 +146,17 @@ export default function RegisterPage() {
                   <Card className="card-register ">
                     <CardHeader>
                       <CardImg
-                        className="mt-1"
+                        className="mt-1 w-100 h-80"
                         alt="..."
-                        src={require("assets/img/square-purple-2.png")}
+                        src={require("assets/img/square-purple-10.jpg")}
                       />
-                      <CardTitle tag="h4" className="ml-2 mt-3">
+                      <CardTitle className="ml-2 mt-3 text-dark font-weight-bold">
                         s'inscrire
                       </CardTitle>
                     </CardHeader>
                     <CardBody>
                       <Form
-                        className="form mt-2"
+                        className="form mt-4"
                         role="form"
                         encType="multipart/form-data"
                       >
