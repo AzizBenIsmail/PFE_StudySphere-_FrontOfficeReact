@@ -173,7 +173,7 @@ export default function LoginPage() {
                         alt="..."
                         src={require("assets/img/square-purple-10.jpg")}
                       />
-                      <CardTitle className="ml-2 mt-3 text-dark font-weight-bold">
+                      <CardTitle className=" mt-3 text-dark font-weight-bold">
                         connexion
                       </CardTitle>
                     </CardHeader>

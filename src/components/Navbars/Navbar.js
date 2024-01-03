@@ -2,15 +2,16 @@ import React from "react";
 // reactstrap components
 import {
   Button,
+  Col,
   Collapse,
-  NavbarBrand,
-  Navbar,
-  NavItem,
-  NavLink,
-  Nav,
   Container,
-  UncontrolledTooltip,
-} from "reactstrap";
+  Nav,
+  Navbar,
+  NavbarBrand,
+  NavItem,
+  Row,
+  //UncontrolledTooltip,
+} from 'reactstrap'
 import { useNavigate } from "react-router-dom";
 
 export default function IndexNavbar() {
@@ -48,30 +49,26 @@ export default function IndexNavbar() {
     setCollapseOut("");
   };
   const logoStyle = {
-    width: "25px", // ajustez la largeur selon vos besoins
-    height: "25px", // ajustez la hauteur selon vos besoins
+    width: "50px", // ajustez la largeur selon vos besoins
+    height: "50px", // ajustez la hauteur selon vos besoins
     marginRight: "5px", // ajustez la marge droite selon vos besoins
   };
   return (
     <Navbar className={"fixed-top " + color} color-on-scroll="100" expand="lg">
       <Container>
-        <div className="navbar-translate">
+        <div className="navbar-translate d-flex justify-content-between align-items-center">
           <NavbarBrand to="/" id="navbar-brand">
-            <span>
-              <img
-                src={require("assets/img/favicon.png")}
-                alt="                  Company Sms
- Logo"
-                className="logo-image"
-                style={logoStyle}
-              />
-              •
-            </span>
-            PFA 2023
+          <span>
+            <img
+              src={require("assets/img/favicon.png")}
+              alt=" Company Sms Logo"
+              className="logo-image"
+              style={logoStyle}
+            />
+            SST•
+          </span>
+              StudySphere
           </NavbarBrand>
-          <UncontrolledTooltip placement="bottom" target="navbar-brand">
-            Company Sms
-          </UncontrolledTooltip>
           <button
             aria-expanded={collapseOpen}
             className="navbar-toggler navbar-toggler"
@@ -89,68 +86,44 @@ export default function IndexNavbar() {
           onExiting={onCollapseExiting}
           onExited={onCollapseExited}
         >
-          <Nav navbar>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://twitter.com/AttijariwafaB"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Follow us on Twitter"
-              >
-                <i className="fab fa-twitter" />
-                <p className="d-lg-none d-xl-none">Twitter</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.attijaribank.com.tn/Fr/ "
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Like us on Facebook"
-              >
-                <i className="tim-icons icon-world" />
-                <p className="d-lg-none d-xl-none">WebSite</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.facebook.com/AttijariBankTunisie/"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Like us on Facebook"
-              >
-                <i className="fab fa-facebook-square" />
-                <p className="d-lg-none d-xl-none">Facebook</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.instagram.com/attijari_bank_tunisie/?hl=fr"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Follow us on Instagram"
-              >
-                <i className="fab fa-instagram" />
-                <p className="d-lg-none d-xl-none">Instagram</p>
-              </NavLink>
-            </NavItem>
-
+          <div className="navbar-collapse-header">
+            <Row>
+              <Col className="collapse-brand" xs="6">
+              <span>
+                <img
+                  src={require("assets/img/favicon.png")}
+                  alt=" Company Sms Logo"
+                  className="logo-image"
+                  style={logoStyle}
+                />
+                •
+              </span>
+                StudySphere
+              </Col>
+              <Col className="collapse-close text-right" xs="6">
+                <button
+                  aria-expanded={collapseOpen}
+                  className="navbar-toggler"
+                  onClick={toggleCollapse}
+                >
+                  <i className="tim-icons icon-simple-remove" />
+                </button>
+              </Col>
+            </Row>
+          </div>
+          <Nav navbar className="ml-auto">
             <NavItem>
               <Button
-                className="nav-link d-none d-lg-block"
+                // className="nav-link d-none d-lg-block mt-2"
                 style={{
                   backgroundImage:
-                    "linear-gradient(to bottom left, #edae3c, #dc5949, #120f11)",
+                    "linear-gradient(to bottom left, #3a4be2, #689dfa)",
                 }}
                 onClick={() => navigate(`/login-page`)}
               >
                 <i className="fa fa-user-plus mr-1" />
-                connexion
-              </Button>
+                Connexion
+                </Button>
             </NavItem>
           </Nav>
         </Collapse>

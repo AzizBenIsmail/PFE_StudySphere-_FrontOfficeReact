@@ -6,7 +6,7 @@ import {
   NavbarBrand,
   Navbar,
   NavItem,
-  NavLink,
+  //NavLink,
   Nav,
   Container,
   Row,
@@ -103,11 +103,11 @@ export default function ExamplesNavbar() {
       <Container>
         <div className="navbar-translate mb-5 ">
           <NavbarBrand to="/" tag={Link} id="navbar-brand">
-            <span>ABT• </span>
-            Company Sms
+            <span>SST• </span>
+            StudySphere
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
-            Company Sms
+            StudySphere
           </UncontrolledTooltip>
           <button
             aria-expanded={collapseOpen}
@@ -130,8 +130,8 @@ export default function ExamplesNavbar() {
             <Row>
               <Col className="collapse-brand" xs="6">
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                  <span>ABT• </span>
-                  Company Sms
+                  <span>SST• </span>
+                  StudySphere
                 </a>
               </Col>
               <Col className="collapse-close text-right" xs="6">
@@ -146,54 +146,54 @@ export default function ExamplesNavbar() {
             </Row>
           </div>
           <Nav navbar>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://twitter.com/AttijariwafaB"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Follow us on Twitter"
-              >
-                <i className="fab fa-twitter" />
-                <p className="d-lg-none d-xl-none">Twitter</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.attijaribank.com.tn/Fr/ "
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Like us on Facebook"
-              >
-                <i className="tim-icons icon-world" />
-                <p className="d-lg-none d-xl-none">WebSite</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.facebook.com/AttijariBankTunisie/"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Like us on Facebook"
-              >
-                <i className="fab fa-facebook-square" />
-                <p className="d-lg-none d-xl-none">Facebook</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.instagram.com/attijari_bank_tunisie/?hl=fr"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Follow us on Instagram"
-              >
-                <i className="fab fa-instagram" />
-                <p className="d-lg-none d-xl-none">Instagram</p>
-              </NavLink>
-            </NavItem>
+            {/*<NavItem className="p-0">*/}
+            {/*  <NavLink*/}
+            {/*    data-placement="bottom"*/}
+            {/*    href="https://twitter.com/AttijariwafaB"*/}
+            {/*    rel="noopener noreferrer"*/}
+            {/*    target="_blank"*/}
+            {/*    title="Follow us on Twitter"*/}
+            {/*  >*/}
+            {/*    <i className="fab fa-twitter" />*/}
+            {/*    <p className="d-lg-none d-xl-none">Twitter</p>*/}
+            {/*  </NavLink>*/}
+            {/*</NavItem>*/}
+            {/*<NavItem className="p-0">*/}
+            {/*  <NavLink*/}
+            {/*    data-placement="bottom"*/}
+            {/*    href="https://www.attijaribank.com.tn/Fr/ "*/}
+            {/*    rel="noopener noreferrer"*/}
+            {/*    target="_blank"*/}
+            {/*    title="Like us on Facebook"*/}
+            {/*  >*/}
+            {/*    <i className="tim-icons icon-world" />*/}
+            {/*    <p className="d-lg-none d-xl-none">WebSite</p>*/}
+            {/*  </NavLink>*/}
+            {/*</NavItem>*/}
+            {/*<NavItem className="p-0">*/}
+            {/*  <NavLink*/}
+            {/*    data-placement="bottom"*/}
+            {/*    href="https://www.facebook.com/AttijariBankTunisie/"*/}
+            {/*    rel="noopener noreferrer"*/}
+            {/*    target="_blank"*/}
+            {/*    title="Like us on Facebook"*/}
+            {/*  >*/}
+            {/*    <i className="fab fa-facebook-square" />*/}
+            {/*    <p className="d-lg-none d-xl-none">Facebook</p>*/}
+            {/*  </NavLink>*/}
+            {/*</NavItem>*/}
+            {/*<NavItem className="p-0">*/}
+            {/*  <NavLink*/}
+            {/*    data-placement="bottom"*/}
+            {/*    href="https://www.instagram.com/attijari_bank_tunisie/?hl=fr"*/}
+            {/*    rel="noopener noreferrer"*/}
+            {/*    target="_blank"*/}
+            {/*    title="Follow us on Instagram"*/}
+            {/*  >*/}
+            {/*    <i className="fab fa-instagram" />*/}
+            {/*    <p className="d-lg-none d-xl-none">Instagram</p>*/}
+            {/*  </NavLink>*/}
+            {/*</NavItem>*/}
             <NavItem>
               <img
                 alt="..."

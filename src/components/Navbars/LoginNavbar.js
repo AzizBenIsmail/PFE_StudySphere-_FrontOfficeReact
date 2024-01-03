@@ -11,7 +11,6 @@ import {
   Navbar,
   NavbarBrand,
   NavItem,
-  NavLink,
   Row,
   UncontrolledTooltip,
 } from 'reactstrap'
@@ -51,29 +50,28 @@ export default function LoginNavbar () {
     setCollapseOut('')
   }
   const logoStyle = {
-    width: '25px', // ajustez la largeur selon vos besoins
-    height: '25px', // ajustez la hauteur selon vos besoins
-    marginRight: '5px', // ajustez la marge droite selon vos besoins
-  }
+    width: "50px", // ajustez la largeur selon vos besoins
+    height: "50px", // ajustez la hauteur selon vos besoins
+    marginRight: "5px", // ajustez la marge droite selon vos besoins
+  };
   return (
     <Navbar className={'fixed-top ' + color} color-on-scroll="100" expand="lg">
       <Container>
-        <div className="navbar-translate">
+        <div className="navbar-translate d-flex justify-content-between align-items-center">
           <NavbarBrand to="/" id="navbar-brand">
-            <span>
-              <img
-                src={require('assets/img/favicon.png')}
-                alt="            Company Sms
- Logo"
-                className="logo-image"
-                style={logoStyle}
-              />
-              •
-            </span>
-              PFA 2023
+          <span>
+            <img
+              src={require('assets/img/favicon.png')}
+              alt="Company Sms Logo"
+              className="logo-image"
+              style={logoStyle}
+            />
+            SST•
+          </span>
+            StudySphere
           </NavbarBrand>
           <UncontrolledTooltip placement="bottom" target="navbar-brand">
-            Company Sms
+            StudySphere
           </UncontrolledTooltip>
           <button
             aria-expanded={collapseOpen}
@@ -95,18 +93,16 @@ export default function LoginNavbar () {
           <div className="navbar-collapse-header">
             <Row>
               <Col className="collapse-brand" xs="6">
-
-                  <span>
-                    <img
-                      src={require('assets/img/favicon.png')}
-                      alt="            Company Sms
- Logo"
-                      className="logo-image"
-                      style={logoStyle}
-                    />
-                    •
-                  </span>
-                  Company Sms
+              <span>
+                <img
+                  src={require('assets/img/favicon.png')}
+                  alt="Company Sms Logo"
+                  className="logo-image"
+                  style={logoStyle}
+                />
+                •
+              </span>
+                StudySphere
               </Col>
               <Col className="collapse-close text-right" xs="6">
                 <button
@@ -120,67 +116,19 @@ export default function LoginNavbar () {
             </Row>
           </div>
           <Nav navbar>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://twitter.com/AttijariwafaB"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Follow us on Twitter"
-              >
-                <i className="fab fa-twitter"/>
-                <p className="d-lg-none d-xl-none">Twitter</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.attijaribank.com.tn/Fr/ "
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Like us on Facebook"
-              >
-                <i className="tim-icons icon-world"/>
-                <p className="d-lg-none d-xl-none">WebSite</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.facebook.com/AttijariBankTunisie/"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Like us on Facebook"
-              >
-                <i className="fab fa-facebook-square"/>
-                <p className="d-lg-none d-xl-none">Facebook</p>
-              </NavLink>
-            </NavItem>
-            <NavItem className="p-0">
-              <NavLink
-                data-placement="bottom"
-                href="https://www.instagram.com/attijari_bank_tunisie/?hl=fr"
-                rel="noopener noreferrer"
-                target="_blank"
-                title="Follow us on Instagram"
-              >
-                <i className="fab fa-instagram"/>
-                <p className="d-lg-none d-xl-none">Instagram</p>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <Button
-                className="nav-link d-none d-lg-block"
-                onClick={() => navigate(`/register-page`)}
-                style={{
-                  backgroundImage:
-                    'linear-gradient(to bottom left, #edae3c, #dc5949, #120f11)',
-                }}
-              >
-                <FiLogIn className="mr-2"/>
-                créer un compte
-              </Button>
-            </NavItem>
+                     <NavItem className="ml-auto">
+            <Button
+              // className="nav-link d-none d-lg-block"
+              onClick={() => navigate(`/register-page`)}
+              style={{
+                backgroundImage:
+                  "linear-gradient(to bottom left, #3a4be2, #689dfa)",
+              }}
+            >
+              <FiLogIn className="mr-2"/>
+              Créer un compte
+            </Button>
+                    </NavItem>
           </Nav>
         </Collapse>
       </Container>
