@@ -1,9 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { LoginUser, forgetPassword } from "../../Services/ApiUser";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
+  const [User, setUser] = useState({
+    email: "",
+    password: "",
+  });
+  const handlechange = (e) => {
+    setUser({ ...User, [e.target.name]: e.target.value });
+    // console.log(User);
+  };
+  const Login = async (user) => {
+    try {
+      const res = await LoginUser(user);
+      // console.log(res.data.message);
+      // console.log(res.status);
+      // const jwt_token = Cookies.get("jwt_token");
+      // console.log("Valeur du cookie jwt_token :", jwt_token);
+      // console.log(res.data.user.userType);
+      if (res.data.user.userType === "admin") {
+        window.location.replace(`/admin/tablesUsers`);
+      } else {
+        window.location.replace(`/landing-page/`);
+      }
+    } catch (error) {
+      if (error.response.data.erreur === "compte desactive" )
+      {
+        toast("Compte Desactive  !", { position: "top-center" });
+      }else if(error.response.data.erreur === "incorrect password" )
+      {
+        toast("password incorrect  !", { position: "top-center" });
+      }else if(error.response.data.erreur === "incorrect email" )
+      {
+        toast("email incorrect  !", { position: "top-center" });
+      }
+      // console.log(error.response.data);
+    }
+  };
+  const forget = async (email) => {
+    try {
+      const res = await forgetPassword(email);
+      console.log(res);
+      if (res.data.message === "mot de passe modifié avec succès vérifier votre boîte mail") {
+        toast("Vérifier votre boîte mail  !", {position: "top-center"});
+      }
+    }catch (error) {
+      if (error.response.data.message === "User not found!" )
+      {
+        toast("Email n'existe pas !", { position: "top-center" });
+      }
+    }
+  };
   return (
     <>
+      <ToastContainer />
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-4/12 px-4">
