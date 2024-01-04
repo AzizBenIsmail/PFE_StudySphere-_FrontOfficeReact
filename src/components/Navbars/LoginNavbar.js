@@ -118,7 +118,7 @@ export default function LoginNavbar () {
           <Nav navbar>
                      <NavItem className="ml-auto">
             <Button
-              // className="nav-link d-none d-lg-block"
+               className="nav-link d-none d-lg-block"
               onClick={() => navigate(`/register-page`)}
               style={{
                 backgroundImage:

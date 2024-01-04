@@ -114,7 +114,7 @@ export default function IndexNavbar() {
           <Nav navbar className="ml-auto">
             <NavItem>
               <Button
-                // className="nav-link d-none d-lg-block mt-2"
+                 className="nav-link d-none d-lg-block mt-2"
                 style={{
                   backgroundImage:
                     "linear-gradient(to bottom left, #3a4be2, #689dfa)",
