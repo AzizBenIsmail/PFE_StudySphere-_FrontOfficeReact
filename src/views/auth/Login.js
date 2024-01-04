@@ -1,17 +1,33 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { LoginUser, forgetPassword } from "../../Services/ApiUser";
-
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 export default function Login() {
   const [User, setUser] = useState({
     email: "",
     password: "",
   });
+
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value });
-    // console.log(User);
   };
+
+  const showNotification = (type, title, message) => {
+    switch (type) {
+      case 'success':
+        NotificationManager.success(message, title);
+        break;
+      case 'error':
+        NotificationManager.error(message, title);
+        break;
+      // Ajoutez d'autres types si nécessaire
+      default:
+        break;
+    }
+  };
+
   const Login = async (user) => {
     try {
       const res = await LoginUser(user);
@@ -21,36 +37,32 @@ export default function Login() {
         window.location.replace(`/landing-page/`);
       }
     } catch (error) {
-      if (error.response.data.erreur === "compte desactive" )
-      {
-        // toast("Compte Desactive  !", { position: "top-center" });
-      }else if(error.response.data.erreur === "incorrect password" )
-      {
-        // toast("password incorrect  !", { position: "top-center" });
-      }else if(error.response.data.erreur === "incorrect email" )
-      {
-        // toast("email incorrect  !", { position: "top-center" });
+      if (error.response.data.erreur === "compte desactive") {
+        showNotification("error", "Compte Désactivé", "Compte Désactivé !");
+      } else if (error.response.data.erreur === "incorrect password") {
+        showNotification("error", "Mot de Passe Incorrect", "Mot de passe incorrect !");
+      } else if (error.response.data.erreur === "incorrect email") {
+        showNotification("error", "Email Incorrect", "Email incorrect !");
       }
-      // console.log(error.response.data);
     }
   };
+
   const forget = async (email) => {
     try {
       const res = await forgetPassword(email);
       console.log(res);
       if (res.data.message === "mot de passe modifié avec succès vérifier votre boîte mail") {
-        // toast("Vérifier votre boîte mail  !", {position: "top-center"});
+        showNotification("success", "Vérification de la boîte mail", "Vérifier votre boîte mail !");
       }
-    }catch (error) {
-      if (error.response.data.message === "User not found!" )
-      {
-        // toast("Email n'existe pas !", { position: "top-center" });
+    } catch (error) {
+      if (error.response.data.message === "User not found!") {
+        showNotification("error", "Utilisateur non trouvé", "Email n'existe pas !");
       }
     }
   };
   return (
     <>
-      {/*<ToastContainer />*/}
+      <NotificationContainer />
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-4/12 px-4">
@@ -100,9 +112,13 @@ export default function Login() {
                       Email
                     </label>
                     <input
-                      type="email"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Email"
+                      placeholder="Email Address"
+                      type="text"
+                      name="email"
+                      onChange={(e) => handlechange(e)}
+                      label="Email"
+                      aria-label="Email"
                     />
                   </div>
 
@@ -114,9 +130,12 @@ export default function Login() {
                       Password
                     </label>
                     <input
-                      type="password"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Password"
+                      type="password"
+                      name="password"
+                      onChange={(e) => handlechange(e)}
+                      label="Password"
+                      aria-label="Password"
                     />
                   </div>
                   <div>
@@ -136,6 +155,7 @@ export default function Login() {
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
+                      onClick={() => Login(User)}
                     >
                       Sign In
                     </button>
@@ -147,10 +167,10 @@ export default function Login() {
               <div className="w-1/2">
                 <a
                   href="#pablo"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={ (e) => forget(User.email) }
                   className="text-blueGray-200"
                 >
-                  <small>Forgot password?</small>
+                  <small> Réinitialiser mon mot de passe ?</small>
                 </a>
               </div>
               <div className="w-1/2 text-right">
