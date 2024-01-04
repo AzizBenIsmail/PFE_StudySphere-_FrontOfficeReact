@@ -1,42 +1,12 @@
-import React, { useMemo } from 'react'
+import React from "react";
 import { Link } from "react-router-dom";
 
 // components
-import Cookies from 'js-cookie'
-import { getUserAuth } from '../Services/ApiUser'
 
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
 
 export default function Landing() {
-  //cookies
-  const jwt_token = Cookies.get('jwt_token')
-
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    }
-  }, [jwt_token])
-
-  //session
-  if (Cookies.get('jwt_token')) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.userType === 'user') {
-            window.location.replace(`/landing/`)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  } else {
-    window.location.replace(`/`)
-  }
   return (
     <>
       <Navbar transparent />

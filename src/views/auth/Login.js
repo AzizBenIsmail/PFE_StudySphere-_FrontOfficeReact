@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { LoginUser, forgetPassword } from "../../Services/ApiUser";
-import { ToastContainer , toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
@@ -106,13 +106,10 @@ export default function Login() {
                       Email
                     </label>
                     <input
+                      type="email"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Email Address"
-                      type="text"
-                      name="email"
-                      onChange={(e) => handlechange(e)}
-                      label="Email"
-                      aria-label="Email"                    />
+                      placeholder="Email"
+                    />
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -123,13 +120,10 @@ export default function Login() {
                       Password
                     </label>
                     <input
+                      type="password"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Password"
-                      type="password"
-                      name="password"
-                      onChange={(e) => handlechange(e)}
-                      label="Password"
-                      aria-label="Password"                    />
+                    />
                   </div>
                   <div>
                     <label className="inline-flex items-center cursor-pointer">
@@ -148,7 +142,6 @@ export default function Login() {
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => Login(User)}
                     >
                       Sign In
                     </button>
@@ -160,10 +153,10 @@ export default function Login() {
               <div className="w-1/2">
                 <a
                   href="#pablo"
-                  onClick={ (e) => forget(User.email) }
+                  onClick={(e) => e.preventDefault()}
                   className="text-blueGray-200"
                 >
-                  <small> Réinitialiser mon mot de passe ?</small>
+                  <small>Forgot password?</small>
                 </a>
               </div>
               <div className="w-1/2 text-right">
