@@ -1,42 +1,10 @@
-import React, { useMemo } from 'react'
+import React from "react";
 
 // components
 
 import CardTable from "components/Cards/CardTable.js";
-import Cookies from 'js-cookie'
-import { getUserAuth } from '../../Services/ApiUser'
 
 export default function Tables() {
-  // const navigate = useNavigate()
-
-  //cookies
-  const jwt_token = Cookies.get('jwt_token')
-
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    }
-  }, [jwt_token])
-
-  //session
-  if (Cookies.get('jwt_token')) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.userType === 'user') {
-            window.location.replace(`/landing/`)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  } else {
-    window.location.replace(`/`)
-  }
   return (
     <>
       <div className="flex flex-wrap mt-4">
