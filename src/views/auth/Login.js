@@ -1,9 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { LoginUser, forgetPassword } from "../../Services/ApiUser";
+
 
 export default function Login() {
+  const [User, setUser] = useState({
+    email: "",
+    password: "",
+  });
+  const handlechange = (e) => {
+    setUser({ ...User, [e.target.name]: e.target.value });
+    // console.log(User);
+  };
+  const Login = async (user) => {
+    try {
+      const res = await LoginUser(user);
+      if (res.data.user.userType === "admin") {
+        window.location.replace(`/admin/tablesUsers`);
+      } else {
+        window.location.replace(`/landing-page/`);
+      }
+    } catch (error) {
+      if (error.response.data.erreur === "compte desactive" )
+      {
+        // toast("Compte Desactive  !", { position: "top-center" });
+      }else if(error.response.data.erreur === "incorrect password" )
+      {
+        // toast("password incorrect  !", { position: "top-center" });
+      }else if(error.response.data.erreur === "incorrect email" )
+      {
+        // toast("email incorrect  !", { position: "top-center" });
+      }
+      // console.log(error.response.data);
+    }
+  };
+  const forget = async (email) => {
+    try {
+      const res = await forgetPassword(email);
+      console.log(res);
+      if (res.data.message === "mot de passe modifié avec succès vérifier votre boîte mail") {
+        // toast("Vérifier votre boîte mail  !", {position: "top-center"});
+      }
+    }catch (error) {
+      if (error.response.data.message === "User not found!" )
+      {
+        // toast("Email n'existe pas !", { position: "top-center" });
+      }
+    }
+  };
   return (
     <>
+      {/*<ToastContainer />*/}
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-4/12 px-4">
