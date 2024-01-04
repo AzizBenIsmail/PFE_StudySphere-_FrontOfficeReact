@@ -14,7 +14,6 @@ export async function AddUserService(formData, config) {
   });
 }
 
-
 export async function LoginUser(user) {
   return await axios.post(`${ apiURL }/login`, user, {
     withCredentials: true,

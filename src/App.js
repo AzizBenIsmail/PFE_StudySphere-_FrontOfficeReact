@@ -3,13 +3,13 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { InfinitySpin } from "react-loader-spinner";
 
 // layouts
-import Admin from "layouts/Admin.js";
-import Auth from "layouts/Auth.js";
+const Admin = lazy(() => import("layouts/Admin.js"));
+const Auth = lazy(() => import("layouts/Auth.js"));
 
 // views without layouts
-import Landing from "views/Landing.js";
-import Profile from "views/Profile.js";
-import Index from "views/Index.js";
+const Landing = lazy(() => import("views/Landing.js"));
+const Profile = lazy(() => import("views/Profile.js"));
+const Index = lazy(() => import("views/Index.js"));
 
 function App() {
   return (
