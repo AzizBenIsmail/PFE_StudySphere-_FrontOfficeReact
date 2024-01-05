@@ -38,6 +38,7 @@ export default function Register () {
     username: '',
     email: '',
     password: '',
+    userType:'',
     image_user: '',
   })
   const handlechange = (e) => {
@@ -53,9 +54,10 @@ export default function Register () {
     formData.append('username', User.username)
     formData.append('email', User.email)
     formData.append('password', User.password)
+    formData.append('userType', User.userType)
     formData.append('image_user', image, `${User.username}+.png`)
     const res = await register(formData)
-    .then(window.location.replace(`/login-page/`))
+    .then(window.location.replace(`/auth/login/`))
     .catch((error) => {
       console.log(error.response.data)
     })
@@ -167,9 +169,13 @@ export default function Register () {
                       Utilisateur
                     </label>
                     <input
-                      type="password"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Client ou Formateur "
+                      type="text"
+                      name="userType"
+                      onChange={(e) => handlechange(e)}
+                      label="userType"
+                      aria-label="userType"
                     />
                   </div>
 
