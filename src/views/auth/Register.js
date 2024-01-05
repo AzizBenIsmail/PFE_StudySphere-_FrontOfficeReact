@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom'
 
 export default function Register() {
   return (
@@ -115,6 +116,22 @@ export default function Register() {
                     </button>
                   </div>
                 </form>
+              </div>
+            </div>
+            <div className="flex flex-wrap mt-6 relative">
+              <div className="w-1/2">
+                <a
+                  href="#pablo"
+                  // onClick={(e) => forget(User.email)}
+                  className="text-blueGray-200"
+                >
+                  <small> .</small>
+                </a>
+              </div>
+              <div className="w-1/2 text-right">
+                <Link to="/auth/login" className="text-blueGray-200">
+                  <small> Créer un nouveau </small>
+                </Link>
               </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 import PagesDropdown from "components/Dropdowns/PagesDropdown.js";
 import { SlLogin } from "react-icons/sl";
+import { GoDotFill } from "react-icons/go";
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
@@ -19,12 +20,18 @@ export default function Navbar(props) {
               to="/"
             >
               <img
-                src={require("assets/img/favicon.png").default}
+                src={require("assets/img/Logo.png").default}
                 alt="..."
                 className="mr-2"
-                style={{ maxWidth: '10%', height: 'auto' }}
+                style={{ maxWidth: '25%', height: '10%' }}
               />
-              StudySphere
+              <GoDotFill />
+              <img
+                src={require("assets/img/LogoBridge.png").default}
+                alt="..."
+                className="mr-2"
+                style={{ maxWidth: '25%', height: '10%' }}
+              />
             </Link>
             <button
               className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
@@ -48,19 +55,19 @@ export default function Navbar(props) {
                   className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                   href="https://www.creative-tim.com/learning-lab/tailwind/react/overview/notus?ref=nr-auth-navbar"
                 >
-                  <i className="lg:text-blueGray-200 text-blueGray-400 far fa-file-alt text-lg leading-lg mr-2" />{" "}
-                  <img
-                    src={require("assets/img/LogoBridge.png").default}
-                    alt="..."
-                    className="mr-2"
-                    style={{ maxWidth: '50%', height: 'auto' }}
-                  />
+                  {/*<MdOutlineCastForEducation size={25} className="mr-2" />*/}
+                  {/*<img*/}
+                  {/*  src={require("assets/img/LogoBridge.png").default}*/}
+                  {/*  alt="..."*/}
+                  {/*  className="mr-2"*/}
+                  {/*  style={{ maxWidth: '50%', height: 'auto' }}*/}
+                  {/*/>*/}
                 </a>
               </li>
             </ul>
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               {/*<li className="flex items-center">*/}
-                <PagesDropdown />
+              {/*  <PagesDropdown />*/}
               {/*</li>*/}
               {/*<li className="flex items-center">*/}
               {/*  <a*/}
