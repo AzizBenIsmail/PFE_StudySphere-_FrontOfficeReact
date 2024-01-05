@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { getUserAuth ,register } from '../../Services/ApiUser'
 import { useState } from "react";
-import AddImage from "../../layouts/addImage";
 
 export default function Register () {
   const jwt_token = Cookies.get('jwt_token')
@@ -35,24 +34,20 @@ export default function Register () {
     fetchData()
   }
   const [image, setImage] = useState()
-  const [croppedImage, setCroppedImage] = useState(null)
   const [User, setUser] = useState({
     username: '',
     email: '',
     password: '',
     image_user: '',
   })
-  const handleEvent = (croppedImageUrl, croppedImageBlob) => {
-    setCroppedImage(croppedImageUrl)
-    console.log(croppedImage)
-    setImage(croppedImageBlob)
-    console.log(croppedImageUrl)
-    console.log(croppedImageBlob)
-  }
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value })
     console.log(User)
   }
+  const handlechangeFile = (e) => {
+    setImage(e.target.files[0]);
+    console.log(e.target.files[0]);
+  };
   let formData = new FormData()
   const add = async (e) => {
     formData.append('username', User.username)
@@ -109,7 +104,7 @@ export default function Register () {
                 <div className="text-blueGray-400 text-center mb-3 font-bold">
                   <small>Or sign up with credentials</small>
                 </div>
-                <form>
+                <form encType="multipart/form-data" >
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -118,9 +113,13 @@ export default function Register () {
                       Name
                     </label>
                     <input
-                      type="text"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Name"
+                      placeholder="Username"
+                      type="text"
+                      name="username"
+                      onChange={(e) => handlechange(e)}
+                      label="Username"
+                      aria-label="Username"
                     />
                   </div>
 
@@ -132,9 +131,13 @@ export default function Register () {
                       Email
                     </label>
                     <input
-                      type="email"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Email"
+                      placeholder="Email Address"
+                      type="text"
+                      name="email"
+                      onChange={(e) => handlechange(e)}
+                      label="Email"
+                      aria-label="Email"
                     />
                   </div>
 
@@ -146,9 +149,13 @@ export default function Register () {
                       Password
                     </label>
                     <input
-                      type="password"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Password"
+                      type="password"
+                      name="password"
+                      onChange={(e) => handlechange(e)}
+                      label="Password"
+                      aria-label="Password"
                     />
                   </div>
 
@@ -174,10 +181,11 @@ export default function Register () {
                       Photo De Profile
                     </label>
                     <input
-                      type="password"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Image"
-                    />
+                      placeholder="image_user"
+                      name="image_user"
+                      type="file"
+                      onChange={(e) => handlechangeFile(e)}                    />
                   </div>
 
                   <div>
@@ -204,6 +212,7 @@ export default function Register () {
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
+                      onClick={(e) => add(e)}
                     >
                       Create Account
                     </button>
