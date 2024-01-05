@@ -1,36 +1,36 @@
 /*eslint-disable*/
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 // components
+import { SlLogin } from 'react-icons/sl'
+import { GiBurningDot } from 'react-icons/gi'
 
-import PagesDropdown from "components/Dropdowns/PagesDropdown.js";
-import { SlLogin } from "react-icons/sl";
-import { GoDotFill } from "react-icons/go";
-
-export default function Navbar(props) {
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
+export default function Navbar (props) {
+  const [navbarOpen, setNavbarOpen] = React.useState(false)
   return (
     <>
-      <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
+      <nav
+        className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
-          <div className="w-full relative flex justify-between items-center lg:w-auto lg:static lg:block lg:justify-start">
+          <div
+            className="w-full relative flex justify-between items-center lg:w-auto lg:static lg:block lg:justify-start">
             <Link
               className="text-white text-sm font-bold leading-relaxed inline-flex items-center mr-4 py-2 whitespace-nowrap uppercase"
               to="/"
             >
               <img
-                src={require("assets/img/Logo.png").default}
+                src={require('assets/img/Logo.png').default}
                 alt="..."
-                className="mr-2"
-                style={{ maxWidth: '25%', height: '10%' }}
+                className="mr-4"
+                style={{ maxWidth: '20%', height: '10%' }}
               />
-              <GoDotFill />
+              <GiBurningDot size={25} className="mr-4"  />
               <img
-                src={require("assets/img/LogoBridge.png").default}
+                src={require('assets/img/LogoBridge.png').default}
                 alt="..."
-                className="mr-2"
-                style={{ maxWidth: '25%', height: '10%' }}
+                className="mr-4"
+                style={{ maxWidth: '20%', height: '10%' }}
               />
             </Link>
             <button
@@ -44,8 +44,8 @@ export default function Navbar(props) {
 
           <div
             className={
-              "lg:flex flex-grow items-center bg-white lg:bg-opacity-0 lg:shadow-none" +
-              (navbarOpen ? " block rounded shadow-lg" : " hidden")
+              'lg:flex flex-grow items-center bg-white lg:bg-opacity-0 lg:shadow-none' +
+              (navbarOpen ? ' block rounded shadow-lg' : ' hidden')
             }
             id="example-navbar-warning"
           >
@@ -107,7 +107,7 @@ export default function Navbar(props) {
                   className="bg-white text-blueGray-700 active:bg-blueGray-50 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150 flex items-center"
                   type="button"
                 >
-                  <SlLogin className="mr-2" /> {/* Ajoutez cette ligne pour l'icône */}
+                  <SlLogin className="mr-2"/> {/* Ajoutez cette ligne pour l'icône */}
                   Créer un nouveau
                 </button>
               </li>
@@ -116,5 +116,5 @@ export default function Navbar(props) {
         </div>
       </nav>
     </>
-  );
+  )
 }

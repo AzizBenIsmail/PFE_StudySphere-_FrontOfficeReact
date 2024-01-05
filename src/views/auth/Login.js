@@ -32,9 +32,9 @@ export default function Login () {
     try {
       const res = await LoginUser(user)
       if (res.data.user.userType === 'admin') {
-        window.location.replace(`/admin/tablesUsers`)
+        window.location.replace(`/admin`)
       } else {
-        window.location.replace(`/landing-page/`)
+        window.location.replace(`/`)
       }
     } catch (error) {
       if (error.response.data.erreur === 'compte desactive') {
