@@ -11,7 +11,7 @@ const Landing = lazy(() => import("views/Landing.js"));
 const Profile = lazy(() => import("views/Profile.js"));
 const Index = lazy(() => import("views/Index.js"));
 
-function App() {
+function Routes() {
   return (
     <>
       <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d" />}>
@@ -22,8 +22,8 @@ function App() {
           {/* add routes without layouts */}
           <Route path="/landing" exact component={Landing} />
           <Route path="/profile" exact component={Profile} />
-          <Route path="/index" exact component={Index} />
-          <Route path="/" component={Auth} />
+          <Route path="/" exact component={Index} />
+          {/*<Route path="/" component={Auth} />*/}
           {/* add redirect for first page */}
           <Redirect from="*" to="/" />
         </Switch>
@@ -32,4 +32,4 @@ function App() {
   );
 }
 
-export default App;
+export default Routes;

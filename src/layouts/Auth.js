@@ -57,7 +57,7 @@ export default function Auth() {
           ></div>
           <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d" />}>
             <Switch>
-              <Route path="/" exact component={Login} />
+              <Route path="/auth/login" exact component={Login} />
               <Route path="/auth/register" exact component={Register} />
               <Redirect from="/auth" to="/auth/login" />
             </Switch>
