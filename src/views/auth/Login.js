@@ -1,72 +1,73 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { LoginUser, forgetPassword } from "../../Services/ApiUser";
-import { NotificationContainer, NotificationManager } from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { forgetPassword, LoginUser } from '../../Services/ApiUser'
+import { NotificationContainer, NotificationManager } from 'react-notifications'
+import 'react-notifications/lib/notifications.css'
 
-export default function Login() {
+export default function Login () {
   const [User, setUser] = useState({
-    email: "",
-    password: "",
-  });
+    email: '',
+    password: '',
+  })
 
   const handlechange = (e) => {
-    setUser({ ...User, [e.target.name]: e.target.value });
-  };
+    setUser({ ...User, [e.target.name]: e.target.value })
+  }
 
   const showNotification = (type, title, message) => {
     switch (type) {
       case 'success':
-        NotificationManager.success(message, title);
-        break;
+        NotificationManager.success(message, title)
+        break
       case 'error':
-        NotificationManager.error(message, title);
-        break;
+        NotificationManager.error(message, title)
+        break
       // Ajoutez d'autres types si nécessaire
       default:
-        break;
+        break
     }
-  };
+  }
 
   const Login = async (user) => {
     try {
-      const res = await LoginUser(user);
-      if (res.data.user.userType === "admin") {
-        window.location.replace(`/admin/tablesUsers`);
+      const res = await LoginUser(user)
+      if (res.data.user.userType === 'admin') {
+        window.location.replace(`/admin/tablesUsers`)
       } else {
-        window.location.replace(`/landing-page/`);
+        window.location.replace(`/landing-page/`)
       }
     } catch (error) {
-      if (error.response.data.erreur === "compte desactive") {
-        showNotification("error", "Compte Désactivé", "Compte Désactivé !");
-      } else if (error.response.data.erreur === "incorrect password") {
-        showNotification("error", "Mot de Passe Incorrect", "Mot de passe incorrect !");
-      } else if (error.response.data.erreur === "incorrect email") {
-        showNotification("error", "Email Incorrect", "Email incorrect !");
+      if (error.response.data.erreur === 'compte desactive') {
+        showNotification('error', 'Compte Désactivé', 'Compte Désactivé !')
+      } else if (error.response.data.erreur === 'incorrect password') {
+        showNotification('error', 'Mot de Passe Incorrect', 'Mot de passe incorrect !')
+      } else if (error.response.data.erreur === 'incorrect email') {
+        showNotification('error', 'Email Incorrect', 'Email incorrect !')
       }
     }
-  };
+  }
 
   const forget = async (email) => {
     try {
-      const res = await forgetPassword(email);
-      console.log(res);
-      if (res.data.message === "mot de passe modifié avec succès vérifier votre boîte mail") {
-        showNotification("success", "Vérification de la boîte mail", "Vérifier votre boîte mail !");
+      const res = await forgetPassword(email)
+      console.log(res)
+      if (res.data.message === 'mot de passe modifié avec succès vérifier votre boîte mail') {
+        showNotification('success', 'Vérification de la boîte mail', 'Vérifier votre boîte mail !')
       }
     } catch (error) {
-      if (error.response.data.message === "User not found!") {
-        showNotification("error", "Utilisateur non trouvé", "Email n'existe pas !");
+      if (error.response.data.message === 'User not found!') {
+        showNotification('error', 'Utilisateur non trouvé', 'Email n\'existe pas !')
       }
     }
-  };
+  }
   return (
     <>
-      <NotificationContainer />
+      <NotificationContainer/>
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-4/12 px-4">
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
+            <div
+              className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
               <div className="rounded-t mb-0 px-6 py-6">
                 <div className="text-center mb-3">
                   <h6 className="text-blueGray-500 text-sm font-bold">
@@ -81,7 +82,7 @@ export default function Login() {
                     <img
                       alt="..."
                       className="w-5 mr-1"
-                      src={require("assets/img/github.svg").default}
+                      src={require('assets/img/github.svg').default}
                     />
                     Github
                   </button>
@@ -92,12 +93,12 @@ export default function Login() {
                     <img
                       alt="..."
                       className="w-5 mr-1"
-                      src={require("assets/img/google.svg").default}
+                      src={require('assets/img/google.svg').default}
                     />
                     Google
                   </button>
                 </div>
-                <hr className="mt-6 border-b-1 border-blueGray-300" />
+                <hr className="mt-6 border-b-1 border-blueGray-300"/>
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                 <div className="text-blueGray-400 text-center mb-3 font-bold">
@@ -167,7 +168,7 @@ export default function Login() {
               <div className="w-1/2">
                 <a
                   href="#pablo"
-                  onClick={ (e) => forget(User.email) }
+                  onClick={(e) => forget(User.email)}
                   className="text-blueGray-200"
                 >
                   <small> Réinitialiser mon mot de passe ?</small>
@@ -175,7 +176,7 @@ export default function Login() {
               </div>
               <div className="w-1/2 text-right">
                 <Link to="/auth/register" className="text-blueGray-200">
-                  <small>Create new account</small>
+                  <small> Créer un nouveau </small>
                 </Link>
               </div>
             </div>
@@ -183,5 +184,5 @@ export default function Login() {
         </div>
       </div>
     </>
-  );
+  )
 }
