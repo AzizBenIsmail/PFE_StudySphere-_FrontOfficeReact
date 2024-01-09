@@ -23,10 +23,10 @@ export default function Register () {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {
-          if (res.data.user.userType === 'client') {
+          if (res.data.user.role === 'client') {
             window.location.replace(`/landing/`)
           }
-          if (res.data.user.userType === 'admin') {
+          if (res.data.user.role === 'admin') {
             window.location.replace(`/admin/`)
           }
         })
