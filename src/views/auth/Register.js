@@ -1,10 +1,13 @@
-import { React, useMemo } from 'react'
+import { React, useMemo ,useEffect  } from 'react'
 import { Link } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { getUserAuth ,register } from '../../Services/ApiUser'
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 export default function Register () {
+
   const jwt_token = Cookies.get('jwt_token')
 
   const config = useMemo(() => {
@@ -20,7 +23,7 @@ export default function Register () {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {
-          if (res.data.user.userType === 'user') {
+          if (res.data.user.userType === 'client') {
             window.location.replace(`/landing/`)
           }
           if (res.data.user.userType === 'admin') {
@@ -33,31 +36,62 @@ export default function Register () {
     }
     fetchData()
   }
-  const [image, setImage] = useState()
+
+  const location = useLocation();
+  const message = new URLSearchParams(location.search).get("message");
+  const email = new URLSearchParams(location.search).get("email");
+
+  const showNotification = (type, title, message) => {
+    switch (type) {
+      case 'success':
+        NotificationManager.success(message, title)
+        break
+      case 'error':
+        NotificationManager.error(message, title)
+        break
+      // Ajoutez d'autres types si nécessaire
+      default:
+        break
+    }
+  }
+  useEffect(() => {
+    showNotification('success', message, ' !')
+
+    const interval = setInterval(() => {
+    }, 1000000)
+
+    return () => clearInterval(interval)
+  }, [config,message])
+  // const [image, setImage] = useState()
   const [User, setUser] = useState({
-    username: '',
-    email: '',
+    // surnom: '',
+    nom: '',
+    prenom: '',
+    email: email,
     password: '',
-    userType:'',
-    image_user: '',
+    // role:'',
+    // image_user: '',
   })
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value })
     console.log(User)
   }
-  const handlechangeFile = (e) => {
-    setImage(e.target.files[0]);
-    console.log(e.target.files[0]);
-  };
+  // const handlechangeFile = (e) => {
+  //   setImage(e.target.files[0]);
+  //   console.log(e.target.files[0]);
+  // };
   let formData = new FormData()
   const add = async (e) => {
-    formData.append('username', User.username)
-    formData.append('email', User.email)
+    formData.append('nom', User.nom)
+    formData.append('prenom', User.prenom)
     formData.append('password', User.password)
-    formData.append('userType', User.userType)
-    formData.append('image_user', image, `${User.username}+.png`)
-    const res = await register(formData)
-    .then(window.location.replace(`/auth/login/`))
+    formData.append('email', email)
+    // formData.append('role', User.role)
+    // formData.append('image_user', image, `${User.username}+.png`)
+    const res = await register(User)
+    .then(
+      window.location.replace(`/auth/login/`)
+    )
     .catch((error) => {
       console.log(error.response.data)
     })
@@ -65,6 +99,7 @@ export default function Register () {
   }
   return (
     <>
+      <NotificationContainer/>
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-6/12 px-4">
@@ -112,37 +147,37 @@ export default function Register () {
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      Name
+                      Nom
                     </label>
                     <input
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Username"
+                      placeholder="nom"
                       type="text"
-                      name="username"
+                      name="nom"
                       onChange={(e) => handlechange(e)}
-                      label="Username"
-                      aria-label="Username"
+                      label="nom"
+                      aria-label="nom"
+                      // defaultValue={email}
                     />
                   </div>
-
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      Email
+                      Prenom
                     </label>
                     <input
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Email Address"
+                      placeholder="prenom"
                       type="text"
-                      name="email"
+                      name="prenom"
                       onChange={(e) => handlechange(e)}
-                      label="Email"
-                      aria-label="Email"
+                      label="prenom"
+                      aria-label="prenom"
+                      // defaultValue={email}
                     />
                   </div>
-
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -161,38 +196,20 @@ export default function Register () {
                     />
                   </div>
 
-                  <div className="relative w-full mb-3">
-                    <label
-                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      Utilisateur
-                    </label>
-                    <input
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Client ou Formateur "
-                      type="text"
-                      name="userType"
-                      onChange={(e) => handlechange(e)}
-                      label="userType"
-                      aria-label="userType"
-                    />
-                  </div>
-
-                  <div className="relative w-full mb-3">
-                    <label
-                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      Photo De Profile
-                    </label>
-                    <input
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="image_user"
-                      name="image_user"
-                      type="file"
-                      onChange={(e) => handlechangeFile(e)}                    />
-                  </div>
+                  {/*<div className="relative w-full mb-3">*/}
+                  {/*  <label*/}
+                  {/*    className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
+                  {/*    htmlFor="grid-password"*/}
+                  {/*  >*/}
+                  {/*    Photo De Profile*/}
+                  {/*  </label>*/}
+                  {/*  <input*/}
+                  {/*    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
+                  {/*    placeholder="image_user"*/}
+                  {/*    name="image_user"*/}
+                  {/*    type="file"*/}
+                  {/*    onChange={(e) => handlechangeFile(e)}                    />*/}
+                  {/*</div>*/}
 
                   <div>
                     <label className="inline-flex items-center cursor-pointer">

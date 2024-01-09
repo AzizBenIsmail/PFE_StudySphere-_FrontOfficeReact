@@ -10,6 +10,7 @@ import FooterSmall from "components/Footers/FooterSmall.js";
 
 import Login from "views/auth/Login.js";
 import Register from "views/auth/Register.js";
+import RegisterEmail from "views/auth/RegisterEmail.js";
 import { InfinitySpin } from 'react-loader-spinner'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/ApiUser'
@@ -30,10 +31,10 @@ export default function Auth() {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {
-          if (res.data.user.userType === 'user') {
+          if (res.data.user.role === 'client') {
             window.location.replace(`/landing/`)
           }
-          if (res.data.user.userType === 'admin') {
+          if (res.data.user.role === 'admin') {
             window.location.replace(`/admin/`)
           }
         })
@@ -58,6 +59,7 @@ export default function Auth() {
           <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d" />}>
             <Switch>
               <Route path="/auth/login" exact component={Login} />
+              <Route path="/auth/registerEmail" exact component={RegisterEmail} />
               <Route path="/auth/register" exact component={Register} />
               <Redirect from="/auth" to="/auth/login" />
             </Switch>

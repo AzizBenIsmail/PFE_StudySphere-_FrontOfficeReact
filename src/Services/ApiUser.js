@@ -2,12 +2,12 @@ import axios from "axios";
 
 const apiURL = "http://localhost:5000/auth";
 
-export async function register(formData) {
-  return await axios.post(`${ apiURL }/signup`, formData, {
-    headers: {"Content-Type": "multipart/form-data"}, withCredentials: true,
-  });
+export async function register(user) {
+  return await axios.post(`${ apiURL }/inscrire`, user);
 }
-
+export async function registerEmail(email) {
+  return await axios.post(`${ apiURL }/verification`, email);
+}
 export async function AddUserService(formData, config) {
   return await axios.post(`${ apiURL }/register`, formData, config, {
     headers: {"Content-Type": "multipart/form-data"}, withCredentials: true,

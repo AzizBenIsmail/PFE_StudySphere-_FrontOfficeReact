@@ -1,19 +1,63 @@
-import React, { useState } from 'react'
+import { React, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { forgetPassword, LoginUser } from '../../Services/ApiUser'
+import Cookies from 'js-cookie'
+import { getUserAuth ,registerEmail } from '../../Services/ApiUser'
+import { useState } from "react";
 import { NotificationContainer, NotificationManager } from 'react-notifications'
-import 'react-notifications/lib/notifications.css'
 
-export default function Login () {
+export default function Register () {
+  const jwt_token = Cookies.get('jwt_token')
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    }
+  }, [jwt_token])
+
+  //session
+  if (Cookies.get('jwt_token')) {
+    const fetchData = async () => {
+      try {
+        await getUserAuth(config).then((res) => {
+          if (res.data.user.role === 'client') {
+            window.location.replace(`/landing/`)
+          }
+          if (res.data.user.role === 'admin') {
+            window.location.replace(`/admin/`)
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
+  }
   const [User, setUser] = useState({
     email: '',
-    password: '',
   })
-
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value })
+    console.log(User)
   }
-
+  let formData = new FormData()
+  const add = async (e) => {
+    // formData.append('username', User.username)
+    formData.append('email', User.email)
+    // formData.append('password', User.password)
+    // formData.append('userType', User.userType)
+    // formData.append('image_user', image, `${User.username}+.png`)
+    const res = await registerEmail(User)
+    .then(
+      // window.location.replace(`/auth/login/`)
+      showNotification('success', 'ouvre votre email', 'verifier votre email !')
+    )
+    .catch((error) => {
+      console.log(error.response.data)
+    })
+    console.log(res.data)
+  }
   const showNotification = (type, title, message) => {
     switch (type) {
       case 'success':
@@ -27,51 +71,18 @@ export default function Login () {
         break
     }
   }
-
-  const Login = async (user) => {
-    try {
-      const res = await LoginUser(user)
-      if (res.data.user.role === 'admin') {
-        window.location.replace(`/admin`)
-      } else {
-        window.location.replace(`/`)
-      }
-    } catch (error) {
-      if (error.response.data.erreur === 'compte desactive') {
-        showNotification('error', 'Compte Désactivé', 'Compte Désactivé !')
-      } else if (error.response.data.erreur === 'incorrect password') {
-        showNotification('error', 'Mot de Passe Incorrect', 'Mot de passe incorrect !')
-      } else if (error.response.data.erreur === 'incorrect email') {
-        showNotification('error', 'Email Incorrect', 'Email incorrect !')
-      }
-    }
-  }
-
-  const forget = async (email) => {
-    try {
-      const res = await forgetPassword(email)
-      console.log(res)
-      if (res.data.message === 'mot de passe modifié avec succès vérifier votre boîte mail') {
-        showNotification('success', 'Vérification de la boîte mail', 'Vérifier votre boîte mail !')
-      }
-    } catch (error) {
-      if (error.response.data.message === 'User not found!') {
-        showNotification('error', 'Utilisateur non trouvé', 'Email n\'existe pas !')
-      }
-    }
-  }
   return (
     <>
       <NotificationContainer/>
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
-          <div className="w-full lg:w-4/12 px-4">
+          <div className="w-full lg:w-6/12 px-4">
             <div
               className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
               <div className="rounded-t mb-0 px-6 py-6">
                 <div className="text-center mb-3">
                   <h6 className="text-blueGray-500 text-sm font-bold">
-                    Sign in with
+                    Sign up with
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
@@ -102,9 +113,10 @@ export default function Login () {
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                 <div className="text-blueGray-400 text-center mb-3 font-bold">
-                  <small>Or sign in with credentials</small>
+                  <small>Or sign up with credentials</small>
                 </div>
-                <form>
+                <form encType="multipart/form-data" >
+
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -123,42 +135,13 @@ export default function Login () {
                     />
                   </div>
 
-                  <div className="relative w-full mb-3">
-                    <label
-                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlFor="grid-password"
-                    >
-                      Password
-                    </label>
-                    <input
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      type="password"
-                      name="password"
-                      onChange={(e) => handlechange(e)}
-                      label="Password"
-                      aria-label="Password"
-                    />
-                  </div>
-                  <div>
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        id="customCheckLogin"
-                        type="checkbox"
-                        className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                      />
-                      <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                        Remember me
-                      </span>
-                    </label>
-                  </div>
-
                   <div className="text-center mt-6">
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => Login(User)}
+                      onClick={(e) => add(e)}
                     >
-                      Sign In
+                      Verfier Email
                     </button>
                   </div>
                 </form>
@@ -168,14 +151,14 @@ export default function Login () {
               <div className="w-1/2">
                 <a
                   href="#pablo"
-                  onClick={(e) => forget(User.email)}
+                  // onClick={(e) => forget(User.email)}
                   className="text-blueGray-200"
                 >
-                  <small> Réinitialiser mon mot de passe ?</small>
+                  <small> .</small>
                 </a>
               </div>
               <div className="w-1/2 text-right">
-                <Link to="/auth/registerEmail" className="text-blueGray-200">
+                <Link to="/auth/login" className="text-blueGray-200">
                   <small> Créer un nouveau </small>
                 </Link>
               </div>

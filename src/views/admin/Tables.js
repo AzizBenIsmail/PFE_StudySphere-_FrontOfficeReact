@@ -25,7 +25,7 @@ export default function Tables() {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {
-          if (res.data.user.userType === 'user') {
+          if (res.data.user.role === 'client') {
             window.location.replace(`/landing/`)
           }
         })
