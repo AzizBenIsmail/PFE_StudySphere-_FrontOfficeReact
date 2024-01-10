@@ -112,11 +112,6 @@ export default function Register() {
   };
 
   const add = async (e) => {
-    const formData = new FormData();
-    formData.append('nom', User.nom);
-    formData.append('prenom', User.prenom);
-    formData.append('password', User.password);
-    formData.append('email', email);
     const res = await register(User);
     console.log(res.data);
     if (res.data.message === undefined) {
