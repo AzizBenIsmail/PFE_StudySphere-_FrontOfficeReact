@@ -34,7 +34,7 @@ export default function Login () {
       if (res.data.user.role === 'admin') {
         window.location.replace(`/admin`)
       } else {
-        window.location.replace(`/`)
+        window.location.replace(`/landing`)
       }
     } catch (error) {
       if (error.response.data.erreur === 'compte desactive') {

@@ -95,7 +95,7 @@ export default function Register () {
     // formData.append('role', User.role)
     // formData.append('image_user', image, `${User.username}+.png`)
     const res = await register(User);
-    // console.log(res.data);
+     console.log(res.data);
     setmessageerr(res.data.message);
     if (res.data.message === undefined) {
       window.location.replace(`/auth/login/`);
@@ -166,6 +166,14 @@ export default function Register () {
                       aria-label="nom"
                       // defaultValue={email}
                     />
+                    {messageerr === "Le Nom doit contenir plus de 3 caractères" ||
+                    messageerr === "Le Nom doit contenir moins de 15 caractères" ? (
+                      <label style={{ color: "red" }}>
+                        Le Nom doit contenir plus de 3 et moin de 15
+                      </label>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="relative w-full mb-3">
                     <label
@@ -184,6 +192,14 @@ export default function Register () {
                       aria-label="prenom"
                       // defaultValue={email}
                     />
+                    {messageerr === "Le Prenom doit contenir plus de 3 characters" ||
+                    messageerr === "Le Prenom doit contenir plus de 15 characters" ? (
+                      <label style={{ color: "red" }}>
+                        Le Prenom doit contenir plus de 3 et moin de 15
+                      </label>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="relative w-full mb-3">
                     <label
@@ -201,6 +217,21 @@ export default function Register () {
                       label="Password"
                       aria-label="Password"
                     />
+                    {messageerr === "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
+                    messageerr === "Le Mot de passe doit contenir au moins 8 caractères" ? (
+                      <label style={{ color: "red" }}>
+                        Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123                      </label>
+                    ) : (
+                      ""
+                    )}
+
+                    <div className="relative pt-1">
+                      <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200">
+                        <div style={{ width: '30%' }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
+                      </div>
+                    </div>
+
+
                   </div>
 
                   {/*<div className="relative w-full mb-3">*/}

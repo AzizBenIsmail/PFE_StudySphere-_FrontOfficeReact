@@ -6,8 +6,23 @@ import { Link } from "react-router-dom";
 import IndexDropdown from "components/Dropdowns/IndexDropdown.js";
 import { GiBurningDot } from 'react-icons/gi'
 import { SlLogin } from 'react-icons/sl'
+import { logout } from '../../Services/ApiUser'
 
 export default function Navbar(props) {
+  const log = async () => {
+    try {
+      logout(config)
+      .then(() => {
+        // console.log(res.data.user);
+        window.location.replace(`/login/`)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (
     <>

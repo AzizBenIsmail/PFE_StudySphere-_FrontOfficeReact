@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { Link } from "react-router-dom";
 // components
 
-import Navbar from "components/Navbars/AuthNavbar.js";
+import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footers/Footer.js";
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/ApiUser'
