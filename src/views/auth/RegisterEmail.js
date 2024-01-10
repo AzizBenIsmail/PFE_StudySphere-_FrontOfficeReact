@@ -159,7 +159,7 @@ export default function Register () {
               </div>
               <div className="w-1/2 text-right">
                 <Link to="/auth/login" className="text-blueGray-200">
-                  <small> Créer un nouveau </small>
+                  <small> Se connecter </small>
                 </Link>
               </div>
             </div>

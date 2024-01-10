@@ -25,11 +25,6 @@ export default function Landing() {
         await getUserAuth(config).then((res) => {
           if (res.data.user.role === 'admin') {
             window.location.replace(`/admin/`)
-          }else if(res.data.user.role === 'client') {
-            window.location.replace(`/landing`)
-          }
-          else{
-            window.location.replace(`/`)
           }
         })
       } catch (error) {
@@ -37,6 +32,8 @@ export default function Landing() {
       }
     }
     fetchData()
+  }else{
+    window.location.replace(`/`)
   }
 
   return (

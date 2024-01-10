@@ -44,18 +44,23 @@ export default function Register () {
   const showNotification = (type, title, message) => {
     switch (type) {
       case 'success':
-        NotificationManager.success(message, title)
+        NotificationManager.success(title , message )
         break
       case 'error':
-        NotificationManager.error(message, title)
+        NotificationManager.error(title ,message )
         break
-      // Ajoutez d'autres types si nécessaire
-      default:
+      case 'info':
+        NotificationManager.info(title , message);
+        break;
+      case 'warning':
+        NotificationManager.warning(title , message);
+        break;
+        default:
         break
     }
   }
   useEffect(() => {
-    showNotification('success', message, ' !')
+    showNotification('success', message, 'success')
 
     const interval = setInterval(() => {
     }, 1000000)
@@ -80,6 +85,7 @@ export default function Register () {
   //   setImage(e.target.files[0]);
   //   console.log(e.target.files[0]);
   // };
+  const [messageerr, setmessageerr] = useState();
   let formData = new FormData()
   const add = async (e) => {
     formData.append('nom', User.nom)
@@ -88,14 +94,15 @@ export default function Register () {
     formData.append('email', email)
     // formData.append('role', User.role)
     // formData.append('image_user', image, `${User.username}+.png`)
-    const res = await register(User)
-    .then(
-      window.location.replace(`/auth/login/`)
-    )
-    .catch((error) => {
-      console.log(error.response.data)
-    })
-    console.log(res.data)
+    const res = await register(User);
+    // console.log(res.data);
+    setmessageerr(res.data.message);
+    if (res.data.message === undefined) {
+      window.location.replace(`/auth/login/`);
+    }else{
+      showNotification('error', messageerr, 'Erreur')
+    }
+    // console.log(res.data)
   }
   return (
     <>
@@ -255,7 +262,7 @@ export default function Register () {
               </div>
               <div className="w-1/2 text-right">
                 <Link to="/auth/login" className="text-blueGray-200">
-                  <small> Créer un nouveau </small>
+                  <small> Se connecter </small>
                 </Link>
               </div>
             </div>
