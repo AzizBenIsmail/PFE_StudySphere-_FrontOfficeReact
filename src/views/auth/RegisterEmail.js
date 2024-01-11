@@ -34,30 +34,7 @@ export default function Register () {
     }
     fetchData()
   }
-  const [User, setUser] = useState({
-    email: '',
-  })
-  const handlechange = (e) => {
-    setUser({ ...User, [e.target.name]: e.target.value })
-    console.log(User)
-  }
-  let formData = new FormData()
-  const add = async (e) => {
-    // formData.append('username', User.username)
-    formData.append('email', User.email)
-    // formData.append('password', User.password)
-    // formData.append('userType', User.userType)
-    // formData.append('image_user', image, `${User.username}+.png`)
-    const res = await registerEmail(User)
-    .then(
-      // window.location.replace(`/auth/login/`)
-      showNotification('success', 'ouvre votre email', 'verifier votre email !')
-    )
-    .catch((error) => {
-      console.log(error.response.data)
-    })
-    console.log(res.data)
-  }
+
   const showNotification = (type, title, message) => {
     switch (type) {
       case 'success':
@@ -71,6 +48,23 @@ export default function Register () {
         break
     }
   }
+  const [User, setUser] = useState({
+    email: '',
+  })
+  const handlechange = (e) => {
+    setUser({ ...User, [e.target.name]: e.target.value })
+    console.log(User)
+  }
+  const add = async (e) => {
+    const res = await registerEmail(User);
+    console.log("res");
+    if (res.data.message === undefined) {
+      showNotification('success', 'ouvre votre email', 'verifier votre email !')
+    } else {
+      showNotification('success', 'ouvre votre email', 'verifier votre email !')
+    }
+  }
+
   return (
     <>
       <NotificationContainer/>
