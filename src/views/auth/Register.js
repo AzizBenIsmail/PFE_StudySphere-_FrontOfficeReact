@@ -1,20 +1,19 @@
-import { React, useMemo, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import { getUserAuth, register } from '../../Services/ApiUser';
-import { useLocation } from 'react-router-dom';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { React, useEffect, useMemo, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import { getUserAuth, register } from '../../Services/ApiUser'
+import { NotificationContainer, NotificationManager } from 'react-notifications'
 
-export default function Register() {
-  const jwt_token = Cookies.get('jwt_token');
+export default function Register () {
+  const jwt_token = Cookies.get('jwt_token')
 
   const config = useMemo(() => {
     return {
       headers: {
         Authorization: `Bearer ${jwt_token}`,
       },
-    };
-  }, [jwt_token]);
+    }
+  }, [jwt_token])
 
   //session
   if (Cookies.get('jwt_token')) {
@@ -22,111 +21,148 @@ export default function Register() {
       try {
         await getUserAuth(config).then((res) => {
           if (res.data.user.role === 'client') {
-            window.location.replace(`/landing/`);
+            window.location.replace(`/landing/`)
           }
           if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin/`);
+            window.location.replace(`/admin/`)
           }
-        });
+        })
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    };
-    fetchData();
+    }
+    fetchData()
   }
 
-  const location = useLocation();
-  const message = new URLSearchParams(location.search).get('message');
-  const email = new URLSearchParams(location.search).get('email');
+  const location = useLocation()
+  const message = new URLSearchParams(location.search).get('message')
+  const email = new URLSearchParams(location.search).get('email')
 
   const showNotification = (type, title, message) => {
     switch (type) {
       case 'success':
-        NotificationManager.success(title, message);
-        break;
+        NotificationManager.success(title, message)
+        break
       case 'error':
-        NotificationManager.error(title, message);
-        break;
+        NotificationManager.error(title, message)
+        break
       case 'info':
-        NotificationManager.info(title, message);
-        break;
+        NotificationManager.info(title, message)
+        break
       case 'warning':
-        NotificationManager.warning(title, message);
-        break;
+        NotificationManager.warning(title, message)
+        break
       default:
-        break;
+        break
     }
-  };
+  }
 
   useEffect(() => {
-    showNotification('success', message, 'success');
+    showNotification('success', message, 'success')
 
-    const interval = setInterval(() => {}, 1000000);
+    const interval = setInterval(() => {}, 1000000)
 
-    return () => clearInterval(interval);
-  }, [config, message]);
+    return () => clearInterval(interval)
+  }, [config, message])
 
   const [User, setUser] = useState({
     nom: '',
     prenom: '',
     email: email,
     password: '',
-  });
+  })
 
-  const [passwordStrength, setPasswordStrength] = useState(0);
+  const [passwordStrength, setPasswordStrength] = useState(0)
 
   const handlePasswordChange = (e) => {
-    const newPassword = e.target.value;
-    setUser({ ...User, password: newPassword });
+    const newPassword = e.target.value
+    setUser({ ...User, password: newPassword })
 
-    const strengthCode = checkPasswordStrength(newPassword);
-    setPasswordStrength(strengthCode);
-  };
+    const strengthCode = checkPasswordStrength(newPassword, User.nom)
+    setPasswordStrength(strengthCode)
+  }
 
-  const checkPasswordStrength = (password) => {
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasDigit = /\d/.test(password);
-    const hasSpecialChar = /[!@#$%^&*()_+]/.test(password);
+  const checkPasswordStrength = (password, nom) => {
+    const hasUppercase = /[A-Z]/.test(password)
+    const hasLowercase = /[a-z]/.test(password)
+    const hasDigit = /\d/.test(password)
+    const hasSpecialChar = /[!@#$%^&*()_+]/.test(password)
 
-    if (password.length < 8) {
-      return 1; // Faible
+    const normalizedNom = nom.toLowerCase()
+    const passwordLowerCase = password.toLowerCase()
+
+    if (password.length === 0) {
+      return 0 // Le nom existe dans le mot de passe (Faible)
+    } else if (passwordLowerCase.includes(normalizedNom)) {
+      NotificationManager.error('Il est important de ne pas inclure ton nom dans le mot de passe.', 'Nom dans le mot de passe')
+      return 1 // Le nom existe dans le mot de passe (Faible)
+    } else if (password.length < 3) {
+      return 1 // Faible
+    } else if (password.length < 8) {
+      return 2 // Faible
     } else if (hasUppercase && hasLowercase && hasDigit && hasSpecialChar) {
-      return 3; // Fort
+      return 4 // Très fort (ajoutez vos propres critères)
     } else {
-      return 2; // Moyen
+      return 3 // Moyen
     }
-  };
+  }
 
   const getStrengthColor = (strength) => {
+    console.log(strength)
     switch (strength) {
+      case 0:
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500'
       case 1:
-        return 'bg-red-200';
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500'
       case 2:
-        return 'bg-yellow-200';
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500'
       case 3:
-        return 'bg-green-200';
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500'
+      case 4:
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500'
       default:
-        return '';
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500'
     }
-  };
+  }
+
+  const getColor = (strength) => {
+    console.log(strength)
+    switch (strength) {
+      case 0:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200'
+      case 1:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200'
+      case 2:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-orange-200'
+      case 3:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200'
+      case 4:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-emerald-200'
+      default:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200'
+    }
+  }
+  const [messageerr, setmessageerr] = useState();
 
   const add = async (e) => {
-    const res = await register(User);
-    console.log(res.data);
+    const res = await register(User)
+    console.log(res.data)
     if (res.data.message === undefined) {
       // window.location.replace(`/auth/login/`);
-    }else{
-      showNotification('error', res.data.message, 'Erreur')
-    }  };
+    } else {
+      setmessageerr(res.data.message);
+      showNotification('error', messageerr, 'Erreur')
+    }
+  }
 
   return (
     <>
-      <NotificationContainer />
+      <NotificationContainer/>
       <div className="container mx-auto px-4 h-full">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-6/12 px-4">
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
+            <div
+              className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
               <div className="rounded-t mb-0 px-6 py-6">
                 <div className="text-center mb-3">
                   <h6 className="text-blueGray-500 text-sm font-bold">
@@ -157,7 +193,7 @@ export default function Register() {
                     Google
                   </button>
                 </div>
-                <hr className="mt-6 border-b-1 border-blueGray-300" />
+                <hr className="mt-6 border-b-1 border-blueGray-300"/>
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                 <div className="text-blueGray-400 text-center mb-3 font-bold">
@@ -177,10 +213,13 @@ export default function Register() {
                       label="nom"
                       aria-label="nom"
                     />
-                    {(User.nom.length < 3 || User.nom.length > 15) && (
+                    {messageerr === 'Le Nom doit contenir plus de 3 caractères' ||
+                    messageerr === 'Le Nom doit contenir moins de 15 caractères' ? (
                       <label style={{ color: 'red' }}>
-                        Le Nom doit contenir entre 3 et 15 caractères.
+                        Le Nom doit contenir plus de 3 et moin de 15
                       </label>
+                    ) : (
+                      ''
                     )}
                   </div>
                   <div className="relative w-full mb-3">
@@ -196,10 +235,13 @@ export default function Register() {
                       label="prenom"
                       aria-label="prenom"
                     />
-                    {(User.prenom.length < 3 || User.prenom.length > 15) && (
+                    {messageerr === 'Le Prenom doit contenir plus de 3 characters' ||
+                    messageerr === 'Le Prenom doit contenir plus de 15 characters' ? (
                       <label style={{ color: 'red' }}>
-                        Le Prenom doit contenir entre 3 et 15 caractères.
+                        Le Prenom doit contenir plus de 3 et moin de 15
                       </label>
+                    ) : (
+                      ''
                     )}
                   </div>
                   <div className="relative w-full mb-3">
@@ -207,7 +249,7 @@ export default function Register() {
                       Password
                     </label>
                     <input
-                      className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${getStrengthColor(passwordStrength)}`}
+                      className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 `}
                       placeholder="Password"
                       type="password"
                       name="password"
@@ -215,15 +257,18 @@ export default function Register() {
                       label="Password"
                       aria-label="Password"
                     />
-                    {(passwordStrength === 1 || passwordStrength === 2) && (
-                      <label style={{ color: 'red' }}>
-                        Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123
-                      </label>
+                    {messageerr === "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
+                    messageerr === "Le Mot de passe doit contenir au moins 8 caractères" ? (
+                      <label style={{ color: "red" }}>
+                        Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123                      </label>
+                    ) : (
+                      ""
                     )}
-                    {passwordStrength === 1 && <label style={{ color: 'red' }}>Le Mot de passe doit contenir au moins 8 caractères</label>}
+                    {/*{passwordStrength === 1 && <label style={{ color: 'red' }}>Le Mot de passe doit contenir au moins 8 caractères</label>}*/}
                     <div className="relative pt-1">
-                      <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200">
-                        <div style={{ width: `${(passwordStrength / 3) * 100}%` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
+                      <div className={`${getColor(passwordStrength)}`}>
+                        <div style={{ width: `${(passwordStrength / 4) * 100}%` }}
+                             className={`${getStrengthColor(passwordStrength)}`}></div>
                       </div>
                     </div>
                   </div>
@@ -276,5 +321,5 @@ export default function Register() {
         </div>
       </div>
     </>
-  );
+  )
 }
