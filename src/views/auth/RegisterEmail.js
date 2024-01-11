@@ -56,14 +56,19 @@ export default function Register () {
     console.log(User)
   }
   const add = async (e) => {
-    const res = await registerEmail(User);
-    console.log("res");
-    if (res.data.message === undefined) {
-      showNotification('success', 'ouvre votre email', 'verifier votre email !')
-    } else {
-      showNotification('success', 'ouvre votre email', 'verifier votre email !')
+    try {
+      const res = await registerEmail(User);
+      console.log(res.data.message); // Log the actual response object
+      if (res.data.message === undefined) {
+        showNotification('success', 'Ouvrez votre email', 'Vérifiez votre email !');
+      } else {
+        showNotification('error', 'Erreur lors de l\'inscription', res.data.message);
+      }
+    } catch (error) {
+      console.error(error); // Log any errors that occur during the API call
     }
   }
+
 
   return (
     <>

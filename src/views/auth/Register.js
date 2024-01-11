@@ -148,10 +148,10 @@ export default function Register () {
     const res = await register(User)
     console.log(res.data)
     if (res.data.message === undefined) {
-      // window.location.replace(`/auth/login/`);
+       window.location.replace(`/auth/login/`);
     } else {
       setmessageerr(res.data.message);
-      showNotification('error', messageerr, 'Erreur')
+      showNotification('error', res.data.message, 'Erreur')
     }
   }
 
