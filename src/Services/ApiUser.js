@@ -8,6 +8,11 @@ export async function register(user) {
 export async function registerEmail(email) {
   return await axios.post(`${ apiURL }/verification`, email);
 }
+export async function registerCentre(formData) {
+  return await axios.post(`${ apiURL }/inscrireCentre`, formData, {
+    headers: {"Content-Type": "multipart/form-data"}, withCredentials: true,
+  });
+}
 export async function AddUserService(formData, config) {
   return await axios.post(`${ apiURL }/register`, formData, config, {
     headers: {"Content-Type": "multipart/form-data"}, withCredentials: true,
