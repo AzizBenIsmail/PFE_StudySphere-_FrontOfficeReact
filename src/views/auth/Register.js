@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { getUserAuth, register } from '../../Services/ApiUser'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
+import { GiBurningDot } from 'react-icons/gi'
 
 export default function Register () {
   const jwt_token = Cookies.get('jwt_token')
@@ -165,8 +166,26 @@ export default function Register () {
               className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
               <div className="rounded-t mb-0 px-6 py-6">
                 <div className="text-center mb-3">
+                  <Link
+                    className="text-white text-sm font-bold leading-relaxed inline-flex items-center mr-4 py-2 whitespace-nowrap uppercase"
+                    to="/"
+                  >
+                    <img
+                      src={require('assets/img/LogoDark.png').default}
+                      alt="..."
+                      className="mr-4"
+                      style={{ maxWidth: '40%', height: '20%' }}
+                    />
+                    <GiBurningDot size={45} className="mr-4" style={{ color: 'red' }} />
+                    <img
+                      src={require('assets/img/LogoBridge.png').default}
+                      alt="..."
+                      className="mr-4"
+                      style={{ maxWidth: '40%', height: '20%' }}
+                    />
+                  </Link>
                   <h6 className="text-blueGray-500 text-sm font-bold">
-                    Sign up with
+                    S'inscrire
                   </h6>
                 </div>
               {/*  <div className="btn-wrapper text-center">*/}
@@ -196,9 +215,9 @@ export default function Register () {
                 <hr className="mt-6 border-b-1 border-blueGray-300"/>
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                <div className="text-blueGray-400 text-center mb-3 font-bold">
-                  <small>Or sign up with credentials</small>
-                </div>
+                {/*<div className="text-blueGray-400 text-center mb-3 font-bold">*/}
+                {/*  <small>Or sign up with credentials</small>*/}
+                {/*</div>*/}
                 <form encType="multipart/form-data">
                   <div className="relative w-full mb-3">
                     <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
