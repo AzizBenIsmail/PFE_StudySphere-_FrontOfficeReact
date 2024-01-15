@@ -67,7 +67,7 @@ export default function Register () {
 
   const [User, setUser] = useState({
     nom: '',
-    prenom: '',
+    // prenom: '',
     email: '',
     password: '',
     image_user: '',
@@ -154,7 +154,7 @@ export default function Register () {
   const add = async (e) => {
     formData.append('email', User.email)
     formData.append('nom', User.nom)
-    formData.append('prenom', User.prenom)
+    // formData.append('prenom', User.prenom)
     formData.append('password', User.password)
     formData.append('image_user', image, `${User.username}+.png`)
     const res = await registerCentre(formData);
@@ -274,28 +274,28 @@ export default function Register () {
                       ''
                     )}
                   </div>
-                  <div className="relative w-full mb-3">
-                    <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
-                      Prenom
-                    </label>
-                    <input
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="prenom"
-                      type="text"
-                      name="prenom"
-                      onChange={(e) => setUser({ ...User, prenom: e.target.value })}
-                      label="prenom"
-                      aria-label="prenom"
-                    />
-                    {messageerr === 'Le Prenom doit contenir plus de 3 characters' ||
-                    messageerr === 'Le Prenom doit contenir plus de 15 characters' ? (
-                      <label style={{ color: 'red' }}>
-                        Le Prenom doit contenir plus de 3 et moin de 15
-                      </label>
-                    ) : (
-                      ''
-                    )}
-                  </div>
+                  {/*<div className="relative w-full mb-3">*/}
+                  {/*  <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">*/}
+                  {/*    Prenom*/}
+                  {/*  </label>*/}
+                  {/*  <input*/}
+                  {/*    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
+                  {/*    placeholder="prenom"*/}
+                  {/*    type="text"*/}
+                  {/*    name="prenom"*/}
+                  {/*    onChange={(e) => setUser({ ...User, prenom: e.target.value })}*/}
+                  {/*    label="prenom"*/}
+                  {/*    aria-label="prenom"*/}
+                  {/*  />*/}
+                  {/*  {messageerr === 'Le Prenom doit contenir plus de 3 characters' ||*/}
+                  {/*  messageerr === 'Le Prenom doit contenir plus de 15 characters' ? (*/}
+                  {/*    <label style={{ color: 'red' }}>*/}
+                  {/*      Le Prenom doit contenir plus de 3 et moin de 15*/}
+                  {/*    </label>*/}
+                  {/*  ) : (*/}
+                  {/*    ''*/}
+                  {/*  )}*/}
+                  {/*</div>*/}
                   <div className="relative w-full mb-3">
                     <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                       Password

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { forgetPassword, LoginUser } from '../../Services/ApiUser'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
@@ -28,6 +28,16 @@ export default function Login () {
         break
     }
   }
+  const location = useLocation()
+  const message = new URLSearchParams(location.search).get('message')
+
+  useEffect(() => {
+    showNotification('success', message, 'success')
+
+    const interval = setInterval(() => {}, 1000000)
+
+    return () => clearInterval(interval)
+  }, [message])
 
   const Login = async (user) => {
     try {
