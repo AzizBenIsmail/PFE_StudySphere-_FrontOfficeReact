@@ -36,6 +36,7 @@ export default function Navbar(props) {
                 className="mr-4"
                 style={{ maxWidth: '20%', height: '10%' }}
               />
+              <GiBurningDot size={25} className="mr-4" style={{ color: 'red' }} />
               <img
                 src={require('assets/img/LogoBridge.png').default}
                 alt="..."
