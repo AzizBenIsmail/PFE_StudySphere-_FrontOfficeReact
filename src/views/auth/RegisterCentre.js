@@ -87,29 +87,25 @@ export default function Register () {
     const hasUppercase = /[A-Z]/.test(password)
     const hasLowercase = /[a-z]/.test(password)
     const hasDigit = /\d/.test(password)
-    const hasSpecialChar = /[!@#$%^&*()_+]/.test(password)
-
     const normalizedNom = nom.toLowerCase()
     const passwordLowerCase = password.toLowerCase()
 
     if (password.length === 0) {
       return 0 // Le nom existe dans le mot de passe (Faible)
     } else if (passwordLowerCase.includes(normalizedNom)) {
-      NotificationManager.error('Il est important de ne pas inclure ton nom dans le mot de passe.', 'Nom dans le mot de passe')
       return 1 // Le nom existe dans le mot de passe (Faible)
     } else if (password.length < 3) {
       return 1 // Faible
     } else if (password.length < 8) {
       return 2 // Faible
-    } else if (hasUppercase && hasLowercase && hasDigit && hasSpecialChar) {
+    } else if (hasUppercase && hasLowercase && hasDigit) {
       return 4 // Très fort (ajoutez vos propres critères)
     } else {
-      return 3 // Moyen
+      return 2 // Moyen
     }
   }
 
   const getStrengthColor = (strength) => {
-    console.log(strength)
     switch (strength) {
       case 0:
         return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500'
@@ -127,7 +123,6 @@ export default function Register () {
   }
 
   const getColor = (strength) => {
-    console.log(strength)
     switch (strength) {
       case 0:
         return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200'
@@ -152,18 +147,28 @@ export default function Register () {
   }
   let formData = new FormData()
   const add = async (e) => {
-    formData.append('email', User.email)
-    formData.append('nom', User.nom)
-    // formData.append('prenom', User.prenom)
-    formData.append('password', User.password)
-    formData.append('image_user', image, `${User.username}+.png`)
-    const res = await registerCentre(formData);
-    console.log(res.data)
-    if (res.data.message === undefined) {
-      window.location.replace(`/auth/login/`);
+    const normalizedNom = User.nom.toLowerCase()
+    const passwordLowerCase = User.password.toLowerCase()
+    if (passwordLowerCase.includes(normalizedNom)) {
+      NotificationManager.error('Il est important de ne pas inclure ton nom dans le mot de passe.', 'Nom dans le mot de passe')
     } else {
-      setmessageerr(res.data.message);
-      showNotification('error', res.data.message, 'Erreur')
+      formData.append('email', User.email)
+      formData.append('nom', User.nom)
+      formData.append('prenom', User.prenom)
+      formData.append('password', User.password)
+      if (image === undefined) {
+        showNotification('error', 'image required', 'Erreur')
+      } else {
+        formData.append('image_user', image, `${User.username}+.png`)
+        const res = await registerCentre(formData)
+        console.log(res.data)
+        if (res.data.message === undefined) {
+          window.location.replace(`/auth/login/`)
+        } else {
+          setmessageerr(res.data.message)
+          showNotification('error', res.data.message, 'Erreur')
+        }
+      }
     }
   }
 
@@ -187,7 +192,7 @@ export default function Register () {
                       className="mr-4"
                       style={{ maxWidth: '40%', height: '20%' }}
                     />
-                    <GiBurningDot size={45} className="mr-4" style={{ color: 'red' }} />
+                    <GiBurningDot size={45} className="mr-4" style={{ color: 'red' }}/>
                     <img
                       src={require('assets/img/LogoBridge.png').default}
                       alt="..."
@@ -321,7 +326,7 @@ export default function Register () {
                     {/*{passwordStrength === 1 && <label style={{ color: 'red' }}>Le Mot de passe doit contenir au moins 8 caractères</label>}*/}
                     <div className="relative pt-1">
                       <div className={`${getColor(passwordStrength)}`}>
-                        <div style={{ width: `${(passwordStrength / 4) * 100}%` }}
+                        <div style={{ width: `${(passwordStrength / 3) * 100}%` }}
                              className={`${getStrengthColor(passwordStrength)}`}></div>
                       </div>
                     </div>
