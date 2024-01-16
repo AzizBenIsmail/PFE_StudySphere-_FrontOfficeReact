@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { forgetPassword, LoginUser } from '../../Services/ApiUser'
+import { LoginUser } from '../../Services/ApiUser'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
 import { GiBurningDot } from 'react-icons/gi'
@@ -32,7 +32,9 @@ export default function Login () {
   const message = new URLSearchParams(location.search).get('message')
 
   useEffect(() => {
-    showNotification('success', message, 'success')
+    if(message) {
+      showNotification('success', message, 'success')
+    }
 
     const interval = setInterval(() => {}, 1000000)
 
@@ -58,19 +60,6 @@ export default function Login () {
     }
   }
 
-  const forget = async (email) => {
-    try {
-      const res = await forgetPassword(email)
-      console.log(res)
-      if (res.data.message === 'mot de passe modifié avec succès vérifier votre boîte mail') {
-        showNotification('success', 'Vérification de la boîte mail', 'Vérifier votre boîte mail !')
-      }
-    } catch (error) {
-      if (error.response.data.message === 'User not found!') {
-        showNotification('error', 'Utilisateur non trouvé', 'Email n\'existe pas !')
-      }
-    }
-  }
   return (
     <>
       <NotificationContainer/>
@@ -195,13 +184,9 @@ export default function Login () {
             </div>
             <div className="flex flex-wrap mt-6 relative">
               <div className="w-1/2">
-                <a
-                  href="#pablo"
-                  onClick={(e) => forget(User.email)}
-                  className="text-blueGray-200"
-                >
+                <Link to="/auth/registerEmail?message=1" className="text-blueGray-200">
                   <small> Réinitialiser mon mot de passe ?</small>
-                </a>
+                </Link>
               </div>
               <div className="w-1/2 text-right">
                 <Link to="/auth/registerEmail" className="text-blueGray-200">

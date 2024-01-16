@@ -1,8 +1,7 @@
-import { React, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { React, useMemo, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import { getUserAuth ,registerEmail } from '../../Services/ApiUser'
-import { useState } from "react";
+import { forgetPassword, getUserAuth, registerEmail } from '../../Services/ApiUser'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import { GiBurningDot } from 'react-icons/gi'
 
@@ -36,6 +35,9 @@ export default function Register () {
     fetchData()
   }
 
+  const location = useLocation()
+  const message = new URLSearchParams(location.search).get('message')
+
   const showNotification = (type, title, message) => {
     switch (type) {
       case 'success':
@@ -58,18 +60,37 @@ export default function Register () {
   }
   const add = async (e) => {
     try {
-      const res = await registerEmail(User);
-      console.log(res.data.message); // Log the actual response object
+      const res = await registerEmail(User)
+      console.log(res.data.message) // Log the actual response object
       if (res.data.message === undefined) {
-        showNotification('success', 'Ouvrez votre email', 'Vérifiez votre email !');
+        showNotification('success', 'Ouvrez votre email', 'Vérifiez votre email !')
+        setTimeout(() => {
+          window.location.replace(`/auth/login/`)
+        }, 2000)
       } else {
-        showNotification('error', 'Erreur lors de l\'inscription', res.data.message);
+        showNotification('error', 'Erreur lors de l\'inscription', res.data.message)
       }
     } catch (error) {
-      console.error(error); // Log any errors that occur during the API call
+      console.error(error) // Log any errors that occur during the API call
     }
   }
 
+  const forget = async (email) => {
+    try {
+      const res = await forgetPassword(email)
+      console.log(res)
+      if (res.data.message === 'mot de passe modifié avec succès vérifier votre boîte mail') {
+        showNotification('success', 'Vérification de la boîte mail', 'Vérifier votre boîte mail !')
+        setTimeout(() => {
+          window.location.replace(`/auth/login/`)
+        }, 2000)
+      }
+    } catch (error) {
+      if (error.response.data.message === 'User not found!') {
+        showNotification('error', 'Utilisateur non trouvé', 'Email n\'existe pas !')
+      }
+    }
+  }
 
   return (
     <>
@@ -91,7 +112,7 @@ export default function Register () {
                       className="mr-4"
                       style={{ maxWidth: '40%', height: '20%' }}
                     />
-                    <GiBurningDot size={45} className="mr-4" style={{ color: 'red' }} />
+                    <GiBurningDot size={45} className="mr-4" style={{ color: 'red' }}/>
                     <img
                       src={require('assets/img/LogoBridge.png').default}
                       alt="..."
@@ -133,7 +154,7 @@ export default function Register () {
                 {/*<div className="text-blueGray-400 text-center mb-3 font-bold">*/}
                 {/*  <small>Or sign up with credentials</small>*/}
                 {/*</div>*/}
-                <form encType="multipart/form-data" >
+                <form encType="multipart/form-data">
 
                   <div className="relative w-full mb-3">
                     <label
@@ -153,27 +174,40 @@ export default function Register () {
                     />
                   </div>
 
-                  <div className="text-center mt-6">
-                    <button
-                      className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={(e) => add(e)}
-                    >
-                      Verfier Email
-                    </button>
-                  </div>
+                  {message === "1" ? (
+                    <label>
+                      <div className="text-center mt-6">
+                        <button
+                          className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={(e) => forget(User.email)}
+                        >
+                          Réinitialiser mon mot de passe
+                        </button>
+                      </div>
+                    </label>
+                  ) : (
+                    <label>
+                      <div className="text-center mt-6">
+                        <button
+                          className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={(e) => add(e)}
+                        >
+                          Verfier Email
+                        </button>
+                      </div>
+                    </label>
+                  )}
+
                 </form>
               </div>
             </div>
             <div className="flex flex-wrap mt-6 relative">
               <div className="w-1/2">
-                <a
-                  href="#pablo"
-                  // onClick={(e) => forget(User.email)}
-                  className="text-blueGray-200"
-                >
-                  <small> .</small>
-                </a>
+                <Link to="/auth/registerEmail?message=1" className="text-blueGray-200">
+                  <small> Réinitialiser mon mot de passe ?</small>
+                </Link>
               </div>
               <div className="w-1/2 text-right">
                 <Link to="/auth/login" className="text-blueGray-200">
