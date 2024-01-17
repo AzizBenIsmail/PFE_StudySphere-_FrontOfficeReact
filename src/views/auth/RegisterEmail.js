@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import { forgetPassword, getUserAuth, registerEmail } from '../../Services/ApiUser'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import { GiBurningDot } from 'react-icons/gi'
+import { useHistory } from 'react-router-dom';
 
 export default function Register () {
   const jwt_token = Cookies.get('jwt_token')
@@ -38,6 +39,7 @@ export default function Register () {
   const location = useLocation()
   const message = new URLSearchParams(location.search).get('message')
   const [n, setN] = useState(0); // Ajout de la variable n
+  const history = useHistory();
 
   const showNotification = (type, title, message, autoDismissTime = 1000) => {
     switch (type) {
@@ -68,10 +70,10 @@ export default function Register () {
         const res = await registerEmail(User)
         console.log(res.data.message) // Log the actual response object
         if (res.data.message === undefined) {
-          showNotification('success', 'Ouvrez votre email', 'Vérifiez votre email !')
+          // showNotification('success', 'Ouvrez votre email', 'Vérifiez votre email !')
           // setTimeout(() => {
-            window.location.replace(`/auth/VerificationEmail`)
-          // }, 2000)
+          history.push('/auth/VerificationEmail');
+          // }, 1100)
         } else {
           showNotification('error', 'Cet e-mail est déjà enregistré', res.data.message)
         }
@@ -90,15 +92,15 @@ export default function Register () {
         const res = await forgetPassword(email)
         console.log(res)
         if (res.data.message === 'mot de passe modifié avec succès vérifier votre boîte mail') {
-          showNotification('success', 'Vérification de la boîte mail', 'Vérifier votre boîte mail !')
-          setTimeout(() => {
-            window.location.replace(`/auth/login/`)
-          }, 2000)
+          // showNotification('success', 'Vérification de la boîte mail', 'Vérifier votre boîte mail !')
+          // setTimeout(() => {
+            history.push('/auth/VerificationMotDePasse');
+          // }, 1100)
         }
       }
     } catch (error) {
       if (error.response.data.message === 'User not found!') {
-        showNotification('error', 'Utilisateur non trouvé', 'Email n\'existe pas !')
+        showNotification('error', 'Cet e-mail n est pas enregistré', 'Email n\'existe pas !')
       }
     }
   }
