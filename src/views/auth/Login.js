@@ -13,7 +13,6 @@ export default function Login () {
 
   const [n, setN] = useState(0); // Ajout de la variable n
 
-
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value })
   }
@@ -43,7 +42,7 @@ export default function Login () {
     return () => clearInterval(interval)
   }, [message])
 
-  const Login = async (user , n) => {setN(0);
+  const Login = async (user) => {setN(0);
     if (user.email === '' && user.password === '') {
       showNotification('error', 'Email et mot de passe Obligatoire', 'Vide !');
       setN(1); // Utilisation de setN pour mettre à jour la valeur de n
