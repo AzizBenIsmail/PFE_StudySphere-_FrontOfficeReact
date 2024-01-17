@@ -38,19 +38,19 @@ export default function Register () {
   const location = useLocation()
   const message = new URLSearchParams(location.search).get('message')
 
-  const showNotification = (type, title, message) => {
+  const showNotification = (type, title, message, autoDismissTime = 1000) => {
     switch (type) {
       case 'success':
-        NotificationManager.success(title, message)
+        NotificationManager.success(title, message, autoDismissTime = 1000)
         break
       case 'error':
-        NotificationManager.error(title, message)
+        NotificationManager.error(title, message, autoDismissTime = 1000)
         break
       case 'info':
-        NotificationManager.info(title, message)
+        NotificationManager.info(title, message, autoDismissTime = 1000)
         break
       case 'warning':
-        NotificationManager.warning(title, message)
+        NotificationManager.warning(title, message, autoDismissTime = 1000)
         break
       default:
         break
@@ -58,7 +58,7 @@ export default function Register () {
   }
 
   useEffect(() => {
-    showNotification('success', message, 'success')
+    // showNotification('success', message, 'success')
 
     const interval = setInterval(() => {}, 1000000)
 
@@ -140,6 +140,7 @@ export default function Register () {
   }
   const [messageerr, setmessageerr] = useState()
   const [image, setImage] = useState()
+  const [n, setN] = useState(0) // Ajout de la variable n
 
   const handlechangeFile = (e) => {
     setImage(e.target.files[0])
@@ -149,7 +150,28 @@ export default function Register () {
   const add = async (e) => {
     const normalizedNom = User.nom.toLowerCase()
     const passwordLowerCase = User.password.toLowerCase()
-    if (passwordLowerCase.includes(normalizedNom)) {
+    if (User.nom === '' && User.email === '' && User.password === '' ) {
+      showNotification('error', 'Nom et email et Password Obligatoire', 'Vide !')
+      setN(4) // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === '' && User.email === '' ) {
+      showNotification('error', 'Nom et Prenom Obligatoire', 'Vide !')
+      setN(5) // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.email === '' && User.password === '' ) {
+      showNotification('error', 'Prenom et Password Obligatoire', 'Vide !')
+      setN(6) // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === '' && User.password === '' ) {
+      showNotification('error', 'Nom et Password Obligatoire', 'Vide !')
+      setN(7) // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === '' ) {
+      showNotification('error', 'Nom et Obligatoire', 'Vide !')
+      setN(1) // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.email === '') {
+      showNotification('error', 'Prenom Obligatoire', 'Vide !')
+      setN(2)
+    } else if (User.password === '') {
+      showNotification('error', 'Mot de Passe Obligatoire', 'Vide !')
+      setN(3)
+    } else if (passwordLowerCase.includes(normalizedNom)) {
       NotificationManager.error('Il est important de ne pas inclure ton nom dans le mot de passe.', 'Nom dans le mot de passe')
     } else {
       formData.append('email', User.email)
@@ -248,7 +270,7 @@ export default function Register () {
                       label="email"
                       aria-label="email"
                     />
-                    {messageerr === 'Le Nom doit contenir plus de 3 caractères' ||
+                    {n === 2 || n === 4  || n === 5 || n === 6 ||messageerr === 'Le Nom doit contenir plus de 3 caractères' ||
                     messageerr === 'Le Nom doit contenir moins de 15 caractères' ? (
                       <label style={{ color: 'red' }}>
                         Le Nom doit contenir plus de 3 et moin de 15
@@ -270,7 +292,7 @@ export default function Register () {
                       label="nom"
                       aria-label="nom"
                     />
-                    {messageerr === 'Le Nom doit contenir plus de 3 caractères' ||
+                    {n === 1 || n === 4 || n === 5 || n === 7 || messageerr === 'Le Nom doit contenir plus de 3 caractères' ||
                     messageerr === 'Le Nom doit contenir moins de 15 caractères' ? (
                       <label style={{ color: 'red' }}>
                         Le Nom doit contenir plus de 3 et moin de 15
@@ -314,7 +336,7 @@ export default function Register () {
                       label="Password"
                       aria-label="Password"
                     />
-                    {messageerr === 'Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123' ||
+                    {n === 3 || n === 4 || n === 6 || n === 7 || messageerr === 'Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123' ||
                     messageerr === 'Le Mot de passe doit contenir au moins 8 caractères' ? (
                       <label style={{ color: 'red' }}>
                         Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et
@@ -334,7 +356,7 @@ export default function Register () {
 
                   <div className="relative w-full mb-3">
                     <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
-                      Prenom
+                      Image
                     </label>
                     <input
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
