@@ -17,7 +17,7 @@ export default function Login () {
     setUser({ ...User, [e.target.name]: e.target.value })
   }
 
-  const showNotification = (type, title, message, autoDismissTime = 5000) => {
+  const showNotification = (type, title, message, autoDismissTime = 1000) => {
     switch (type) {
       case 'success':
         NotificationManager.success(message, title, autoDismissTime = 1000)
