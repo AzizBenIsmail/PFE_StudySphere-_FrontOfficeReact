@@ -37,14 +37,15 @@ export default function Register () {
 
   const location = useLocation()
   const message = new URLSearchParams(location.search).get('message')
+  const [n, setN] = useState(0); // Ajout de la variable n
 
-  const showNotification = (type, title, message) => {
+  const showNotification = (type, title, message, autoDismissTime = 1000) => {
     switch (type) {
       case 'success':
-        NotificationManager.success(message, title)
+        NotificationManager.success(message, title, autoDismissTime = 1000)
         break
       case 'error':
-        NotificationManager.error(message, title)
+        NotificationManager.error(message, title, autoDismissTime = 1000)
         break
       // Ajoutez d'autres types si nécessaire
       default:
@@ -60,15 +61,20 @@ export default function Register () {
   }
   const add = async (e) => {
     try {
-      const res = await registerEmail(User)
-      console.log(res.data.message) // Log the actual response object
-      if (res.data.message === undefined) {
-        showNotification('success', 'Ouvrez votre email', 'Vérifiez votre email !')
-        setTimeout(() => {
-          window.location.replace(`/auth/login/`)
-        }, 2000)
+      if (User.email === '') {
+        showNotification('error', 'Email Obligatoire', 'Vide !')
+        setN(1) // Utilisation de setN pour mettre à jour la valeur de n
       } else {
-        showNotification('error', 'Erreur lors de l\'inscription', res.data.message)
+        const res = await registerEmail(User)
+        console.log(res.data.message) // Log the actual response object
+        if (res.data.message === undefined) {
+          showNotification('success', 'Ouvrez votre email', 'Vérifiez votre email !')
+          // setTimeout(() => {
+            window.location.replace(`/auth/VerificationEmail`)
+          // }, 2000)
+        } else {
+          showNotification('error', 'Cet e-mail est déjà enregistré', res.data.message)
+        }
       }
     } catch (error) {
       console.error(error) // Log any errors that occur during the API call
@@ -77,13 +83,18 @@ export default function Register () {
 
   const forget = async (email) => {
     try {
-      const res = await forgetPassword(email)
-      console.log(res)
-      if (res.data.message === 'mot de passe modifié avec succès vérifier votre boîte mail') {
-        showNotification('success', 'Vérification de la boîte mail', 'Vérifier votre boîte mail !')
-        setTimeout(() => {
-          window.location.replace(`/auth/login/`)
-        }, 2000)
+      if (User.email === '') {
+        showNotification('error', 'Email Obligatoire', 'Vide !')
+        setN(1) // Utilisation de setN pour mettre à jour la valeur de n
+      } else {
+        const res = await forgetPassword(email)
+        console.log(res)
+        if (res.data.message === 'mot de passe modifié avec succès vérifier votre boîte mail') {
+          showNotification('success', 'Vérification de la boîte mail', 'Vérifier votre boîte mail !')
+          setTimeout(() => {
+            window.location.replace(`/auth/login/`)
+          }, 2000)
+        }
       }
     } catch (error) {
       if (error.response.data.message === 'User not found!') {
@@ -172,9 +183,16 @@ export default function Register () {
                       label="Email"
                       aria-label="Email"
                     />
+                    {n === 1 && User.email === "" ? (
+                      <label style={{ color: 'red', display: 'block', marginTop: '10px' }}>
+                        Email obligatoires
+                      </label>
+                    ) : (
+                      ''
+                    )}
                   </div>
 
-                  {message === "1" ? (
+                  {message === '1' ? (
                     <label>
                       <div className="text-center mt-6">
                         <button
