@@ -1,10 +1,9 @@
 import { React, useMemo, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { forgetPassword, getUserAuth, registerEmail } from '../../Services/ApiUser'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import { GiBurningDot } from 'react-icons/gi'
-import { useHistory } from 'react-router-dom';
 
 export default function Register () {
   const jwt_token = Cookies.get('jwt_token')
@@ -38,9 +37,9 @@ export default function Register () {
 
   const location = useLocation()
   const message = new URLSearchParams(location.search).get('message')
-  const [n, setN] = useState(0); // Ajout de la variable n
-  const history = useHistory();
-
+  const [n, setN] = useState(0) // Ajout de la variable n
+  const history = useHistory()
+  const [emailError, setEmailError] = useState('')
   const showNotification = (type, title, message, autoDismissTime = 1000) => {
     switch (type) {
       case 'success':
@@ -48,6 +47,9 @@ export default function Register () {
         break
       case 'error':
         NotificationManager.error(message, title, autoDismissTime = 1000)
+        break
+      case 'info':
+        NotificationManager.info(title, message, autoDismissTime = 2500)
         break
       // Ajoutez d'autres types si nécessaire
       default:
@@ -60,22 +62,37 @@ export default function Register () {
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value })
     console.log(User)
+
+    if (e.target.name === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      const isValidEmail = emailRegex.test(e.target.value)
+
+      if (!isValidEmail) {
+        setEmailError('Veuillez entrer une adresse e-mail valide.')
+      } else {
+        setEmailError('')
+      }
+    }
   }
   const add = async (e) => {
     try {
-      if (User.email === '') {
-        showNotification('error', 'Email Obligatoire', 'Vide !')
-        setN(1) // Utilisation de setN pour mettre à jour la valeur de n
+      if (emailError === 'Veuillez entrer une adresse e-mail valide.') {
+        showNotification('info', 'valide !', 'Veuillez entrer une adresse e-mail')
       } else {
-        const res = await registerEmail(User)
-        console.log(res.data.message) // Log the actual response object
-        if (res.data.message === undefined) {
-          // showNotification('success', 'Ouvrez votre email', 'Vérifiez votre email !')
-          // setTimeout(() => {
-          history.push('/auth/VerificationEmail');
-          // }, 1100)
+        if (User.email === '') {
+          showNotification('error', 'Email Obligatoire', 'Vide !')
+          setN(1) // Utilisation de setN pour mettre à jour la valeur de n
         } else {
-          showNotification('error', 'Cet e-mail est déjà enregistré', res.data.message)
+          const res = await registerEmail(User)
+          console.log(res.data.message) // Log the actual response object
+          if (res.data.message === undefined) {
+            // showNotification('success', 'Ouvrez votre email', 'Vérifiez votre email !')
+            // setTimeout(() => {
+            history.push('/auth/VerificationEmail')
+            // }, 1100)
+          } else {
+            showNotification('error', 'Cet e-mail est déjà enregistré', res.data.message)
+          }
         }
       }
     } catch (error) {
@@ -94,7 +111,7 @@ export default function Register () {
         if (res.data.message === 'mot de passe modifié avec succès vérifier votre boîte mail') {
           // showNotification('success', 'Vérification de la boîte mail', 'Vérifier votre boîte mail !')
           // setTimeout(() => {
-            history.push('/auth/VerificationMotDePasse');
+          history.push('/auth/VerificationMotDePasse')
           // }, 1100)
         }
       }
@@ -185,13 +202,17 @@ export default function Register () {
                       label="Email"
                       aria-label="Email"
                     />
-                    {n === 1 && User.email === "" ? (
+                    {n === 1 && User.email === '' ? (
                       <label style={{ color: 'red', display: 'block', marginTop: '10px' }}>
                         Email obligatoires
                       </label>
                     ) : (
                       ''
-                    )}
+                    )}{emailError && (
+                    <label style={{ color: 'red', display: 'block', marginTop: '10px' }}>
+                      {emailError}
+                    </label>
+                  )}
                   </div>
 
                   {message === '1' ? (
