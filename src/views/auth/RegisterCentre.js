@@ -81,8 +81,22 @@ export default function Register () {
 
     const strengthCode = checkPasswordStrength(newPassword, User.nom)
     setPasswordStrength(strengthCode)
-  }
 
+  }
+  const handlechange = (e) => {
+    setUser({ ...User, [e.target.name]: e.target.value })
+
+    if (e.target.name === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      const isValidEmail = emailRegex.test(e.target.value)
+
+      if (!isValidEmail) {
+        setEmailError('Veuillez entrer une adresse e-mail valide.')
+      } else {
+        setEmailError('')
+      }
+    }
+  }
   const checkPasswordStrength = (password, nom) => {
     const hasUppercase = /[A-Z]/.test(password)
     const hasLowercase = /[a-z]/.test(password)
@@ -141,28 +155,32 @@ export default function Register () {
   const [messageerr, setmessageerr] = useState()
   const [image, setImage] = useState()
   const [n, setN] = useState(0) // Ajout de la variable n
+  const [emailError, setEmailError] = useState('')
 
   const handlechangeFile = (e) => {
     setImage(e.target.files[0])
     console.log(e.target.files[0])
   }
+
   let formData = new FormData()
   const add = async (e) => {
     const normalizedNom = User.nom.toLowerCase()
     const passwordLowerCase = User.password.toLowerCase()
-    if (User.nom === '' && User.email === '' && User.password === '' ) {
+    if (emailError === 'Veuillez entrer une adresse e-mail valide.') {
+      showNotification('info', '', 'Veuillez entrer une adresse e-mail valide !')
+    } else if (User.nom === '' && User.email === '' && User.password === '') {
       showNotification('error', 'Nom et email et Password Obligatoire', 'Vide !')
       setN(4) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '' && User.email === '' ) {
+    } else if (User.nom === '' && User.email === '') {
       showNotification('error', 'Nom et Prenom Obligatoire', 'Vide !')
       setN(5) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.email === '' && User.password === '' ) {
+    } else if (User.email === '' && User.password === '') {
       showNotification('error', 'Prenom et Password Obligatoire', 'Vide !')
       setN(6) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '' && User.password === '' ) {
+    } else if (User.nom === '' && User.password === '') {
       showNotification('error', 'Nom et Password Obligatoire', 'Vide !')
       setN(7) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '' ) {
+    } else if (User.nom === '') {
       showNotification('error', 'Nom et Obligatoire', 'Vide !')
       setN(1) // Utilisation de setN pour mettre à jour la valeur de n
     } else if (User.email === '') {
@@ -266,17 +284,22 @@ export default function Register () {
                       placeholder="email"
                       type="email"
                       name="email"
-                      onChange={(e) => setUser({ ...User, email: e.target.value })}
+                      onChange={(e) => handlechange(e)}
                       label="email"
                       aria-label="email"
                     />
-                    {n === 2 || n === 4  || n === 5 || n === 6 ||messageerr === 'Le Nom doit contenir plus de 3 caractères' ||
+                    {n === 2 || n === 4 || n === 5 || n === 6 || messageerr === 'Le Nom doit contenir plus de 3 caractères' ||
                     messageerr === 'Le Nom doit contenir moins de 15 caractères' ? (
                       <label style={{ color: 'red' }}>
                         Le Nom doit contenir plus de 3 et moin de 15
                       </label>
                     ) : (
                       ''
+                    )}
+                    {emailError && (
+                      <label style={{ color: 'red', display: 'block', marginTop: '10px' }}>
+                        {emailError}
+                      </label>
                     )}
                   </div>
                   <div className="relative w-full mb-3">
