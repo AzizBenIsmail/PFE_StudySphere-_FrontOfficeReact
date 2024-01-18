@@ -13,6 +13,7 @@ export default function Login () {
 
   const [n, setN] = useState(0) // Ajout de la variable n
   const [emailError, setEmailError] = useState('')
+  const [loading, setLoading] = useState(false);
 
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value })
@@ -59,6 +60,7 @@ export default function Login () {
   }, [message])
 
   const Login = async (user) => {
+    setLoading(true);
     setN(0)
     if (emailError === 'Veuillez entrer une adresse e-mail valide.') {
       showNotification('info', 'valide !', 'Veuillez entrer une adresse e-mail')
@@ -91,6 +93,9 @@ export default function Login () {
         }
       }
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 1200);
   }
 
   return (
@@ -228,6 +233,7 @@ export default function Login () {
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => Login(User, n)}
+                      disabled={loading} // Désactivez le bouton si loading est vrai
                     >
                       Sign In
                     </button>
