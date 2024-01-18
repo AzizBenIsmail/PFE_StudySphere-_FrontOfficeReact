@@ -11,10 +11,22 @@ export default function Login () {
     password: '',
   })
 
-  const [n, setN] = useState(0); // Ajout de la variable n
+  const [n, setN] = useState(0) // Ajout de la variable n
+  const [emailError, setEmailError] = useState('')
 
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value })
+
+    if (e.target.name === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      const isValidEmail = emailRegex.test(e.target.value)
+
+      if (!isValidEmail) {
+        setEmailError('Veuillez entrer une adresse e-mail valide.')
+      } else {
+        setEmailError('')
+      }
+    }
   }
 
   const showNotification = (type, title, message, autoDismissTime = 1000) => {
@@ -23,13 +35,17 @@ export default function Login () {
         NotificationManager.success(message, title, autoDismissTime = 1000)
         break
       case 'error':
-        NotificationManager.error(message, title , autoDismissTime = 1000)
+        NotificationManager.error(message, title, autoDismissTime = 1000)
+        break
+      case 'info':
+        NotificationManager.info(title, message, autoDismissTime = 3000)
         break
       // Ajoutez d'autres types si nécessaire
       default:
         break
     }
   }
+
   const location = useLocation()
   const message = new URLSearchParams(location.search).get('message')
   useEffect(() => {
@@ -42,31 +58,36 @@ export default function Login () {
     return () => clearInterval(interval)
   }, [message])
 
-  const Login = async (user) => {setN(0);
-    if (user.email === '' && user.password === '') {
-      showNotification('error', 'Email et mot de passe Obligatoire', 'Vide !');
-      setN(1); // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (user.email === '') {
-      showNotification('error', 'Email Obligatoire', 'Vide !');
-      setN(2);
-    } else if (user.password === '') {
-      showNotification('error', 'Mot de Passe Obligatoire', 'Vide !');
-      setN(3);
+  const Login = async (user) => {
+    setN(0)
+    if (emailError === 'Veuillez entrer une adresse e-mail valide.') {
+      showNotification('info', 'valide !', 'Veuillez entrer une adresse e-mail')
     } else {
-      try {
-        const res = await LoginUser(user)
-        if (res.data.user.role === 'admin') {
-          window.location.replace(`/admin`)
-        } else {
-          window.location.replace(`/landing`)
-        }
-      } catch (error) {
-        if (error.response.data.erreur === 'compte desactive') {
-          showNotification('error', 'Compte Désactivé', 'Compte Désactivé !')
-        } else if (error.response.data.erreur === 'incorrect password') {
-          showNotification('error', 'Mot de Passe Incorrect', 'Mot de passe incorrect !')
-        } else if (error.response.data.erreur === 'incorrect email') {
-          showNotification('error', 'Email Incorrect', 'Email incorrect !')
+      if (user.email === '' && user.password === '') {
+        showNotification('error', 'Email et mot de passe Obligatoire', 'Vide !')
+        setN(1) // Utilisation de setN pour mettre à jour la valeur de n
+      } else if (user.email === '') {
+        showNotification('error', 'Email Obligatoire', 'Vide !')
+        setN(2)
+      } else if (user.password === '') {
+        showNotification('error', 'Mot de Passe Obligatoire', 'Vide !')
+        setN(3)
+      } else {
+        try {
+          const res = await LoginUser(user)
+          if (res.data.user.role === 'admin') {
+            window.location.replace(`/admin`)
+          } else {
+            window.location.replace(`/landing`)
+          }
+        } catch (error) {
+          if (error.response.data.erreur === 'compte desactive') {
+            showNotification('error', 'Compte Désactivé', 'Compte Désactivé !')
+          } else if (error.response.data.erreur === 'incorrect password') {
+            showNotification('error', 'Mot de Passe Incorrect', 'Mot de passe incorrect !')
+          } else if (error.response.data.erreur === 'incorrect email') {
+            showNotification('error', 'Email Incorrect', 'Email incorrect !')
+          }
         }
       }
     }
@@ -145,18 +166,23 @@ export default function Login () {
                     <input
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Email Address"
-                      type="text"
+                      type="email"
                       name="email"
                       onChange={(e) => handlechange(e)}
                       label="Email"
                       aria-label="Email"
                     />
-                    {n === 1 || (n === 2 && User.email === "") ? (
+                    {n === 1 || (n === 2 && User.email === '') ? (
                       <label style={{ color: 'red', display: 'block', marginTop: '10px' }}>
                         Email obligatoires pour se connecter
                       </label>
                     ) : (
                       ''
+                    )}
+                    {emailError && (
+                      <label style={{ color: 'red', display: 'block', marginTop: '10px' }}>
+                        {emailError}
+                      </label>
                     )}
                   </div>
 
@@ -176,7 +202,7 @@ export default function Login () {
                       label="Password"
                       aria-label="Password"
                     />
-                    {n === 1 || (n === 3 && User.password === "") ? (
+                    {n === 1 || (n === 3 && User.password === '') ? (
                       <label style={{ color: 'red', display: 'block', marginTop: '10px' }}>
                         Mot de passe obligatoires pour se connecter
                       </label>
@@ -201,7 +227,7 @@ export default function Login () {
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => Login(User , n)}
+                      onClick={() => Login(User, n)}
                     >
                       Sign In
                     </button>
