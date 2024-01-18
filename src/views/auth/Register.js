@@ -50,7 +50,7 @@ export default function Register () {
         NotificationManager.error(title, message, autoDismissTime = 1000)
         break
       case 'info':
-        NotificationManager.info(title, message, autoDismissTime = 1000)
+        NotificationManager.info(title, message, autoDismissTime = 2500)
         break
       case 'warning':
         NotificationManager.warning(title, message, autoDismissTime = 1000)
