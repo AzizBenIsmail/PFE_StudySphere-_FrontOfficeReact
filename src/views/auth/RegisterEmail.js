@@ -77,7 +77,7 @@ export default function Register () {
   const add = async (e) => {
     try {
       if (emailError === 'Veuillez entrer une adresse e-mail valide.') {
-        showNotification('info', 'valide !', 'Veuillez entrer une adresse e-mail')
+        showNotification('info', '', 'Veuillez entrer une adresse e-mail valide !')
       } else {
         if (User.email === '') {
           showNotification('error', 'Email Obligatoire', 'Vide !')
