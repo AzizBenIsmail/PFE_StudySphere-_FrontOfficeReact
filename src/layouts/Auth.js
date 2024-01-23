@@ -1,24 +1,24 @@
-import { lazy, React, Suspense, useMemo } from 'react'
+import { React, Suspense, useMemo } from 'react'
 import { Switch, Route, Redirect } from "react-router-dom";
 
 // components
 
+import Navbar from "components/Navbars/AuthNavbar.js";
+import FooterSmall from "components/Footers/FooterSmall.js";
+
+// views
+
+import Login from "views/auth/Login.js";
+import Register from "views/auth/Register.js";
+import RegisterEmail from "views/auth/RegisterEmail.js";
+import RegisterCentre from "views/auth/RegisterCentre.js";
+import VerificationEmail from "views/auth/VerificationEmail.js";
+import VerificationMotDePasse from "views/auth/VerificationMotDePasse.js";
+import Resetmdp from "views/auth/Resetmdp.js";
+
 import { InfinitySpin } from 'react-loader-spinner'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/ApiUser'
-
-const Navbar = lazy(() => import("components/Navbars/AuthNavbar.js"));
-const FooterSmall = lazy(() => import("components/Footers/FooterSmall.js"));
-// views
-const Login = lazy(() => import("views/auth/Login.js"));
-const RegisterEmail = lazy(() => import("views/auth/RegisterEmail.js"));
-const Register = lazy(() => import("views/auth/Register.js"));
-const RegisterCentre = lazy(() => import("views/auth/RegisterCentre.js"));
-const VerificationEmail = lazy(() => import("views/auth/VerificationEmail.js"));
-const VerificationMotDePasse = lazy(() => import("views/auth/VerificationMotDePasse.js"));
-const Resetmdp = lazy(() => import("views/auth/Resetmdp.js"));
-
-
 
 export default function Auth() {
   const jwt_token = Cookies.get('jwt_token')
@@ -66,12 +66,11 @@ export default function Auth() {
               <Route path="/auth/login" exact component={Login} />
               <Route path="/auth/registerEmail" exact component={RegisterEmail} />
               <Route path="/auth/register" exact component={Register} />
+              <Route path="/auth/Resetmdp" exact component={Resetmdp} />
               <Route path="/auth/registerCentre" exact component={RegisterCentre} />
               <Route path="/auth/registerCentre" exact component={RegisterCentre} />
-              <Route path="/auth/VerificationEmail" exact component={VerificationEmail} />
               <Route path="/auth/VerificationEmail" exact component={VerificationEmail} />
               <Route path="/auth/VerificationMotDePasse" exact component={VerificationMotDePasse} />
-              <Route path="/auth/Resetmdp" exact component={Resetmdp} />
               <Redirect from="/auth" to="/auth/login" />
             </Switch>
           </Suspense>
