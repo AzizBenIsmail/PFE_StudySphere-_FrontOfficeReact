@@ -40,10 +40,12 @@ export default function VerificationMotDePasse () {
             <div
               className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
               <div className="rounded-t mb-0 px-6 py-6">
+                <a href="https://mail.google.com/mail/u/0/#inbox" >
                 <img
                   src={require('assets/img/EmailPassword.png').default}
                   alt="..."
                 />
+                </a>
               </div>
             </div>
             <div className="flex flex-wrap mt-6 relative">
