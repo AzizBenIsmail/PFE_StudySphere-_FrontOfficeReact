@@ -16,20 +16,18 @@ export default function Navbar (props) {
           <div
             className="w-full relative flex justify-between items-center lg:w-auto lg:static lg:block lg:justify-start">
             <Link
-              className="text-white text-sm font-bold leading-relaxed inline-flex items-center mr-4 py-2 whitespace-nowrap uppercase"
+              className="text-white inline-flex items-center py-2"
               to="/"
             >
               <img
                 src={require('assets/img/Logo.png').default}
                 alt="..."
-                className="mr-4"
                 style={{ maxWidth: '20%', height: '10%' }}
               />
-              <GiBurningDot size={25} className="mr-4"  />
+              <GiBurningDot size={25} />
               <img
                 src={require('assets/img/LogoBridge.png').default}
                 alt="..."
-                className="mr-4"
                 style={{ maxWidth: '20%', height: '10%' }}
               />
             </Link>
