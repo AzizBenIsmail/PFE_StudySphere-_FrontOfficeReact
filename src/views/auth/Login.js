@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { LoginUser } from '../../Services/ApiUser'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
-import { GiBurningDot } from 'react-icons/gi'
 
 export default function Login () {
   const [User, setUser] = useState({
@@ -118,13 +117,13 @@ export default function Login () {
                       className="mr-4"
                       style={{ maxWidth: '40%', height: '20%' }}
                     />
-                    <GiBurningDot size={45} className="mr-4" style={{ color: 'red' }}/>
-                    <img
-                      src={require('assets/img/LogoBridge.png').default}
-                      alt="..."
-                      className="mr-4"
-                      style={{ maxWidth: '40%', height: '20%' }}
-                    />
+                    {/*<GiBurningDot size={45} className="mr-4" style={{ color: 'red' }}/>*/}
+                    {/*<img*/}
+                    {/*  src={require('assets/img/LogoBridge.png').default}*/}
+                    {/*  alt="..."*/}
+                    {/*  className="mr-4"*/}
+                    {/*  style={{ maxWidth: '40%', height: '20%' }}*/}
+                    {/*/>*/}
                   </Link>
                   <h6 className="text-3xl font-normal leading-normal mt-0 mb-2 text-lightBlue-800">
                     Se Connecter
