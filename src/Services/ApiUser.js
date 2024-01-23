@@ -88,6 +88,6 @@ export async function desactive(id, config) {
   return await axios.put(`${ apiURL }/desactive`, {id}, config);
 }
 
-export async function forgetPassword(email,config) {
-  return await axios.put(`${apiURL}/forgetPassword`, {email},config);
+export async function forgetPassword(email) {
+  return await axios.put(`${apiURL}/forgetPassword`, {email});
 }
