@@ -40,7 +40,7 @@ export default function Register () {
   const [n, setN] = useState(0) // Ajout de la variable n
   const history = useHistory()
   const [emailError, setEmailError] = useState('')
-  const showNotification = (type, title, message, autoDismissTime = 1000) => {
+  const   showNotification = (type, title, message, autoDismissTime = 1000) => {
     switch (type) {
       case 'success':
         NotificationManager.success(message, title, autoDismissTime = 1000)
@@ -61,7 +61,7 @@ export default function Register () {
   })
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value })
-    console.log(User)
+    // console.log(User)
 
     if (e.target.name === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -101,25 +101,18 @@ export default function Register () {
   }
 
   const forget = async (email) => {
-    try {
       if (User.email === '') {
         showNotification('error', 'Email Obligatoire', 'Vide !')
         setN(1) // Utilisation de setN pour mettre à jour la valeur de n
       } else {
         const res = await forgetPassword(email)
-        console.log(res)
+        console.log(res.data.message) // Log the actual response object
         if (res.data.message === 'mot de passe modifié avec succès vérifier votre boîte mail') {
-          // showNotification('success', 'Vérification de la boîte mail', 'Vérifier votre boîte mail !')
-          // setTimeout(() => {
           history.push('/auth/VerificationMotDePasse')
-          // }, 1100)
+        }else{
+          showNotification('error', 'Cet e-mail n est pas enregistré', 'Email n\'existe pas !')
         }
       }
-    } catch (error) {
-      if (error.response.data.message === 'User not found!') {
-        showNotification('error', 'Cet e-mail n est pas enregistré', 'Email n\'existe pas !')
-      }
-    }
   }
 
   return (
