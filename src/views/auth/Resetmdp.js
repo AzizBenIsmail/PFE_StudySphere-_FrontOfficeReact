@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { getUserAuth } from '../../Services/ApiUser';
+import { getUserAuth , Password } from '../../Services/ApiUser';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 export default function Resetmdp() {
@@ -34,10 +34,21 @@ export default function Resetmdp() {
     fetchData();
   }
 
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   const message = new URLSearchParams(location.search).get('message');
+  const email = new URLSearchParams(location.search).get('email');
+  const [n, setN] = useState(0) // Ajout de la variable n
+
+  const [user, setUser] = useState({
+    password: '',
+    confirmPassword: '',
+    email : email ,
+  });
+  const [passwordError, setPasswordError] = useState('');
+
   useEffect(() => {
-    showNotification('success', message, 'success');
+    showNotification('success', 'success', message);
 
     const interval = setInterval(() => {}, 1000000);
 
@@ -61,13 +72,6 @@ export default function Resetmdp() {
     }
   };
 
-  const [user, setUser] = useState({
-    password: '',
-    confirmPassword: '',
-  });
-
-  const [passwordError, setPasswordError] = useState('');
-
   const handlechange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
 
@@ -78,17 +82,24 @@ export default function Resetmdp() {
         setPasswordError('');
       }
     }
+    console.log(user)
   };
 
-  const handleSavePassword = () => {
-    // Perform password save logic here
+  const handleSavePassword = async () => {
     if (user.password === user.confirmPassword) {
-      // Save the password
+      try {
+        setIsLoading(true);
+        const response = await Password(user);
+        showNotification('success', 'Success', response.data.message);
+      } catch (error) {
+        showNotification('error', 'Error', error.response.data.message);
+      } finally {
+        setIsLoading(false);
+      }
     } else {
       setPasswordError('Les mots de passe ne correspondent pas.');
     }
   };
-
   return (
     <>
       <NotificationContainer />
@@ -164,6 +175,7 @@ export default function Resetmdp() {
                       </button>
                     </div>
                   </label>
+                  {isLoading && <p>Chargement en cours...</p>}
                 </form>
               </div>
             </div>
@@ -183,5 +195,5 @@ export default function Resetmdp() {
         </div>
       </div>
     </>
-  )
+  );
 }

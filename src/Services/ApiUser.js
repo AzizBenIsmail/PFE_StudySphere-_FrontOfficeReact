@@ -68,9 +68,9 @@ export async function getUserAuth(config) {
 //   });
 // }
 
-export async function deleteUser(id, config) {
-  return await axios.delete(`${ apiURL }/${ id }`, config);
-}
+// export async function deleteUser(id, config) {
+//   return await axios.delete(`${ apiURL }/${ id }`, config);
+// }
 
 export async function upgrade(id, config) {
   return await axios.put(`${ apiURL }/upgrade`, {id}, config);
@@ -90,4 +90,8 @@ export async function active(id, config) {
 
 export async function forgetPassword(email) {
   return await axios.put(`${apiURL}/forgetPassword`, {email});
+}
+
+export async function Password(user) {
+  return await axios.put(`${apiURL}/Password`, {user});
 }
