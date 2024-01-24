@@ -39,6 +39,8 @@ export default function Resetmdp() {
   const message = new URLSearchParams(location.search).get('message');
   const email = new URLSearchParams(location.search).get('email');
   const [n, setN] = useState(0) // Ajout de la variable n
+  const [passwordStrength, setPasswordStrength] = useState(0)
+  const [messageerr, setmessageerr] = useState()
 
   const [user, setUser] = useState({
     password: '',
@@ -66,7 +68,6 @@ export default function Resetmdp() {
       case 'info':
         NotificationManager.info(title, message, autoDismissTime);
         break;
-      // Add other types if necessary
       default:
         break;
     }
@@ -74,6 +75,7 @@ export default function Resetmdp() {
 
   const handlechange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    const newPassword = user.password
 
     if (e.target.name === 'confirmPassword') {
       if (user.password !== e.target.value) {
@@ -82,24 +84,91 @@ export default function Resetmdp() {
         setPasswordError('');
       }
     }
+    const strengthCode = checkPasswordStrength(newPassword)
+    setPasswordStrength(strengthCode)
     console.log(user)
   };
+  const checkPasswordStrength = (password) => {
+    const hasUppercase = /[A-Z]/.test(password)
+    const hasLowercase = /[a-z]/.test(password)
+    const hasDigit = /\d/.test(password)
+
+    if (password.length === 0) {
+      return 0 // Le nom existe dans le mot de passe (Faible)
+    } else if (password.length < 4) {
+      setN(1)
+      return 1 // Faible
+    } else if (password.length < 8) {
+      setN(2)
+      return 2 // Faible
+    } else if (hasUppercase && hasLowercase && hasDigit) {
+      setN(4)
+      return 4 // Très fort (ajoutez vos propres critères)
+    } else {
+      return 2 // Moyen
+    }
+  }
+
+  const getStrengthColor = (strength) => {
+    switch (strength) {
+      case 0:
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500'
+      case 1:
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500'
+      case 2:
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500'
+      case 3:
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500'
+      case 4:
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500'
+      default:
+        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500'
+    }
+  }
+
+  const getColor = (strength) => {
+    switch (strength) {
+      case 0:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200'
+      case 1:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200'
+      case 2:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-orange-200'
+      case 3:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200'
+      case 4:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-emerald-200'
+      default:
+        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200'
+    }
+  }
 
   const handleSavePassword = async () => {
-    if (user.password === user.confirmPassword) {
-      try {
-        setIsLoading(true);
-        const response = await Password(user);
-        showNotification('success', 'Success', response.data.message);
-      } catch (error) {
-        showNotification('error', 'Error', error.response.data.message);
-      } finally {
-        setIsLoading(false);
+    if (user.password === user.confirmPassword || user.password=== '') {
+      if(n === 4) {
+        try {
+          setIsLoading(true);
+          const response = await Password(user);
+          if (response.data.message === "Mot de passe modifié avec succès. Veuillez vérifier votre boîte mail.") {
+            window.location.replace(`/auth/login/`)
+            // showNotification('success', 'Success', response.data.message);
+          } else {
+            setmessageerr(response.data.message)
+            showNotification('error', response.data.message, 'Erreur')
+          }
+        } catch (error) {
+          showNotification('error', 'Error', error.response.data.message);
+        } finally {
+          setIsLoading(false);
+        }
+      }else{
+        showNotification('error', 'Error', "Exemple mdp : Exemple@123");
       }
     } else {
       setPasswordError('Les mots de passe ne correspondent pas.');
     }
   };
+
   return (
     <>
       <NotificationContainer />
@@ -139,6 +208,16 @@ export default function Resetmdp() {
                       onChange={(e) => handlechange(e)}
                       aria-label="Mot de passe"
                     />
+                    {n === 1 || n === 2 || messageerr === 'Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123' ||
+                    messageerr === 'Le Mot de passe doit contenir au moins 8 caractères' ? (
+                      <label style={{ color: 'red' }}>
+                        Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et
+                        un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 |
+                        Exemple*123 </label>
+                    ) : (
+                      ''
+                    )}
+
                   </div>
 
                   {/* Confirm Password Input */}
@@ -163,7 +242,12 @@ export default function Resetmdp() {
                       </label>
                     )}
                   </div>
-
+                  <div className="relative pt-1">
+                    <div className={`${getColor(passwordStrength)}`}>
+                      <div style={{ width: `${(passwordStrength / 3) * 100}%` }}
+                           className={`${getStrengthColor(passwordStrength)}`}></div>
+                    </div>
+                  </div>
                   <label>
                     <div className="text-center mt-6">
                       <button
