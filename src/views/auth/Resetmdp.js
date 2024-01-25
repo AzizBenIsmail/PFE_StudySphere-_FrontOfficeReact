@@ -5,15 +5,15 @@ import { getUserAuth , Password } from '../../Services/ApiUser';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 export default function Resetmdp() {
-  const jwt_token = Cookies.get('jwt_token');
-
+  const location = useLocation();
+  const token = new URLSearchParams(location.search).get('token');
   const config = useMemo(() => {
     return {
       headers: {
-        Authorization: `Bearer ${jwt_token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
-  }, [jwt_token]);
+  }, [token]);
 
   // Session check
   if (Cookies.get('jwt_token')) {
@@ -35,7 +35,6 @@ export default function Resetmdp() {
   }
 
   const [isLoading, setIsLoading] = useState(false);
-  const location = useLocation();
   const message = new URLSearchParams(location.search).get('message');
   const email = new URLSearchParams(location.search).get('email');
   const [n, setN] = useState(0) // Ajout de la variable n
@@ -46,6 +45,7 @@ export default function Resetmdp() {
     password: '',
     confirmPassword: '',
     email : email ,
+    token : token,
   });
   const [passwordError, setPasswordError] = useState('');
 
@@ -144,20 +144,24 @@ export default function Resetmdp() {
   }
 
   const handleSavePassword = async () => {
+    // console.log(config);
     if (user.password === user.confirmPassword || user.password=== '') {
       if(n === 4) {
         try {
           setIsLoading(true);
-          const response = await Password(user);
+          const response = await Password(user,config);
+          console.log(response);
           if (response.data.message === "Mot de passe modifié avec succès. Veuillez vérifier votre boîte mail.") {
             window.location.replace(`/auth/login/`)
+            // console.log(response);
             // showNotification('success', 'Success', response.data.message);
           } else {
             setmessageerr(response.data.message)
-            showNotification('error', response.data.message, 'Erreur')
+            showNotification('error',response.data.message, 'Erreur')
           }
         } catch (error) {
-          showNotification('error', 'Error', error.response.data.message);
+          // console.log(error);
+          showNotification('error', 'Error', 'error');
         } finally {
           setIsLoading(false);
         }
