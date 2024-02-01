@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 
 // components
 
-import CardTable from "components/Cards/CardTable.js";
+import ListUsers from "../admin/ListUsers";
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../../Services/ApiUser'
 
@@ -44,7 +44,7 @@ export default function Tables() {
         {/*  <CardTable />*/}
         {/*</div>*/}
         <div className="w-full mb-12 px-4">
-          <CardTable color="dark" />
+          <ListUsers color="dark" />
         </div>
       </div>
     </>
