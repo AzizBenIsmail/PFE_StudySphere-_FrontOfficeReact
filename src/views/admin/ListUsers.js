@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { SiVerizon, SiVexxhost } from "react-icons/si";
-
+import { FaAngleDown } from "react-icons/fa";
+import { MagnifyingGlass } from "react-loader-spinner";
 // components
 import TableDropdown from "components/Dropdowns/TableDropdown.js";
 
@@ -228,6 +229,7 @@ export default function ListUsers({ color }) {
 
     console.log("Recherche effectuée:", searchTerm);
   };
+
   return (
     <>
       <div
@@ -290,10 +292,19 @@ export default function ListUsers({ color }) {
                         onSubmit={handleSubmit}
                         className="flex items-center"
                       >
-                        {" "}
-                        {/* Utilisation de flex pour aligner les éléments en ligne */}
                         <div className="mb-3 pt-0 flex items-center">
-                          {/*<span className="ml-2 text-xl text-white">Chercher un Utilisateur</span>*/}
+                          <span className="ml-2 text-xl text-white">
+                            <MagnifyingGlass
+                              visible={true}
+                              height="35"
+                              width="35"
+                              ariaLabel="magnifying-glass-loading"
+                              wrapperStyle={{}}
+                              wrapperClass="magnifying-glass-wrapper"
+                              glassColor="#c0efff"
+                              color="#e15b64"
+                            />
+                          </span>
                           <input
                             placeholder="Rechercher..."
                             type="text"
@@ -322,7 +333,12 @@ export default function ListUsers({ color }) {
                                   : openDropdownPopover();
                               }}
                             >
-                              Filtrer
+                              <div className="flex items-center">
+                                {" "}
+                                {/* Ajout de la structure flex pour aligner en ligne */}
+                                filtrer
+                                <FaAngleDown className="ml-3" />
+                              </div>
                             </button>
                             <div
                               ref={popoverDropdownRef}
@@ -355,7 +371,6 @@ export default function ListUsers({ color }) {
                               <button
                                 onClick={() => getAllUserDesactive(config)}
                                 className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
-                                type="button"
                                 type="button"
                               >
                                 Désactive
@@ -482,15 +497,14 @@ export default function ListUsers({ color }) {
                       {user.image_user ? (
                         <img
                           // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
-                          alt="User Image"
+                          alt="UserImage"
                           src={`http://localhost:5000/images/${user.image_user}`}
                           style={{ width: "80px", height: "80px" }}
                         />
                       ) : (
                         <div>
                           <img
-                            // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
-                            alt="User Image"
+                            alt="UserImage"
                             src={require("assets/img/empty.png").default}
                             style={{ width: "80px", height: "80px" }}
                           />
