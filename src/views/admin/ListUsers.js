@@ -4,6 +4,7 @@ import { SiVerizon, SiVexxhost } from "react-icons/si";
 
 // components
 import TableDropdown from "components/Dropdowns/TableDropdown.js";
+
 import Cookies from "js-cookie";
 import {
   active,
@@ -23,6 +24,7 @@ import {
 import { RiAdminFill } from "react-icons/ri";
 import { AiOutlineReload, AiOutlineUser } from "react-icons/ai";
 import { Puff } from "react-loader-spinner";
+import { createPopper } from "@popperjs/core";
 
 export default function ListUsers({ color }) {
   //cookies
@@ -195,7 +197,19 @@ export default function ListUsers({ color }) {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [navbarOpen, setNavbarOpen] = React.useState(false);
-
+  // dropdown props
+  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
+  const btnDropdownRef = React.createRef();
+  const popoverDropdownRef = React.createRef();
+  const openDropdownPopover = () => {
+    createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
+      placement: "bottom-start",
+    });
+    setDropdownPopoverShow(true);
+  };
+  const closeDropdownPopover = () => {
+    setDropdownPopoverShow(false);
+  };
   const handleInputChange = async (event) => {
     const term = event.target.value;
     setSearchTerm(term);
@@ -252,9 +266,9 @@ export default function ListUsers({ color }) {
             <nav className="relative flex flex-wrap items-center justify-between navbar-expand-lg ">
               <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
                 <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-                  {/*<a className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white" href="#pablo">*/}
-                  {/*  Filtre les utilisateur*/}
-                  {/*</a>*/}
+                  <div className="text-xl font-normal leading-normal mt-0 mb-2 ">
+                    Filtre les utilisateurs
+                  </div>
                   <button
                     className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
                     type="button"
@@ -272,7 +286,12 @@ export default function ListUsers({ color }) {
                 >
                   <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
                     <li className="nav-item">
-                      <form onSubmit={handleSubmit} className="flex items-center"> {/* Utilisation de flex pour aligner les éléments en ligne */}
+                      <form
+                        onSubmit={handleSubmit}
+                        className="flex items-center"
+                      >
+                        {" "}
+                        {/* Utilisation de flex pour aligner les éléments en ligne */}
                         <div className="mb-3 pt-0 flex items-center">
                           {/*<span className="ml-2 text-xl text-white">Chercher un Utilisateur</span>*/}
                           <input
@@ -283,45 +302,93 @@ export default function ListUsers({ color }) {
                             onChange={handleInputChange}
                             label="Username"
                             aria-label="Username"
-                            className=" px-2 py-1 h-8 border border-solid  border-lightBlue-600 rounded-full text-sm leading-snug text-lightBlue-700 bg-lightBlue-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-lightBlue-300"                        />
+                            className=" px-2 py-1 h-8 border border-solid  border-lightBlue-600 rounded-full text-sm leading-snug text-lightBlue-700 bg-lightBlue-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-lightBlue-300"
+                          />
                         </div>
                       </form>
                     </li>
+                    <li>
+                      <div className="flex flex-wrap">
+                        <div className="w-full sm:w-6/12 md:w-4/12 px-4">
+                          <div className="relative inline-flex align-middle w-full">
+                            <button
+                              // className="text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 bg-lightBlue-500 active:bg-lightBlue-600 ease-linear transition-all duration-150"
+                              className=" bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              ref={btnDropdownRef}
+                              onClick={() => {
+                                dropdownPopoverShow
+                                  ? closeDropdownPopover()
+                                  : openDropdownPopover();
+                              }}
+                            >
+                              Filtrer
+                            </button>
+                            <div
+                              ref={popoverDropdownRef}
+                              className={
+                                (dropdownPopoverShow ? "block " : "hidden ") +
+                                "bg-indigo-500 text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1 min-w-48"
+                              }
+                            >
+                              <button
+                                onClick={() => getAllAdmin(config)}
+                                className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
+                                type="button"
+                              >
+                                Admin
+                              </button>
+                              <button
+                                onClick={() => getAllSimpleUser(config)}
+                                className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
+                                type="button"
+                              >
+                                Client
+                              </button>
+                              <button
+                                onClick={() => getAllUserActive(config)}
+                                className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
+                                type="button"
+                              >
+                                Verifier
+                              </button>
+                              <button
+                                onClick={() => getAllUserDesactive(config)}
+                                className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
+                                type="button"
+                                type="button"
+                              >
+                                Désactive
+                              </button>
+                              <div className="h-0 my-2 border border-solid border-t-0 border-blueGray-800 opacity-25" />
+                              <a
+                                href="#pablo"
+                                className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
+                                onClick={(e) => e.preventDefault()}
+                              >
+                                Seprated link
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
                     <li className="nav-item">
                       <button
-                        onClick={() => getAllAdmin(config)}
+                        // onClick={() => getAllUserActive(config)}
                         className=" bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                       >
-                        Admin
+                        Connecter
                       </button>
                     </li>
                     <li className="nav-item">
                       <button
-                        onClick={() => getAllSimpleUser(config)}
+                        // onClick={() => getAllUserActive(config)}
                         className=" bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                       >
-                        Simple
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        onClick={() => getAllUserActive(config)}
-                        className=" bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="button"
-                      >
-                        Verifier
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        onClick={() => getAllUserDesactive(config)}
-                        className="bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="button"
-                        type="button"
-                      >
-                        Désactive
+                        déconnecter
                       </button>
                     </li>
                   </ul>
