@@ -249,58 +249,12 @@ export default function ListUsers({ color }) {
         </div>
         <div className="flex flex-wrap">
           <div className="w-full px-4">
-            <nav className="relative flex flex-wrap items-center justify-between navbar-expand-lg  rounded">
-              <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
-                <div className="w-full relative flex justify-between lg:w-auto px-4 lg:static lg:block lg:justify-start">
-                  {/*<a className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white" href="#pablo">*/}
-                  {/*  Rechercher*/}
-                  {/*</a>*/}
-                  {/*  <form onSubmit={handleSubmit} className="flex items-center"> /!* Utilisation de flex pour aligner les éléments en ligne *!/*/}
-                  {/*    <div className="mb-3 pt-0 flex items-center">*/}
-                  {/*      <input*/}
-                  {/*        placeholder="Rechercher..."*/}
-                  {/*        type="text"*/}
-                  {/*        name="username"*/}
-                  {/*        value={searchTerm}*/}
-                  {/*        onChange={handleInputChange}*/}
-                  {/*        label="Username"*/}
-                  {/*        aria-label="Username"*/}
-                  {/*        className="px-2 py-1 h-8 border border-solid  border-lightBlue-600 rounded-full text-sm leading-snug text-lightBlue-700 bg-lightBlue-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-lightBlue-300"                        />*/}
-                  {/*      <span className="ml-2 text-xl text-white"></span>*/}
-                  {/*    </div>*/}
-                  {/*  </form>*/}
-                  <button
-                    className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
-                    type="button"
-                  >
-                    <span className="block relative w-6 h-px rounded-sm bg-white"></span>
-                    <span className="block relative w-6 h-px rounded-sm bg-white mt-1"></span>
-                    <span className="block relative w-6 h-px rounded-sm bg-white mt-1"></span>
-                  </button>
-                </div>
-                <div
-                  className="flex lg:flex-grow items-center"
-                  id="example-navbar-info"
-                >
-                  <ul className="flex flex-col lg:flex-row list-none ml-auto">
-                    <li className="nav-item"></li>
-                    <li className="nav-item"></li>
-                    <li className="nav-item"></li>
-                    <li className="nav-item"></li>
-                  </ul>
-                </div>
-              </div>
-            </nav>
-            <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg mb-3">
+            <nav className="relative flex flex-wrap items-center justify-between navbar-expand-lg ">
               <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
                 <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-                  {/*<a*/}
-                  {/*  className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white"*/}
-                  {/*  href="#pablo"*/}
-                  {/*>*/}
-                  {/*  lightBlue Notus*/}
+                  {/*<a className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white" href="#pablo">*/}
+                  {/*  Filtre les utilisateur*/}
                   {/*</a>*/}
-
                   <button
                     className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
                     type="button"
@@ -317,6 +271,22 @@ export default function ListUsers({ color }) {
                   id="example-navbar-danger"
                 >
                   <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+                    <li className="nav-item">
+                      <form onSubmit={handleSubmit} className="flex items-center"> {/* Utilisation de flex pour aligner les éléments en ligne */}
+                        <div className="mb-3 pt-0 flex items-center">
+                          {/*<span className="ml-2 text-xl text-white">Chercher un Utilisateur</span>*/}
+                          <input
+                            placeholder="Rechercher..."
+                            type="text"
+                            name="username"
+                            value={searchTerm}
+                            onChange={handleInputChange}
+                            label="Username"
+                            aria-label="Username"
+                            className=" px-2 py-1 h-8 border border-solid  border-lightBlue-600 rounded-full text-sm leading-snug text-lightBlue-700 bg-lightBlue-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-lightBlue-300"                        />
+                        </div>
+                      </form>
+                    </li>
                     <li className="nav-item">
                       <button
                         onClick={() => getAllAdmin(config)}
