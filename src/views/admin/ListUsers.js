@@ -1,18 +1,18 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import PropTypes from "prop-types";
-import { SiVerizon, SiVexxhost } from "react-icons/si";
-import { FaAngleDown } from "react-icons/fa";
-import { MagnifyingGlass } from "react-loader-spinner";
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
+import { SiVerizon, SiVexxhost } from 'react-icons/si'
+import { FaAngleDown, FaUserAltSlash, FaUserCog } from 'react-icons/fa'
+import { MagnifyingGlass, Puff } from 'react-loader-spinner'
 // components
-import TableDropdown from "components/Dropdowns/TableDropdown.js";
+import { GiUpgrade, GiWideArrowDunk } from 'react-icons/gi'
 
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie'
 import {
   active,
   deleteUser,
   desactive,
   downgrade,
-  forgetPassword,
+  // forgetPassword,
   getAdmin,
   getSimpleUser,
   getUserActive,
@@ -21,221 +21,242 @@ import {
   getUsers,
   searchUsers,
   upgrade,
-} from "../../Services/ApiUser";
-import { RiAdminFill } from "react-icons/ri";
-import { AiOutlineReload, AiOutlineUser } from "react-icons/ai";
-import { Puff } from "react-loader-spinner";
-import { createPopper } from "@popperjs/core";
+} from '../../Services/ApiUser'
+import { AiOutlineReload } from 'react-icons/ai'
+import { createPopper } from '@popperjs/core'
 
-export default function ListUsers({ color }) {
+export default function ListUsers ({ color }) {
   //cookies
-  const jwt_token = Cookies.get("jwt_token");
+  const jwt_token = Cookies.get('jwt_token')
 
   const config = useMemo(() => {
     return {
       headers: {
         Authorization: `Bearer ${jwt_token}`,
       },
-    };
-  }, [jwt_token]);
+    }
+  }, [jwt_token])
 
   //session
-  if (Cookies.get("jwt_token")) {
+  if (Cookies.get('jwt_token')) {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {
-          if (res.data.user.role === "client") {
-            window.location.replace(`/landing/`);
+          if (res.data.user.role === 'client') {
+            window.location.replace(`/landing/`)
           }
-        });
+        })
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    };
-    fetchData();
+    }
+    fetchData()
   } else {
-    window.location.replace(`/`);
+    window.location.replace(`/`)
   }
 
   const getAllUsers = useCallback(async (config) => {
+    closeDropdownPopover()
     await getUsers(config)
-      .then((res) => {
-        setUsers(res.data.users);
-        // console.log(res.data.users)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    .then((res) => {
+      setUsers(res.data.users)
+      // console.log(res.data.users)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [])
 
   const getAllAdmin = useCallback(async (config) => {
+    closeDropdownPopover()
     await getAdmin(config)
-      .then((res) => {
-        setUsers(res.data.users);
-        console.log(res.data.users);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    .then((res) => {
+      setUsers(res.data.users)
+      console.log(res.data.users)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [])
 
   const getAllSimpleUser = useCallback(async (config) => {
+    closeDropdownPopover()
     await getSimpleUser(config)
-      .then((res) => {
-        setUsers(res.data.users);
-        console.log(res.data.users);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    .then((res) => {
+      setUsers(res.data.users)
+      console.log(res.data.users)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [])
 
   const getAllUserActive = useCallback(async (config) => {
+    closeDropdownPopover()
     await getUserActive(config)
-      .then((res) => {
-        setUsers(res.data.users);
-        console.log(res.data.users);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    .then((res) => {
+      setUsers(res.data.users)
+      console.log(res.data.users)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [])
 
   const getAllUserDesactive = useCallback(async (config) => {
+    closeDropdownPopover()
     await getUserDesactive(config)
-      .then((res) => {
-        setUsers(res.data.users);
-        console.log(res.data.users);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    .then((res) => {
+      setUsers(res.data.users)
+      console.log(res.data.users)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [])
 
-  const [users, setUsers] = useState([]);
-  const [deletedUsers, setDeletedUsers] = useState([]);
+  const [users, setUsers] = useState([])
+  const [deletedUsers, setDeletedUsers] = useState([])
 
   useEffect(() => {
-    getAllUsers(config);
+    getAllUsers(config)
 
     const interval = setInterval(() => {
-      getAllUsers(config);
-    }, 1000000);
+      getAllUsers(config)
+    }, 1000000)
 
-    return () => clearInterval(interval);
-  }, [getAllUsers, config]);
+    return () => clearInterval(interval)
+  }, [getAllUsers, config])
 
   const deleteAuser = async (user, config) => {
+    closeDropdown(user._id)
     const result = window.confirm(
-      "Êtes-vous sûr de vouloir supprimer de la base ? " + user.username + "?"
-    );
+      'Êtes-vous sûr de vouloir supprimer de la base ? ' + user.username + '?'
+    )
     if (result) {
-      deleteUser(user._id, config);
-      getAllUsers(config);
+      deleteUser(user._id, config)
+      getAllUsers(config)
     } else {
-      setDeletedUsers([...deletedUsers, user]);
+      setDeletedUsers([...deletedUsers, user])
     }
-  };
+  }
 
-  const forget = async (email) => {
-    forgetPassword(email);
-  };
+  // const forget = async (email) => {
+  //   forgetPassword(email)
+  // }
 
   const upgradeAuser = async (user, config) => {
-    upgrade(user._id, config);
+    closeDropdown(user._id)
+    upgrade(user._id, config)
     setTimeout(() => {
-      getAllUsers(config);
-    }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
-  };
+      getAllUsers(config)
+    }, 1000) // Appeler getAllUsers(config) après un délai de 2 secondes
+  }
 
   const downgradeAuser = async (user, config) => {
-    downgrade(user._id, config);
+    closeDropdown(user._id)
+    downgrade(user._id, config)
     setTimeout(() => {
-      getAllUsers(config);
-    }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
-  };
+      getAllUsers(config)
+    }, 1000) // Appeler getAllUsers(config) après un délai de 2 secondes
+  }
 
   const ActiveCompte = async (user, config) => {
-    active(user._id, config);
+    closeDropdown(user._id)
+    active(user._id, config)
     setTimeout(() => {
-      getAllUsers(config);
-    }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
-  };
+      getAllUsers(config)
+    }, 1000) // Appeler getAllUsers(config) après un délai de 2 secondes
+  }
 
   const DesactiveCompte = async (user, config) => {
-    desactive(user._id, config);
+    closeDropdown(user._id)
+    desactive(user._id, config)
     setTimeout(() => {
-      getAllUsers(config);
-    }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
-  };
-
-  function getUserTypeAbbreviation(userType) {
-    if (userType === "admin") {
-      return (
-        <RiAdminFill
-          className="mr-2"
-          color="#4fa94d"
-          style={{ fontSize: "24px" }}
-        />
-      );
-    } else if (userType === "user") {
-      return <AiOutlineUser className="mr-2" style={{ fontSize: "24px" }} />;
-    } else {
-      return ""; // Valeur par défaut si le type d'utilisateur n'est ni "admin" ni "user"
-    }
+      getAllUsers(config)
+    }, 1000) // Appeler getAllUsers(config) après un délai de 2 secondes
   }
 
   const getsearchUser = useCallback(async (term, config) => {
     await searchUsers(term, config)
-      .then((res) => {
-        setUsers(res.data.users);
-        console.log(res.data.users);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    .then((res) => {
+      setUsers(res.data.users)
+      console.log(res.data.users)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [])
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const [searchTerm, setSearchTerm] = useState('')
+  const [navbarOpen, setNavbarOpen] = React.useState(false)
   // dropdown props
-  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const btnDropdownRef = React.createRef();
-  const popoverDropdownRef = React.createRef();
+  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false)
+  const btnDropdownRef = React.createRef()
+  const popoverDropdownRef = React.createRef()
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
-      placement: "bottom-start",
-    });
-    setDropdownPopoverShow(true);
-  };
+      placement: 'bottom-start',
+    })
+    setDropdownPopoverShow(true)
+  }
   const closeDropdownPopover = () => {
-    setDropdownPopoverShow(false);
-  };
+    setDropdownPopoverShow(false)
+  }
   const handleInputChange = async (event) => {
-    const term = event.target.value;
-    setSearchTerm(term);
+    const term = event.target.value
+    setSearchTerm(term)
 
     // Adding a small delay before making the API call to avoid rapid firing on each key press
-    const delay = 500; // milliseconds
+    const delay = 500 // milliseconds
     setTimeout(() => {
-      getsearchUser(term, config);
-    }, delay);
-  };
+      getsearchUser(term, config)
+    }, delay)
+  }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     // Faites quelque chose avec le terme de recherche (par exemple, effectuez une requête API)
-    getsearchUser(searchTerm, config);
+    getsearchUser(searchTerm, config)
 
-    console.log("Recherche effectuée:", searchTerm);
+    console.log('Recherche effectuée:', searchTerm)
+  }
+  const [dropdownStates, setDropdownStates] = useState({})
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+
+  const openDropdown = (userId) => {
+    setDropdownStates((prevStates) => ({
+      ...prevStates,
+      [userId]: true,
+    }));
+    setOpenDropdownId(userId);
   };
 
+
+  const closeDropdown = (userId) => {
+    setDropdownStates((prevStates) => ({
+      ...prevStates,
+      [userId]: false,
+    }));
+  };
+
+  const toggleDropdown = (userId) => {
+    if (openDropdownId === userId) {
+      // Si le même dropdown est cliqué, fermez-le
+      closeDropdown(userId);
+      setOpenDropdownId(null);
+    } else {
+      // Sinon, ouvrez le dropdown actuel et fermez l'ancien
+      closeDropdown(openDropdownId);
+      openDropdown(userId);
+    }
+  };
   return (
     <>
       <div
         className={
-          "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " +
-          (color === "light" ? "bg-white" : "bg-lightBlue-900 text-white")
+          'relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded ' +
+          (color === 'light' ? 'bg-white' : 'bg-lightBlue-900 text-white')
         }
       >
         <div className="rounded-t mb-0 px-4 py-3 border-0">
@@ -243,10 +264,10 @@ export default function ListUsers({ color }) {
             <AiOutlineReload
               onClick={() => getAllUsers(config)}
               className="ml-2"
-              style={{ fontSize: "25px" }}
+              style={{ fontSize: '25px' }}
             />
             <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-              <h3 className={"font-semibold text-lg " + (color === "light")}>
+              <h3 className={'font-semibold text-lg ' + (color === 'light')}>
                 Liste des utilisateurs
                 <Puff
                   height="20"
@@ -281,8 +302,8 @@ export default function ListUsers({ color }) {
                 </div>
                 <div
                   className={
-                    "lg:flex flex-grow items-center" +
-                    (navbarOpen ? " flex" : " hidden")
+                    'lg:flex flex-grow items-center' +
+                    (navbarOpen ? ' flex' : ' hidden')
                   }
                   id="example-navbar-danger"
                 >
@@ -330,21 +351,21 @@ export default function ListUsers({ color }) {
                               onClick={() => {
                                 dropdownPopoverShow
                                   ? closeDropdownPopover()
-                                  : openDropdownPopover();
+                                  : openDropdownPopover()
                               }}
                             >
                               <div className="flex items-center">
-                                {" "}
+                                {' '}
                                 {/* Ajout de la structure flex pour aligner en ligne */}
                                 filtrer
-                                <FaAngleDown className="ml-3" />
+                                <FaAngleDown className="ml-3"/>
                               </div>
                             </button>
                             <div
                               ref={popoverDropdownRef}
                               className={
-                                (dropdownPopoverShow ? "block " : "hidden ") +
-                                "bg-indigo-500 text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1 min-w-48"
+                                (dropdownPopoverShow ? 'block ' : 'hidden ') +
+                                'bg-indigo-500 text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1 min-w-48'
                               }
                             >
                               <button
@@ -375,7 +396,7 @@ export default function ListUsers({ color }) {
                               >
                                 Désactive
                               </button>
-                              <div className="h-0 my-2 border border-solid border-t-0 border-blueGray-800 opacity-25" />
+                              <div className="h-0 my-2 border border-solid border-t-0 border-blueGray-800 opacity-25"/>
                               <a
                                 href="#pablo"
                                 className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
@@ -417,171 +438,258 @@ export default function ListUsers({ color }) {
           {/* Projects table */}
           <table className="items-center w-full bg-transparent border-collapse">
             <thead>
-              <tr>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
-                  }
-                >
-                  Utilisateurs
-                </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
-                  }
-                >
-                  Email
-                </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
-                  }
-                >
-                  Role
-                </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
-                  }
-                >
-                  Status
-                </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
-                  }
-                >
-                  Activer
-                </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
-                  }
-                >
-                  Completion
-                </th>
-                <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
-                  }
-                ></th>
-              </tr>
+            <tr>
+              <th
+                className={
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
+                  (color === 'light'
+                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                }
+              >
+                Utilisateurs
+              </th>
+              <th
+                className={
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
+                  (color === 'light'
+                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                }
+              >
+                Email
+              </th>
+              <th
+                className={
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
+                  (color === 'light'
+                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                }
+              >
+                Role
+              </th>
+              <th
+                className={
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
+                  (color === 'light'
+                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                }
+              >
+                Status
+              </th>
+              <th
+                className={
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
+                  (color === 'light'
+                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                }
+              >
+                Activer
+              </th>
+              <th
+                className={
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
+                  (color === 'light'
+                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                }
+              >
+                Completion
+              </th>
+              <th
+                className={
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
+                  (color === 'light'
+                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                }
+              ></th>
+            </tr>
             </thead>
             <tbody responsive="true">
-              {users
-                .filter((user) => !deletedUsers.includes(user))
-                .map((user) => (
-                  <tr key={user._id}>
-                    <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                      {user.image_user ? (
-                        <img
-                          // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
-                          alt="UserImage"
-                          src={`http://localhost:5000/images/${user.image_user}`}
-                          style={{ width: "80px", height: "80px" }}
-                        />
-                      ) : (
-                        <div>
-                          <img
-                            alt="UserImage"
-                            src={require("assets/img/empty.png").default}
-                            style={{ width: "80px", height: "80px" }}
-                          />
-                        </div>
-                      )}
-                      <span
-                        className={
-                          "ml-3 font-bold " +
-                          +(color === "light"
-                            ? "text-blueGray-600"
-                            : "text-white")
-                        }
-                      >
+            {users
+            .filter((user) => !deletedUsers.includes(user))
+            .map((user) => (
+              <tr key={user._id}>
+                <th
+                  className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+                  {user.image_user ? (
+                    <img
+                      // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
+                      alt="UserImage"
+                      src={`http://localhost:5000/images/${user.image_user}`}
+                      style={{ width: '80px', height: '80px' }}
+                    />
+                  ) : (
+                    <div>
+                      <img
+                        alt="UserImage"
+                        src={require('assets/img/empty.png').default}
+                        style={{ width: '80px', height: '80px' }}
+                      />
+                    </div>
+                  )}
+                  <span
+                    className={
+                      'ml-3 font-bold ' +
+                      +(color === 'light'
+                        ? 'text-blueGray-600'
+                        : 'text-white')
+                    }
+                  >
                         {user.nom ? (
                           user.nom
                         ) : (
                           <SiVexxhost
                             className="mr-2"
-                            style={{ fontSize: "24px" }}
+                            style={{ fontSize: '24px' }}
                           />
-                        )}{" "}
-                        &nbsp;
-                        {user.prenom ? (
-                          user.prenom
-                        ) : (
-                          <SiVexxhost
-                            className="mr-2"
-                            style={{ fontSize: "24px" }}
-                          />
-                        )}
+                        )}{' '}
+                    &nbsp;
+                    {user.prenom ? (
+                      user.prenom
+                    ) : (
+                      <SiVexxhost
+                        className="mr-2"
+                        style={{ fontSize: '24px' }}
+                      />
+                    )}
                       </span>
-                    </th>
-                    <td>
-                      <a href={`/admin/UserDetails/${user._id}`}>
-                        {user.email}
-                        <i className="fa fa-sort-desc" aria-hidden="true"></i>
-                      </a>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      {user.role}
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      <i className="fas fa-circle text-red-500 mr-2"></i>
-                      <i className="fas fa-circle  text-emerald-500  mr-2"></i>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      {user.etat ? (
+                </th>
+                <td>
+                  <a href={`/admin/UserDetails/${user._id}`}>
+                    {user.email}
+                    <i className="fa fa-sort-desc" aria-hidden="true"></i>
+                  </a>
+                </td>
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                  {user.role}
+                </td>
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                  {user.statu === "true" ? (
+                    <i className="fas fa-circle  text-emerald-500 mr-2"></i>
+                  ) : (
+                    <i className="fas fa-circle text-red-500 mr-2"></i>
+
+                  )}
+                  {user.statu}
+                </td>
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                  {user.etat ? (
+                    <SiVerizon
+                      className="mr-2"
+                      color="#4fa94d"
+                      style={{ fontSize: '24px' }}
+                    />
+                  ) : (
+                    <SiVexxhost
+                      className="mr-2"
+                      style={{ fontSize: '24px' }}
+                    />
+                  )}
+                </td>
+                {/*<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"></td>*/}
+                <td
+                  className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right relative ">
+                  <button
+                    className={`bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 ${
+                      color === 'light' ? 'text-blueGray-600' : 'text-white'
+                    }`}
+                    type="button"
+                    onClick={() => toggleDropdown(user._id)} // Utilisez toggleDropdown au lieu de openDropdown
+                  >
+                    x
+                  </button>
+                  {dropdownStates[user._id] && (
+                    <div
+                      className={`absolute bg-indigo-500 text-base z-50 float-left py-2 list-none text-center rounded shadow-lg mt-3 min-w-48`}
+                      style={{ top: '35px', right: '70px' }} // Adjusté de gauche à droite
+                    >
+                      <button
+                        onClick={() => deleteAuser(user, config)}
+                        className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                        type="button"
+                      >
+                        <FaUserAltSlash
+                          className="mr-2"
+                          style={{ fontSize: '20px' }}
+                        />
+                        <span>Supprimer</span>
+                      </button>
+
+                      <button
+                        onClick={() => deleteAuser(user, config)}
+                        className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                        type="button"
+                      >
+                        <FaUserCog
+                          className="mr-2"
+                          style={{ fontSize: '20px' }}
+                        />
+                        <span>Modifier</span>
+                      </button>
+                      {user.role === 'client' ? (
+                        <button
+                          className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                          onClick={() => upgradeAuser(user, config)}
+                        >
+                          <GiUpgrade
+                            className="mr-2"
+                            style={{ fontSize: '20px' }}
+                          />
+                          mise à niveau vers administrateur
+                        </button>
+                      ) : (
+                        <button
+                          className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                          onClick={() => downgradeAuser(user, config)}
+                        >
+                          <GiWideArrowDunk
+                            className="mr-2"
+                            style={{ fontSize: '20px' }}
+                          />
+                          mise à niveau vers un simple utilisateur
+                        </button>
+                      )}
+                      {user.etat === false ? (<button
+                        className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                        onClick={() => ActiveCompte(user, config)}
+                      >
                         <SiVerizon
                           className="mr-2"
-                          color="#4fa94d"
-                          style={{ fontSize: "24px" }}
+                          style={{ fontSize: '20px' }}
                         />
-                      ) : (
+                        Active Un Compte
+                      </button>) : (<button
+                        className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                        onClick={() => DesactiveCompte(user, config)}
+                      >
                         <SiVexxhost
                           className="mr-2"
-                          style={{ fontSize: "24px" }}
+                          style={{ fontSize: '20px' }}
                         />
-                      )}
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"></td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
-                      <TableDropdown />
-                    </td>
-                  </tr>
-                ))}
+                        Desactive Un Compte
+                      </button>)}
+                    </div>
+                  )}
+                </td>
+              </tr>
+            ))}
             </tbody>
           </table>
         </div>
       </div>
     </>
-  );
+  )
 }
 
 ListUsers.defaultProps = {
-  color: "light",
-};
+  color: 'light',
+}
 
 ListUsers.propTypes = {
-  color: PropTypes.oneOf(["light", "dark"]),
-};
+  color: PropTypes.oneOf(['light', 'dark']),
+}

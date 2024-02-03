@@ -14,7 +14,7 @@ const UserDropdown = () => {
   // const history = useHistory();
   //cookies
   const jwt_token = Cookies.get('jwt_token')
-/////cookies
+
   if (!Cookies.get('jwt_token')) {
     window.location.replace('/login-page')
   }
@@ -45,9 +45,9 @@ const UserDropdown = () => {
     }, 300000)
     return () => clearInterval(interval) // nettoyage à la fin du cycle de vie du composant
   }, [config])
-  const log = async () => {
+  const log = async (config,user) => {
     try {
-      logout(config)
+      logout(config,user._id)
       .then(() => {
         // console.log(res.data.user);
         window.location.replace(`/login/`)
@@ -130,7 +130,7 @@ const UserDropdown = () => {
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           }
-          onClick={() => log()}        >
+          onClick={() => log(config,user)}        >
           Se déconnecter
         </a>
       </div>

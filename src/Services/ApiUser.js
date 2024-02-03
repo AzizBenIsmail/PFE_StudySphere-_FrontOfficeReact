@@ -34,8 +34,8 @@ export async function Password (user, config) {
   return await axios.put(`${apiURL}/Password`, { user, config, withCredentials: true })
 }
 
-export async function logout (config) {
-  return await axios.get(`${apiURL}/logout`, {
+export async function logout (config,id) {
+  return await axios.get(`${apiURL}/logout/${id}`, {
     config, withCredentials: true,
   })
 }
