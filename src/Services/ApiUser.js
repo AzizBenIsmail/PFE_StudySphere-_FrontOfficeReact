@@ -64,6 +64,10 @@ export async function getUserActive(config) {
   return await axios.get(`${ apiURL }/AllUsersActive`, config);
 }
 
+export async function getUsersarchive(config) {
+  return await axios.get(`${ apiURL }/AllUsersarchive`, config);
+}
+
 export async function getUserDesactive(config) {
   return await axios.get(`${ apiURL }/AllUsersDesactive`, config);
 }
@@ -88,6 +92,11 @@ export async function deleteUser(id, config) {
 export async function upgrade (id, config) {
   return await axios.put(`${apiURL}/upgrade`, { id }, config)
 }
+
+export async function archiver (id, config) {
+  return await axios.put(`${apiURL}/archiver`, { id }, config)
+}
+
 
 export async function downgrade(id, config) {
   return await axios.put(`${ apiURL }/downgrade`, {id}, config);

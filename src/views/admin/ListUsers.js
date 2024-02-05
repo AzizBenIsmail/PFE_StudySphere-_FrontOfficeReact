@@ -5,6 +5,7 @@ import { FaAngleDown, FaUserAltSlash, FaUserCog } from "react-icons/fa";
 import { MagnifyingGlass, Puff } from "react-loader-spinner";
 // components
 import { GiUpgrade, GiWideArrowDunk } from "react-icons/gi";
+import { FaArchive , FaChevronDown} from "react-icons/fa";
 
 import Cookies from "js-cookie";
 import {
@@ -12,7 +13,7 @@ import {
   deleteUser,
   desactive,
   downgrade,
-  // forgetPassword,
+  archiver,
   getAdmin,
   getSimpleUser,
   getUserActive,
@@ -21,6 +22,7 @@ import {
   getUsers,
   searchUsers,
   upgrade,
+  getUsersarchive,
 } from "../../Services/ApiUser";
 import { AiOutlineReload } from "react-icons/ai";
 import { createPopper } from "@popperjs/core";
@@ -131,14 +133,13 @@ export default function ListUsers({ color }) {
   const deleteAuser = async (user, config) => {
     closeDropdown(user._id);
     const result = window.confirm(
-      "Êtes-vous sûr de vouloir supprimer de la base ? " + user.username + "?"
+      "Êtes-vous sûr de vouloir supprimer de la base ? " + user.nom + "?"
     );
     if (result) {
       deleteUser(user._id, config);
       getAllUsers(config);
     } else {
       setDeletedUsers([...deletedUsers, user]);
-
     }
   };
 
@@ -149,6 +150,14 @@ export default function ListUsers({ color }) {
   const upgradeAuser = async (user, config) => {
     closeDropdown(user._id);
     upgrade(user._id, config);
+    setTimeout(() => {
+      getAllUsers(config);
+    }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
+  };
+
+  const archiveruser = async (user, config) => {
+    closeDropdown(user._id);
+    archiver(user._id, config);
     setTimeout(() => {
       getAllUsers(config);
     }, 1000); // Appeler getAllUsers(config) après un délai de 2 secondes
@@ -355,8 +364,6 @@ export default function ListUsers({ color }) {
                               }}
                             >
                               <div className="flex items-center">
-                                {" "}
-                                {/* Ajout de la structure flex pour aligner en ligne */}
                                 filtrer
                                 <FaAngleDown className="ml-3" />
                               </div>
@@ -370,39 +377,38 @@ export default function ListUsers({ color }) {
                             >
                               <button
                                 onClick={() => getAllAdmin(config)}
-                                className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
+                                className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
                                 type="button"
                               >
-                                Admin
+                                Liste d'utilisateurs Admin
                               </button>
                               <button
                                 onClick={() => getAllSimpleUser(config)}
-                                className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
+                                className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
                                 type="button"
                               >
-                                Client
+                                Liste d'utilisateurs Client
                               </button>
                               <button
                                 onClick={() => getAllUserActive(config)}
-                                className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
+                                className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
                                 type="button"
                               >
-                                Verifier
+                                Liste d'utilisateurs Verifier
                               </button>
                               <button
                                 onClick={() => getAllUserDesactive(config)}
-                                className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
+                                className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
                                 type="button"
                               >
-                                Désactive
+                                Liste d'utilisateurs Désactive
                               </button>
                               <div className="h-0 my-2 border border-solid border-t-0 border-blueGray-800 opacity-25" />
                               <a
-                                href="#pablo"
                                 className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
-                                onClick={(e) => e.preventDefault()}
+                                onClick={(e) => getUsersarchive(config)}
                               >
-                                Seprated link
+                                Liste d'utilisateurs archiver
                               </a>
                             </div>
                           </div>
@@ -597,7 +603,9 @@ export default function ListUsers({ color }) {
                         type="button"
                         onClick={() => toggleDropdown(user._id)} // Utilisez toggleDropdown au lieu de openDropdown
                       >
-                        x
+                        <FaChevronDown
+                          style={{ fontSize: "15px" }}
+                        />
                       </button>
                       {dropdownStates[user._id] && (
                         <div
@@ -605,15 +613,15 @@ export default function ListUsers({ color }) {
                           style={{ top: "35px", right: "70px" }} // Adjusté de gauche à droite
                         >
                           <button
-                            onClick={() => deleteAuser(user, config)}
+                            onClick={() => archiveruser(user, config)}
                             className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
                             type="button"
                           >
-                            <FaUserAltSlash
+                            <FaArchive
                               className="mr-2"
                               style={{ fontSize: "20px" }}
                             />
-                            <span>Supprimer</span>
+                            <span>Archiver</span>
                           </button>
 
                           <button
@@ -672,7 +680,18 @@ export default function ListUsers({ color }) {
                               />
                               Desactive Un Compte
                             </button>
-                          )}
+
+                          )}<button
+                          onClick={() => deleteAuser(user, config)}
+                          className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                          type="button"
+                        >
+                          <FaUserAltSlash
+                            className="mr-2"
+                            style={{ fontSize: "20px" }}
+                          />
+                          <span>Supprimer</span>
+                        </button>
                         </div>
                       )}
                     </td>
