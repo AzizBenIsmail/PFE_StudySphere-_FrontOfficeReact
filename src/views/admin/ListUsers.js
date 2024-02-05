@@ -23,6 +23,8 @@ import {
   searchUsers,
   upgrade,
   getUsersarchive,
+  getUserConnecter,
+  getUserDeConnecter,
 } from "../../Services/ApiUser";
 import { AiOutlineReload } from "react-icons/ai";
 import { createPopper } from "@popperjs/core";
@@ -105,6 +107,30 @@ export default function ListUsers({ color }) {
       });
   }, []);
 
+  const getAllUserconnecter = useCallback(async (config) => {
+    closeDropdownPopover();
+    await getUserConnecter(config)
+    .then((res) => {
+      setUsers(res.data.users);
+      console.log(res.data.users);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
+  const getAllUserdeconnecter = useCallback(async (config) => {
+    closeDropdownPopover();
+    await getUserDeConnecter(config)
+    .then((res) => {
+      setUsers(res.data.users);
+      console.log(res.data.users);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
   const getAllUserDesactive = useCallback(async (config) => {
     closeDropdownPopover();
     await getUserDesactive(config)
@@ -115,6 +141,18 @@ export default function ListUsers({ color }) {
       .catch((err) => {
         console.log(err);
       });
+  }, []);
+
+  const getAllUserarchive = useCallback(async (config) => {
+    closeDropdownPopover();
+    await getUsersarchive(config)
+    .then((res) => {
+      setUsers(res.data.users);
+      console.log(res.data.users);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }, []);
 
   const [users, setUsers] = useState([]);
@@ -156,6 +194,7 @@ export default function ListUsers({ color }) {
   };
 
   const archiveruser = async (user, config) => {
+    console.log(user)
     closeDropdown(user._id);
     archiver(user._id, config);
     setTimeout(() => {
@@ -250,6 +289,7 @@ export default function ListUsers({ color }) {
   };
 
   const toggleDropdown = (userId) => {
+    closeDropdownPopover();
     if (openDropdownId === userId) {
       // Si le même dropdown est cliqué, fermez-le
       closeDropdown(userId);
@@ -404,12 +444,12 @@ export default function ListUsers({ color }) {
                                 Liste d'utilisateurs Désactive
                               </button>
                               <div className="h-0 my-2 border border-solid border-t-0 border-blueGray-800 opacity-25" />
-                              <a
-                                className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
-                                onClick={(e) => getUsersarchive(config)}
+                              <button
+                                className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                                onClick={(e) => getAllUserarchive(config)}
                               >
                                 Liste d'utilisateurs archiver
-                              </a>
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -417,7 +457,7 @@ export default function ListUsers({ color }) {
                     </li>
                     <li className="nav-item">
                       <button
-                        // onClick={() => getAllUserActive(config)}
+                        onClick={() => getAllUserconnecter(config)}
                         className=" bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                       >
@@ -426,7 +466,7 @@ export default function ListUsers({ color }) {
                     </li>
                     <li className="nav-item">
                       <button
-                        // onClick={() => getAllUserActive(config)}
+                         onClick={() => getAllUserdeconnecter(config)}
                         className=" bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                       >
@@ -612,17 +652,30 @@ export default function ListUsers({ color }) {
                           className={`absolute bg-indigo-500 text-base z-50 float-left py-2 list-none text-center rounded shadow-lg mt-3 min-w-48`}
                           style={{ top: "35px", right: "70px" }} // Adjusté de gauche à droite
                         >
-                          <button
-                            onClick={() => archiveruser(user, config)}
-                            className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
-                            type="button"
-                          >
-                            <FaArchive
-                              className="mr-2"
-                              style={{ fontSize: "20px" }}
-                            />
-                            <span>Archiver</span>
-                          </button>
+                          {/*{user.statu === "true" ? (*/}
+                          {/*<button*/}
+                          {/*  onClick={() => archiveruser(user, config)}*/}
+                          {/*  className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"*/}
+                          {/*  type="button"*/}
+                          {/*>*/}
+                          {/*  <FaArchive*/}
+                          {/*    className="mr-2"*/}
+                          {/*    style={{ fontSize: "20px" }}*/}
+                          {/*  />*/}
+                          {/*  <span>Archiver</span>*/}
+                          {/*</button> ) : (*/}
+                          {/*  <button*/}
+                          {/*    onClick={() => archiveruser(user, config)}*/}
+                          {/*    className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"*/}
+                          {/*    type="button"*/}
+                          {/*  >*/}
+                          {/*    <FaArchive*/}
+                          {/*      className="mr-2"*/}
+                          {/*      style={{ fontSize: "20px" }}*/}
+                          {/*    />*/}
+                          {/*    <span>DesArchiver</span>*/}
+                          {/*  </button>*/}
+                          {/*)}*/}
 
                           <button
                             onClick={() => deleteAuser(user, config)}

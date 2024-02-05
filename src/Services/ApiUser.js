@@ -72,6 +72,14 @@ export async function getUserDesactive(config) {
   return await axios.get(`${ apiURL }/AllUsersDesactive`, config);
 }
 
+export async function getUserConnecter(config) {
+  return await axios.get(`${ apiURL }/AllUsersConnecter`, config);
+}
+
+export async function getUserDeConnecter(config) {
+  return await axios.get(`${ apiURL }/AllUsersDeConnecter`, config);
+}
+
 export async function searchUsers(term,config) {
   return await axios.get(`${ apiURL }/searchUsers?term=${ term }`, config);
 }
