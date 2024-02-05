@@ -138,6 +138,7 @@ export default function ListUsers({ color }) {
       getAllUsers(config);
     } else {
       setDeletedUsers([...deletedUsers, user]);
+
     }
   };
 
@@ -568,11 +569,10 @@ export default function ListUsers({ color }) {
                     </td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                       {user.statu === "true" ? (
-                        <i className="fas fa-circle  text-emerald-500 mr-2"></i>
-                      ) : (
-                        <i className="fas fa-circle text-red-500 mr-2"></i>
-                      )}
-                      {user.statu}
+                        <i className="fas fa-circle  text-emerald-500 mr-2">En_ligne</i>
+                        ) : (
+                        <i className="fas fa-circle text-red-500 mr-2">Hors_ligne</i>
+                        )}
                     </td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                       {user.etat ? (
