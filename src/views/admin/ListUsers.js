@@ -325,6 +325,13 @@ export default function ListUsers({ color }) {
   const countUsers = () => {
     return users.length;
   };
+
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Utilisation du même état pour les deux composants
+
+  const toggleDropdownn = () => {
+    setDropdownOpen(!dropdownOpen); // Inversion de l'état de dropdownOpen
+  };
+
   return (
     <>
       <div
@@ -357,12 +364,41 @@ export default function ListUsers({ color }) {
               </h3>
             </div>
             <div>
+              {/*<button*/}
+              {/*  className=" bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 ml-6"*/}
+              {/*  onClick={() => history.push("/admin/Ajouterutilisateur")}*/}
+              {/*>*/}
+              {/*  ajouter un utilisateur*/}
+              {/*</button>*/}
               <button
-                className=" bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 ml-6"
-                onClick={() => history.push("/admin/Ajouterutilisateur")}
+                className="bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button"
+                onClick={toggleDropdownn} // Appel de la fonction toggleDropdown pour changer l'état
               >
-                ajouter un utilisateur
+
+                <div className="flex items-center">
+                  ajouter un utilisateur
+                  <FaAngleDown className="ml-3" />
+                </div>
               </button>
+              {/* Contenu du dropdown */}
+              {dropdownOpen && (
+                <div className="absolute bg-indigo-500 text-base z-50 py-2 list-none text-left rounded shadow-lg mt-1 min-w-48">
+                  {/* Options du dropdown */}
+                  <button className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white" type="button">
+                    Client
+                  </button>
+                  <button className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white" type="button">
+                    Formateur
+                  </button>
+                  <button className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white" type="button">
+                    Centre De Formation
+                  </button>
+                  <button className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white" type="button">
+                    Moderateur
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
