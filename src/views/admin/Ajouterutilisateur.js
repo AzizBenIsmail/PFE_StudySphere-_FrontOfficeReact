@@ -41,8 +41,8 @@ export default function Dashboard() {
   return (
     <>
       <div className="flex flex-wrap">
-        <div className="w-full xl:mb-0 px-4">
-          <div className="relative flex flex-col min-w-0 break-words w-full mb-4 shadow-lg rounded bg-blueGray-700">
+        <div className="w-full xl:mb-0 px-4 ">
+          <div className="relative flex flex-col min-w-0 break-words w-full mb-4 shadow-lg rounded bg-lightBlue-900">
             <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
               <div className="flex flex-wrap items-center">
                 <div className="relative w-full max-w-full flex-grow flex-1">
@@ -54,22 +54,22 @@ export default function Dashboard() {
               <br></br>
 
                 <button
-                  className="text-white bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-4 rounded outline-none focus:outline-none mr-4 mb-4 ease-linear transition-all duration-150 ml-6"
+                  className="text-white bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-3 rounded outline-none focus:outline-none mr-4 mb-4 ease-linear transition-all duration-150 ml-6"
                 >
                   Client
                 </button>
                 <button
-                  className="text-white bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-4 rounded outline-none focus:outline-none mr-4 mb-4 ease-linear transition-all duration-150 ml-6"
+                  className="text-white bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-3 rounded outline-none focus:outline-none mr-4 mb-4 ease-linear transition-all duration-150 ml-6"
                 >
                   Centre de Formation
                 </button>
                 <button
-                  className="text-white bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-4 rounded outline-none focus:outline-none mr-4 mb-4 ease-linear transition-all duration-150 ml-6"
+                  className="text-white bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-3 rounded outline-none focus:outline-none mr-4 mb-4 ease-linear transition-all duration-150 ml-6"
                 >
                   Formateur
                 </button>
                 <button
-                  className="text-white bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-4 rounded outline-none focus:outline-none mr-4 mb-4 ease-linear transition-all duration-150 ml-6"
+                  className="text-white bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-3 rounded outline-none focus:outline-none mr-4 mb-4 ease-linear transition-all duration-150 ml-6"
                 >
                   Moderateur
                 </button>
