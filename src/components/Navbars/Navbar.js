@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { SlLogin } from 'react-icons/sl'
 import { GiBurningDot } from 'react-icons/gi'
 import Cookies from 'js-cookie'
-import { getUserAuth, logout } from '../../Services/ApiUser'
+import { getUserAuth, logout } from '../../Services/Apiauth'
 
 export default function Navbar (props) {
   const [user, setUser] = useState([])

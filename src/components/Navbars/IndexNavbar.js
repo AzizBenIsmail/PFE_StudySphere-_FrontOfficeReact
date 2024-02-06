@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import IndexDropdown from "components/Dropdowns/IndexDropdown.js";
 import { GiBurningDot } from 'react-icons/gi'
 import { SlLogin } from 'react-icons/sl'
-import { logout } from '../../Services/ApiUser'
+import { logout } from '../../Services/Apiauth'
 
 export default function Navbar(props) {
   const log = async () => {

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footers/Footer.js";
 import Cookies from 'js-cookie'
-import { getUserAuth } from '../Services/ApiUser'
+import { getUserAuth } from '../Services/Apiauth'
 
 export default function Index() {
   const jwt_token = Cookies.get('jwt_token')

@@ -1,7 +1,7 @@
 import { React, useMemo, useState } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import { forgetPassword, getUserAuth, registerEmail } from '../../Services/ApiUser'
+import { forgetPassword, getUserAuth, registerEmail } from '../../Services/Apiauth'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import { GiBurningDot } from 'react-icons/gi'
 

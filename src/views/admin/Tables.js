@@ -5,7 +5,7 @@ import React, { useMemo } from 'react'
 import ListUsers from "../admin/ListUsers";
 // import CardTable from "../../components/Cards/CardTable";
 import Cookies from 'js-cookie'
-import { getUserAuth } from '../../Services/ApiUser'
+import { getUserAuth } from '../../Services/Apiauth'
 
 export default function Tables() {
   // const navigate = useNavigate()

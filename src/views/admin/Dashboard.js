@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 
 // components
 import Cookies from 'js-cookie'
-import { getUserAuth } from '../../Services/ApiUser'
+import { getUserAuth } from '../../Services/Apiauth'
 
 import CardLineChart from "components/Cards/CardLineChart.js";
 import CardBarChart from "components/Cards/CardBarChart.js";

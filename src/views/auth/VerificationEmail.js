@@ -1,7 +1,7 @@
 import { React, useMemo, } from 'react'
 import { Link, } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import { getUserAuth } from '../../Services/ApiUser'
+import { getUserAuth } from '../../Services/Apiauth'
 
 export default function VerificationEmail () {
   const jwt_token = Cookies.get('jwt_token')

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { getUserAuth , Password } from '../../Services/ApiUser';
+import { getUserAuth , Password } from '../../Services/Apiauth';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 export default function Resetmdp() {

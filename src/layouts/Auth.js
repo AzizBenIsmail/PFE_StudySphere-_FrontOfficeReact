@@ -18,7 +18,7 @@ import Resetmdp from "views/auth/Resetmdp.js";
 
 import { InfinitySpin } from 'react-loader-spinner'
 import Cookies from 'js-cookie'
-import { getUserAuth } from '../Services/ApiUser'
+import { getUserAuth } from '../Services/Apiauth'
 
 export default function Auth() {
   const jwt_token = Cookies.get('jwt_token')

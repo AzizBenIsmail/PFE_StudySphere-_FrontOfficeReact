@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { createPopper } from "@popperjs/core";
-import { getUserAuth, logout } from '../../Services/ApiUser'
+import { getUserAuth, logout } from '../../Services/Apiauth'
 import Cookies from 'js-cookie'
 // import { useHistory } from 'react-router-dom';
 
