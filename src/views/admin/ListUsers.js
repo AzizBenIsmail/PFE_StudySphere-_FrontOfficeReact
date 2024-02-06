@@ -1,35 +1,39 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { SiVerizon, SiVexxhost } from "react-icons/si";
-import { FaAngleDown, FaUserAltSlash, FaUserCog } from "react-icons/fa";
+import {
+  FaAngleDown,
+  FaArchive,
+  FaChevronDown,
+  FaUserAltSlash,
+  FaUserCog,
+} from "react-icons/fa";
 import { MagnifyingGlass, Puff } from "react-loader-spinner";
 // components
 import { GiUpgrade, GiWideArrowDunk } from "react-icons/gi";
-import { FaArchive , FaChevronDown} from "react-icons/fa";
 
 import Cookies from "js-cookie";
-import {
-  getUserAuth,
-} from "../../Services/Apiauth";
+import { getUserAuth } from "../../Services/Apiauth";
 import {
   active,
+  archiver,
   deleteUser,
   desactive,
   downgrade,
-  archiver,
   getAdmin,
   getSimpleUser,
   getUserActive,
-  getUserDesactive,
-  getUsers,
-  searchUsers,
-  upgrade,
-  getUsersarchive,
   getUserConnecter,
   getUserDeConnecter,
+  getUserDesactive,
+  getUsers,
+  getUsersarchive,
+  searchUsers,
+  upgrade,
 } from "../../Services/ApiUser";
 import { AiOutlineReload } from "react-icons/ai";
 import { createPopper } from "@popperjs/core";
+import { useHistory } from "react-router-dom";
 
 export default function ListUsers({ color }) {
   //cookies
@@ -112,25 +116,25 @@ export default function ListUsers({ color }) {
   const getAllUserconnecter = useCallback(async (config) => {
     closeDropdownPopover();
     await getUserConnecter(config)
-    .then((res) => {
-      setUsers(res.data.users);
-      console.log(res.data.users);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((res) => {
+        setUsers(res.data.users);
+        console.log(res.data.users);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const getAllUserdeconnecter = useCallback(async (config) => {
     closeDropdownPopover();
     await getUserDeConnecter(config)
-    .then((res) => {
-      setUsers(res.data.users);
-      console.log(res.data.users);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((res) => {
+        setUsers(res.data.users);
+        console.log(res.data.users);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const getAllUserDesactive = useCallback(async (config) => {
@@ -148,13 +152,13 @@ export default function ListUsers({ color }) {
   const getAllUserarchive = useCallback(async (config) => {
     closeDropdownPopover();
     await getUsersarchive(config)
-    .then((res) => {
-      setUsers(res.data.users);
-      console.log(res.data.users);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((res) => {
+        setUsers(res.data.users);
+        console.log(res.data.users);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const [users, setUsers] = useState([]);
@@ -196,7 +200,7 @@ export default function ListUsers({ color }) {
   };
 
   const archiveruser = async (user, config) => {
-    console.log(user)
+    console.log(user);
     closeDropdown(user._id);
     archiver(user._id, config);
     setTimeout(() => {
@@ -274,6 +278,7 @@ export default function ListUsers({ color }) {
   };
   const [dropdownStates, setDropdownStates] = useState({});
   const [openDropdownId, setOpenDropdownId] = useState(null);
+  const history = useHistory();
 
   const openDropdown = (userId) => {
     setDropdownStates((prevStates) => ({
@@ -302,7 +307,7 @@ export default function ListUsers({ color }) {
       openDropdown(userId);
     }
   };
-  const usersPerPage = 3;
+  const usersPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const getCurrentUsers = () => {
     const startIndex = (currentPage - 1) * usersPerPage;
@@ -350,6 +355,14 @@ export default function ListUsers({ color }) {
                   onClick={() => getAllUsers(config)}
                 />
               </h3>
+            </div>
+            <div>
+              <button
+                className=" bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 ml-6"
+                onClick={() => history.push("/admin/Ajouterutilisateur")}
+              >
+                ajouter un utilisateur
+              </button>
             </div>
           </div>
         </div>
@@ -486,7 +499,7 @@ export default function ListUsers({ color }) {
                     </li>
                     <li className="nav-item">
                       <button
-                         onClick={() => getAllUserdeconnecter(config)}
+                        onClick={() => getAllUserdeconnecter(config)}
                         className=" bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                       >
@@ -580,102 +593,103 @@ export default function ListUsers({ color }) {
               {/*  .filter((user) => !deletedUsers.includes(user))*/}
               {/*  .map((user) => (*/}
               {getCurrentUsers().map((user) => (
-
                 <tr key={user._id}>
-                    <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                      {user.image_user ? (
+                  <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+                    {user.image_user ? (
+                      <img
+                        // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
+                        alt="UserImage"
+                        src={`http://localhost:5000/images/${user.image_user}`}
+                        style={{ width: "80px", height: "80px" }}
+                      />
+                    ) : (
+                      <div>
                         <img
-                          // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
                           alt="UserImage"
-                          src={`http://localhost:5000/images/${user.image_user}`}
+                          src={require("assets/img/empty.png").default}
                           style={{ width: "80px", height: "80px" }}
                         />
+                      </div>
+                    )}
+                    <span
+                      className={
+                        "ml-3 font-bold " +
+                        +(color === "light"
+                          ? "text-blueGray-600"
+                          : "text-white")
+                      }
+                    >
+                      {user.nom ? (
+                        user.nom
                       ) : (
-                        <div>
-                          <img
-                            alt="UserImage"
-                            src={require("assets/img/empty.png").default}
-                            style={{ width: "80px", height: "80px" }}
-                          />
-                        </div>
-                      )}
-                      <span
-                        className={
-                          "ml-3 font-bold " +
-                          +(color === "light"
-                            ? "text-blueGray-600"
-                            : "text-white")
-                        }
-                      >
-                        {user.nom ? (
-                          user.nom
-                        ) : (
-                          <SiVexxhost
-                            className="mr-2"
-                            style={{ fontSize: "24px" }}
-                          />
-                        )}{" "}
-                        &nbsp;
-                        {user.prenom ? (
-                          user.prenom
-                        ) : (
-                          <SiVexxhost
-                            className="mr-2"
-                            style={{ fontSize: "24px" }}
-                          />
-                        )}
-                      </span>
-                    </th>
-                    <td>
-                      <a href={`/admin/UserDetails/${user._id}`}>
-                        {user.email}
-                        <i className="fa fa-sort-desc" aria-hidden="true"></i>
-                      </a>
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      {user.role}
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      {user.statu === "true" ? (
-                        <i className="fas fa-circle  text-emerald-500 mr-2">En_ligne</i>
-                        ) : (
-                        <i className="fas fa-circle text-red-500 mr-2">Hors_ligne</i>
-                        )}
-                    </td>
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      {user.etat ? (
-                        <SiVerizon
+                        <SiVexxhost
                           className="mr-2"
-                          color="#4fa94d"
                           style={{ fontSize: "24px" }}
                         />
+                      )}{" "}
+                      &nbsp;
+                      {user.prenom ? (
+                        user.prenom
                       ) : (
                         <SiVexxhost
                           className="mr-2"
                           style={{ fontSize: "24px" }}
                         />
                       )}
-                    </td>
-                    {/*<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"></td>*/}
-                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right relative ">
-                      <button
-                        className={`bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 ${
-                          color === "light" ? "text-blueGray-600" : "text-white"
-                        }`}
-                        type="button"
-                        onClick={() => toggleDropdown(user._id)} // Utilisez toggleDropdown au lieu de openDropdown
+                    </span>
+                  </th>
+                  <td>
+                    <a href={`/admin/UserDetails/${user._id}`}>
+                      {user.email}
+                      <i className="fa fa-sort-desc" aria-hidden="true"></i>
+                    </a>
+                  </td>
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                    {user.role}
+                  </td>
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                    {user.statu === "true" ? (
+                      <i className="fas fa-circle  text-emerald-500 mr-2">
+                        En_ligne
+                      </i>
+                    ) : (
+                      <i className="fas fa-circle text-red-500 mr-2">
+                        Hors_ligne
+                      </i>
+                    )}
+                  </td>
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                    {user.etat ? (
+                      <SiVerizon
+                        className="mr-2"
+                        color="#4fa94d"
+                        style={{ fontSize: "24px" }}
+                      />
+                    ) : (
+                      <SiVexxhost
+                        className="mr-2"
+                        style={{ fontSize: "24px" }}
+                      />
+                    )}
+                  </td>
+                  {/*<td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"></td>*/}
+                  <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right relative ">
+                    <button
+                      className={`bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 ${
+                        color === "light" ? "text-blueGray-600" : "text-white"
+                      }`}
+                      type="button"
+                      onClick={() => toggleDropdown(user._id)} // Utilisez toggleDropdown au lieu de openDropdown
+                    >
+                      <FaChevronDown style={{ fontSize: "15px" }} />
+                    </button>
+                    {dropdownStates[user._id] && (
+                      <div
+                        className={`absolute bg-indigo-500 text-base z-50 float-left py-1 list-none text-center rounded shadow-lg mt-2 min-w-48`}
+                        // className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+                        style={{ top: "0px", right: "75px" }} // Adjusté de gauche à droite
                       >
-                        <FaChevronDown
-                          style={{ fontSize: "15px" }}
-                        />
-                      </button>
-                      {dropdownStates[user._id] && (
-                        <div
-                          className={`absolute bg-indigo-500 text-base z-50 float-left py-2 list-none text-center rounded shadow-lg mt-3 min-w-48`}
-                          // className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
-                          style={{ top: "35px", right: "70px" }} // Adjusté de gauche à droite
-                        >
-                          {user.statu === "true" ? (
+                        {user.statu === "true" ? (
                           <button
                             onClick={() => archiveruser(user, config)}
                             className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
@@ -686,78 +700,79 @@ export default function ListUsers({ color }) {
                               style={{ fontSize: "20px" }}
                             />
                             <span>Archiver</span>
-                          </button> ) : (
-                            <button
-                              onClick={() => archiveruser(user, config)}
-                              className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
-                              type="button"
-                            >
-                              <FaArchive
-                                className="mr-2"
-                                style={{ fontSize: "20px" }}
-                              />
-                              <span>DesArchiver</span>
-                            </button>
-                          )}
-
+                          </button>
+                        ) : (
                           <button
-                            onClick={() => deleteAuser(user, config)}
+                            onClick={() => archiveruser(user, config)}
                             className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
                             type="button"
                           >
-                            <FaUserCog
+                            <FaArchive
                               className="mr-2"
                               style={{ fontSize: "20px" }}
                             />
-                            <span>Modifier</span>
+                            <span>DesArchiver</span>
                           </button>
-                          {user.role === "client" ? (
-                            <button
-                              className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
-                              onClick={() => upgradeAuser(user, config)}
-                            >
-                              <GiUpgrade
-                                className="mr-2"
-                                style={{ fontSize: "20px" }}
-                              />
-                              mise à niveau vers administrateur
-                            </button>
-                          ) : (
-                            <button
-                              className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
-                              onClick={() => downgradeAuser(user, config)}
-                            >
-                              <GiWideArrowDunk
-                                className="mr-2"
-                                style={{ fontSize: "20px" }}
-                              />
-                              mise à niveau vers un simple utilisateur
-                            </button>
-                          )}
-                          {user.etat === false ? (
-                            <button
-                              className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
-                              onClick={() => ActiveCompte(user, config)}
-                            >
-                              <SiVerizon
-                                className="mr-2"
-                                style={{ fontSize: "20px" }}
-                              />
-                              Active Un Compte
-                            </button>
-                          ) : (
-                            <button
-                              className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
-                              onClick={() => DesactiveCompte(user, config)}
-                            >
-                              <SiVexxhost
-                                className="mr-2"
-                                style={{ fontSize: "20px" }}
-                              />
-                              Desactive Un Compte
-                            </button>
+                        )}
 
-                          )}<button
+                        <button
+                          onClick={() => deleteAuser(user, config)}
+                          className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                          type="button"
+                        >
+                          <FaUserCog
+                            className="mr-2"
+                            style={{ fontSize: "20px" }}
+                          />
+                          <span>Modifier</span>
+                        </button>
+                        {user.role === "client" ? (
+                          <button
+                            className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                            onClick={() => upgradeAuser(user, config)}
+                          >
+                            <GiUpgrade
+                              className="mr-2"
+                              style={{ fontSize: "20px" }}
+                            />
+                            mise à niveau vers administrateur
+                          </button>
+                        ) : (
+                          <button
+                            className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                            onClick={() => downgradeAuser(user, config)}
+                          >
+                            <GiWideArrowDunk
+                              className="mr-2"
+                              style={{ fontSize: "20px" }}
+                            />
+                            mise à niveau vers un simple utilisateur
+                          </button>
+                        )}
+                        {user.etat === false ? (
+                          <button
+                            className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                            onClick={() => ActiveCompte(user, config)}
+                          >
+                            <SiVerizon
+                              className="mr-2"
+                              style={{ fontSize: "20px" }}
+                            />
+                            Active Un Compte
+                          </button>
+                        ) : (
+                          <button
+                            className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                            onClick={() => DesactiveCompte(user, config)}
+                          >
+                            <SiVexxhost
+                              className="mr-2"
+                              style={{ fontSize: "20px" }}
+                            />
+                            Desactive Un Compte
+                          </button>
+                        )}
+                        <button
                           onClick={() => deleteAuser(user, config)}
                           className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
                           type="button"
@@ -768,41 +783,66 @@ export default function ListUsers({ color }) {
                           />
                           <span>Supprimer</span>
                         </button>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
             <br></br>
-            <div className="flex justify-between items-center">
-              <div>
-                Page {currentPage} sur {totalPages}
-              </div>
-              <div className="flex">
-                <button
-                  className="mr-2 px-3 py-1 bg-blue-500 text-white rounded"
-                  onClick={goToPreviousPage}
-                  disabled={currentPage === 1}
-                >
-                  Précédent
-                </button>
-                <button
-                  className="ml-2 px-3 py-1 bg-blue-500 text-white rounded"
-                  onClick={goToNextPage}
-                  disabled={currentPage === totalPages}
-                >
-                  Suivant
-                </button>
-              </div>
-            </div>
             <br></br>
-            <div className="ml-3">
-              Nombre total d'utilisateurs : {countUsers()}
+            <div className="ml-3 mr-4 mb-6 flex items-center text-xl">
+              <span className="mr-2 ml-4 ">Nombre total d'utilisateurs :</span>
+              <h1 className="text-orange-500 mr-2 ml-4">{countUsers()}</h1>
             </div>
-            <br></br>
           </table>
         </div>
+      </div>
+      <div className="py-2">
+        <nav className="block">
+          <ul className="flex pl-0 rounded list-none flex-wrap">
+            <li>
+              <button
+                onClick={goToPreviousPage}
+                className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 ${
+                  currentPage === 1
+                    ? "bg-white text-lightBlue-500"
+                    : "bg-lightBlue-500 text-white"
+                }`}
+              >
+                <i className="fas fa-chevron-left -ml-px"></i>
+                <i className="fas fa-chevron-left -ml-px"></i>
+              </button>
+            </li>
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => setCurrentPage(index + 1)}
+                  className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 ${
+                    currentPage === index + 1
+                      ? "bg-lightBlue-500 text-white"
+                      : "bg-white text-lightBlue-500"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+            <li>
+              <button
+                onClick={goToNextPage}
+                className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 ${
+                  currentPage === totalPages
+                    ? "bg-white text-lightBlue-500"
+                    : "bg-lightBlue-500 text-white"
+                }`}
+              >
+                <i className="fas fa-chevron-right -mr-px"></i>
+                <i className="fas fa-chevron-right -mr-px"></i>
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </>
   );
