@@ -9,6 +9,9 @@ import { FaArchive , FaChevronDown} from "react-icons/fa";
 
 import Cookies from "js-cookie";
 import {
+  getUserAuth,
+} from "../../Services/Apiauth";
+import {
   active,
   deleteUser,
   desactive,
@@ -17,7 +20,6 @@ import {
   getAdmin,
   getSimpleUser,
   getUserActive,
-  getUserAuth,
   getUserDesactive,
   getUsers,
   searchUsers,
@@ -650,32 +652,33 @@ export default function ListUsers({ color }) {
                       {dropdownStates[user._id] && (
                         <div
                           className={`absolute bg-indigo-500 text-base z-50 float-left py-2 list-none text-center rounded shadow-lg mt-3 min-w-48`}
+                          // className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
                           style={{ top: "35px", right: "70px" }} // Adjusté de gauche à droite
                         >
-                          {/*{user.statu === "true" ? (*/}
-                          {/*<button*/}
-                          {/*  onClick={() => archiveruser(user, config)}*/}
-                          {/*  className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"*/}
-                          {/*  type="button"*/}
-                          {/*>*/}
-                          {/*  <FaArchive*/}
-                          {/*    className="mr-2"*/}
-                          {/*    style={{ fontSize: "20px" }}*/}
-                          {/*  />*/}
-                          {/*  <span>Archiver</span>*/}
-                          {/*</button> ) : (*/}
-                          {/*  <button*/}
-                          {/*    onClick={() => archiveruser(user, config)}*/}
-                          {/*    className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"*/}
-                          {/*    type="button"*/}
-                          {/*  >*/}
-                          {/*    <FaArchive*/}
-                          {/*      className="mr-2"*/}
-                          {/*      style={{ fontSize: "20px" }}*/}
-                          {/*    />*/}
-                          {/*    <span>DesArchiver</span>*/}
-                          {/*  </button>*/}
-                          {/*)}*/}
+                          {user.statu === "true" ? (
+                          <button
+                            onClick={() => archiveruser(user, config)}
+                            className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                            type="button"
+                          >
+                            <FaArchive
+                              className="mr-2"
+                              style={{ fontSize: "20px" }}
+                            />
+                            <span>Archiver</span>
+                          </button> ) : (
+                            <button
+                              onClick={() => archiveruser(user, config)}
+                              className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                              type="button"
+                            >
+                              <FaArchive
+                                className="mr-2"
+                                style={{ fontSize: "20px" }}
+                              />
+                              <span>DesArchiver</span>
+                            </button>
+                          )}
 
                           <button
                             onClick={() => deleteAuser(user, config)}
