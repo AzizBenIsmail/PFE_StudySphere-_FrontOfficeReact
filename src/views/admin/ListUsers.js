@@ -158,7 +158,7 @@ export default function ListUsers({ color }) {
   }, []);
 
   const [users, setUsers] = useState([]);
-  const [deletedUsers, setDeletedUsers] = useState([]);
+  // const [deletedUsers, setDeletedUsers] = useState([]);
 
   useEffect(() => {
     getAllUsers(config);
@@ -179,7 +179,7 @@ export default function ListUsers({ color }) {
       deleteUser(user._id, config);
       getAllUsers(config);
     } else {
-      setDeletedUsers([...deletedUsers, user]);
+      // setDeletedUsers([...deletedUsers, user]);
     }
   };
 
@@ -302,6 +302,24 @@ export default function ListUsers({ color }) {
       openDropdown(userId);
     }
   };
+  const usersPerPage = 3;
+  const [currentPage, setCurrentPage] = useState(1);
+  const getCurrentUsers = () => {
+    const startIndex = (currentPage - 1) * usersPerPage;
+    const endIndex = startIndex + usersPerPage;
+    return users.slice(startIndex, endIndex);
+  };
+  const totalPages = Math.ceil(users.length / usersPerPage);
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const countUsers = () => {
+    return users.length;
+  };
   return (
     <>
       <div
@@ -385,7 +403,7 @@ export default function ListUsers({ color }) {
                             onChange={handleInputChange}
                             label="Username"
                             aria-label="Username"
-                            className=" px-2 py-1 h-8 border border-solid  border-lightBlue-600 rounded-full text-sm leading-snug text-lightBlue-700 bg-lightBlue-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-lightBlue-300"
+                            className="px-2 py-1 h-8 border border-solid border-lightBlue-600 rounded-full text-sm leading-snug text-black bg-lightBlue-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-lightBlue-300"
                           />
                         </div>
                       </form>
@@ -558,10 +576,12 @@ export default function ListUsers({ color }) {
               </tr>
             </thead>
             <tbody responsive="true">
-              {users
-                .filter((user) => !deletedUsers.includes(user))
-                .map((user) => (
-                  <tr key={user._id}>
+              {/*{users*/}
+              {/*  .filter((user) => !deletedUsers.includes(user))*/}
+              {/*  .map((user) => (*/}
+              {getCurrentUsers().map((user) => (
+
+                <tr key={user._id}>
                     <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
                       {user.image_user ? (
                         <img
@@ -754,6 +774,33 @@ export default function ListUsers({ color }) {
                   </tr>
                 ))}
             </tbody>
+            <br></br>
+            <div className="flex justify-between items-center">
+              <div>
+                Page {currentPage} sur {totalPages}
+              </div>
+              <div className="flex">
+                <button
+                  className="mr-2 px-3 py-1 bg-blue-500 text-white rounded"
+                  onClick={goToPreviousPage}
+                  disabled={currentPage === 1}
+                >
+                  Précédent
+                </button>
+                <button
+                  className="ml-2 px-3 py-1 bg-blue-500 text-white rounded"
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                >
+                  Suivant
+                </button>
+              </div>
+            </div>
+            <br></br>
+            <div className="ml-3">
+              Nombre total d'utilisateurs : {countUsers()}
+            </div>
+            <br></br>
           </table>
         </div>
       </div>
