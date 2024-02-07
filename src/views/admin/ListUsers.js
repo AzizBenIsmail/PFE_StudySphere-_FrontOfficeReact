@@ -375,7 +375,6 @@ export default function ListUsers({ color }) {
                 type="button"
                 onClick={toggleDropdownn} // Appel de la fonction toggleDropdown pour changer l'état
               >
-
                 <div className="flex items-center">
                   ajouter un utilisateur
                   <FaAngleDown className="ml-3" />
@@ -385,16 +384,43 @@ export default function ListUsers({ color }) {
               {dropdownOpen && (
                 <div className="absolute bg-indigo-500 text-base z-50 py-2 list-none text-left rounded shadow-lg mt-1 min-w-48">
                   {/* Options du dropdown */}
-                  <button className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white" type="button">
+                  <button
+                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                    type="button"
+                    onClick={() =>
+                      history.push("/admin/Ajouterutilisateur/?u=Client")
+                    }
+                  >
                     Client
                   </button>
-                  <button className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white" type="button">
+                  <button
+                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                    type="button"
+                    onClick={() =>
+                      history.push("/admin/Ajouterutilisateur/?u=Formateur")
+                    }
+                  >
+                    {" "}
                     Formateur
                   </button>
-                  <button className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white" type="button">
+                  <button
+                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                    type="button"
+                    onClick={() =>
+                      history.push("/admin/Ajouterutilisateur/?u=Centre")
+                    }
+                  >
+                    {" "}
                     Centre De Formation
                   </button>
-                  <button className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white" type="button">
+                  <button
+                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                    type="button"
+                    onClick={() =>
+                      history.push("/admin/Ajouterutilisateur/?u=Moderateur")
+                    }
+                  >
+                    {" "}
                     Moderateur
                   </button>
                 </div>
