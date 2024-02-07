@@ -297,6 +297,7 @@ export default function ListUsers({ color }) {
 
   const toggleDropdown = (userId) => {
     closeDropdownPopover();
+    closetoggleDropdownpagination();
     if (openDropdownId === userId) {
       // Si le même dropdown est cliqué, fermez-le
       closeDropdown(userId);
@@ -337,9 +338,13 @@ export default function ListUsers({ color }) {
   const [dropdownOpenpagination, setDropdownOpenpagination] = useState(false); // Utilisation du même état pour les deux composants
 
   const toggleDropdownpagination = () => {
+    closeDropdownPopover();
     setDropdownOpenpagination(!dropdownOpenpagination); // Inversion de l'état de dropdownOpen
   };
 
+  const closetoggleDropdownpagination = () => {
+    setDropdownOpenpagination(false); // Inversion de l'état de dropdownOpen
+  };
   return (
     <>
       <div
@@ -914,7 +919,7 @@ export default function ListUsers({ color }) {
               </button>
             </li>
             <button
-              className="bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              className="bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 ease-linear transition-all duration-150"
               type="button"
               onClick={toggleDropdownpagination} // Appel de la fonction toggleDropdown pour changer l'état
             >
@@ -925,7 +930,9 @@ export default function ListUsers({ color }) {
             </button>
             {/* Contenu du dropdown */}
             {dropdownOpenpagination && (
-              <div className="absolute bg-indigo-500 text-base z-50 py-2 list-none text-left rounded shadow-lg mt-1 min-w-48">
+              <div
+                className="absolute bg-indigo-500 text-base z-50 py-2 list-none text-left rounded shadow-lg mt-1 ml-3 min-w-48"
+              >
                 {/* Options du dropdown */}
                 <button
                   className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
@@ -961,6 +968,15 @@ export default function ListUsers({ color }) {
                   }
                 >
                   15
+                </button>
+                <button
+                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                  type="button"
+                  onClick={() =>
+                    setusersPerPage(99)
+                  }
+                >
+                  Tous
                 </button>
               </div>
             )}
