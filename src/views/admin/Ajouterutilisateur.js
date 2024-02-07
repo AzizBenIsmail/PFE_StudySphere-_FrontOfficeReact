@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 // components
 import Cookies from "js-cookie";
-import { getUserAuth } from "../../Services/Apiauth";
-import { useHistory, useLocation } from "react-router-dom";
+import { getUserAuth, register } from "../../Services/Apiauth";
+import { useLocation } from "react-router-dom";
+// import { NotificationManager } from 'react-notifications'
 
 // import CardLineChart from "components/Cards/CardLineChart.js";
 // import CardBarChart from "components/Cards/CardBarChart.js";
@@ -42,7 +43,6 @@ export default function Dashboard() {
 
   const location = useLocation();
   const message = new URLSearchParams(location.search).get("u");
-  const history = useHistory();
 
   useEffect(() => {
     console.log(message);
@@ -51,6 +51,136 @@ export default function Dashboard() {
 
     return () => clearInterval(interval);
   }, [config, message]);
+
+  const [n, setN] = useState(0); // Ajout de la variable n
+  const [emailError, setEmailError] = useState("");
+
+  const [User, setUser] = useState({
+    nom: "",
+    prenom: "",
+    email: "",
+    password: "",
+  });
+
+  const [passwordStrength, setPasswordStrength] = useState(0);
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setUser({ ...User, password: newPassword });
+
+    const strengthCode = checkPasswordStrength(newPassword, User.nom);
+    setPasswordStrength(strengthCode);
+  };
+
+  const handlechange = (e) => {
+    setUser({ ...User, [e.target.name]: e.target.value });
+    // console.log(User)
+
+    if (e.target.name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValidEmail = emailRegex.test(e.target.value);
+
+      if (!isValidEmail) {
+        setEmailError("Veuillez entrer une adresse e-mail valide.");
+      } else {
+        setEmailError("");
+      }
+    }
+  };
+  const checkPasswordStrength = (password, nom) => {
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasDigit = /\d/.test(password);
+    const normalizedNom = nom.toLowerCase();
+    const passwordLowerCase = password.toLowerCase();
+
+    if (password.length === 0) {
+      return 0; // Le nom existe dans le mot de passe (Faible)
+    } else if (passwordLowerCase.includes(normalizedNom)) {
+      return 1; // Le nom existe dans le mot de passe (Faible)
+    } else if (password.length < 3) {
+      return 1; // Faible
+    } else if (password.length < 8) {
+      return 2; // Faible
+    } else if (hasUppercase && hasLowercase && hasDigit) {
+      return 4; // Très fort (ajoutez vos propres critères)
+    } else {
+      return 2; // Moyen
+    }
+  };
+
+  const getStrengthColor = (strength) => {
+    switch (strength) {
+      case 0:
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500";
+      case 1:
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500";
+      case 2:
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500";
+      case 3:
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500";
+      case 4:
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500";
+      default:
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500";
+    }
+  };
+
+  const getColor = (strength) => {
+    switch (strength) {
+      case 0:
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200";
+      case 1:
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200";
+      case 2:
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-orange-200";
+      case 3:
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200";
+      case 4:
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-emerald-200";
+      default:
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200";
+    }
+  };
+  const [messageerr, setmessageerr] = useState();
+
+  const add = async (e) => {
+    const normalizedNom = User.nom.toLowerCase();
+    const passwordLowerCase = User.password.toLowerCase();
+    if (
+      User.nom === "" &&
+      User.prenom === "" &&
+      User.password === "" &&
+      User.email === ""
+    ) {
+      setN(4); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "" && User.prenom === "") {
+      setN(5); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.prenom === "" && User.password === "") {
+      setN(6); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "" && User.password === "") {
+      setN(7); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "") {
+      setN(1); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.prenom === "") {
+      setN(2);
+    } else if (User.password === "") {
+      setN(3);
+    } else if (passwordLowerCase.includes(normalizedNom)) {
+      setN(8);
+    } else if (emailError !== "") {
+      setN(9);
+    } else {
+      const res = await register(User);
+      console.log(res.data);
+      if (res.data.message === undefined) {
+        window.location.replace(`/admin/tables/`)
+      } else {
+        setmessageerr(res.data.message);
+      }
+    }
+  };
+
   return (
     <>
       <div className="flex flex-wrap">
@@ -73,6 +203,8 @@ export default function Dashboard() {
                 <button
                   className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
+                  onClick={(e) => add(e)}
+
                 >
                   Ajouter un
                   {message === "Client" ? (
@@ -102,10 +234,30 @@ export default function Dashboard() {
                         Nom
                       </label>
                       <input
-                        type="text"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue="lucky.jesse"
+                        placeholder="nom"
+                        type="text"
+                        name="nom"
+                        onChange={(e) =>
+                          setUser({ ...User, nom: e.target.value })
+                        }
+                        label="nom"
+                        aria-label="nom"
                       />
+                      {n === 1 ||
+                      n === 4 ||
+                      n === 5 ||
+                      n === 7 ||
+                      messageerr ===
+                        "Le Nom doit contenir plus de 3 caractères" ||
+                      messageerr ===
+                        "Le Nom doit contenir moins de 15 caractères" ? (
+                        <label style={{ color: "red" }}>
+                          Le Nom doit contenir plus de 3 et moin de 15
+                        </label>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                   <div className="w-full lg:w-6/12 px-4">
@@ -117,10 +269,30 @@ export default function Dashboard() {
                         Prenom
                       </label>
                       <input
-                        type="text"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue="Lucky"
+                        placeholder="prenom"
+                        type="text"
+                        name="prenom"
+                        onChange={(e) =>
+                          setUser({ ...User, prenom: e.target.value })
+                        }
+                        label="prenom"
+                        aria-label="prenom"
                       />
+                      {n === 2 ||
+                      n === 4 ||
+                      n === 5 ||
+                      n === 6 ||
+                      messageerr ===
+                        "Le Prenom doit contenir plus de 3 characters" ||
+                      messageerr ===
+                        "Le Prenom doit contenir plus de 15 characters" ? (
+                        <label style={{ color: "red" }}>
+                          Le Prenom doit contenir plus de 3 et moin de 15
+                        </label>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                   <div className="w-full lg:w-6/12 px-4">
@@ -132,10 +304,33 @@ export default function Dashboard() {
                         Email
                       </label>
                       <input
-                        type="email"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue="jesse@example.com"
+                        placeholder="Email Address"
+                        type="text"
+                        name="email"
+                        onChange={(e) => handlechange(e)}
+                        label="Email"
+                        aria-label="Email"
                       />
+                      {n === 4 ? (
+                        <label style={{ color: "red" }}>
+                          Email obligatoires
+                        </label>
+                      ) : emailError ? (
+                        <label
+                          style={{
+                            color: "red",
+                            display: "block",
+                            marginTop: "10px",
+                          }}
+                        >
+                          {emailError}
+                        </label>
+                      ) : messageerr === "Email exists deja" ? (
+                        <label style={{ color: "red" }}>
+                          Email exists deja{" "}
+                        </label>
+                      ) : null}
                     </div>
                   </div>
                   <div className="w-full lg:w-6/12 px-4">
@@ -147,10 +342,47 @@ export default function Dashboard() {
                         mot de passe
                       </label>
                       <input
-                        type="text"
+                        defaultValue=""
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        defaultValue="Jesse"
+                        placeholder="Password"
+                        type="password"
+                        name="password"
+                        onChange={(e) => handlePasswordChange(e)}
+                        label="Password"
+                        aria-label="Password"
                       />
+                      {n === 3 ||
+                      n === 4 ||
+                      n === 6 ||
+                      n === 7 ||
+                      messageerr ===
+                        "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
+                      messageerr ===
+                        "Le Mot de passe doit contenir au moins 8 caractères" ? (
+                        <label style={{ color: "red" }}>
+                          Le Mot de passe doit contenir au moins une lettre
+                          majuscule, une lettre minuscule, un chiffre et un
+                          symbole Exemple mdp : Exemple@123 | Exemple#123 |
+                          Exemple.123 | Exemple/123 | Exemple*123{" "}
+                        </label>
+                      ) : n === 8 ? (
+                        <label style={{ color: "red" }}>
+                          Il est important de ne pas inclure ton nom dans le mot
+                          de passe. Nom dans le mot de passe
+                        </label>
+                      ) : (
+                        ""
+                      )}
+                      <div className="relative pt-1">
+                        <div className={`${getColor(passwordStrength)}`}>
+                          <div
+                            style={{
+                              width: `${(passwordStrength / 3) * 100}%`,
+                            }}
+                            className={`${getStrengthColor(passwordStrength)}`}
+                          ></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
