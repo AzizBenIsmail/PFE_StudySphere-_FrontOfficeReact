@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 
 // components
 import Cookies from "js-cookie";
-import { getUserAuth, register } from "../../Services/Apiauth";
+import { getUserAuth, register, registerCentre } from '../../Services/Apiauth'
 import { useLocation } from "react-router-dom";
 // import { NotificationManager } from 'react-notifications'
 
@@ -54,6 +54,7 @@ export default function Dashboard() {
 
   const [n, setN] = useState(0); // Ajout de la variable n
   const [emailError, setEmailError] = useState("");
+  const [image, setImage] = useState()
 
   const [User, setUser] = useState({
     nom: "",
@@ -87,6 +88,13 @@ export default function Dashboard() {
       }
     }
   };
+
+  const handlechangeFile = (e) => {
+    setImage(e.target.files[0])
+    console.log(e.target.files[0])
+  }
+
+
   const checkPasswordStrength = (password, nom) => {
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
@@ -181,6 +189,49 @@ export default function Dashboard() {
     }
   };
 
+  let formData = new FormData()
+  const addCentre = async (e) => {
+    const normalizedNom = User.nom.toLowerCase()
+    const passwordLowerCase = User.password.toLowerCase()
+    if (emailError === 'Veuillez entrer une adresse e-mail valide.') {
+    } else if (User.nom === '' && User.email === '' && User.password === '') {
+      setN(4) // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === '' && User.email === '') {
+      setN(5) // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.email === '' && User.password === '') {
+      setN(6) // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === '' && User.password === '') {
+      setN(7) // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === '') {
+      setN(1) // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.email === '') {
+      setN(2)
+    } else if (User.password === '') {
+      setN(3)
+    } else if (passwordLowerCase.includes(normalizedNom)) {
+      setN(8);
+    } else {
+      formData.append('email', User.email)
+      formData.append('nom', User.nom)
+      formData.append('prenom', User.prenom)
+      formData.append('password', User.password)
+      if (image === undefined) {
+        setN(9)
+      } else {
+        formData.append('image_user', image, `${User.username}+.png`)
+        const res = await registerCentre(formData)
+        console.log(res.data)
+        if (res.data.message === undefined) {
+          window.location.replace(`/admin/tables/`)
+        } else {
+          setmessageerr(res.data.message)
+          console.log(res.data.message)
+          // showNotification('error', res.data.message, 'Erreur')
+        }
+      }
+    }
+  }
+
   return (
     <>
       <div className="flex flex-wrap">
@@ -189,7 +240,7 @@ export default function Dashboard() {
             <div className="rounded-t bg-white mb-0 px-6 py-6">
               <div className="text-center flex justify-between">
                 <h6 className="text-blueGray-700 text-xl font-bold">
-                  Nouveaux{" "}
+                  Nouveaux
                   {message === "Client" ? (
                     <span> Client</span>
                   ) : message === "Formateur" ? (
@@ -203,8 +254,7 @@ export default function Dashboard() {
                 <button
                   className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
-                  onClick={(e) => add(e)}
-
+                  onClick={message === "Client" || message === "Centre" || message === "Moderateur" ? (e) => add(e) : message === "Formateur" ? (e) => addCentre(e) : null}
                 >
                   Ajouter un
                   {message === "Client" ? (
@@ -260,41 +310,71 @@ export default function Dashboard() {
                       )}
                     </div>
                   </div>
-                  <div className="w-full lg:w-6/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        Prenom
-                      </label>
-                      <input
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="prenom"
-                        type="text"
-                        name="prenom"
-                        onChange={(e) =>
-                          setUser({ ...User, prenom: e.target.value })
-                        }
-                        label="prenom"
-                        aria-label="prenom"
-                      />
-                      {n === 2 ||
-                      n === 4 ||
-                      n === 5 ||
-                      n === 6 ||
-                      messageerr ===
-                        "Le Prenom doit contenir plus de 3 characters" ||
-                      messageerr ===
-                        "Le Prenom doit contenir plus de 15 characters" ? (
-                        <label style={{ color: "red" }}>
-                          Le Prenom doit contenir plus de 3 et moin de 15
+                  {message === "Client" || message === "Centre" || message === "Moderateur" ? (
+                    <div className="w-full lg:w-6/12 px-4">
+                      <div className="relative w-full mb-3">
+                        <label
+                          className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                          htmlFor="grid-password"
+                        >
+                          Prenom
                         </label>
-                      ) : (
-                        ""
-                      )}
+                        <input
+                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                          placeholder="prenom"
+                          type="text"
+                          name="prenom"
+                          onChange={(e) =>
+                            setUser({ ...User, prenom: e.target.value })
+                          }
+                          label="prenom"
+                          aria-label="prenom"
+                        />
+                        {n === 2 ||
+                        n === 4 ||
+                        n === 5 ||
+                        n === 6 ||
+                        messageerr ===
+                        "Le Prenom doit contenir plus de 3 characters" ||
+                        messageerr ===
+                        "Le Prenom doit contenir plus de 15 characters" ? (
+                          <label style={{ color: "red" }}>
+                            Le Prenom doit contenir plus de 3 et moin de 15
+                          </label>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  ) : message === "Formateur" ? (
+                    <div className="w-full lg:w-6/12 px-4">
+                      <div className="relative w-full mb-3">
+                        <label
+                          className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                          htmlFor="grid-password"
+                        >
+                          Image
+                        </label>
+                        <input
+                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                          placeholder="image_user"
+                          type="file"
+                          name="image_user"
+                          onChange={(e) => handlechangeFile(e)}
+                          label="image_user"
+                          aria-label="image_user"
+                        />
+                        {n === 9 ? (
+                          <label style={{ color: "red" }}>
+                            image obligatoire
+                          </label>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </div>
+                  ): null}
+
                   <div className="w-full lg:w-6/12 px-4">
                     <div className="relative w-full mb-3">
                       <label

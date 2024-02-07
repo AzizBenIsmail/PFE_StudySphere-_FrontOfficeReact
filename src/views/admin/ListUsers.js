@@ -859,13 +859,15 @@ export default function ListUsers({ color }) {
                 </tr>
               ))}
             </tbody>
+          </table>
+
             <br></br>
             <br></br>
+
             <div className="ml-3 mr-4 mb-6 flex items-center text-xl">
               <span className="mr-2 ml-4 ">Nombre total d'utilisateurs :</span>
               <h1 className="text-orange-500 mr-2 ml-4">{countUsers()}</h1>
             </div>
-          </table>
         </div>
       </div>
       <div className="py-2">
