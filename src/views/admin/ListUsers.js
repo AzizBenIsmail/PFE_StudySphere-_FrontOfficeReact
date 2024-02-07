@@ -307,7 +307,9 @@ export default function ListUsers({ color }) {
       openDropdown(userId);
     }
   };
-  const usersPerPage = 5;
+  const [usersPerPage, setusersPerPage] = useState(4); // Ajout de la variable n
+
+  // const usersPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
   const getCurrentUsers = () => {
     const startIndex = (currentPage - 1) * usersPerPage;
@@ -330,6 +332,12 @@ export default function ListUsers({ color }) {
 
   const toggleDropdownn = () => {
     setDropdownOpen(!dropdownOpen); // Inversion de l'état de dropdownOpen
+  };
+
+  const [dropdownOpenpagination, setDropdownOpenpagination] = useState(false); // Utilisation du même état pour les deux composants
+
+  const toggleDropdownpagination = () => {
+    setDropdownOpenpagination(!dropdownOpenpagination); // Inversion de l'état de dropdownOpen
   };
 
   return (
@@ -903,6 +911,57 @@ export default function ListUsers({ color }) {
                 <i className="fas fa-chevron-right -mr-px"></i>
               </button>
             </li>
+            <button
+              className="bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+              onClick={toggleDropdownpagination} // Appel de la fonction toggleDropdown pour changer l'état
+            >
+              <div className="flex items-center">
+                Appliquer
+                <FaAngleDown className="ml-3" />
+              </div>
+            </button>
+            {/* Contenu du dropdown */}
+            {dropdownOpenpagination && (
+              <div className="absolute bg-indigo-500 text-base z-50 py-2 list-none text-left rounded shadow-lg mt-1 min-w-48">
+                {/* Options du dropdown */}
+                <button
+                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                  type="button"
+                  onClick={() =>
+                    setusersPerPage(3)
+                  }
+                >
+                  Defaut
+                </button>
+                <button
+                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                  type="button"
+                  onClick={() =>
+                    setusersPerPage(5)
+                  }
+                >
+                  5
+                </button>
+                <button
+                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                  type="button"
+                  onClick={() =>
+                    setusersPerPage(10)                  }
+                >
+                  10
+                </button>
+                <button
+                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                  type="button"
+                  onClick={() =>
+                    setusersPerPage(15)
+                  }
+                >
+                  15
+                </button>
+              </div>
+            )}
           </ul>
         </nav>
       </div>
