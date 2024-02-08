@@ -20,11 +20,6 @@ export async function registerCentre (formData) {
   })
 }
 
-export async function LoginUser (user) {
-  return await axios.post(`${apiURL}/login`, user, {
-    withCredentials: true,
-  })
-}
 
 export async function forgetPassword (email) {
   return await axios.put(`${apiURL}/forgetPassword`, { email })
@@ -56,6 +51,17 @@ export async function getAdmin(config) {
   return await axios.get(`${ apiURL }/AllAdmin`, config);
 }
 
+export async function getFormateur(config) {
+  return await axios.get(`${ apiURL }/AllFormateur`, config);
+}
+
+export async function getCentre(config) {
+  return await axios.get(`${ apiURL }/AllCentre`, config);
+}
+
+export async function getModerateur(config) {
+  return await axios.get(`${ apiURL }/AllModerateur`, config);
+}
 export async function getSimpleUser(config) {
   return await axios.get(`${ apiURL }/AllSimpleUsers`, config);
 }
