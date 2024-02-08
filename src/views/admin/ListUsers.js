@@ -406,6 +406,18 @@ export default function ListUsers({ color }) {
     closetoggleDropdownrole();
     closetoggleDropdownn();
   };
+
+  const [dropdownOpenupgrate, setDropdownOpenupgrate] = useState(false); // Utilisation du même état pour les deux composants
+
+  const toggleDropdownupgrate = () => {
+    // closeDropdownPopover()
+    setDropdownOpenupgrate(!dropdownOpenupgrate); // Inversion de l'état de dropdownOpen
+  };
+
+  const closetoggleDropdownupgrate = () => {
+    setDropdownOpenrole(false); // Inversion de l'état de dropdownOpen
+  };
+
   return (
     <>
       <div
@@ -867,6 +879,47 @@ export default function ListUsers({ color }) {
                         // className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
                         style={{ top: "0px", right: "75px" }} // Adjusté de gauche à droite
                       >
+                        <button
+                          className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                          type="button"
+                          onClick={toggleDropdownrole} // Appel de la fonction toggleDropdown pour changer l'état
+                        >
+                          <div className="flex items-center">
+                            Liste des utilisateurs
+                            <FaAngleDown className="ml-3" />
+                          </div>
+                        </button>
+                        {/* Contenu du dropdown */}
+                        {dropdownOpenrole && (
+                          <div
+                            className="absolute bg-indigo-500 text-base z-50  list-none text-left rounded shadow-lg "
+                            style={{ marginLeft: "110px" }}
+                          >
+                            {user.role === "client" ? (
+                              <button
+                                className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                                onClick={() => upgradeAuser(user, config)}
+                              >
+                                <GiUpgrade
+                                  className="mr-2"
+                                  style={{ fontSize: "20px" }}
+                                />
+                                vers administrateur
+                              </button>
+                            ) : (
+                              <button
+                                className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                                onClick={() => downgradeAuser(user, config)}
+                              >
+                                <GiWideArrowDunk
+                                  className="mr-2"
+                                  style={{ fontSize: "20px" }}
+                                />
+                                mise à niveau vers un simple utilisateur
+                              </button>
+                            )}
+                          </div>
+                        )}
                         {user.statu === "true" ? (
                           <button
                             onClick={() => archiveruser(user, config)}
@@ -905,29 +958,6 @@ export default function ListUsers({ color }) {
                           />
                           Modifier
                         </button>
-                        {user.role === "client" ? (
-                          <button
-                            className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
-                            onClick={() => upgradeAuser(user, config)}
-                          >
-                            <GiUpgrade
-                              className="mr-2"
-                              style={{ fontSize: "20px" }}
-                            />
-                            mise à niveau vers administrateur
-                          </button>
-                        ) : (
-                          <button
-                            className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
-                            onClick={() => downgradeAuser(user, config)}
-                          >
-                            <GiWideArrowDunk
-                              className="mr-2"
-                              style={{ fontSize: "20px" }}
-                            />
-                            mise à niveau vers un simple utilisateur
-                          </button>
-                        )}
                         {user.etat === false ? (
                           <button
                             className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
