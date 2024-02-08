@@ -29,8 +29,8 @@ import {
   getUsers,
   getUsersarchive,
   searchUsers,
-  upgrade,
-} from "../../Services/ApiUser";
+  upgrade, getFormateur, getModerateur, getCentre
+} from '../../Services/ApiUser'
 import { AiOutlineReload } from "react-icons/ai";
 import { createPopper } from "@popperjs/core";
 import { useHistory } from "react-router-dom";
@@ -100,6 +100,45 @@ export default function ListUsers({ color }) {
       .catch((err) => {
         console.log(err);
       });
+  }, []);
+
+  const getAllFormateur = useCallback(async (config) => {
+    closeDropdownPopover();
+    closetoggleDropdownrole();
+    await getFormateur(config)
+    .then((res) => {
+      setUsers(res.data.users);
+      console.log(res.data.users);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
+  const getAllcentre = useCallback(async (config) => {
+    closeDropdownPopover();
+    closetoggleDropdownrole();
+    await getCentre(config)
+    .then((res) => {
+      setUsers(res.data.users);
+      console.log(res.data.users);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
+  const getAllModerateur = useCallback(async (config) => {
+    closeDropdownPopover();
+    closetoggleDropdownrole();
+    await getModerateur(config)
+    .then((res) => {
+      setUsers(res.data.users);
+      console.log(res.data.users);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }, []);
 
   const getAllUserActive = useCallback(async (config) => {
@@ -558,7 +597,7 @@ export default function ListUsers({ color }) {
                               {/* Contenu du dropdown */}
                               {dropdownOpenrole && (
                                 <div
-                                  className="absolute bg-indigo-500 text-base z-50  list-none text-left rounded shadow-lg min-w-48"
+                                  className="absolute bg-indigo-500 text-base z-50  list-none text-left rounded shadow-lg "
                                   style={{ marginLeft: "190px" }}
                                 >
                                   <button
@@ -571,7 +610,15 @@ export default function ListUsers({ color }) {
                                   <button
                                     className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
                                     type="button"
-                                    onClick={() => getAllSimpleUser(config)}
+                                    onClick={() => getAllcentre(config)}
+
+                                  >
+                                    Centre de formation
+                                  </button>
+                                  <button
+                                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                                    type="button"
+                                    onClick={() => getAllFormateur(config)}
 
                                   >
                                     Formateur
@@ -579,7 +626,7 @@ export default function ListUsers({ color }) {
                                   <button
                                     className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
                                     type="button"
-                                    onClick={() => getAllSimpleUser(config)}
+                                    onClick={() => getAllModerateur(config)}
 
                                   >
                                     Modérateur
