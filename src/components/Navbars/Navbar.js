@@ -65,9 +65,8 @@ export default function Navbar (props) {
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div
             className="w-full relative flex justify-between items-center lg:w-auto lg:static lg:block lg:justify-start">
-            <Link
+            <div
               className="text-white text-sm font-bold leading-relaxed inline-flex items-center mr-4 py-2 whitespace-nowrap uppercase"
-              to="/"
             >
               <img
                 src={require('assets/img/Logo.png').default}
@@ -82,7 +81,7 @@ export default function Navbar (props) {
                 className="mr-4"
                 style={{ maxWidth: '20%', height: '10%' }}
               />
-            </Link>
+            </div>
             <button
               className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
               type="button"
