@@ -91,6 +91,7 @@ export default function ListUsers({ color }) {
 
   const getAllSimpleUser = useCallback(async (config) => {
     closeDropdownPopover();
+    closetoggleDropdownrole();
     await getSimpleUser(config)
       .then((res) => {
         setUsers(res.data.users);
@@ -250,6 +251,7 @@ export default function ListUsers({ color }) {
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
   const openDropdownPopover = () => {
+    closealltoggleDropdown();
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-start",
     });
@@ -261,7 +263,6 @@ export default function ListUsers({ color }) {
   const handleInputChange = async (event) => {
     const term = event.target.value;
     setSearchTerm(term);
-
     // Adding a small delay before making the API call to avoid rapid firing on each key press
     const delay = 500; // milliseconds
     setTimeout(() => {
@@ -296,8 +297,7 @@ export default function ListUsers({ color }) {
   };
 
   const toggleDropdown = (userId) => {
-    closeDropdownPopover();
-    closetoggleDropdownpagination();
+    closealltoggleDropdown();
     if (openDropdownId === userId) {
       // Si le même dropdown est cliqué, fermez-le
       closeDropdown(userId);
@@ -332,9 +332,13 @@ export default function ListUsers({ color }) {
   const [dropdownOpen, setDropdownOpen] = useState(false); // Utilisation du même état pour les deux composants
 
   const toggleDropdownn = () => {
+    closealltoggleDropdown();
     setDropdownOpen(!dropdownOpen); // Inversion de l'état de dropdownOpen
   };
 
+  const closetoggleDropdownn = () => {
+    setDropdownOpen(false); // Inversion de l'état de dropdownOpen
+  };
   const [dropdownOpenpagination, setDropdownOpenpagination] = useState(false); // Utilisation du même état pour les deux composants
 
   const toggleDropdownpagination = () => {
@@ -342,8 +346,26 @@ export default function ListUsers({ color }) {
     setDropdownOpenpagination(!dropdownOpenpagination); // Inversion de l'état de dropdownOpen
   };
 
-  const closetoggleDropdownpagination = () => {
+  const closetoggleDropdownpagination = (n) => {
+    setusersPerPage(n);
     setDropdownOpenpagination(false); // Inversion de l'état de dropdownOpen
+  };
+
+  const [dropdownOpenrole, setDropdownOpenrole] = useState(false); // Utilisation du même état pour les deux composants
+
+  const toggleDropdownrole = () => {
+    // closeDropdownPopover()
+    setDropdownOpenrole(!dropdownOpenrole); // Inversion de l'état de dropdownOpen
+  };
+
+  const closetoggleDropdownrole = () => {
+    setDropdownOpenrole(false); // Inversion de l'état de dropdownOpen
+  };
+
+  const closealltoggleDropdown = () => {
+    closeDropdownPopover();
+    closetoggleDropdownrole();
+    closetoggleDropdownn();
   };
   return (
     <>
@@ -395,13 +417,13 @@ export default function ListUsers({ color }) {
               </button>
               {/* Contenu du dropdown */}
               {dropdownOpen && (
-                <div className="absolute bg-indigo-500 text-base z-50 py-2 list-none text-left rounded shadow-lg mt-1 min-w-48">
+                <div className="absolute bg-indigo-500 text-base z-50 py-2 list-none text-left rounded shadow-lg min-w-48">
                   {/* Options du dropdown */}
                   <button
                     className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
                     type="button"
                     onClick={() =>
-                      history.push("/admin/Ajouterutilisateur/?u=Client")
+                      history.push("/admin/Ajouterutilisateur/?u=client")
                     }
                   >
                     Client
@@ -410,7 +432,7 @@ export default function ListUsers({ color }) {
                     className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
                     type="button"
                     onClick={() =>
-                      history.push("/admin/Ajouterutilisateur/?u=Formateur")
+                      history.push("/admin/Ajouterutilisateur/?u=formateur")
                     }
                   >
                     {" "}
@@ -430,7 +452,7 @@ export default function ListUsers({ color }) {
                     className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
                     type="button"
                     onClick={() =>
-                      history.push("/admin/Ajouterutilisateur/?u=Moderateur")
+                      history.push("/admin/Ajouterutilisateur/?u=moderateur")
                     }
                   >
                     {" "}
@@ -524,19 +546,53 @@ export default function ListUsers({ color }) {
                               }
                             >
                               <button
-                                onClick={() => getAllAdmin(config)}
                                 className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
                                 type="button"
+                                onClick={toggleDropdownrole} // Appel de la fonction toggleDropdown pour changer l'état
                               >
-                                Liste d'utilisateurs Admin
+                                <div className="flex items-center">
+                                  Liste des utilisateurs
+                                  <FaAngleDown className="ml-3" />
+                                </div>
                               </button>
-                              <button
-                                onClick={() => getAllSimpleUser(config)}
-                                className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
-                                type="button"
-                              >
-                                Liste d'utilisateurs Client
-                              </button>
+                              {/* Contenu du dropdown */}
+                              {dropdownOpenrole && (
+                                <div
+                                  className="absolute bg-indigo-500 text-base z-50  list-none text-left rounded shadow-lg min-w-48"
+                                  style={{ marginLeft: "190px" }}
+                                >
+                                  <button
+                                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                                    type="button"
+                                    onClick={() => getAllSimpleUser(config)}
+                                  >
+                                    Client
+                                  </button>
+                                  <button
+                                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                                    type="button"
+                                    onClick={() => getAllSimpleUser(config)}
+
+                                  >
+                                    Formateur
+                                  </button>
+                                  <button
+                                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                                    type="button"
+                                    onClick={() => getAllSimpleUser(config)}
+
+                                  >
+                                    Modérateur
+                                  </button>
+                                  <button
+                                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                                    type="button"
+                                    onClick={() => getAllAdmin(config)}
+                                  >
+                                    Administrateur
+                                  </button>
+                                </div>
+                              )}
                               <button
                                 onClick={() => getAllUserActive(config)}
                                 className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
@@ -789,17 +845,18 @@ export default function ListUsers({ color }) {
                             <span>DesArchiver</span>
                           </button>
                         )}
-
                         <button
-                          onClick={() => deleteAuser(user, config)}
                           className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
                           type="button"
+                          onClick={() =>
+                            history.push("/admin/Modifierutilisateur/?u=Centre")
+                          }
                         >
                           <FaUserCog
                             className="mr-2"
                             style={{ fontSize: "20px" }}
                           />
-                          <span>Modifier</span>
+                          Modifier
                         </button>
                         {user.role === "client" ? (
                           <button
@@ -866,13 +923,13 @@ export default function ListUsers({ color }) {
             </tbody>
           </table>
 
-            <br></br>
-            <br></br>
+          <br></br>
+          <br></br>
 
-            <div className="ml-3 mr-4 mb-6 flex items-center text-xl">
-              <span className="mr-2 ml-4 ">Nombre total d'utilisateurs :</span>
-              <h1 className="text-orange-500 mr-2 ml-4">{countUsers()}</h1>
-            </div>
+          <div className="ml-3 mr-4 mb-6 flex items-center text-xl">
+            <span className="mr-2 ml-4 ">Nombre total d'utilisateurs :</span>
+            <h1 className="text-orange-500 mr-2 ml-4">{countUsers()}</h1>
+          </div>
         </div>
       </div>
       <div className="py-2">
@@ -918,68 +975,71 @@ export default function ListUsers({ color }) {
                 <i className="fas fa-chevron-right -mr-px"></i>
               </button>
             </li>
-            <button
-              className="bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 ease-linear transition-all duration-150"
-              type="button"
-              onClick={toggleDropdownpagination} // Appel de la fonction toggleDropdown pour changer l'état
-            >
-              <div className="flex items-center">
-                Appliquer
-                <FaAngleDown className="ml-3" />
+            <div>
+              <div className="ml-3">
+                <span className="mr-2">Appliquer</span>
+                <button
+                  className="bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-2 py-2 rounded outline-none focus:outline-none mr-2 mb-1 ease-linear transition-all duration-150"
+                  type="button"
+                  onClick={toggleDropdownpagination} // Appel de la fonction toggleDropdown pour changer l'état
+                >
+                  <div className="flex items-center">
+                    {usersPerPage}
+                    <FaAngleDown className="ml-3" />
+                  </div>
+                </button>
+                <span> par page </span>
               </div>
-            </button>
-            {/* Contenu du dropdown */}
-            {dropdownOpenpagination && (
-              <div
-                className="absolute bg-indigo-500 text-base z-50 py-2 list-none text-left rounded shadow-lg mt-1 ml-3 min-w-48"
-              >
-                {/* Options du dropdown */}
-                <button
-                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
-                  type="button"
-                  onClick={() =>
-                    setusersPerPage(3)
-                  }
+              {/* Contenu du dropdown */}
+              {dropdownOpenpagination && (
+                <div
+                  className="absolute bg-indigo-500 text-base z-50 list-none text-left rounded shadow-lg ml-3 "
+                  style={{ marginLeft: "89px" }}
                 >
-                  Defaut
-                </button>
-                <button
-                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
-                  type="button"
-                  onClick={() =>
-                    setusersPerPage(5)
-                  }
-                >
-                  5
-                </button>
-                <button
-                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
-                  type="button"
-                  onClick={() =>
-                    setusersPerPage(10)                  }
-                >
-                  10
-                </button>
-                <button
-                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
-                  type="button"
-                  onClick={() =>
-                    setusersPerPage(15)
-                  }
-                >
-                  15
-                </button>
-                <button
-                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
-                  type="button"
-                  onClick={() =>
-                    setusersPerPage(99)
-                  }
-                >
-                  Tous
-                </button>
-              </div>
-            )}
+                  {/* Options du dropdown */}
+                  <button
+                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                    type="button"
+                    onClick={() =>
+                      // setusersPerPage(5)
+                      closetoggleDropdownpagination(5)
+                    }
+                  >
+                    5
+                  </button>
+                  <button
+                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                    type="button"
+                    onClick={() =>
+                      // setusersPerPage(10)
+                      closetoggleDropdownpagination(10)
+                    }
+                  >
+                    10
+                  </button>
+                  <button
+                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                    type="button"
+                    onClick={() =>
+                      // setusersPerPage(15)
+                      closetoggleDropdownpagination(15)
+                    }
+                  >
+                    15
+                  </button>
+                  <button
+                    className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                    type="button"
+                    onClick={() =>
+                      // setusersPerPage(99)
+                      closetoggleDropdownpagination(99)
+                    }
+                  >
+                    Tous
+                  </button>
+                </div>
+              )}
+            </div>
           </ul>
         </nav>
       </div>
