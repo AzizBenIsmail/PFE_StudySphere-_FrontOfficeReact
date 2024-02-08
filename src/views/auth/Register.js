@@ -72,6 +72,7 @@ export default function Register () {
     nom: '',
     prenom: '',
     email: email,
+    role:"client",
     password: '',
   })
 
