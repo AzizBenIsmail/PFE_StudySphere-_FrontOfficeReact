@@ -60,6 +60,7 @@ export default function Dashboard() {
     nom: "",
     prenom: "",
     email: "",
+    role: message ,
     password: "",
   });
 
@@ -241,29 +242,29 @@ export default function Dashboard() {
               <div className="text-center flex justify-between">
                 <h6 className="text-blueGray-700 text-xl font-bold">
                   Nouveaux
-                  {message === "Client" ? (
+                  {message === "client" ? (
                     <span> Client</span>
-                  ) : message === "Formateur" ? (
+                  ) : message === "formateur" ? (
                     <span> Formateur</span>
                   ) : message === "Centre" ? (
                     <span> Centre de Formation</span>
-                  ) : message === "Moderateur" ? (
-                    <span> Moderateur</span>
+                  ) : message === "moderateur" ? (
+                    <span> moderateur</span>
                   ) : null}
                 </h6>
                 <button
                   className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
-                  onClick={message === "Client" || message === "Centre" || message === "Moderateur" ? (e) => add(e) : message === "Formateur" ? (e) => addCentre(e) : null}
+                  onClick={message === "client" || message === "formateur" || message === "moderateur" ? (e) => add(e) : message === "Centre" ? (e) => addCentre(e) : null}
                 >
                   Ajouter un
-                  {message === "Client" ? (
+                  {message === "client" ? (
                     <span> Client</span>
-                  ) : message === "Formateur" ? (
+                  ) : message === "formateur" ? (
                     <span> Formateur</span>
                   ) : message === "Centre" ? (
                     <span> Centre de Formation</span>
-                  ) : message === "Moderateur" ? (
+                  ) : message === "moderateur" ? (
                     <span> Moderateur</span>
                   ) : null}
                 </button>
@@ -310,7 +311,7 @@ export default function Dashboard() {
                       )}
                     </div>
                   </div>
-                  {message === "Client" || message === "Centre" || message === "Moderateur" ? (
+                  {message === "client" || message === "formateur" || message === "moderateur" ? (
                     <div className="w-full lg:w-6/12 px-4">
                       <div className="relative w-full mb-3">
                         <label
@@ -346,7 +347,7 @@ export default function Dashboard() {
                         )}
                       </div>
                     </div>
-                  ) : message === "Formateur" ? (
+                  ) : message === "Centre" ? (
                     <div className="w-full lg:w-6/12 px-4">
                       <div className="relative w-full mb-3">
                         <label
