@@ -124,4 +124,10 @@ export async function desactive(id, config) {
   return await axios.put(`${ apiURL }/desactive`, {id}, config);
 }
 
+export async function upgradeModerateur (id, config) {
+  return await axios.put(`${apiURL}/upgradeModerateur`, { id }, config)
+}
 
+export async function upgradeFormateur (id, config) {
+  return await axios.put(`${apiURL}/upgradeFormateur`, { id }, config)
+}
