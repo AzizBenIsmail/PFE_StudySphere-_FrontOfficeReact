@@ -253,7 +253,7 @@ export default function Dashboard() {
             <div className="rounded-t bg-white mb-0 px-6 py-6">
               <div className="text-center flex justify-between">
                 <h6 className="text-blueGray-700 text-xl font-bold">
-                  Nouveaux
+                  Modifier {User.nom}
                   {message === "client" ? (
                     <span> Client</span>
                   ) : message === "formateur" ? (
@@ -271,7 +271,7 @@ export default function Dashboard() {
                   type="button"
                   onClick={message === "client" || message === "formateur" || message === "admin" || message === "moderateur" ? (e) => add(e) : message === "centre" ? (e) => addCentre(e) : null}
                 >
-                  Ajouter un
+                  Modifier
                   {message === "client" ? (
                     <span> Client</span>
                   ) : message === "formateur" ? (
