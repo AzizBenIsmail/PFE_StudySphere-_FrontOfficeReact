@@ -36,7 +36,7 @@ export default function Admin() {
             <Route path="/admin/settings" exact component={Settings} />
             <Route path="/admin/tables" exact component={Tables} />
             <Route path="/admin/Ajouterutilisateur" exact component={Ajouterutilisateur} />
-            <Route path="/admin/Modifierutilisateur" exact component={Modifierutilisateur} />
+            <Route path="/admin/Modifierutilisateur/:id" exact component={Modifierutilisateur} />
 
             <Redirect from="/admin" to="/admin/dashboard" />
           </Switch>

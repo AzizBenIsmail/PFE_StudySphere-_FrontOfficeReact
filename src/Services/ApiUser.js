@@ -93,11 +93,6 @@ export async function searchUsers(term,config) {
 export async function getUserByID(id, config) {
   return await axios.get(`${ apiURL }/User/${ id }`, config);
 }
-export async function updateUser(formData, id, config) {
-  return await axios.put(`${ apiURL }/updateUser/${ id }`, formData, config, {
-    headers: {"Content-Type": "multipart/form-data"}
-  });
-}
 
 export async function deleteUser(id, config) {
   return await axios.delete(`${ apiURL }/${ id }`, config);
@@ -130,4 +125,14 @@ export async function upgradeModerateur (id, config) {
 
 export async function upgradeFormateur (id, config) {
   return await axios.put(`${apiURL}/upgradeFormateur`, { id }, config)
+}
+
+export async function updateUser (user, config) {
+  return await axios.put(`${apiURL}/update/${user._id}`, user, config)
+}
+
+export async function updatecentre(formData, id, config) {
+  return await axios.put(`${ apiURL }/updatecentre/${ id }`, formData, config, {
+    headers: {"Content-Type": "multipart/form-data"}
+  });
 }

@@ -2,8 +2,10 @@ import React, { useEffect, useMemo, useState } from "react";
 
 // components
 import Cookies from "js-cookie";
-import { getUserAuth, register, registerCentre } from '../../Services/Apiauth'
-import { useLocation } from "react-router-dom";
+import { getUserAuth, } from '../../Services/Apiauth'
+import { getUserByID, updatecentre, updateUser } from '../../Services/ApiUser'
+
+import { useLocation , useParams } from "react-router-dom";
 // import { NotificationManager } from 'react-notifications'
 
 // import CardLineChart from "components/Cards/CardLineChart.js";
@@ -43,24 +45,35 @@ export default function Dashboard() {
 
   const location = useLocation();
   const message = new URLSearchParams(location.search).get("u");
+  const param = useParams();
+
+
 
   useEffect(() => {
     console.log(message);
 
+    const getUser = async (config) => {
+      await getUserByID(param.id, config).then((res) => {
+        setUser(res.data.user);
+        console.log(res.data.user);
+      }).catch((err) => {
+        console.log(err);
+      });
+    };
+
+    getUser(config);
+
     const interval = setInterval(() => {}, 1000000);
 
     return () => clearInterval(interval);
-  }, [config, message]);
+  }, [config, message,param.id ]);
 
   const [n, setN] = useState(0); // Ajout de la variable n
   const [emailError, setEmailError] = useState("");
   const [image, setImage] = useState()
 
   const [User, setUser] = useState({
-    nom: "",
-    prenom: "",
-    email: "",
-    password: "",
+    role: message ,
   });
 
   const [passwordStrength, setPasswordStrength] = useState(0);
@@ -179,7 +192,7 @@ export default function Dashboard() {
     } else if (emailError !== "") {
       setN(9);
     } else {
-      const res = await register(User);
+      const res = await updateUser(User,config);
       console.log(res.data);
       if (res.data.message === undefined) {
         window.location.replace(`/admin/tables/`)
@@ -218,8 +231,8 @@ export default function Dashboard() {
       if (image === undefined) {
         setN(9)
       } else {
-        formData.append('image_user', image, `${User.username}+.png`)
-        const res = await registerCentre(formData)
+        formData.append('image_user', image, `${User.nom}+.png`)
+        const res = await updatecentre(formData,User._id,config)
         console.log(res.data)
         if (res.data.message === undefined) {
           window.location.replace(`/admin/tables/`)
@@ -241,30 +254,34 @@ export default function Dashboard() {
               <div className="text-center flex justify-between">
                 <h6 className="text-blueGray-700 text-xl font-bold">
                   Nouveaux
-                  {message === "Client" ? (
+                  {message === "client" ? (
                     <span> Client</span>
-                  ) : message === "Formateur" ? (
+                  ) : message === "formateur" ? (
                     <span> Formateur</span>
-                  ) : message === "Centre" ? (
+                  ) : message === "centre" ? (
                     <span> Centre de Formation</span>
-                  ) : message === "Moderateur" ? (
-                    <span> Moderateur</span>
+                  ) : message === "moderateur" ? (
+                    <span> moderateur</span>
+                  ) : message === "admin" ? (
+                    <span> admin</span>
                   ) : null}
                 </h6>
                 <button
                   className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
-                  onClick={message === "Client" || message === "Centre" || message === "Moderateur" ? (e) => add(e) : message === "Formateur" ? (e) => addCentre(e) : null}
+                  onClick={message === "client" || message === "formateur" || message === "admin" || message === "moderateur" ? (e) => add(e) : message === "centre" ? (e) => addCentre(e) : null}
                 >
                   Ajouter un
-                  {message === "Client" ? (
+                  {message === "client" ? (
                     <span> Client</span>
-                  ) : message === "Formateur" ? (
+                  ) : message === "formateur" ? (
                     <span> Formateur</span>
-                  ) : message === "Centre" ? (
+                  ) : message === "centre" ? (
                     <span> Centre de Formation</span>
-                  ) : message === "Moderateur" ? (
+                  ) : message === "moderateur" ? (
                     <span> Moderateur</span>
+                  ) : message === "admin" ? (
+                    <span> Admin</span>
                   ) : null}
                 </button>
               </div>
@@ -293,15 +310,17 @@ export default function Dashboard() {
                         }
                         label="nom"
                         aria-label="nom"
+                        value={User.nom}
+
                       />
                       {n === 1 ||
                       n === 4 ||
                       n === 5 ||
                       n === 7 ||
                       messageerr ===
-                        "Le Nom doit contenir plus de 3 caractères" ||
+                      "Le Nom doit contenir plus de 3 caractères" ||
                       messageerr ===
-                        "Le Nom doit contenir moins de 15 caractères" ? (
+                      "Le Nom doit contenir moins de 15 caractères" ? (
                         <label style={{ color: "red" }}>
                           Le Nom doit contenir plus de 3 et moin de 15
                         </label>
@@ -310,7 +329,7 @@ export default function Dashboard() {
                       )}
                     </div>
                   </div>
-                  {message === "Client" || message === "Centre" || message === "Moderateur" ? (
+                  {message === "client" || message === "formateur" || message === "moderateur" || message === "admin" ? (
                     <div className="w-full lg:w-6/12 px-4">
                       <div className="relative w-full mb-3">
                         <label
@@ -329,6 +348,8 @@ export default function Dashboard() {
                           }
                           label="prenom"
                           aria-label="prenom"
+                          value={User.prenom}
+
                         />
                         {n === 2 ||
                         n === 4 ||
@@ -346,7 +367,7 @@ export default function Dashboard() {
                         )}
                       </div>
                     </div>
-                  ) : message === "Formateur" ? (
+                  ) : message === "centre" ? (
                     <div className="w-full lg:w-6/12 px-4">
                       <div className="relative w-full mb-3">
                         <label
@@ -363,6 +384,7 @@ export default function Dashboard() {
                           onChange={(e) => handlechangeFile(e)}
                           label="image_user"
                           aria-label="image_user"
+                          // value={User.image_user}
                         />
                         {n === 9 ? (
                           <label style={{ color: "red" }}>
@@ -391,6 +413,7 @@ export default function Dashboard() {
                         onChange={(e) => handlechange(e)}
                         label="Email"
                         aria-label="Email"
+                        value={User.email}
                       />
                       {n === 4 ? (
                         <label style={{ color: "red" }}>
@@ -430,15 +453,17 @@ export default function Dashboard() {
                         onChange={(e) => handlePasswordChange(e)}
                         label="Password"
                         aria-label="Password"
+                        // value={User.password}
+
                       />
                       {n === 3 ||
                       n === 4 ||
                       n === 6 ||
                       n === 7 ||
                       messageerr ===
-                        "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
+                      "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
                       messageerr ===
-                        "Le Mot de passe doit contenir au moins 8 caractères" ? (
+                      "Le Mot de passe doit contenir au moins 8 caractères" ? (
                         <label style={{ color: "red" }}>
                           Le Mot de passe doit contenir au moins une lettre
                           majuscule, une lettre minuscule, un chiffre et un

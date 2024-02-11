@@ -994,16 +994,17 @@ export default function ListUsers ({ color }) {
                           className="mr-2"
                           style={{ fontSize: '24px' }}
                         />
-                      )}{' '}
+                      )}
                     &nbsp;
                     {user.prenom ? (
                       user.prenom
-                    ) : (
-                      <SiVexxhost
-                        className="mr-2"
-                        style={{ fontSize: '24px' }}
-                      />
-                    )}
+                    ) :
+                      // <SiVexxhost
+                      //   className="mr-2"
+                      //   style={{ fontSize: '24px' }}
+                      // />
+                      null
+                    }
                     </span>
                 </th>
                 <td>
@@ -1247,7 +1248,7 @@ export default function ListUsers ({ color }) {
                         className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
                         type="button"
                         onClick={() =>
-                          history.push('/admin/Modifierutilisateur/?u=Centre')
+                          history.push(`/admin/Modifierutilisateur/${user._id}?u=${user.role.toLowerCase()}`)
                         }
                       >
                         <FaUserCog
