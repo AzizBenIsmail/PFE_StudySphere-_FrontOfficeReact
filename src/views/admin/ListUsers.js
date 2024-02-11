@@ -1257,6 +1257,19 @@ export default function ListUsers ({ color }) {
                         />
                         Modifier
                       </button>
+                      <button
+                        className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                        type="button"
+                        onClick={() =>
+                          history.push(`/admin/Profile/${user._id}`)
+                        }
+                      >
+                        <FaUserCog
+                          className="mr-2"
+                          style={{ fontSize: '20px' }}
+                        />
+                        Profile
+                      </button>
                       {user.etat === false ? (
                         <button
                           className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
