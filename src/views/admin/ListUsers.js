@@ -445,6 +445,7 @@ export default function ListUsers ({ color }) {
     closetoggleDropdownrole()
     closetoggleDropdownn()
     closetoggleDropdownupgrate()
+    closetoggleDropdowntrie()
   }
 
   const [dropdownOpenupgrate, setDropdownOpenupgrate] = useState(false) // Utilisation du même état pour les deux composants
@@ -457,6 +458,51 @@ export default function ListUsers ({ color }) {
   const closetoggleDropdownupgrate = () => {
     setDropdownOpenrole(false) // Inversion de l'état de dropdownOpen
   }
+
+
+  const sortUsersByName = () => {
+    closetoggleDropdowntrie()
+    const sorted = [...users].sort((a, b) => {
+      // Assurez-vous d'accéder aux champs nom ou prénom selon votre besoin
+      const nameA = a.nom.toLowerCase();
+      const nameB = b.nom.toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
+    setUsers(sorted);
+  };
+  const sortUsersBylastName = () => {
+    closetoggleDropdowntrie()
+    const sorted = [...users].sort((a, b) => {
+      if (a.prenom && b.prenom) {
+        return a.prenom.localeCompare(b.prenom);
+      }
+      return 0;
+    });
+    setUsers(sorted);
+  };
+
+  const sortUsersBylcreatedAt = () => {
+    closetoggleDropdowntrie()
+    const sorted = [...users].sort((a, b) => {
+      if (a.createdAt && b.createdAt) {
+        return b.createdAt.localeCompare(a.createdAt);
+      }
+      return 0;
+    });
+    setUsers(sorted);
+  };
+
+  const [dropdownOpentrie, setDropdownOpentrie] = useState(false) // Utilisation du même état pour les deux composants
+
+  const toggleDropdowntrie = () => {
+    // closeDropdownPopover()
+    setDropdownOpentrie(!dropdownOpentrie) // Inversion de l'état de dropdownOpen
+  }
+
+  const closetoggleDropdowntrie = () => {
+    setDropdownOpentrie(false) // Inversion de l'état de dropdownOpen
+  }
+
 
   return (
     <>
@@ -692,7 +738,6 @@ export default function ListUsers ({ color }) {
                                     className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
                                     type="button"
                                     onClick={() => getAllcentre(config)}
-
                                   >
                                     <div className="text-left">
                                       <FaSchool
@@ -715,7 +760,6 @@ export default function ListUsers ({ color }) {
                                       Formateur
                                     </div>
                                   </button>
-
                                   <button
                                     className="text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-white"
                                     type="button"
@@ -742,7 +786,6 @@ export default function ListUsers ({ color }) {
                                       />
                                     Administrateur
                                     </div>
-
                                   </button>
                                 </div>
                               )}
@@ -768,6 +811,46 @@ export default function ListUsers ({ color }) {
                                 Liste d'utilisateurs archiver
                               </button>
                             </div>
+                            <button
+                              className="bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={toggleDropdowntrie} // Appel de la fonction toggleDropdown pour changer l'état
+                            >
+                              <div className="flex items-center">
+                                Trie_par
+                                <FaAngleDown className="ml-3"/>
+                              </div>
+                            </button>
+                            {/* Contenu du dropdown */}
+                            {dropdownOpentrie && (
+                              <div
+                                className="absolute bg-indigo-500 text-base z-50  list-none text-left rounded shadow-lg "
+                                style={{ marginLeft: '160px' , marginTop: '35px'}}
+                                >
+                                {/* Options du dropdown */}
+                                <button
+                                  onClick={sortUsersByName}
+                                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                                  type="button"
+                                >
+                                  Nom
+                                </button>
+                                <button
+                                  onClick={sortUsersBylastName}
+                                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                                  type="button"
+                                >
+                                  Prenom
+                                </button>
+                                <button
+                                  onClick={sortUsersBylcreatedAt}
+                                  className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-no-wrap bg-transparent text-white"
+                                  type="button"
+                                >
+                                  plus_recent
+                                </button>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
