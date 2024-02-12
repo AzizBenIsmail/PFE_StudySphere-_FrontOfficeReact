@@ -7,6 +7,9 @@ import { getUserAuth } from '../Services/Apiauth'
 import { useHistory, useParams } from 'react-router-dom'
 import { FaUserCog } from 'react-icons/fa'
 import { getUserByID } from '../Services/ApiUser'
+import { MdMarkEmailRead } from 'react-icons/md'
+import { TbUserHexagon } from 'react-icons/tb'
+import { SiVerizon, SiVexxhost } from 'react-icons/si'
 
 export default function Profile() {
   const jwt_token = Cookies.get('jwt_token')
@@ -166,11 +169,38 @@ export default function Profile() {
                 </div>
                 <div className="text-center mt-12">
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                    Jenna Stones
+                    {User.nom} {User.prenom}
                   </h3>
                   <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                    <MdMarkEmailRead className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"
+                                     style={{ fontSize: '25px' }}/>
+                    {User.email}
+                  </div>
+                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                    <TbUserHexagon className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"
+                                   style={{ fontSize: '25px' }}/>
+                    {User.role}
+                  </div>
+                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                     <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>{" "}
-                    Los Angeles, California
+                    {User.emplacement_actuelle === undefined ? (
+                      "non saisire"
+                    ) : (
+                      User.emplacement_actuelle
+                    )}                  </div>
+                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                    <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>{" "}
+                    {User.etat ? (
+                      <div className="flex items-center"  style={{ fontSize: '18px' }}>
+                        <SiVerizon className=""  />
+                        <div className=" leading-normal uppercase text-lg">Compte Active</div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center "  style={{ fontSize: '18px' }}>
+                        <SiVexxhost className="" />
+                        "<div className="leading-normal uppercase text-lg">"Compte Desactive</div>
+                      </div>
+                    )}
                   </div>
                   <div className="mb-2 text-blueGray-600 mt-10">
                     <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
