@@ -1726,6 +1726,10 @@ select {
   margin-left: 0.75rem;
 }
 
+.ml-4 {
+  margin-left: 1.75rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
@@ -1806,6 +1810,14 @@ select {
   margin-left: auto;
 }
 
+.ml-800 {
+  margin-left: 800px;
+}
+
+.ml-50 {
+  margin-left: 50px;
+}
+
 .-ml-4 {
   margin-left: -1rem;
 }
@@ -1817,6 +1829,7 @@ select {
 .-ml-20 {
   margin-left: -5rem;
 }
+
 
 .-mt-24 {
   margin-top: -6rem;
