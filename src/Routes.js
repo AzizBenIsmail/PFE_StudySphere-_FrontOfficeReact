@@ -9,6 +9,7 @@ const Auth = lazy(() => import("layouts/Auth.js"));
 // views without layouts
 const Landing = lazy(() => import("views/Landing.js"));
 const Profile = lazy(() => import("views/Profile.js"));
+const Modifierutilisateur = lazy(() => import("views/client/Modifierutilisateur.js"));
 const Index = lazy(() => import("views/Index.js"));
 
 function Routes() {
@@ -22,6 +23,7 @@ function Routes() {
           {/* add routes without layouts */}
           <Route path="/landing" exact component={Landing} />
           <Route path="/profile" exact component={Profile} />
+          <Route path="/edit/:id" exact component={Modifierutilisateur} />
           <Route path="/" exact component={Index} />
           {/*<Route path="/" component={Auth} />*/}
           {/* add redirect for first page */}

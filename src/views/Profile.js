@@ -1,9 +1,68 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from 'react'
+import Cookies from 'js-cookie'
 
-import Navbar from "components/Navbars/AuthNavbar.js";
+import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footers/Footer.js";
+import { getUserAuth } from '../Services/Apiauth'
+import { useHistory, useParams } from 'react-router-dom'
+import { FaUserCog } from 'react-icons/fa'
+import { getUserByID } from '../Services/ApiUser'
+import { MdMarkEmailRead } from 'react-icons/md'
+import { TbUserHexagon } from 'react-icons/tb'
+import { SiVerizon, SiVexxhost } from 'react-icons/si'
 
 export default function Profile() {
+  const jwt_token = Cookies.get('jwt_token')
+  const history = useHistory();
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    }
+  }, [jwt_token])
+
+  //session
+  if (Cookies.get('jwt_token')) {
+    const fetchData = async () => {
+      try {
+        await getUserAuth(config).then((res) => {
+          if (res.data.user.role === 'admin') {
+            window.location.replace(`/admin/`)
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
+  }else{
+    window.location.replace(`/`)
+  }
+
+  const param = useParams()
+
+  const [User, setUser] = useState({})
+
+  useEffect(() => {
+
+    const getUser = async (config) => {
+      await getUserAuth(config).then((res) => {
+        setUser(res.data.user)
+        console.log(res.data.user)
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+
+    getUser(config)
+
+    const interval = setInterval(() => {}, 1000000)
+
+    return () => clearInterval(interval)
+  }, [config, param.id])
+
   return (
     <>
       <Navbar transparent />
@@ -60,9 +119,23 @@ export default function Profile() {
                       <button
                         className="bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                         type="button"
+                        onClick={() =>
+                          history.push(`/edit/${User._id}?u=${User.role.toLowerCase()}`)
+                        }
                       >
-                        Connect
+                        Edit
                       </button>
+                      {/*<button*/}
+                      {/*  className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"*/}
+                      {/*  type="button"*/}
+
+                      {/*>*/}
+                      {/*  <FaUserCog*/}
+                      {/*    className="mr-2"*/}
+                      {/*    style={{ fontSize: '20px' }}*/}
+                      {/*  />*/}
+                      {/*  Edit*/}
+                      {/*</button>*/}
                     </div>
                   </div>
                   <div className="w-full lg:w-4/12 px-4 lg:order-1">
@@ -96,11 +169,38 @@ export default function Profile() {
                 </div>
                 <div className="text-center mt-12">
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                    Jenna Stones
+                    {User.nom} {User.prenom}
                   </h3>
                   <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                    <MdMarkEmailRead className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"
+                                     style={{ fontSize: '25px' }}/>
+                    {User.email}
+                  </div>
+                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                    <TbUserHexagon className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"
+                                   style={{ fontSize: '25px' }}/>
+                    {User.role}
+                  </div>
+                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                     <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>{" "}
-                    Los Angeles, California
+                    {User.emplacement_actuelle === undefined ? (
+                      "non saisire"
+                    ) : (
+                      User.emplacement_actuelle
+                    )}                  </div>
+                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                    <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>{" "}
+                    {User.etat ? (
+                      <div className="flex items-center"  style={{ fontSize: '18px' }}>
+                        <SiVerizon className=""  />
+                        <div className=" leading-normal uppercase text-lg">Compte Active</div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center "  style={{ fontSize: '18px' }}>
+                        <SiVexxhost className="" />
+                        "<div className="leading-normal uppercase text-lg">"Compte Desactive</div>
+                      </div>
+                    )}
                   </div>
                   <div className="mb-2 text-blueGray-600 mt-10">
                     <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
