@@ -106,6 +106,9 @@ export async function archiver (id, config) {
   return await axios.put(`${apiURL}/archiver`, { id }, config)
 }
 
+export async function desarchiver (id, config) {
+  return await axios.put(`${apiURL}/desarchiver`, { id }, config)
+}
 
 export async function downgrade(id, config) {
   return await axios.put(`${ apiURL }/downgrade`, {id}, config);

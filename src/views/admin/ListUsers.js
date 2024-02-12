@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { SiVerizon, SiVexxhost } from 'react-icons/si'
-import { FaAngleDown, FaArchive, FaChevronDown, FaMinusCircle, FaUserAltSlash, FaUserCog, } from 'react-icons/fa'
+import { FaAngleDown, FaArchive, FaChevronDown, FaMinusCircle, FaUserAltSlash, FaUserCog, FaRegUserCircle  } from 'react-icons/fa'
 import { MagnifyingGlass, Puff } from 'react-loader-spinner'
 // components
 import { GiTeacher } from 'react-icons/gi'
@@ -31,7 +31,8 @@ import {
   getUsersarchive,
   upgrade,
   upgradeFormateur,
-  upgradeModerateur
+  upgradeModerateur,
+  desarchiver,
 } from '../../Services/ApiUser'
 import { AiOutlineReload } from 'react-icons/ai'
 import { createPopper } from '@popperjs/core'
@@ -270,7 +271,15 @@ export default function ListUsers ({ color }) {
       getAllUsers(config)
     }, 1000) // Appeler getAllUsers(config) après un délai de 2 secondes
   }
-
+  const desarchiveruser = async (user, config) => {
+    closealltoggleDropdown()
+    console.log(user)
+    closeDropdown(user._id)
+    desarchiver(user._id, config)
+    setTimeout(() => {
+      getAllUsers(config)
+    }, 1000) // Appeler getAllUsers(config) après un délai de 2 secondes
+  }
   const downgradeAuser = async (user, config) => {
     closealltoggleDropdown()
     closeDropdown(user._id)
@@ -1219,7 +1228,6 @@ export default function ListUsers ({ color }) {
                           ) : null}
                         </div>
                       )}
-                      {user.statu === 'true' ? (
                         <button
                           onClick={() => archiveruser(user, config)}
                           className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
@@ -1231,9 +1239,8 @@ export default function ListUsers ({ color }) {
                           />
                           <span>Archiver</span>
                         </button>
-                      ) : (
                         <button
-                          onClick={() => archiveruser(user, config)}
+                          onClick={() => desarchiveruser(user, config)}
                           className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
                           type="button"
                         >
@@ -1243,7 +1250,6 @@ export default function ListUsers ({ color }) {
                           />
                           <span>DesArchiver</span>
                         </button>
-                      )}
                       <button
                         className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
                         type="button"
@@ -1264,11 +1270,11 @@ export default function ListUsers ({ color }) {
                           history.push(`/admin/Profile/${user._id}`)
                         }
                       >
-                        <FaUserCog
+                        <FaRegUserCircle
                           className="mr-2"
                           style={{ fontSize: '20px' }}
                         />
-                        Profile
+                        Voir Details Profile
                       </button>
                       {user.etat === false ? (
                         <button
