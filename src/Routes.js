@@ -23,7 +23,7 @@ function Routes() {
           {/* add routes without layouts */}
           <Route path="/landing" exact component={Landing} />
           <Route path="/profile" exact component={Profile} />
-          <Route path="/edit" exact component={Modifierutilisateur} />
+          <Route path="/edit/:id" exact component={Modifierutilisateur} />
           <Route path="/" exact component={Index} />
           {/*<Route path="/" component={Auth} />*/}
           {/* add redirect for first page */}
