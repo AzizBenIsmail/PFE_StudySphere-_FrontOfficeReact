@@ -5,8 +5,8 @@ import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footers/Footer.js";
 import { getUserAuth } from '../Services/Apiauth'
 import { useHistory, useParams } from 'react-router-dom'
-import { FaUserCog } from 'react-icons/fa'
-import { getUserByID } from '../Services/ApiUser'
+  // import { FaUserCog } from 'react-icons/fa'
+  // import { getUserByID } from '../Services/ApiUser'
 import { MdMarkEmailRead } from 'react-icons/md'
 import { TbUserHexagon } from 'react-icons/tb'
 import { SiVerizon, SiVexxhost } from 'react-icons/si'

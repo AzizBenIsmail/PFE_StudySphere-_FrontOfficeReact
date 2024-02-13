@@ -1228,28 +1228,33 @@ export default function ListUsers ({ color }) {
                           ) : null}
                         </div>
                       )}
-                        <button
-                          onClick={() => archiveruser(user, config)}
-                          className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
-                          type="button"
-                        >
-                          <FaArchive
-                            className="mr-2"
-                            style={{ fontSize: '20px' }}
-                          />
-                          <span>Archiver</span>
-                        </button>
-                        <button
-                          onClick={() => desarchiveruser(user, config)}
-                          className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
-                          type="button"
-                        >
-                          <FaArchive
-                            className="mr-2"
-                            style={{ fontSize: '20px' }}
-                          />
-                          <span>DesArchiver</span>
-                        </button>
+                      { user.archivage ? (
+                          <button
+                            onClick={() => desarchiveruser(user, config)}
+                            className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                            type="button"
+                          >
+                            <FaArchive
+                              className="mr-2"
+                              style={{ fontSize: '20px' }}
+                            />
+                            <span>DesArchiver</span>
+                          </button>
+                      ) :
+                        (
+                          <button
+                            onClick={() => archiveruser(user, config)}
+                            className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                            type="button"
+                          >
+                            <FaArchive
+                              className="mr-2"
+                              style={{ fontSize: '20px' }}
+                            />
+                            <span>Archiver</span>
+                          </button>
+                        )
+                      }
                       <button
                         className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
                         type="button"
@@ -1343,20 +1348,45 @@ export default function ListUsers ({ color }) {
                 <i className="fas fa-chevron-left -ml-px"></i>
               </button>
             </li>
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <li key={index}>
-                <button
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 ${
-                    currentPage === index + 1
-                      ? 'bg-lightBlue-500 text-white'
-                      : 'bg-white text-lightBlue-500'
-                  }`}
-                >
-                  {index + 1}
-                </button>
-              </li>
-            ))}
+            {Array.from({ length: totalPages }).map((_, index) => {
+              // Afficher uniquement les numéros de page proches de la page actuelle
+              if (
+                index === 0 || // Première page
+                index === totalPages - 1 || // Dernière page
+                Math.abs(index + 1 - currentPage) <= 2 || // Pages proches de la page actuelle
+                (index + 1 <= 2 && currentPage <= 3) || // Premières pages
+                (index + 1 >= totalPages - 2 && currentPage >= totalPages - 2) // Dernières pages
+              ) {
+                return (
+                  <li key={index}>
+                    <button
+                      onClick={() => setCurrentPage(index + 1)}
+                      className={`first:ml-0 text-xs font-semibold flex w-8 h-8 mx-1 p-0 rounded-full items-center justify-center leading-tight relative border border-solid border-lightBlue-500 ${
+                        currentPage === index + 1
+                          ? 'bg-lightBlue-500 text-white'
+                          : 'bg-white text-lightBlue-500'
+                      }`}
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                );
+              } else if (
+                // Ajouter des points de suspension entre les numéros de page
+                (index === 1 && currentPage > 4) ||
+                (index === totalPages - 2 && currentPage < totalPages - 3)
+              ) {
+                return (
+                  <li key={index}>
+                    <span className="text-xs mx-1">...</span>
+                  </li>
+                );
+              }
+              // Retour par défaut pour éviter l'erreur
+              return null;
+            })}
+
+
             <li>
               <button
                 onClick={goToNextPage}
