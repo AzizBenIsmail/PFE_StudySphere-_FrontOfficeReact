@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from "react";
 
 // components
-import Cookies from 'js-cookie'
-import { getUserAuth, } from '../../Services/Apiauth'
-import { getUserByID, updatecentre, updateUser } from '../../Services/ApiUser'
+import Cookies from "js-cookie";
+import { getUserAuth } from "../../Services/Apiauth";
+import { getUserByID, updatecentre, updateUser } from "../../Services/ApiUser";
 
-import { useLocation, useParams } from 'react-router-dom'
-import Navbar from '../../components/Navbars/Navbar'
-import Footer from '../../components/Footers/FooterAdmin'
+import { useLocation, useParams } from "react-router-dom";
+import Navbar from "../../components/Navbars/Navbar";
+import Footer from "../../components/Footers/FooterAdmin";
 // import { NotificationManager } from 'react-notifications'
 
 // import CardLineChart from "components/Cards/CardLineChart.js";
@@ -15,247 +15,247 @@ import Footer from '../../components/Footers/FooterAdmin'
 // import CardPageVisits from "components/Cards/CardPageVisits.js";
 // import CardSocialTraffic from "components/Cards/CardSocialTraffic.js";
 
-export default function Dashboard () {
+export default function Dashboard() {
   //cookies
-  const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = Cookies.get("jwt_token");
 
   const config = useMemo(() => {
     return {
       headers: {
         Authorization: `Bearer ${jwt_token}`,
       },
-    }
-  }, [jwt_token])
+    };
+  }, [jwt_token]);
 
   //session
-  if (Cookies.get('jwt_token')) {
+  if (Cookies.get("jwt_token")) {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin/`)
+          if (res.data.user.role === "admin") {
+            window.location.replace(`/admin/`);
           }
-        })
+        });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-    fetchData()
+    };
+    fetchData();
   } else {
-    window.location.replace(`/`)
+    window.location.replace(`/`);
   }
 
-  const location = useLocation()
-  const message = new URLSearchParams(location.search).get('u')
-  const param = useParams()
+  const location = useLocation();
+  const message = new URLSearchParams(location.search).get("u");
+  const param = useParams();
 
   useEffect(() => {
-    console.log(message)
+    console.log(message);
 
     const getUser = async (config) => {
-      await getUserByID(param.id, config).then((res) => {
-        setUser(res.data.user)
-        console.log(res.data.user)
-      }).catch((err) => {
-        console.log(err)
-      })
-    }
+      await getUserByID(param.id, config)
+        .then((res) => {
+          setUser(res.data.user);
+          console.log(res.data.user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
-    getUser(config)
+    getUser(config);
 
-    const interval = setInterval(() => {}, 1000000)
+    const interval = setInterval(() => {}, 1000000);
 
-    return () => clearInterval(interval)
-  }, [config, message, param.id])
+    return () => clearInterval(interval);
+  }, [config, message, param.id]);
 
-  const [n, setN] = useState(0) // Ajout de la variable n
-  const [emailError, setEmailError] = useState('')
-  const [image, setImage] = useState()
+  const [n, setN] = useState(0); // Ajout de la variable n
+  const [emailError, setEmailError] = useState("");
+  const [image, setImage] = useState();
 
   const [User, setUser] = useState({
     role: message,
-  })
+  });
 
-  const [passwordStrength, setPasswordStrength] = useState(0)
+  const [passwordStrength, setPasswordStrength] = useState(0);
 
   const handlePasswordChange = (e) => {
-    const newPassword = e.target.value
-    setUser({ ...User, password: newPassword })
+    const newPassword = e.target.value;
+    setUser({ ...User, password: newPassword });
 
-    const strengthCode = checkPasswordStrength(newPassword, User.nom)
-    setPasswordStrength(strengthCode)
-  }
+    const strengthCode = checkPasswordStrength(newPassword, User.nom);
+    setPasswordStrength(strengthCode);
+  };
 
   const handlechange = (e) => {
-    setUser({ ...User, [e.target.name]: e.target.value })
+    setUser({ ...User, [e.target.name]: e.target.value });
     // console.log(User)
 
-    if (e.target.name === 'email') {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      const isValidEmail = emailRegex.test(e.target.value)
+    if (e.target.name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValidEmail = emailRegex.test(e.target.value);
 
       if (!isValidEmail) {
-        setEmailError('Veuillez entrer une adresse e-mail valide.')
+        setEmailError("Veuillez entrer une adresse e-mail valide.");
       } else {
-        setEmailError('')
+        setEmailError("");
       }
     }
-  }
+  };
 
   const handlechangeFile = (e) => {
-    setImage(e.target.files[0])
-    console.log(e.target.files[0])
-  }
+    setImage(e.target.files[0]);
+    console.log(e.target.files[0]);
+  };
 
   const checkPasswordStrength = (password, nom) => {
-    const hasUppercase = /[A-Z]/.test(password)
-    const hasLowercase = /[a-z]/.test(password)
-    const hasDigit = /\d/.test(password)
-    const normalizedNom = nom.toLowerCase()
-    const passwordLowerCase = password.toLowerCase()
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasDigit = /\d/.test(password);
+    const normalizedNom = nom.toLowerCase();
+    const passwordLowerCase = password.toLowerCase();
 
     if (password.length === 0) {
-      return 0 // Le nom existe dans le mot de passe (Faible)
+      return 0; // Le nom existe dans le mot de passe (Faible)
     } else if (passwordLowerCase.includes(normalizedNom)) {
-      return 1 // Le nom existe dans le mot de passe (Faible)
+      return 1; // Le nom existe dans le mot de passe (Faible)
     } else if (password.length < 3) {
-      return 1 // Faible
+      return 1; // Faible
     } else if (password.length < 8) {
-      return 2 // Faible
+      return 2; // Faible
     } else if (hasUppercase && hasLowercase && hasDigit) {
-      return 4 // Très fort (ajoutez vos propres critères)
+      return 4; // Très fort (ajoutez vos propres critères)
     } else {
-      return 2 // Moyen
+      return 2; // Moyen
     }
-  }
+  };
 
   const getStrengthColor = (strength) => {
     switch (strength) {
       case 0:
-        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500'
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500";
       case 1:
-        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500'
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500";
       case 2:
-        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500'
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500";
       case 3:
-        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500'
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500";
       case 4:
-        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500'
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500";
       default:
-        return 'shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500'
+        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500";
     }
-  }
+  };
 
   const getColor = (strength) => {
     switch (strength) {
       case 0:
-        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200'
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200";
       case 1:
-        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200'
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200";
       case 2:
-        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-orange-200'
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-orange-200";
       case 3:
-        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200'
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200";
       case 4:
-        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-emerald-200'
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-emerald-200";
       default:
-        return 'overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200'
+        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200";
     }
-  }
-  const [messageerr, setmessageerr] = useState()
+  };
+  const [messageerr, setmessageerr] = useState();
 
   const add = async (e) => {
-    const normalizedNom = User.nom.toLowerCase()
-    const passwordLowerCase = User.password.toLowerCase()
+    const normalizedNom = User.nom.toLowerCase();
+    const passwordLowerCase = User.password.toLowerCase();
     if (
-      User.nom === '' &&
-      User.prenom === '' &&
-      User.password === '' &&
-      User.email === ''
+      User.nom === "" &&
+      User.prenom === "" &&
+      User.password === "" &&
+      User.email === ""
     ) {
-      setN(4) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '' && User.prenom === '') {
-      setN(5) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.prenom === '' && User.password === '') {
-      setN(6) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '' && User.password === '') {
-      setN(7) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '') {
-      setN(1) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.prenom === '') {
-      setN(2)
-    } else if (User.password === '') {
-      setN(3)
+      setN(4); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "" && User.prenom === "") {
+      setN(5); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.prenom === "" && User.password === "") {
+      setN(6); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "" && User.password === "") {
+      setN(7); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "") {
+      setN(1); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.prenom === "") {
+      setN(2);
+    } else if (User.password === "") {
+      setN(3);
     } else if (passwordLowerCase.includes(normalizedNom)) {
-      setN(8)
-    } else if (emailError !== '') {
-      setN(9)
+      setN(8);
+    } else if (emailError !== "") {
+      setN(9);
     } else {
-      const res = await updateUser(User, config)
-      console.log(res.data)
+      const res = await updateUser(User, config);
+      console.log(res.data);
       if (res.data.message === undefined) {
-        window.location.replace(`/admin/tables/`)
+        window.location.replace(`/admin/tables/`);
       } else {
-        setmessageerr(res.data.message)
+        setmessageerr(res.data.message);
       }
     }
-  }
+  };
 
-  let formData = new FormData()
+  let formData = new FormData();
   const addCentre = async (e) => {
-    const normalizedNom = User.nom.toLowerCase()
-    const passwordLowerCase = User.password.toLowerCase()
-    if (emailError === 'Veuillez entrer une adresse e-mail valide.') {
-    } else if (User.nom === '' && User.email === '' && User.password === '') {
-      setN(4) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '' && User.email === '') {
-      setN(5) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.email === '' && User.password === '') {
-      setN(6) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '' && User.password === '') {
-      setN(7) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '') {
-      setN(1) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.email === '') {
-      setN(2)
-    } else if (User.password === '') {
-      setN(3)
+    const normalizedNom = User.nom.toLowerCase();
+    const passwordLowerCase = User.password.toLowerCase();
+    if (emailError === "Veuillez entrer une adresse e-mail valide.") {
+    } else if (User.nom === "" && User.email === "" && User.password === "") {
+      setN(4); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "" && User.email === "") {
+      setN(5); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.email === "" && User.password === "") {
+      setN(6); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "" && User.password === "") {
+      setN(7); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "") {
+      setN(1); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.email === "") {
+      setN(2);
+    } else if (User.password === "") {
+      setN(3);
     } else if (passwordLowerCase.includes(normalizedNom)) {
-      setN(8)
+      setN(8);
     } else {
-      formData.append('email', User.email)
-      formData.append('nom', User.nom)
-      formData.append('prenom', User.prenom)
-      formData.append('password', User.password)
+      formData.append("email", User.email);
+      formData.append("nom", User.nom);
+      formData.append("prenom", User.prenom);
+      formData.append("password", User.password);
       if (image === undefined) {
-        setN(9)
+        setN(9);
       } else {
-        formData.append('image_user', image, `${User.nom}+.png`)
-        const res = await updatecentre(formData, User._id, config)
-        console.log(res.data)
+        formData.append("image_user", image, `${User.nom}+.png`);
+        const res = await updatecentre(formData, User._id, config);
+        console.log(res.data);
         if (res.data.message === undefined) {
-          window.location.replace(`/admin/tables/`)
+          window.location.replace(`/admin/tables/`);
         } else {
-          setmessageerr(res.data.message)
-          console.log(res.data.message)
+          setmessageerr(res.data.message);
+          console.log(res.data.message);
           // showNotification('error', res.data.message, 'Erreur')
         }
       }
     }
-  }
-
-
+  };
 
   return (
     <>
-      <Navbar transparent/>
+      <Navbar transparent />
       <main className="profile-page">
         <section className="relative block h-500-px">
           <div
             className="absolute top-0 w-full h-full bg-center bg-cover"
             style={{
               backgroundImage:
-                'url(\'https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80\')',
+                "url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80')",
             }}
           >
             <span
@@ -265,7 +265,7 @@ export default function Dashboard () {
           </div>
           <div
             className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
-            style={{ transform: 'translateZ(0)' }}
+            style={{ transform: "translateZ(0)" }}
           >
             <svg
               className="absolute bottom-0 overflow-hidden"
@@ -304,7 +304,16 @@ export default function Dashboard () {
                     <button
                       className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={message === "client" || message === "formateur" || message === "admin" || message === "moderateur" ? (e) => add(e) : message === "centre" ? (e) => addCentre(e) : null}
+                      onClick={
+                        message === "client" ||
+                        message === "formateur" ||
+                        message === "admin" ||
+                        message === "moderateur"
+                          ? (e) => add(e)
+                          : message === "centre"
+                          ? (e) => addCentre(e)
+                          : null
+                      }
                     >
                       Modifier
                       {message === "client" ? (
@@ -346,16 +355,15 @@ export default function Dashboard () {
                             label="nom"
                             aria-label="nom"
                             value={User.nom}
-
                           />
                           {n === 1 ||
                           n === 4 ||
                           n === 5 ||
                           n === 7 ||
                           messageerr ===
-                          "Le Nom doit contenir plus de 3 caractères" ||
+                            "Le Nom doit contenir plus de 3 caractères" ||
                           messageerr ===
-                          "Le Nom doit contenir moins de 15 caractères" ? (
+                            "Le Nom doit contenir moins de 15 caractères" ? (
                             <label style={{ color: "red" }}>
                               Le Nom doit contenir plus de 3 et moin de 15
                             </label>
@@ -364,7 +372,10 @@ export default function Dashboard () {
                           )}
                         </div>
                       </div>
-                      {message === "client" || message === "formateur" || message === "moderateur" || message === "admin" ? (
+                      {message === "client" ||
+                      message === "formateur" ||
+                      message === "moderateur" ||
+                      message === "admin" ? (
                         <div className="w-full lg:w-6/12 px-4">
                           <div className="relative w-full mb-3">
                             <label
@@ -384,16 +395,15 @@ export default function Dashboard () {
                               label="prenom"
                               aria-label="prenom"
                               value={User.prenom}
-
                             />
                             {n === 2 ||
                             n === 4 ||
                             n === 5 ||
                             n === 6 ||
                             messageerr ===
-                            "Le Prenom doit contenir plus de 3 characters" ||
+                              "Le Prenom doit contenir plus de 3 characters" ||
                             messageerr ===
-                            "Le Prenom doit contenir plus de 15 characters" ? (
+                              "Le Prenom doit contenir plus de 15 characters" ? (
                               <label style={{ color: "red" }}>
                                 Le Prenom doit contenir plus de 3 et moin de 15
                               </label>
@@ -430,7 +440,7 @@ export default function Dashboard () {
                             )}
                           </div>
                         </div>
-                      ): null}
+                      ) : null}
 
                       <div className="w-full lg:w-6/12 px-4">
                         <div className="relative w-full mb-3">
@@ -489,16 +499,15 @@ export default function Dashboard () {
                             label="Password"
                             aria-label="Password"
                             // value={User.password}
-
                           />
                           {n === 3 ||
                           n === 4 ||
                           n === 6 ||
                           n === 7 ||
                           messageerr ===
-                          "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
+                            "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
                           messageerr ===
-                          "Le Mot de passe doit contenir au moins 8 caractères" ? (
+                            "Le Mot de passe doit contenir au moins 8 caractères" ? (
                             <label style={{ color: "red" }}>
                               Le Mot de passe doit contenir au moins une lettre
                               majuscule, une lettre minuscule, un chiffre et un
@@ -507,8 +516,8 @@ export default function Dashboard () {
                             </label>
                           ) : n === 8 ? (
                             <label style={{ color: "red" }}>
-                              Il est important de ne pas inclure ton nom dans le mot
-                              de passe. Nom dans le mot de passe
+                              Il est important de ne pas inclure ton nom dans le
+                              mot de passe. Nom dans le mot de passe
                             </label>
                           ) : (
                             ""
@@ -519,7 +528,9 @@ export default function Dashboard () {
                                 style={{
                                   width: `${(passwordStrength / 3) * 100}%`,
                                 }}
-                                className={`${getStrengthColor(passwordStrength)}`}
+                                className={`${getStrengthColor(
+                                  passwordStrength
+                                )}`}
                               ></div>
                             </div>
                           </div>
@@ -626,7 +637,8 @@ export default function Dashboard () {
         </section>
       </main>
       <div className="py-41">
-        <Footer/></div>
+        <Footer />
+      </div>
     </>
-  )
+  );
 }
