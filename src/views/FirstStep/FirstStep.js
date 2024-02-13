@@ -1,41 +1,129 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3 } from 'react-icons/tb'
-import { FaEthereum } from 'react-icons/fa'
+import React from "react";
+// import { Link } from 'react-router-dom'
+import {
+  TbCircleNumber1,
+  TbCircleNumber2,
+  TbCircleNumber3,
+} from "react-icons/tb";
+import { BiBeenHere, BiSolidBeenHere } from "react-icons/bi";
+import { useLocation } from "react-router-dom";
 
-export default function FirstStep () {
-
+export default function FirstStep() {
+  const location = useLocation();
+  const Step = new URLSearchParams(location.search).get("n");
   return (
     <>
       <div className=" container mx-auto px-1 h-full ">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-9/12 px-1 ">
-            <div
-              className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-800 border-0">
-              <div className="rounded-t mb-0 px-6 py-6">
-                <div className="text-center mb-3">
+            <div className="relative flex flex-col min-w-0 break-words w-full  shadow-lg rounded-lg bg-blueGray-800 border-0">
+              <div className="rounded-t  px-6 py-6">
+                <div className="text-center ">
                   <h6 className="text-blueGray-500 text-sm font-bold">
                     Sign in with
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
                   <div className="relative">
-                    <FaEthereum style={{ fontSize: '30px' }} color="#4fa94d"
-                    />
+                    <div className="flex items-center">
+                      {Step === "1" ? (
+                        <BiSolidBeenHere
+                          style={{ fontSize: "30px" }}
+                          color="#4fa94d"
+                        />
+                      ) : Step === "2" ? (
+                        <BiBeenHere
+                          style={{ fontSize: "30px", marginLeft: "440px" }}
+                          color="#4fa94d"
+                        />
+                      ) : (
+                        <BiBeenHere
+                          style={{ fontSize: "30px", marginLeft: "881px" }}
+                          color="#4fa94d"
+                        />
+                      )}
+                    </div>
+
                     <div className="flex items-center justify-between w-full">
-                      <TbCircleNumber1 style={{ fontSize: '30px' }} className="text-white "/>
-                      <div className="h-2 w-16 bg-lightBlue-200" style={{ width: '50%' }}></div>
+                      {Step === "1" ? (
+                        <>
+                          <TbCircleNumber1
+                            style={{ fontSize: "30px" }}
+                            className="text-white "
+                            color="#4fa94d"
+                          />
+                          <div
+                            className="h-2 w-16 bg-lightBlue-200"
+                            style={{ width: "50%" }}
+                          ></div>
+                          <TbCircleNumber2
+                            style={{ fontSize: "30px" }}
+                            className="text-white "
+                          />
+                          <div
+                            className="h-2 w-16 bg-lightBlue-200 "
+                            style={{ width: "50%" }}
+                          ></div>
+                          <TbCircleNumber3
+                            style={{ fontSize: "30px" }}
+                            className="text-white "
+                          />
+                        </>
+                      ) : Step === "2" ? (
+                        <>
+                          <TbCircleNumber1
+                            style={{ fontSize: "30px" }}
+                            className="text-white "
+                          />
+                          <div
+                            className="h-2 w-16 bg-lightBlue-500"
+                            style={{ width: "50%" }}
+                          ></div>
+                          <TbCircleNumber2
+                            style={{ fontSize: "30px" }}
+                            color="#4fa94d"
+                            className="text-white "
+                          />
+                          <div
+                            className="h-2 w-16 bg-lightBlue-200 "
+                            style={{ width: "50%" }}
+                          ></div>
+                          <TbCircleNumber3
+                            style={{ fontSize: "30px" }}
+                            className="text-white "
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <TbCircleNumber1
+                            style={{ fontSize: "30px" }}
+                            className="text-white "
+                          />
+                          <div
+                            className="h-2 w-16 bg-lightBlue-500"
+                            style={{ width: "50%" }}
+                          ></div>
+                          <TbCircleNumber2
+                            style={{ fontSize: "30px" }}
+                            className="text-white "
+                          />
+                          <div
+                            className="h-2 w-16 bg-lightBlue-500 "
+                            style={{ width: "50%" }}
+                          ></div>
+                          <TbCircleNumber3
+                            style={{ fontSize: "30px" }}
+                            color="#4fa94d"
+                            className="text-white "
+                          />
+                        </>
+                      )}
 
-                      <TbCircleNumber2 style={{ fontSize: '30px' }} className="text-white "/>
 
-                      <div className="h-2 w-16 bg-lightBlue-200 " style={{ width: '50%' }}></div>
-                      <TbCircleNumber3 style={{ fontSize: '30px' }} className="text-white "/>
                     </div>
                   </div>
-
-
                 </div>
-                <hr className="mt-6 border-b-1 border-blueGray-300"/>
+                <hr className="mt-6 border-b-1 border-blueGray-300" />
               </div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                 <div className="text-blueGray-400 text-center mb-3 font-bold">
@@ -82,7 +170,7 @@ export default function FirstStep () {
                     </label>
                   </div>
 
-                  <div className="text-center mt-6">
+                  <div className="text-center mt-4">
                     {/* <Link to="/landing"> */}
                     <button
                       className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
@@ -96,24 +184,9 @@ export default function FirstStep () {
                 </form>
               </div>
             </div>
-            <div className="flex flex-wrap mt-6 relative">
-              <div className="w-1/2">
-                <Link
-                  to="/auth/email"
-                  className="text-blueGray-200"
-                >
-                  <small>Forgot password?</small>
-                </Link>
-              </div>
-              <div className="w-1/2 text-right">
-                <Link to="/auth/register" className="text-blueGray-200">
-                  <small>Create new account</small>
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }
