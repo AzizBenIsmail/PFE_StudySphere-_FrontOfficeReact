@@ -27,20 +27,47 @@ export default function FirstStep() {
                   <div className="relative">
                     <div className="flex items-center">
                       {Step === "1" ? (
+                        <>
                         <BiSolidBeenHere
                           style={{ fontSize: "30px" }}
                           color="#4fa94d"
                         />
+                        <BiBeenHere
+                          style={{ fontSize: "30px", marginLeft: "410px" }}
+                        />
+                          <BiBeenHere
+                            style={{ fontSize: "30px", marginLeft: "415px" }}
+                          />
+                        </>
                       ) : Step === "2" ? (
-                        <BiBeenHere
-                          style={{ fontSize: "30px", marginLeft: "440px" }}
-                          color="#4fa94d"
-                        />
+                        <>
+                          <BiSolidBeenHere
+                            style={{ fontSize: "30px" }}
+                            color="#4fa94d"
+                          />
+                          <BiSolidBeenHere
+                            style={{ fontSize: "30px", marginLeft: "410px" }}
+                            color="#4fa94d"
+                          />
+                          <BiBeenHere
+                            style={{ fontSize: "30px", marginLeft: "415px" }}
+                          />
+                        </>
                       ) : (
-                        <BiBeenHere
-                          style={{ fontSize: "30px", marginLeft: "881px" }}
-                          color="#4fa94d"
-                        />
+                        <>
+                          <BiSolidBeenHere
+                            style={{ fontSize: "30px" }}
+                            color="#4fa94d"
+                          />
+                          <BiSolidBeenHere
+                            style={{ fontSize: "30px", marginLeft: "410px" }}
+                            color="#4fa94d"
+                          />
+                          <BiSolidBeenHere
+                            style={{ fontSize: "30px", marginLeft: "415px" }}
+                            color="#4fa94d"
+                          />
+                        </>
                       )}
                     </div>
 
@@ -53,15 +80,16 @@ export default function FirstStep() {
                             color="#4fa94d"
                           />
                           <div
-                            className="h-2 w-16 bg-lightBlue-200"
+                            className="h-2 w-16 bg-blueGray-200"
                             style={{ width: "50%" }}
                           ></div>
+
                           <TbCircleNumber2
                             style={{ fontSize: "30px" }}
                             className="text-white "
                           />
                           <div
-                            className="h-2 w-16 bg-lightBlue-200 "
+                            className="h-2 w-16 bg-blueGray-200"
                             style={{ width: "50%" }}
                           ></div>
                           <TbCircleNumber3
@@ -74,6 +102,7 @@ export default function FirstStep() {
                           <TbCircleNumber1
                             style={{ fontSize: "30px" }}
                             className="text-white "
+                            color="#4fa94d"
                           />
                           <div
                             className="h-2 w-16 bg-lightBlue-500"
@@ -85,7 +114,7 @@ export default function FirstStep() {
                             className="text-white "
                           />
                           <div
-                            className="h-2 w-16 bg-lightBlue-200 "
+                            className="h-2 w-16 bg-blueGray-200"
                             style={{ width: "50%" }}
                           ></div>
                           <TbCircleNumber3
@@ -98,6 +127,7 @@ export default function FirstStep() {
                           <TbCircleNumber1
                             style={{ fontSize: "30px" }}
                             className="text-white "
+                            color="#4fa94d"
                           />
                           <div
                             className="h-2 w-16 bg-lightBlue-500"
@@ -106,6 +136,7 @@ export default function FirstStep() {
                           <TbCircleNumber2
                             style={{ fontSize: "30px" }}
                             className="text-white "
+                            color="#4fa94d"
                           />
                           <div
                             className="h-2 w-16 bg-lightBlue-500 "
