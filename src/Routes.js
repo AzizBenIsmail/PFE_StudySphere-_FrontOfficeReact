@@ -5,6 +5,7 @@ import { InfinitySpin } from "react-loader-spinner";
 // layouts
 const Admin = lazy(() => import("layouts/Admin.js"));
 const Auth = lazy(() => import("layouts/Auth.js"));
+const First = lazy(() => import("./layouts/First.js"));
 
 // views without layouts
 const Landing = lazy(() => import("views/Landing.js"));
@@ -20,6 +21,8 @@ function Routes() {
           {/* add routes with layouts */}
           <Route path="/admin" component={Admin} />
           <Route path="/auth" component={Auth} />
+          <Route path="/First" component={First} />
+
           {/* add routes without layouts */}
           <Route path="/landing" exact component={Landing} />
           <Route path="/profile" exact component={Profile} />
