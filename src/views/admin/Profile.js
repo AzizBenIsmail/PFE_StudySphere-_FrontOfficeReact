@@ -7,6 +7,7 @@ import { MdMarkEmailRead } from 'react-icons/md'
 import { TbUserHexagon } from 'react-icons/tb'
 import { FiWifiOff , FiWifi   } from 'react-icons/fi'
 import { SiVerizon, SiVexxhost } from 'react-icons/si'
+// import { FaArchive } from 'react-icons/fa'
 
 // components
 
@@ -172,10 +173,17 @@ export default function Profile () {
                     )}
 
                   </div></div>
-                {/*<div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">*/}
-                {/*  <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>*/}
-                {/*  {User.emplacement_actuelle === null ? (User.emplacement_actuelle) : (456)}*/}
-                {/*</div>*/}
+                <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                  <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
+                  {User.archivage ? (
+                    User.archivage.raison
+                  ) : null}
+
+                </div>
+                <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                  {User.visitsCount}
+
+                </div>
                 <div className="mb-2 text-blueGray-600 mt-10">
                   <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
                   Solution Manager - Creative Tim Officer
