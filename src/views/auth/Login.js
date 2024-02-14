@@ -82,6 +82,8 @@ export default function Login () {
             }else {
               window.location.replace(`/landing/`)
             }
+          } else if (res.data.user.role === 'admin') {
+            window.location.replace(`/admin`)
           }
         } catch (error) {
           if (error.response.data.erreur === 'compte desactive') {
