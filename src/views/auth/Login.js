@@ -76,14 +76,14 @@ export default function Login () {
       } else {
         try {
           const res = await LoginUser(user)
-          if (res.data.user.role === 'client') {
+          if (res.data.user.role === 'admin' || res.data.user.role === 'moderateur' ) {
+            window.location.replace(`/admin`)
+          } else if (res.data.user.role === 'client' || res.data.user.role === 'formateur' || res.data.user.role === 'centre' ) {
             if (res.data.user.visitsCount === 0) {
               window.location.replace(`/First/Step?n=1`)
             }else {
               window.location.replace(`/landing/`)
             }
-          } else if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin`)
           }
         } catch (error) {
           if (error.response.data.erreur === 'compte desactive') {
