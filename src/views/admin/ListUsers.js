@@ -968,7 +968,13 @@ export default function ListUsers ({ color }) {
             {/*{users*/}
             {/*  .filter((user) => !deletedUsers.includes(user))*/}
             {/*  .map((user) => (*/}
-            {getCurrentUsers().map((user) => (
+            {getCurrentUsers().length === 0 ? (
+              <tr>
+                <td colSpan="6" className="text-center py-4">
+                  Aucun utilisateur trouvé.
+                </td>
+              </tr>
+            ) : (getCurrentUsers().map((user) => (
               <tr key={user._id}>
                 <th
                   className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
@@ -1319,7 +1325,7 @@ export default function ListUsers ({ color }) {
                   )}
                 </td>
               </tr>
-            ))}
+            )))}
             </tbody>
           </table>
 
