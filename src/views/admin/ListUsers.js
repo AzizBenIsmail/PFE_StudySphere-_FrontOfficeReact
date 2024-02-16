@@ -1,14 +1,22 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { SiVerizon, SiVexxhost } from 'react-icons/si'
-import { FaAngleDown, FaArchive, FaChevronDown, FaMinusCircle, FaUserAltSlash, FaUserCog, FaRegUserCircle  } from 'react-icons/fa'
+import {
+  FaAngleDown,
+  FaArchive,
+  FaChevronDown,
+  FaMinusCircle,
+  FaRegUserCircle,
+  FaSchool,
+  FaUser,
+  FaUserAltSlash,
+  FaUserCog
+} from 'react-icons/fa'
 import { MagnifyingGlass, Puff } from 'react-loader-spinner'
 // components
 import { GiTeacher } from 'react-icons/gi'
-import { MdAdminPanelSettings } from "react-icons/md";
-import { RiAdminFill } from "react-icons/ri";
-import { FaUser } from "react-icons/fa";
-import { FaSchool } from "react-icons/fa";
+import { MdAdminPanelSettings , MdSettingsVoice } from 'react-icons/md'
+import { RiAdminFill } from 'react-icons/ri'
 
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../../Services/Apiauth'
@@ -17,6 +25,7 @@ import {
   archiver,
   deleteUser,
   desactive,
+  desarchiver,
   downgrade,
   getAdmin,
   getCentre,
@@ -32,7 +41,6 @@ import {
   upgrade,
   upgradeFormateur,
   upgradeModerateur,
-  desarchiver,
 } from '../../Services/ApiUser'
 import { AiOutlineReload } from 'react-icons/ai'
 import { createPopper } from '@popperjs/core'
@@ -261,7 +269,6 @@ export default function ListUsers ({ color }) {
     }, 1000) // Appeler getAllUsers(config) après un délai de 2 secondes
   }
 
-
   const archiveruser = async (user, config) => {
     closealltoggleDropdown()
     console.log(user)
@@ -307,29 +314,26 @@ export default function ListUsers ({ color }) {
     }, 1000) // Appeler getAllUsers(config) après un délai de 2 secondes
   }
 
-
   const getsearchUser = useCallback(async (term) => {
     if (!term.trim()) {
       // If the search term is empty, reload all users
       getAllUsers(config)
       .then((res) => {
-        setUsers(res.data);
+        setUsers(res.data)
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
     } else {
       // If the search term is not empty, filter users based on the search term
       const filteredUsers = users.filter((user) =>
         `${user.nom} ${user.prenom} ${user.email} `
         .toLowerCase()
         .includes(term.toLowerCase())
-      );
-      setUsers(filteredUsers);
+      )
+      setUsers(filteredUsers)
     }
-  }, [users, getAllUsers, config]);
-
-
+  }, [users, getAllUsers, config])
 
   const [searchTerm, setSearchTerm] = useState('')
   const [navbarOpen, setNavbarOpen] = React.useState(false)
@@ -468,38 +472,37 @@ export default function ListUsers ({ color }) {
     setDropdownOpenrole(false) // Inversion de l'état de dropdownOpen
   }
 
-
   const sortUsersByName = () => {
     closetoggleDropdowntrie()
     const sorted = [...users].sort((a, b) => {
       // Assurez-vous d'accéder aux champs nom ou prénom selon votre besoin
-      const nameA = a.nom.toLowerCase();
-      const nameB = b.nom.toLowerCase();
-      return nameA.localeCompare(nameB);
-    });
-    setUsers(sorted);
-  };
+      const nameA = a.nom.toLowerCase()
+      const nameB = b.nom.toLowerCase()
+      return nameA.localeCompare(nameB)
+    })
+    setUsers(sorted)
+  }
   const sortUsersBylastName = () => {
     closetoggleDropdowntrie()
     const sorted = [...users].sort((a, b) => {
       if (a.prenom && b.prenom) {
-        return a.prenom.localeCompare(b.prenom);
+        return a.prenom.localeCompare(b.prenom)
       }
-      return 0;
-    });
-    setUsers(sorted);
-  };
+      return 0
+    })
+    setUsers(sorted)
+  }
 
   const sortUsersBylcreatedAt = () => {
     closetoggleDropdowntrie()
     const sorted = [...users].sort((a, b) => {
       if (a.createdAt && b.createdAt) {
-        return b.createdAt.localeCompare(a.createdAt);
+        return b.createdAt.localeCompare(a.createdAt)
       }
-      return 0;
-    });
-    setUsers(sorted);
-  };
+      return 0
+    })
+    setUsers(sorted)
+  }
 
   const [dropdownOpentrie, setDropdownOpentrie] = useState(false) // Utilisation du même état pour les deux composants
 
@@ -512,6 +515,17 @@ export default function ListUsers ({ color }) {
     setDropdownOpentrie(false) // Inversion de l'état de dropdownOpen
   }
 
+  const handleVoiceSearch = () => {
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.onresult = (event) => {
+      const result = event.results[0][0].transcript;
+      setSearchTerm(result);
+      // Après avoir obtenu le résultat de la reconnaissance vocale, vous pouvez immédiatement déclencher la recherche en utilisant cette chaîne comme terme de recherche.
+      getsearchUser(result, config);
+    };
+    recognition.start();
+  };
 
   return (
     <>
@@ -578,7 +592,7 @@ export default function ListUsers ({ color }) {
                         className="inline-block mr-2"
                         style={{ fontSize: '20px' }}
                       />
-                    Client
+                      Client
                     </div>
                   </button>
                   <button
@@ -657,23 +671,20 @@ export default function ListUsers ({ color }) {
                 >
                   <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
                     <li className="nav-item">
-                      <form
-                        onSubmit={handleSubmit}
-                        className="flex items-center"
-                      >
+                      <form onSubmit={handleSubmit} className="flex items-center">
                         <div className="mb-3 pt-0 flex items-center">
-                          <span className="ml-2 text-xl text-white">
-                            <MagnifyingGlass
-                              visible={true}
-                              height="35"
-                              width="35"
-                              ariaLabel="magnifying-glass-loading"
-                              wrapperStyle={{}}
-                              wrapperClass="magnifying-glass-wrapper"
-                              glassColor="#c0efff"
-                              color="#e15b64"
-                            />
-                          </span>
+      <span className="ml-2 text-xl text-white">
+        <MagnifyingGlass
+          visible={true}
+          height="35"
+          width="35"
+          ariaLabel="magnifying-glass-loading"
+          wrapperStyle={{}}
+          wrapperClass="magnifying-glass-wrapper"
+          glassColor="#c0efff"
+          color="#e15b64"
+        />
+      </span>
                           <input
                             placeholder="Rechercher..."
                             type="text"
@@ -684,9 +695,12 @@ export default function ListUsers ({ color }) {
                             aria-label="Username"
                             className="px-2 py-1 h-8 border border-solid border-lightBlue-600 rounded-full text-sm leading-snug text-black bg-lightBlue-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-lightBlue-300"
                           />
+                          <button onClick={handleVoiceSearch}> <MdSettingsVoice />
+                          </button>
                         </div>
                       </form>
                     </li>
+
                     <li>
                       <div className="flex flex-wrap">
                         <div className="w-full sm:w-6/12 md:w-4/12 px-4">
@@ -740,7 +754,7 @@ export default function ListUsers ({ color }) {
                                         className="mr-2 inline-block"
                                         style={{ fontSize: '20px' }}
                                       />
-                                    Client
+                                      Client
                                     </div>
                                   </button>
                                   <button
@@ -753,7 +767,7 @@ export default function ListUsers ({ color }) {
                                         className="mr-2 inline-block"
                                         style={{ fontSize: '20px' }}
                                       />
-                                    Centre de formation
+                                      Centre de formation
                                     </div>
                                   </button>
                                   <button
@@ -776,11 +790,11 @@ export default function ListUsers ({ color }) {
 
                                   >
                                     <div className="text-left">
-                                    <RiAdminFill
-                                      className="mr-2 inline-block"
-                                      style={{ fontSize: '20px' }}
-                                    />
-                                    Modérateur
+                                      <RiAdminFill
+                                        className="mr-2 inline-block"
+                                        style={{ fontSize: '20px' }}
+                                      />
+                                      Modérateur
                                     </div>
                                   </button>
                                   <button
@@ -793,7 +807,7 @@ export default function ListUsers ({ color }) {
                                         className="mr-2 inline-block"
                                         style={{ fontSize: '20px' }}
                                       />
-                                    Administrateur
+                                      Administrateur
                                     </div>
                                   </button>
                                 </div>
@@ -834,8 +848,8 @@ export default function ListUsers ({ color }) {
                             {dropdownOpentrie && (
                               <div
                                 className="absolute bg-indigo-500 text-base z-50  list-none text-left rounded shadow-lg "
-                                style={{ marginLeft: '160px' , marginTop: '35px'}}
-                                >
+                                style={{ marginLeft: '160px', marginTop: '35px' }}
+                              >
                                 {/* Options du dropdown */}
                                 <button
                                   onClick={sortUsersByName}
@@ -1012,8 +1026,8 @@ export default function ListUsers ({ color }) {
                       )}
                     &nbsp;
                     {user.prenom ? (
-                      user.prenom
-                    ) :
+                        user.prenom
+                      ) :
                       // <SiVexxhost
                       //   className="mr-2"
                       //   style={{ fontSize: '24px' }}
@@ -1234,7 +1248,7 @@ export default function ListUsers ({ color }) {
                           ) : null}
                         </div>
                       )}
-                      { user.archivage ? (
+                      {user.archivage ? (
                           <button
                             onClick={() => desarchiveruser(user, config)}
                             className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
@@ -1246,7 +1260,7 @@ export default function ListUsers ({ color }) {
                             />
                             <span>DesArchiver</span>
                           </button>
-                      ) :
+                        ) :
                         (
                           <button
                             onClick={() => archiveruser(user, config)}
@@ -1376,7 +1390,7 @@ export default function ListUsers ({ color }) {
                       {index + 1}
                     </button>
                   </li>
-                );
+                )
               } else if (
                 // Ajouter des points de suspension entre les numéros de page
                 (index === 1 && currentPage > 4) ||
@@ -1386,10 +1400,10 @@ export default function ListUsers ({ color }) {
                   <li key={index}>
                     <span className="text-xs mx-1">...</span>
                   </li>
-                );
+                )
               }
               // Retour par défaut pour éviter l'erreur
-              return null;
+              return null
             })}
 
 
