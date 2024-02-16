@@ -15,7 +15,7 @@ import {
 import { MagnifyingGlass, Puff } from 'react-loader-spinner'
 // components
 import { GiTeacher } from 'react-icons/gi'
-import { MdAdminPanelSettings , MdSettingsVoice } from 'react-icons/md'
+import { MdAdminPanelSettings, MdSettingsVoice } from 'react-icons/md'
 import { RiAdminFill } from 'react-icons/ri'
 
 import Cookies from 'js-cookie'
@@ -516,16 +516,16 @@ export default function ListUsers ({ color }) {
   }
 
   const handleVoiceSearch = () => {
-    const recognition = new window.webkitSpeechRecognition();
-    recognition.lang = "en-US";
+    const recognition = new window.webkitSpeechRecognition()
+    recognition.lang = 'en-US'
     recognition.onresult = (event) => {
-      const result = event.results[0][0].transcript;
-      setSearchTerm(result);
+      const result = event.results[0][0].transcript
+      setSearchTerm(result)
       // Après avoir obtenu le résultat de la reconnaissance vocale, vous pouvez immédiatement déclencher la recherche en utilisant cette chaîne comme terme de recherche.
-      getsearchUser(result, config);
-    };
-    recognition.start();
-  };
+      getsearchUser(result, config)
+    }
+    recognition.start()
+  }
 
   return (
     <>
@@ -695,7 +695,8 @@ export default function ListUsers ({ color }) {
                             aria-label="Username"
                             className="px-2 py-1 h-8 border border-solid border-lightBlue-600 rounded-full text-sm leading-snug text-black bg-lightBlue-100 shadow-none outline-none focus:outline-none w-full font-normal rounded-l-none flex-1 border-l-0 placeholder-lightBlue-300"
                           />
-                          <button onClick={handleVoiceSearch}> <MdSettingsVoice />
+                          <button onClick={handleVoiceSearch}><MdSettingsVoice style={{ fontSize: '30px' }}
+                          />
                           </button>
                         </div>
                       </form>
