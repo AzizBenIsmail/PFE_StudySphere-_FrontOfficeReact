@@ -3,12 +3,13 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 
 // components
 // import Navbar from "components/Navbars/AuthNavbar.js";
-import FooterSmall from 'components/Footers/FooterSmallFirst.js'
+import FooterSmall from 'components/Footers/FooterSmall.js'
 import Navbar from '../components/Navbars/NavbarFirst'
 
 // views
 // import Login from "views/auth/Login.js";
 import FirstStep from 'views/FirstStep/FirstStep.js'
+import announcement from 'views/FirstStep/announcement.js'
 
 import { InfinitySpin } from 'react-loader-spinner'
 import Cookies from 'js-cookie'
@@ -59,12 +60,12 @@ export default function First () {
           <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d"/>}>
             <Switch>
               <Route path="/First/Step" exact component={FirstStep}/>
-              <Redirect from="/auth" to="/First/Step"/>
+              <Route path="/First/announcement" exact component={announcement}/>
+              <Redirect from="/First" to="/First/announcement"/>
             </Switch>
           </Suspense>
-
+          <FooterSmall absolute/>
         </section>
-        <FooterSmall absolute/>
       </main>
     </>
   )
