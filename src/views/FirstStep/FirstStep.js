@@ -11,6 +11,7 @@ export default function FirstStep () {
   const [Step, setStep] = useState('1')
   const [selectedDomaineactuelle, setSelectedDomaineactuelle] = useState('')
   const [selectedDomainedinteret, setSelectedDomainedinteret] = useState('')
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [inputValue, setInputValue] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [selectedCompetences, setSelectedCompetences] = useState([])
@@ -32,7 +33,6 @@ export default function FirstStep () {
     besoin: '',
     emplacement_actuelle: '',
     style_dapprentissage: '',
-    duree_preferee: '',
     budget: '',
     disponibilite: '',
     type_de_contenu_prefere: '',
@@ -160,10 +160,6 @@ export default function FirstStep () {
     setSelectedCompetences(prevCompetences => {
       return prevCompetences.filter((competence) => competence !== competenceToRemove)
     })
-    // setPreferences({
-    //   ...preferences,
-    //   competences_dinteret: selectedCompetences.filter((competence) => competence !== competenceToRemove).join(', ')
-    // });
   }
 
   const suggestCompetences = (inputValue, selectedCompetences) => {
@@ -233,6 +229,50 @@ export default function FirstStep () {
     }));
   };
 
+  const handleCheckboxChange = (language) => {
+    setSelectedLanguages(prevLanguages => {
+      if (prevLanguages.includes(language)) {
+        return prevLanguages.filter(lang => lang !== language);
+      } else {
+        return [...prevLanguages, language];
+      }
+    });
+
+    setPreferences(prevPreferences => ({
+      ...prevPreferences,
+      preferences_linguistiques: selectedLanguages.join(','),
+    }));
+  };
+  const [availability, setAvailability] = useState({
+    days: [],
+    times: [],
+  });
+
+  // Fonction pour gérer le changement de sélection des jours de la semaine
+  const handleDayChange = (event) => {
+    const { name, checked } = event.target;
+    setAvailability((prevAvailability) => ({
+      ...prevAvailability,
+      days: checked ? [...prevAvailability.days, name] : prevAvailability.days.filter((day) => day !== name),
+    }));
+  };
+
+  // Fonction pour gérer le changement de sélection des plages horaires
+  const handleTimeChange = (event) => {
+    const { name, checked } = event.target;
+    setAvailability((prevAvailability) => ({
+      ...prevAvailability,
+      times: checked ? [...prevAvailability.times, name] : prevAvailability.times.filter((time) => time !== name),
+    }));
+  };
+
+  // Fonction pour enregistrer les préférences de disponibilité
+  const saveAvailabilityPreferences = () => {
+    setPreferences((prevPreferences) => ({
+      ...prevPreferences,
+      disponibilite: availability,
+    }));
+  };
   return (
     <>
       <div className=" container mx-auto px-1 h-full ">
@@ -745,11 +785,6 @@ export default function FirstStep () {
                             >
                               Votre Besoin
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="Domaine d'interet : Informatique , Langues , Finance"*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -904,7 +939,6 @@ export default function FirstStep () {
                               <option value="modere">Budget modéré 100$-500$</option>
                               <option value="eleve">Budget élevé 500$-1000$</option>
                               <option value="Sans">Sans contrainte budgétaire +1000$</option>
-
                             </select>
                           </div>
                         </div>
@@ -912,15 +946,117 @@ export default function FirstStep () {
                           <div className="relative w-full mb-3">
                             <label
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
+                              htmlFor="availability-select"
                             >
-                              Disponibilite
+                              Disponibilité
                             </label>
-                            <input
-                              type="text"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Domaine d'interet : Informatique , Langues , Finance"
-                            />
+                            {/* Sélection des jours de la semaine avec des cases à cocher */}
+                            <div>
+                              <input
+                                type="checkbox"
+                                id="lundi-checkbox"
+                                name="lundi"
+                                checked={availability.days.includes('lundi')}
+                                onChange={handleDayChange}
+                              />
+                              <label htmlFor="lundi-checkbox">Lundi</label>
+                            </div>
+                            <div>
+                              <input
+                                type="checkbox"
+                                id="mardi-checkbox"
+                                name="mardi"
+                                checked={availability.days.includes('mardi')}
+                                onChange={handleDayChange}
+                              />
+                              <label htmlFor="mardi-checkbox">Mardi</label>
+                            </div>
+                            {/* Ajoutez d'autres jours de la semaine de la même manière */}
+                            <div>
+                              <input
+                                type="checkbox"
+                                id="mercredi-checkbox"
+                                name="mercredi"
+                                checked={availability.days.includes('mercredi')}
+                                onChange={handleDayChange}
+                              />
+                              <label htmlFor="mercredi-checkbox">Mercredi</label>
+                            </div>
+                            <div>
+                              <input
+                                type="checkbox"
+                                id="jeudi-checkbox"
+                                name="jeudi"
+                                checked={availability.days.includes('jeudi')}
+                                onChange={handleDayChange}
+                              />
+                              <label htmlFor="jeudi-checkbox">Jeudi</label>
+                            </div>
+                            <div>
+                              <input
+                                type="checkbox"
+                                id="vendredi-checkbox"
+                                name="vendredi"
+                                checked={availability.days.includes('vendredi')}
+                                onChange={handleDayChange}
+                              />
+                              <label htmlFor="vendredi-checkbox">Vendredi</label>
+                            </div>
+                            <div>
+                              <input
+                                type="checkbox"
+                                id="samedi-checkbox"
+                                name="samedi"
+                                checked={availability.days.includes('samedi')}
+                                onChange={handleDayChange}
+                              />
+                              <label htmlFor="samedi-checkbox">Samedi</label>
+                            </div>
+                            <div>
+                              <input
+                                type="checkbox"
+                                id="dimanche-checkbox"
+                                name="dimanche"
+                                checked={availability.days.includes('dimanche')}
+                                onChange={handleDayChange}
+                              />
+                              <label htmlFor="dimanche-checkbox">Dimanche</label>
+                            </div>
+
+                            {/* Sélection des plages horaires avec des cases à cocher */}
+                            <div>
+                              <input
+                                type="checkbox"
+                                id="matin-checkbox"
+                                name="matin"
+                                checked={availability.times.includes('matin')}
+                                onChange={handleTimeChange}
+                              />
+                              <label htmlFor="matin-checkbox">Matin</label>
+                            </div>
+                            <div>
+                              <input
+                                type="checkbox"
+                                id="après-midi-checkbox"
+                                name="après-midi"
+                                checked={availability.times.includes('après-midi')}
+                                onChange={handleTimeChange}
+                              />
+                              <label htmlFor="après-midi-checkbox">Après-midi</label>
+                            </div>
+                            {/* Ajoutez d'autres plages horaires de la même manière */}
+                            <div>
+                              <input
+                                type="checkbox"
+                                id="soir-checkbox"
+                                name="soir"
+                                checked={availability.times.includes('soir')}
+                                onChange={handleTimeChange}
+                              />
+                              <label htmlFor="soir-checkbox">Soir</label>
+                            </div>
+
+                            <button onClick={saveAvailabilityPreferences}>Enregistrer</button>
                           </div>
                         </div>
                         <div className="w-full lg:w-4/12 px-4">
@@ -931,38 +1067,71 @@ export default function FirstStep () {
                             >
                               Type de contenu prefere
                             </label>
-                            <input
-                              type="text"
+                            {/*<input*/}
+                            {/*  type="text"*/}
+                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
+                            {/*  placeholder="cours interactifs, workshop, projet , Travaille en groupe etc."*/}
+                            {/*/>*/}
+                            <select
+                              id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="cours interactifs, workshop, projet , Travaille en groupe etc."
-                            />
+                              name="type_de_contenu_prefere"
+                              onChange={(e) => handleSelectChange(e)}
+                            >
+                              <option value="">Sélectionnez votre Type de contenu préféré</option>
+                              <option value="interactifs">Cours interactifs</option>
+                              <option value="workshop">workshop</option>
+                              <option value="projet">Projet</option>
+                              <option value="engroupe">Travaille en groupe </option>
+                              <option value="Sans">Sans contrainte </option>
+                            </select>
                           </div>
                         </div>
                         <div className="w-full lg:w-4/12 px-4">
                           <div className="relative w-full mb-3">
                             <label
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
+                              htmlFor="interests"
                             >
                               Preferences linguistiques
                             </label>
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="preferences_linguistiques"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">Sélectionnez votre Preferences linguistiques</option>
-                              <option value="Francais">Français</option>
-                              <option value="Anglais">Anglais</option>
-                              <option value="maternelle">Langue maternelle</option>
 
-                            </select>
+                            <div className="flex flex-col">
+                              <div className="flex items-center mb-2">
+                                <input
+                                  type="checkbox"
+                                  id="francais-checkbox"
+                                  value="Francais"
+                                  checked={selectedLanguages.includes("Francais")}
+                                  onChange={() => handleCheckboxChange("Francais")}
+                                />
+                                <label htmlFor="francais-checkbox" className="ml-2">Français</label>
+                              </div>
+                              <div className="flex items-center mb-2">
+                                <input
+                                  type="checkbox"
+                                  id="anglais-checkbox"
+                                  value="Anglais"
+                                  checked={selectedLanguages.includes("Anglais")}
+                                  onChange={() => handleCheckboxChange("Anglais")}
+                                />
+                                <label htmlFor="anglais-checkbox" className="ml-2">Anglais</label>
+                              </div>
+                              <div className="flex items-center">
+                                <input
+                                  type="checkbox"
+                                  id="maternelle-checkbox"
+                                  value="Langue maternelle"
+                                  checked={selectedLanguages.includes("Langue_maternelle")}
+                                  onChange={() => handleCheckboxChange("Langue_maternelle")}
+                                />
+                                <label htmlFor="maternelle-checkbox" className="ml-2">Langue maternelle</label>
+                              </div>
+                            </div>
                           </div>
                         </div>
+
                       </div>
-
-
                       <div className="text-center mt-4">
                         {/* <Link to="/landing"> */}
                         <button
