@@ -3100,3 +3100,48 @@ select {
   background-color: #2980b9;
 }
 
+.availability-container {
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.availability-heading {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.days-section, .times-section {
+  /*margin-bottom: 1px;*/
+}
+
+.days-section h3, .times-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.day-checkboxes, .time-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.day-checkboxes div, .time-checkboxes div {
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.save-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
