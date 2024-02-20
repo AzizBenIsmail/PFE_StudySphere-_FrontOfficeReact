@@ -188,7 +188,7 @@ export default function Sidebar() {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Maps
+                  Elearn
                 </Link>
               </li>
             </ul>

@@ -9,6 +9,7 @@ const First = lazy(() => import("./layouts/First.js"));
 
 // views without layouts
 const Landing = lazy(() => import("views/Landing.js"));
+const Elearning = lazy(() => import("views/E-learning/Landing.js"));
 const Profile = lazy(() => import("views/Profile.js"));
 const Modifierutilisateur = lazy(() => import("views/client/Modifierutilisateur.js"));
 const Index = lazy(() => import("views/Index.js"));
@@ -25,6 +26,7 @@ function Routes() {
 
           {/* add routes without layouts */}
           <Route path="/landing" exact component={Landing} />
+          <Route path="/Elearning" exact component={Elearning} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/edit/:id" exact component={Modifierutilisateur} />
           <Route path="/" exact component={Index} />

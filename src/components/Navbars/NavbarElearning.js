@@ -9,7 +9,7 @@ import UserDropdown from '../Dropdowns/UserDropdownLanding'
 import { FaSchool } from 'react-icons/fa'
 import { MdCastForEducation } from 'react-icons/md'
 
-export default function Navbar (props) {
+export default function NavbarElearning (props) {
   const [user, setUser] = useState([])
   const history = useHistory()
 
@@ -92,13 +92,13 @@ export default function Navbar (props) {
               <li className="flex items-center">
                 <button
                   className="lg:text-white lg:hover:text-indigo-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                  onClick={() => history.push('/')}
+                  onClick={() => history.push('/landing')}
                 >
                   <MdCastForEducation
                     className="mr-2"
                     style={{ fontSize: '24px' }}
                   />
-                  Formation
+                  Landing
                 </button>
               </li>
               <li className="flex items-center ml-2">
@@ -107,7 +107,7 @@ export default function Navbar (props) {
                   onClick={() => history.push('/')}
                 >
                   <FaSchool className="mr-2" style={{ fontSize: '24px' }}/>
-                  Centre de formation
+                  Forum
                 </button>
               </li>
             </ul>
@@ -118,17 +118,17 @@ export default function Navbar (props) {
                 {/*  className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"*/}
                 {/*  href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdemos.creative-tim.com%2Fnotus-react%2F%23%2F"*/}
                 {/*  target="_blank"*/}
-                {/*> aa*/}
-                <button
-                  className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold ml-3"
-                  onClick={() => history.push('/Elearning')}
-                >
-                  <MdCastForEducation
-                    className="mr-2"
-                    style={{ fontSize: '24px' }}
-                  />
-                  Votre Espace
-                </button>
+                {/*/!*> aa*!/*/}
+                {/*<button*/}
+                {/*  className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold ml-3"*/}
+                {/*  onClick={() => history.push('/Elearning')}*/}
+                {/*>*/}
+                {/*  <MdCastForEducation*/}
+                {/*    className="mr-2"*/}
+                {/*    style={{ fontSize: '24px' }}*/}
+                {/*  />*/}
+                {/*  Votre Espace*/}
+                {/*</button>*/}
 
 
                 <i className="lg:text-blueGray-200 text-blueGray-400 fab fa-facebook text-lg leading-lg "/>
