@@ -8,6 +8,7 @@ import { getUserAuth, logout } from '../../Services/Apiauth'
 import UserDropdown from '../Dropdowns/UserDropdownLanding'
 import { FaSchool } from 'react-icons/fa'
 import { MdCastForEducation } from 'react-icons/md'
+import { IoIosNotificationsOutline } from 'react-icons/io'
 
 export default function Navbar (props) {
   const [user, setUser] = useState([])
@@ -148,14 +149,17 @@ export default function Navbar (props) {
               </li>
 
               <li className="flex items-center">
-                <a
-                  className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                  href="https://github.com/creativetimofficial/notus-react?ref=nr-auth-navbar"
-                  target="_blank"
-                >
-                  <i className="lg:text-blueGray-200 text-blueGray-400 fab fa-github text-lg leading-lg "/>
-                  <span className="lg:hidden inline-block ml-2">Star</span>
-                </a>
+                {/*<a*/}
+                {/*  className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"*/}
+                {/*  href="https://github.com/creativetimofficial/notus-react?ref=nr-auth-navbar"*/}
+                {/*  target="_blank"*/}
+                {/*>*/}
+                <IoIosNotificationsOutline className="text-red-500 mr-3" style={{ fontSize: '25px' }}
+                />
+
+                {/*<i className="lg:text-blueGray-200 text-blueGray-400 fab fa-github text-lg leading-lg "/>*/}
+                {/*<span className="lg:hidden inline-block ml-2">Star</span>*/}
+                {/*</a>*/}
               </li>
               <li className="flex items-center">
                 <UserDropdown/>
