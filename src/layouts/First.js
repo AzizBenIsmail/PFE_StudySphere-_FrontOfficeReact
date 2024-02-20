@@ -16,6 +16,8 @@ import { getUserAuth } from '../Services/Apiauth'
 // import { getUserAuth } from '../Services/Apiauth'
 const FirstStep = lazy(() => import("views/FirstStep/FirstStep.js"));
 const announcement = lazy(() => import("views/FirstStep/announcement.js"));
+const FirstStepCenter = lazy(() => import("views/FirstStep/Center/FirstStepCenter.js"));
+const announcementCenter = lazy(() => import("views/FirstStep/Center/announcementCenter.js"));
 
 export default function First () {
   const jwt_token = Cookies.get('jwt_token')
@@ -61,6 +63,8 @@ export default function First () {
             <Switch>
               <Route path="/First/Step" exact component={FirstStep}/>
               <Route path="/First/announcement" exact component={announcement}/>
+              <Route path="/First/StepCenter" exact component={FirstStepCenter}/>
+              <Route path="/First/announcementCenter" exact component={announcementCenter}/>
               <Redirect from="/First" to="/First/announcement"/>
             </Switch>
           </Suspense>
