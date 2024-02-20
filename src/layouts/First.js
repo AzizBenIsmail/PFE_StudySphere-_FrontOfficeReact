@@ -1,4 +1,4 @@
-import { React, Suspense, useMemo } from 'react'
+import { lazy, React, Suspense, useMemo } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 // components
@@ -8,14 +8,14 @@ import Navbar from '../components/Navbars/NavbarFirst'
 
 // views
 // import Login from "views/auth/Login.js";
-import FirstStep from 'views/FirstStep/FirstStep.js'
-import announcement from 'views/FirstStep/announcement.js'
 
 import { InfinitySpin } from 'react-loader-spinner'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 // import Cookies from 'js-cookie'
 // import { getUserAuth } from '../Services/Apiauth'
+const FirstStep = lazy(() => import("views/FirstStep/FirstStep.js"));
+const announcement = lazy(() => import("views/FirstStep/announcement.js"));
 
 export default function First () {
   const jwt_token = Cookies.get('jwt_token')

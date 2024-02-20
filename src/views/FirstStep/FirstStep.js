@@ -1,17 +1,62 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 // import { Link } from 'react-router-dom'
 import { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, } from 'react-icons/tb'
 import { BiBeenHere, BiSolidBeenHere } from 'react-icons/bi'
 // import { useLocation } from 'react-router-dom'
 import { CiSquareRemove } from 'react-icons/ci'
+import {addPreferences }from '../../Services/ApiPref'
+import Cookies from 'js-cookie'
+import { getUserAuth } from '../../Services/Apiauth'
+import { useHistory } from 'react-router-dom'
 
 export default function FirstStep () {
 
+  const jwt_token = Cookies.get("jwt_token");
+
+  if (!Cookies.get("jwt_token")) {
+    window.location.replace("/login-page");
+  }
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+  }, [jwt_token]);
+
+  ////////
+  useEffect(() => {
+    const getAuthUser = async (config) => {
+      await getUserAuth(config)
+      .then((res) => {
+        setUser(res.data.user);
+        // console.log(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    };
+    getAuthUser(config);
+    const interval = setInterval(() => {
+      getAuthUser(config); // appel répété toutes les 10 secondes
+    }, 300000);
+    return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
+  }, [config]);
+
+  const initialSelectedLanguages = {
+    Francais: false,
+    Anglais: false,
+    Langue_maternelle: false,
+  };
+
+  const history = useHistory()
+  const [user, setUser] = useState([]);
   // const location = useLocation()
   const [Step, setStep] = useState('1')
   const [selectedDomaineactuelle, setSelectedDomaineactuelle] = useState('')
   const [selectedDomainedinteret, setSelectedDomainedinteret] = useState('')
-  const [selectedLanguages, setSelectedLanguages] = useState([])
+  const [selectedLanguages, setSelectedLanguages] = useState(initialSelectedLanguages)
   const [inputValue, setInputValue] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [selectedCompetences, setSelectedCompetences] = useState([])
@@ -228,49 +273,57 @@ export default function FirstStep () {
     }))
   }
 
-  const handleCheckboxChange = (language) => {
-    setSelectedLanguages(prevLanguages => {
-      if (prevLanguages.includes(language)) {
-        return prevLanguages.filter(lang => lang !== language)
-      } else {
-        return [...prevLanguages, language]
-      }
-    })
 
+
+  useEffect(() => {
+    // Lorsque selectedLanguages change, mettez à jour preferences_linguistiques
+    const selectedLanguagesString = Object.keys(selectedLanguages).filter(lang => selectedLanguages[lang]).join(',');
     setPreferences(prevPreferences => ({
       ...prevPreferences,
-      preferences_linguistiques: selectedLanguages.join(','),
-    }))
-  }
+      preferences_linguistiques: selectedLanguagesString,
+    }));
+  }, [selectedLanguages]);
 
+  const handleCheckboxChange = (language) => {
+    setSelectedLanguages(prevLanguages => ({
+      ...prevLanguages,
+      [language]: !prevLanguages[language], // Inverse la valeur de la langue sélectionnée
+    }));
+  };
   const [availability, setAvailability] = useState({
     days: [],
     times: [],
   })
 
   const handleDayChange = (event) => {
-    const { name, checked } = event.target
+    const { name, checked } = event.target;
     setAvailability((prevAvailability) => ({
       ...prevAvailability,
       days: checked ? [...prevAvailability.days, name] : prevAvailability.days.filter((day) => day !== name),
-    }))
+    }));
+
     setPreferences((prevPreferences) => ({
       ...prevPreferences,
-      disponibilite: checked ? [...prevPreferences.disponibilite, name] : prevPreferences.disponibilite.filter((day) => day !== name),
-    }))
-  }
+      disponibilite: checked
+        ? [...prevPreferences.disponibilite.split(','), name].join(',')
+        : prevPreferences.disponibilite.split(',').filter((day) => day !== name).join(','),
+    }));
+  };
 
   const handleTimeChange = (event) => {
-    const { name, checked } = event.target
+    const { name, checked } = event.target;
     setAvailability((prevAvailability) => ({
       ...prevAvailability,
       times: checked ? [...prevAvailability.times, name] : prevAvailability.times.filter((time) => time !== name),
-    }))
+    }));
+
     setPreferences((prevPreferences) => ({
       ...prevPreferences,
-      duree_preferee: checked ? [...prevPreferences.duree_preferee, name] : prevPreferences.duree_preferee.filter((time) => time !== name),
-    }))
-  }
+      duree_preferee: checked
+        ? [...prevPreferences.duree_preferee.split(','), name].join(',')
+        : prevPreferences.duree_preferee.split(',').filter((time) => time !== name).join(','),
+    }));
+  };
 
   function DayCheckbox ({ day, checked, onChange }) {
     return (
@@ -287,6 +340,17 @@ export default function FirstStep () {
     )
   }
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await addPreferences(user._id, preferences, config).then(history.push("/landing"));
+
+    } catch (error) {
+      console.error('Error submitting preferences:', error);
+      // Gérer les erreurs ici
+    }
+  };
+
   return (
     <>
       <div className=" container mx-auto px-1 h-full ">
@@ -297,7 +361,8 @@ export default function FirstStep () {
               <div className="rounded-t  px-6 py-6">
                 <div className="text-center ">
                   <h6 className="text-blueGray-500 text-sm font-bold">
-                    + 150 pt
+                    {Step === "1" ? ( <>+ 150 pt ✨</> ) :
+                      Step === "2" ? (<>+ 150 pt ✨ + 150 pt 💡 = 300 pt ✨💡</>) : (<>+ 150 pt ✨ + 150 pt 💡 + 150 pt 🚀 = 450 pt ✨💡🚀</>) }
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
@@ -1045,53 +1110,33 @@ export default function FirstStep () {
                               </label>
 
                               <div className="flex flex-col">
-                                <div className="flex items-center mb-2">
-                                  <input
-                                    type="checkbox"
-                                    id="francais-checkbox"
-                                    value="Francais"
-
-                                    checked={selectedLanguages.includes('Francais')}
-                                    onChange={() => handleCheckboxChange('Francais')}
-                                  />
-                                  <label htmlFor="francais-checkbox" className="ml-2 text-blueGray-400">Français</label>
-                                </div>
-                                <div className="flex items-center mb-2">
-                                  <input
-                                    type="checkbox"
-                                    id="anglais-checkbox"
-                                    value="Anglais"
-                                    checked={selectedLanguages.includes('Anglais')}
-                                    onChange={() => handleCheckboxChange('Anglais')}
-                                  />
-                                  <label htmlFor="anglais-checkbox" className="ml-2 text-blueGray-400">Anglais</label>
-                                </div>
-                                <div className="flex items-center">
-                                  <input
-                                    type="checkbox"
-                                    id="maternelle-checkbox"
-                                    value="Langue maternelle"
-                                    checked={selectedLanguages.includes('Langue_maternelle')}
-                                    onChange={() => handleCheckboxChange('Langue_maternelle')}
-                                  />
-                                  <label htmlFor="maternelle-checkbox" className="ml-2 text-blueGray-400">Langue
-                                    maternelle</label>
-                                </div>
+                                {Object.keys(selectedLanguages).map((language) => (
+                                  <div key={language} className="flex items-center mb-2">
+                                    <input
+                                      type="checkbox"
+                                      id={`${language}-checkbox`}
+                                      value={language}
+                                      checked={selectedLanguages[language]}
+                                      onChange={() => handleCheckboxChange(language)}
+                                    />
+                                    <label htmlFor={`${language}-checkbox`} className="ml-2 text-blueGray-400">{language}</label>
+                                  </div>
+                                ))}
                               </div>
                             </div>
                           </div>
                         </div>
 
                       </div>
-                      {Step === 3 ? (<>
+                      {Step === '3' ? (<>
                         <div className="text-center mt-4">
                           {/* <Link to="/landing"> */}
                           <button
                             className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                             type="button"
-                            onClick={(e) => setStep('3')}
+                            onClick={(e) =>handleSubmit(e)}
                           >
-                            Enregistre
+                            Valider
                           </button>
                           {/* </Link> */}
                         </div>
