@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { SlLogin } from 'react-icons/sl'
 import { GiBurningDot } from 'react-icons/gi'
 import UserDropdown from '../Dropdowns/UserDropdownLanding'
+import NotificationDropdown from '../Dropdowns/NotificationDropdown'
 
 export default function Navbar (props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false)
@@ -92,6 +93,9 @@ export default function Navbar (props) {
                     Quitter
                   </Link>
                 </li>
+              <li className="flex items-center">
+                <NotificationDropdown/>
+              </li>
               <li className="flex items-center">
                 <UserDropdown/>
               </li>

@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { getUserAuth, logout } from '../../Services/Apiauth'
 import UserDropdown from '../Dropdowns/UserDropdownLanding'
+import NotificationDropdown from '../Dropdowns/NotificationDropdown'
 import { FaSchool } from 'react-icons/fa'
 import { MdCastForEducation } from 'react-icons/md'
 import { IoIosNotificationsOutline } from 'react-icons/io'
@@ -62,6 +63,7 @@ export default function Navbar (props) {
       console.log(error)
     }
   }
+
   return (
     <>
       <nav
@@ -115,11 +117,6 @@ export default function Navbar (props) {
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="flex items-center">{/*<PagesDropdown />*/}</li>
               <li className="flex items-center">
-                {/*<a*/}
-                {/*  className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"*/}
-                {/*  href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdemos.creative-tim.com%2Fnotus-react%2F%23%2F"*/}
-                {/*  target="_blank"*/}
-                {/*> aa*/}
                 <button
                   className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold ml-3"
                   onClick={() => history.push('/Elearning')}
@@ -130,11 +127,6 @@ export default function Navbar (props) {
                   />
                   Votre Espace
                 </button>
-
-
-                <i className="lg:text-blueGray-200 text-blueGray-400 fab fa-facebook text-lg leading-lg "/>
-                <span className="lg:hidden inline-block ml-2">Share</span>
-                {/*</a>*/}
               </li>
 
               <li className="flex items-center">
@@ -149,21 +141,14 @@ export default function Navbar (props) {
               </li>
 
               <li className="flex items-center">
-                {/*<a*/}
-                {/*  className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"*/}
-                {/*  href="https://github.com/creativetimofficial/notus-react?ref=nr-auth-navbar"*/}
-                {/*  target="_blank"*/}
-                {/*>*/}
-                <IoIosNotificationsOutline className="text-red-500 mr-3" style={{ fontSize: '25px' }}
-                />
-
-                {/*<i className="lg:text-blueGray-200 text-blueGray-400 fab fa-github text-lg leading-lg "/>*/}
-                {/*<span className="lg:hidden inline-block ml-2">Star</span>*/}
-                {/*</a>*/}
+                <li className="flex items-center">
+                  <NotificationDropdown/>
+                </li>
               </li>
               <li className="flex items-center">
                 <UserDropdown/>
               </li>
+
             </ul>
           </div>
         </div>
