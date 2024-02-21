@@ -4,7 +4,7 @@ import { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, } from 'react-icons/
 import { BiBeenHere, BiSolidBeenHere } from 'react-icons/bi'
 // import { useLocation } from 'react-router-dom'
 import { CiSquareRemove } from 'react-icons/ci'
-import {addPreferences }from '../../../Services/ApiPref'
+import {addPreferencesCentre }from '../../../Services/ApiPref'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../../../Services/Apiauth'
 import { useHistory } from 'react-router-dom'
@@ -55,7 +55,6 @@ export default function FirstStepCenter () {
   // const location = useLocation()
   const [Step, setStep] = useState('1')
   const [selectedDomaineactuelle, setSelectedDomaineactuelle] = useState('')
-  const [selectedDomainedinteret, setSelectedDomainedinteret] = useState('')
   const [selectedLanguages, setSelectedLanguages] = useState(initialSelectedLanguages)
   const [inputValue, setInputValue] = useState('')
   const [suggestions, setSuggestions] = useState([])
@@ -66,49 +65,39 @@ export default function FirstStepCenter () {
   const [selectedCity, setSelectedCity] = useState('')
   const [preferences, setPreferences] = useState({
     domaine_actuelle: '',
-    objectifs_de_carriere: '',
-    Domaine_dinteret: '',
     competences_dinteret: '',
-    niveau_dexperience_professionnelle: '',
-    interets_personnels: '',
-    annee_anniversaire: '',
-    niveau_etude: '',
-    niveau_de_difficulte: '',
-    niveau_dengagement: '',
-    besoin: '',
+    date_anniversaire: '',
     emplacement_actuelle: '',
-    style_dapprentissage: '',
-    budget: '',
     disponibilite: '',
     duree_preferee: '',
-    type_de_contenu_prefere: '',
     preferences_linguistiques: '',
-    historique_dapprentissage: '',
   })
   const handleSelectChange = (event) => {
     setPreferences({ ...preferences, [event.target.name]: event.target.value })
   }
 
   const sousListes = {
-    Etudiant: ['Étudiant', 'Lycéen', 'Apprenti', 'Stagiaire'],
-    RH: ['Recruteur', 'Gestionnaire de la paie', 'Responsable des ressources humaines', 'Analyste des avantages sociaux', 'Spécialiste de la formation et du développement'],
-    IT: ['Developpeur logiciel', 'Administrateur système', 'Ingenieur en sécurité informatique', 'Analyste en assurance qualité', 'Architecte cloud'],
-    Developpeur: ['Developpeur FullStack', 'Developpeur front-end', 'Developpeur back-end', 'Concepteur UX/UI', 'Integrateur web', 'Developpeur mobile', 'Specialiste en SEO'],
-    Architecture: ['Architecte', 'Urbaniste', 'Technicien en batiment', 'Designer d\'interieur', 'Ingenieur structure'],
-    Finance: ['Analyste financier', 'Comptable', 'Controleur financier', 'Conseiller en investissement', 'Trader'],
-    Marketing: ['Chef de produit', 'Responsable marketing digital', 'Analyste de marche', 'Charge de communication', 'Gestionnaire de marque'],
-    Medical: ['Medecin generaliste', 'Infirmier', 'Chirurgien', 'Pharmacien', 'Radiologue'],
-    Juridique: ['Avocat', 'Juge', 'Notaire', 'Huissier de justice', 'Conseiller juridique'],
-    Education: ['Enseignant', 'Professeur d\'universite', 'Formateur', 'Conseiller pedagogique', 'Directeur d\'ecole'],
-    Ingenierie: ['Ingenieur civil', 'Ingenieur mecanique', 'Ingenieur electrique', 'Ingenieur en aerospatiale', 'Ingenieur logiciel'],
-    Art_et_culture: ['Artiste', 'Ecrivain', 'Musicien', 'Acteur', 'Historien d\'art'],
-    Vente: ['Commercial', 'Vendeur', 'Chef de secteur', 'Conseiller de vente', 'Representant commercial'],
-    Communication: ['Responsable communication', 'Charge de relations publiques', 'Community manager', 'Attache de presse', 'Responsable des evenements'],
-    Recherche: ['Chercheur', 'Assistant de recherche', 'Technicien de laboratoire', 'Ingenieur de recherche', 'Analyste de donnees'],
-    Consultation: ['Consultant en gestion', 'Consultant en strategie', 'Consultant financier', 'Consultant en informatique', 'Consultant RH'],
-    Logistique: ['Responsable logistique', 'Gestionnaire des stocks', 'Planificateur de production', 'Coordinateur de transport', 'Agent de fret'],
-    Transport: ['Chauffeur de camion', 'Pilote d\'avion', 'Mecanicien d\'avion', 'Agent de service a la clientele', 'Agent de bord'],
-    Tourisme: ['Agent de voyage', 'Guide touristique', 'Directeur d\'hotel', 'Responsable des reservations', 'Animateur touristique']
+    Sciences: ['Mathematiques', 'Physique', 'Chimie', 'Biologie'],
+    Technologie: ['Informatique', 'Electronique', 'Mecanique', 'Automatique'],
+    Ingenierie: ['Genie civil', 'Genie electrique', 'Genie mecanique', 'Genie industriel'],
+    Medecine: ['Medecine generale', 'Chirurgie', 'Dentisterie', 'Pharmacie'],
+    Arts: ['Arts visuels', 'Musique', 'Cinema', 'Theatre'],
+    Lettres: ['Litterature', 'Langues etrangeres', 'Philosophie', 'Histoire'],
+    Economie: ['Economie generale', 'Gestion', 'Comptabilite', 'Finance'],
+    Droit: ['Droit des affaires', 'Droit penal', 'Droit international', 'Droit public'],
+    Education: ['Pedagogie', 'Psychologie de l\'education', 'Formation des enseignants', 'Didactique'],
+    Commerce: ['Marketing', 'Vente', 'Distribution', 'Commerce international'],
+    Communication: ['Communication d\'entreprise', 'Journalisme', 'Publicite', 'Relations publiques'],
+    Sciences_sociales: ['Sociologie', 'Psychologie', 'Anthropologie', 'Science politique'],
+    Environnement: ['Ecologie', 'Gestion de l\'environnement', 'Developpement durable', 'Agriculture'],
+    Tourisme: ['Gestion hoteliere', 'Tourisme culturel', 'Tourisme de loisirs', 'Agence de voyages'],
+    Sport: ['Education physique', 'Entrainement sportif', 'Kinesthesie', 'Nutrition sportive'],
+    Technologie_de_l_information: ['Developpement web', 'Securite informatique', 'Base de donnees', 'Reseaux'],
+    Gestion_de_projet: ['Planification', 'Suivi et controle', 'Gestion des risques', 'Evaluation'],
+    Ressources_humaines: ['Recrutement', 'Formation', 'Gestion du personnel', 'Relations sociales'],
+    Entrepreneuriat: ['Creation d\'entreprise', 'Management', 'Strategie d\'entreprise', 'Innovation'],
+    Design: ['Design graphique', 'Design industriel', 'Design d\'interieur', 'Design de mode'],
+    Sciences_de_l_education: ['Pedagogie', 'Didactique', 'Psychologie de l\'education', 'Sociologie de l\'education']
   }
 
   const sousListesCompetence = {
@@ -169,10 +158,6 @@ export default function FirstStepCenter () {
   const handleChangeactuelle = (event) => {
     // console.log(event.target.value)
     setSelectedDomaineactuelle(event.target.value)
-  }
-
-  const handleChangedinteret = (event) => {
-    setSelectedDomainedinteret(event.target.value)
   }
 
   const handleInputChange = (event) => {
@@ -343,7 +328,7 @@ export default function FirstStepCenter () {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await addPreferences(user._id, preferences, config).then(history.push("/landing"));
+      await addPreferencesCentre(user._id, preferences, config).then(history.push("/landing"));
 
     } catch (error) {
       console.error('Error submitting preferences:', error);
@@ -361,8 +346,8 @@ export default function FirstStepCenter () {
               <div className="rounded-t  px-6 py-6">
                 <div className="text-center ">
                   <h6 className="text-blueGray-500 text-sm font-bold">
-                    {Step === "1" ? ( <>+ 150 pt ✨</> ) :
-                      Step === "2" ? (<>+ 150 pt ✨ + 150 pt 💡 = 300 pt ✨💡</>) : (<>+ 150 pt ✨ + 150 pt 💡 + 150 pt 🚀 = 450 pt ✨💡🚀</>) }
+                    {Step === "1" ? ( <> Step 1 ✨</> ) :
+                      Step === "2" ? (<> Step 2 ✨💡</>) : (<> Step 3 ✨💡🚀</>) }
                   </h6>
                 </div>
                 <div className="btn-wrapper text-center">
@@ -504,13 +489,13 @@ export default function FirstStepCenter () {
                   <>
                     <form>
                       <div className="flex flex-wrap">
-                        <div className="w-full lg:w-4/12 px-4">
+                        <div className="w-full lg:w-12/12 px-4">
                           <div className="relative w-full mb-3">
                             <label
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                               htmlFor="domaine-select"
                             >
-                              Votre Domaine Actuel
+                              Votre Domaine
                             </label>
                             <select
                               id="domaine-select"
@@ -548,85 +533,8 @@ export default function FirstStepCenter () {
                             </div>
                           )}
                         </div>
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="domaine-select"
-                            >
-                              Objectifs De Carrière
-                            </label>
-                            <select
-                              id="domaine-select"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="objectifs_de_carriere"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">votre Objectifs De Carrière</option>
-                              <option value="Changer_de_carriere">Changer de carrière</option>
-                              <option value="Devenir_un_leader_dans_mon_domaine">Devenir un leader dans mon domaine
-                              </option>
-                              <option
-                                value="Explorer_de_nouvelles_opportunites_professionnelles">Explorer de nouvelles
-                                opportunites professionnelles
-                              </option>
-                              <option
-                                value="Diversifier_mes_competences_pour_rester_competitif_sur_le_marche_du_travail">Diversifier
-                                mes competences pour rester competitif sur le marche du travail
-                              </option>
-                              <option value="Demarrer_ma_propre_entreprise">Demarrer ma propre entreprise</option>
-                              <option
-                                value="Augmenter_mon_revenu_grace_a_des_competences_specialisees">Augmenter mon revenu
-                                grace a des competences specialisees
-                              </option>
-                            </select>
-                          </div>
-                        </div>
 
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="domaine-select"
-                            >
-                              Domaine D'intérêt
-                            </label>
-                            <select
-                              id="domaine-select"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              onChange={handleChangedinteret}
-                              value={selectedDomainedinteret}
-                            >
-                              <option value="">Sélectionnez votre Domaine D'intérêt</option>
-                              {Object.keys(sousListes).map((domaine) => (
-                                <option key={domaine} value={domaine}>{domaine}</option>
-                              ))}
-                            </select>
-                          </div>
-                          {/* Afficher la sous-liste si un domaine est sélectionné */}
-                          {selectedDomainedinteret && (
-                            <div className="relative w-full mb-3">
-                              <label
-                                className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                htmlFor="sous-liste-select"
-                              >
-                                {selectedDomainedinteret}
-                              </label>
-                              <select
-                                id="sous-liste-select"
-                                className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                name="Domaine_dinteret"
-                                onChange={(e) => handleSelectChange(e)}
-                              >
-                                <option value="">Sélectionnez une spécialisation</option>
-                                {sousListes[selectedDomainedinteret].map((specialisation, index) => (
-                                  <option key={index} value={specialisation}>{specialisation}</option>
-                                ))}
-                              </select>
-                            </div>
-                          )}
-                        </div>
-                        <div className="w-full lg:w-4/12 px-4">
+                        <div className="w-full lg:w-6/12 px-4">
                           <div className="relative w-full mb-3">
                             <div>
                               <label
@@ -708,81 +616,7 @@ export default function FirstStepCenter () {
                             </div>
                           </div>
                         </div>
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="experience-level"
-                            >
-                              Niveau d'expérience professionnelle
-                            </label>
-                            <select
-                              id="experience-level"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="niveau_dexperience_professionnelle"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">Sélectionnez votre Niveau d'expérience professionnelle</option>
-                              <option value="debutant">Débutant (0-2 ans)</option>
-                              <option value="intermediaire">Intermédiaire (3-5 ans)</option>
-                              <option value="expert">Expert (5-10 ans)</option>
-                              <option value="senior">Senior (10+ ans)</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="interests"
-                            >
-                              Intérêts personnels
-                            </label>
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="interets_personnels"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">Sélectionnez votre Intérêts personnels</option>
-                              <option value="musique">Musique</option>
-                              <option value="sports">Sports</option>
-                              <option value="arts">Arts</option>
-                              <option value="voyages">Voyages</option>
-                              <option value="lecture">Lecture</option>
-                              {/* Ajoutez d'autres options selon vos besoins */}
-                            </select>
-                          </div>
-                        </div>
-
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="annee-anniversaire"
-                            >
-                              Année de naissance
-                            </label>
-                            <select
-                              id="annee-anniversaire"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="annee_anniversaire"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              {Array.from({ length: 51 }, (_, i) => (
-                                <option key={i} value={2024 - i}>
-                                  {2024 - i}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
-
-
                       </div>
-
-
                       <div className="text-center mt-4">
                         {/* <Link to="/landing"> */}
                         <button
@@ -800,140 +634,27 @@ export default function FirstStepCenter () {
                   <>
                     <form>
                       <div className="flex flex-wrap">
-                        <div className="w-full lg:w-4/12 px-4">
+                        <div className="w-full lg:w-12/12 px-4">
                           <div className="relative w-full mb-3">
                             <label
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
+                              htmlFor="date-anniversaire"
                             >
-                              votre Niveau Etude
+                              Date de naissance
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="votre Niveau Etude Primaire, Secondaire , Baccalauréat , Supérieur , Maîtrise , Formations"*/}
-                            {/*/>*/}
-                            <select
-                              id="interests"
+                            <input
+                              type="date"
+                              id="date-anniversaire"
+                              name="date_anniversaire"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="niveau_etude"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">Sélectionnez votre Niveau Etude</option>
-                              <option value="Primaire">Primaire</option>
-                              <option value="Secondaire">Secondaire</option>
-                              <option value="Baccalaureat">Baccalaureat</option>
-                              <option value="Superieur">Superieur</option>
-                              <option value="Maitrise">Maitrise</option>
-                              <option value="Formations">Formations</option>
-                              {/* Ajoutez d'autres options selon vos besoins */}
-                            </select>
-                          </div>
-                        </div>
-                        <div className="w-full lg:w-6/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Votre Niveau D'engagement
-                            </label>
-                            {/*<input*/}
-                            {/*  type="email"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="votre Niveau D'engagement : 4S ,2S ,1S"*/}
-                            {/*/>*/}
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="niveau_dengagement"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">Sélectionnez votre Niveau D'engagement</option>
-                              <option value="4S">consacrer du temps régulier à la formation 4S</option>
-                              <option value="2S">sessions d'apprentissage plus courtes 2S</option>
-                              <option value="1S">intermittentes 1S</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Votre Besoin
-                            </label>
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="besoin"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">Sélectionnez votre Niveau D'engagement</option>
-                              <option value="certification">certification</option>
-                              <option value="competences">Acquisition de nouvelles compétences</option>
-                              <option value="Experience">Experience Realisation projet</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Niveau Difficulte
-                            </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="Niveau Difficulte : débutant ,intermédiaire ,avancé "*/}
-                            {/*/>*/}
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="niveau_de_difficulte"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">Sélectionnez votre Niveau Difficulte</option>
-                              <option value="debutant">Niveau difficulté débutant</option>
-                              <option value="intermediaire">Niveau difficulté : intermédiaire</option>
-                              <option value="avance">Niveau difficulté : avancé</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Style d'apprentissage
-                            </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="  Style d'apprentissage : enligne, hybride,presentiel"*/}
-                            {/*/>*/}
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="style_dapprentissage"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">Sélectionnez votre Style d'apprentissage</option>
-                              <option value="enligne">Style d'apprentissage : enligne</option>
-                              <option value="hybride">Style d'apprentissage : hybride</option>
-                              <option value="presentiel">Style d'apprentissage : présentiel</option>
-                            </select>
+                              onChange={handleSelectChange}
+                              max={new Date().toISOString().split('T')[0]} // Définit la date maximale sur aujourd'hui
+                            />
                           </div>
                         </div>
                       </div>
 
                       <div className="text-center mt-4">
-                        {/* <Link to="/landing"> */}
                         <button
                           className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                           type="button"
@@ -941,7 +662,6 @@ export default function FirstStepCenter () {
                         >
                           Suivant
                         </button>
-                        {/* </Link> */}
                       </div>
                     </form>
                   </>
@@ -949,7 +669,7 @@ export default function FirstStepCenter () {
                   <>
                     <form>
                       <div className="flex flex-wrap">
-                        <div className="w-full lg:w-4/12 px-4">
+                        <div className="w-full lg:w-12/12 px-4">
                           <div className="relative w-full mb-3">
                             <label
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -994,62 +714,8 @@ export default function FirstStepCenter () {
                             </div>
                           )}
                         </div>
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Votre Budget
-                            </label>
-                            {/*<input*/}
-                            {/*  type="email"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="votre Objectifs De Carrière"*/}
-                            {/*/>*/}
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="budget"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">Sélectionnez votre Budget</option>
-                              <option value="gratuit">Gratuit 0$</option>
-                              <option value="limite">Budget limité 0$-100$</option>
-                              <option value="modere">Budget modéré 100$-500$</option>
-                              <option value="eleve">Budget élevé 500$-1000$</option>
-                              <option value="Sans">Sans contrainte budgétaire</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Type de contenu prefere
-                            </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="cours interactifs, workshop, projet , Travaille en groupe etc."*/}
-                            {/*/>*/}
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="type_de_contenu_prefere"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">Sélectionnez votre Type de contenu préféré</option>
-                              <option value="interactifs">Cours interactifs</option>
-                              <option value="workshop">workshop</option>
-                              <option value="projet">Projet</option>
-                              <option value="engroupe">Travaille en groupe</option>
-                              <option value="Sans">Sans contrainte</option>
-                            </select>
-                          </div>
-                        </div>
+
+
                         <div className="w-full lg:w-6/12 px-4">
                           <div className="relative w-full mb-3">
                             <div className="availability-container">
