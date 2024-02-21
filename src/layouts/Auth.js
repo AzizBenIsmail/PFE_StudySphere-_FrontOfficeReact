@@ -36,7 +36,7 @@ export default function Auth() {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'client') {
+          if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
             window.location.replace(`/landing/`)
           }
           if (res.data.user.role === 'admin') {
