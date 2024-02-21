@@ -10,9 +10,7 @@ const UserDropdown = () => {
   const history = useHistory();
 
   // dropdown props
-  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const btnDropdownRef = React.createRef();
-  const popoverDropdownRef = React.createRef();
+
   // const history = useHistory();
   //cookies
   const jwt_token = Cookies.get("jwt_token");
@@ -61,6 +59,11 @@ const UserDropdown = () => {
       console.log(error);
     }
   };
+
+  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
+  const btnDropdownRef = React.createRef();
+  const popoverDropdownRef = React.createRef();
+
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-start",
@@ -120,13 +123,18 @@ const UserDropdown = () => {
           Profile
         </button>
         <button
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={() => history.push("/First/Step")}
+          className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          onClick={() => {
+            if (user.role === 'client') {
+              history.push("/First/Step");
+            } else {
+              history.push("/First/StepCenter");
+            }
+          }}
         >
           Paramètre
         </button>
+
         <button
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
