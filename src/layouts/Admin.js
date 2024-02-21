@@ -1,4 +1,4 @@
-import React, { Suspense} from 'react'
+import React, { Suspense, useMemo } from 'react'
 
 import { Switch, Route, Redirect } from "react-router-dom";
 
@@ -19,9 +19,39 @@ import Tables from "views/admin/Tables.js";
 import { InfinitySpin } from 'react-loader-spinner'
 import Ajouterutilisateur from "views/admin/Ajouterutilisateur.js";
 import Modifierutilisateur from "views/admin/Modifierutilisateur.js";
+import Cookies from 'js-cookie'
+import { getUserAuth } from '../Services/Apiauth'
 
 
 export default function Admin() {
+  //cookies
+  const jwt_token = Cookies.get('jwt_token')
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    }
+  }, [jwt_token])
+
+  //session
+  if (Cookies.get('jwt_token')) {
+    const fetchData = async () => {
+      try {
+        await getUserAuth(config).then((res) => {
+          if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
+            window.location.replace(`/landing/`)
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
+  } else {
+    window.location.replace(`/`)
+  }
   return (
     <>
       <Sidebar />
