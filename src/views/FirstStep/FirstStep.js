@@ -71,7 +71,7 @@ export default function FirstStep () {
     competences_dinteret: '',
     niveau_dexperience_professionnelle: '',
     interets_personnels: '',
-    annee_anniversaire: '',
+    date_anniversaire: '',
     niveau_etude: '',
     niveau_de_difficulte: '',
     niveau_dengagement: '',
@@ -760,25 +760,20 @@ export default function FirstStep () {
                           <div className="relative w-full mb-3">
                             <label
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="annee-anniversaire"
+                              htmlFor="date-anniversaire"
                             >
-                              Année de naissance
+                              Date de naissance
                             </label>
-                            <select
-                              id="annee-anniversaire"
+                            <input
+                              type="date"
+                              id="date-anniversaire"
+                              name="date_anniversaire"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="annee_anniversaire"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              {Array.from({ length: 51 }, (_, i) => (
-                                <option key={i} value={2024 - i}>
-                                  {2024 - i}
-                                </option>
-                              ))}
-                            </select>
+                              onChange={handleSelectChange}
+                              max={new Date().toISOString().split('T')[0]} // Définit la date maximale sur aujourd'hui
+                            />
                           </div>
                         </div>
-
 
                       </div>
 
@@ -850,9 +845,9 @@ export default function FirstStep () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">Sélectionnez votre Niveau D'engagement</option>
-                              <option value="4S">consacrer du temps régulier à la formation 4S</option>
-                              <option value="2S">sessions d'apprentissage plus courtes 2S</option>
-                              <option value="1S">intermittentes 1S</option>
+                              <option value="4S">consacrer du temps régulier à la formation 4 Seance</option>
+                              <option value="2S">sessions d'apprentissage plus courtes 2 Seance</option>
+                              <option value="1S">intermittentes 1 Seance</option>
                             </select>
                           </div>
                         </div>
@@ -870,8 +865,8 @@ export default function FirstStep () {
                               name="besoin"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">Sélectionnez votre Niveau D'engagement</option>
-                              <option value="certification">certification</option>
+                              <option value="">Sélectionnez votre Besoin</option>
+                              <option value="certification">Certification</option>
                               <option value="competences">Acquisition de nouvelles compétences</option>
                               <option value="Experience">Experience Realisation projet</option>
                             </select>
@@ -898,9 +893,9 @@ export default function FirstStep () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">Sélectionnez votre Niveau Difficulte</option>
-                              <option value="debutant">Niveau difficulté débutant</option>
-                              <option value="intermediaire">Niveau difficulté : intermédiaire</option>
-                              <option value="avance">Niveau difficulté : avancé</option>
+                              <option value="debutant">Débutant</option>
+                              <option value="intermediaire">Intermédiaire</option>
+                              <option value="avance">Avancé</option>
                             </select>
                           </div>
                         </div>
@@ -924,16 +919,15 @@ export default function FirstStep () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">Sélectionnez votre Style d'apprentissage</option>
-                              <option value="enligne">Style d'apprentissage : enligne</option>
-                              <option value="hybride">Style d'apprentissage : hybride</option>
-                              <option value="presentiel">Style d'apprentissage : présentiel</option>
+                              <option value="enligne">Enligne</option>
+                              <option value="hybride">Hybride</option>
+                              <option value="presentiel">Présentiel</option>
                             </select>
                           </div>
                         </div>
                       </div>
 
                       <div className="text-center mt-4">
-                        {/* <Link to="/landing"> */}
                         <button
                           className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                           type="button"
@@ -941,7 +935,6 @@ export default function FirstStep () {
                         >
                           Suivant
                         </button>
-                        {/* </Link> */}
                       </div>
                     </form>
                   </>
