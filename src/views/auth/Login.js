@@ -83,7 +83,7 @@ export default function Login () {
               // window.location.replace(`/First/Step?n=1`)
               window.location.replace(`/First/announcement`)
             } else if (res.data.user.visitsCount === 0 && res.data.user.role === 'centre' ) {
-              window.location.replace(`/First/announcement`)
+              window.location.replace(`/First/announcementCenter`)
             }
             else {
               window.location.replace(`/landing/`)
