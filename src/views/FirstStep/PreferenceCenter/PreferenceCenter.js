@@ -9,7 +9,7 @@ import Cookies from 'js-cookie'
 import { getUserAuth } from '../../../Services/Apiauth'
 import { useHistory } from 'react-router-dom'
 
-export default function FirstStepCenter () {
+export default function PreferenceCenter () {
 
   const jwt_token = Cookies.get("jwt_token");
 

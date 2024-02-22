@@ -4,12 +4,12 @@ import { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, } from 'react-icons/
 import { BiBeenHere, BiSolidBeenHere } from 'react-icons/bi'
 // import { useLocation } from 'react-router-dom'
 import { CiSquareRemove } from 'react-icons/ci'
-import {addPreferences }from '../../Services/ApiPref'
+import {addPreferences }from '../../../Services/ApiPref'
 import Cookies from 'js-cookie'
-import { getUserAuth } from '../../Services/Apiauth'
+import { getUserAuth } from '../../../Services/Apiauth'
 import { useHistory } from 'react-router-dom'
 
-export default function FirstStep () {
+export default function PreferenceClient () {
 
   const jwt_token = Cookies.get("jwt_token");
 
