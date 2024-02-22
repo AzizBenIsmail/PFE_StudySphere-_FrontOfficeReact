@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { getUserAuth , Password } from '../../Services/Apiauth';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 
-export default function Resetmdp() {
+export default function ResetPw() {
   const location = useLocation();
   const token = new URLSearchParams(location.search).get('token');
   const config = useMemo(() => {

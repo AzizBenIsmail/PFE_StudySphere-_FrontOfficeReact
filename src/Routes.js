@@ -11,7 +11,7 @@ const First = lazy(() => import("./layouts/First.js"));
 const Landing = lazy(() => import("views/Landing.js"));
 const Elearning = lazy(() => import("views/E-learning/Landing.js"));
 const Profile = lazy(() => import("views/Profile.js"));
-const Modifierutilisateur = lazy(() => import("views/client/Modifierutilisateur.js"));
+const updateProfile = lazy(() => import("./views/client/updateProfile.js"));
 const Index = lazy(() => import("views/Index.js"));
 
 function Routes() {
@@ -28,7 +28,7 @@ function Routes() {
           <Route path="/landing" exact component={Landing} />
           <Route path="/Elearning" exact component={Elearning} />
           <Route path="/profile" exact component={Profile} />
-          <Route path="/edit/:id" exact component={Modifierutilisateur} />
+          <Route path="/edit/:id" exact component={updateProfile} />
           <Route path="/" exact component={Index} />
           {/*<Route path="/" component={Auth} />*/}
           {/* add redirect for first page */}

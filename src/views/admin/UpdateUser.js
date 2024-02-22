@@ -13,7 +13,7 @@ import { useLocation , useParams } from "react-router-dom";
 // import CardPageVisits from "components/Cards/CardPageVisits.js";
 // import CardSocialTraffic from "components/Cards/CardSocialTraffic.js";
 
-export default function Dashboard() {
+export default function UpdateUser() {
   //cookies
   const jwt_token = Cookies.get("jwt_token");
 
@@ -165,7 +165,7 @@ export default function Dashboard() {
   };
   const [messageerr, setmessageerr] = useState();
 
-  const add = async (e) => {
+  const update = async (e) => {
     const normalizedNom = User.nom.toLowerCase();
     const passwordLowerCase = User.password.toLowerCase();
     if (
@@ -228,10 +228,10 @@ export default function Dashboard() {
       formData.append('nom', User.nom)
       formData.append('prenom', User.prenom)
       formData.append('password', User.password)
-      if (image === undefined) {
-        setN(9)
-      } else {
+      formData.append('image_user', User.image_user)
+      if (image !== undefined) {
         formData.append('image_user', image, `${User.nom}+.png`)
+      } else {
         const res = await updatecentre(formData,User._id,config)
         console.log(res.data)
         if (res.data.message === undefined) {
@@ -269,7 +269,7 @@ export default function Dashboard() {
                 <button
                   className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
-                  onClick={message === "client" || message === "formateur" || message === "admin" || message === "moderateur" ? (e) => add(e) : message === "centre" ? (e) => addCentre(e) : null}
+                  onClick={message === "client" || message === "formateur" || message === "admin" || message === "moderateur" ? (e) => update(e) : message === "centre" ? (e) => addCentre(e) : null}
                 >
                   Modifier
                   {message === "client" ? (
@@ -386,13 +386,13 @@ export default function Dashboard() {
                           aria-label="image_user"
                           // value={User.image_user}
                         />
-                        {n === 9 ? (
-                          <label style={{ color: "red" }}>
-                            image obligatoire
-                          </label>
-                        ) : (
-                          ""
-                        )}
+                        {/*{n === 9 ? (*/}
+                        {/*  <label style={{ color: "red" }}>*/}
+                        {/*    image obligatoire*/}
+                        {/*  </label>*/}
+                        {/*) : (*/}
+                        {/*  ""*/}
+                        {/*)}*/}
                       </div>
                     </div>
                   ): null}

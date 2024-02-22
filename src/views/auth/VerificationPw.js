@@ -3,7 +3,7 @@ import { Link, } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../../Services/Apiauth'
 
-export default function VerificationMotDePasse () {
+export default function VerificationPw () {
   const jwt_token = Cookies.get('jwt_token')
 
   const config = useMemo(() => {

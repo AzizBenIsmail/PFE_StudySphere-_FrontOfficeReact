@@ -11,7 +11,7 @@ import { useLocation } from "react-router-dom";
 // import CardPageVisits from "components/Cards/CardPageVisits.js";
 // import CardSocialTraffic from "components/Cards/CardSocialTraffic.js";
 
-export default function Dashboard() {
+export default function AddUser() {
   //cookies
   const jwt_token = Cookies.get("jwt_token");
 

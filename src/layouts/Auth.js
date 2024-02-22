@@ -13,8 +13,8 @@ import Register from "views/auth/Register.js";
 import RegisterEmail from "views/auth/RegisterEmail.js";
 import RegisterCentre from "views/auth/RegisterCentre.js";
 import VerificationEmail from "views/auth/VerificationEmail.js";
-import VerificationMotDePasse from "views/auth/VerificationMotDePasse.js";
-import Resetmdp from "views/auth/Resetmdp.js";
+import VerificationPw from "../views/auth/VerificationPw.js";
+import ResetPw from "../views/auth/ResetPw.js";
 
 import { InfinitySpin } from 'react-loader-spinner'
 import Cookies from 'js-cookie'
@@ -66,11 +66,11 @@ export default function Auth() {
               <Route path="/auth/login" exact component={Login} />
               <Route path="/auth/registerEmail" exact component={RegisterEmail} />
               <Route path="/auth/register" exact component={Register} />
-              <Route path="/auth/Resetmdp" exact component={Resetmdp} />
+              <Route path="/auth/Resetmdp" exact component={ResetPw} />
               <Route path="/auth/registerCentre" exact component={RegisterCentre} />
               <Route path="/auth/registerCentre" exact component={RegisterCentre} />
               <Route path="/auth/VerificationEmail" exact component={VerificationEmail} />
-              <Route path="/auth/VerificationMotDePasse" exact component={VerificationMotDePasse} />
+              <Route path="/auth/VerificationMotDePasse" exact component={VerificationPw} />
               <Redirect from="/auth" to="/auth/login" />
             </Switch>
           </Suspense>

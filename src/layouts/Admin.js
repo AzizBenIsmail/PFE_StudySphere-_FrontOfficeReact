@@ -17,8 +17,8 @@ import Settings from "views/admin/Settings.js";
 import Profile from "views/admin/Profile.js";
 import Tables from "views/admin/Tables.js";
 import { InfinitySpin } from 'react-loader-spinner'
-import Ajouterutilisateur from "views/admin/Ajouterutilisateur.js";
-import Modifierutilisateur from "views/admin/Modifierutilisateur.js";
+import AddUser from "../views/admin/AddUser.js";
+import UpdateUser from "../views/admin/UpdateUser.js";
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
@@ -67,8 +67,8 @@ export default function Admin() {
             <Route path="/admin/settings" exact component={Settings} />
             <Route path="/admin/Profile/:id" exact component={Profile} />
             <Route path="/admin/tables" exact component={Tables} />
-            <Route path="/admin/Ajouterutilisateur" exact component={Ajouterutilisateur} />
-            <Route path="/admin/Modifierutilisateur/:id" exact component={Modifierutilisateur} />
+            <Route path="/admin/Ajouterutilisateur" exact component={AddUser} />
+            <Route path="/admin/Modifierutilisateur/:id" exact component={UpdateUser} />
 
             <Redirect from="/admin" to="/admin/dashboard" />
           </Switch>
