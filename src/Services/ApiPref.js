@@ -11,5 +11,13 @@ export async function addPreferencesCentre(id, preferencesData, config) {
 }
 
 export async function getPreferences(id,config) {
-  return await axios.get(`${ apiURL }/GetPref/:id`, config);
+  return await axios.get(`${ apiURL }/GetPref/${id}`, config);
+}
+
+export async function updatePrefClient(id,preferencesData,config) {
+  return await axios.put(`${ apiURL }/updatePreferences/${id}`,preferencesData, config);
+}
+
+export async function updatePrefCenter(id,preferencesData,config) {
+  return await axios.put(`${ apiURL }/UpdatePreferencesCentre/${id}`,preferencesData, config);
 }
