@@ -15,6 +15,7 @@ import { getUserAuth } from '../Services/Apiauth'
 // import Cookies from 'js-cookie'
 // import { getUserAuth } from '../Services/Apiauth'
 const PreferenceClient = lazy(() => import("../views/FirstStep/PreferenceClient/PreferenceClient.js"));
+const UpdatePreferenceClient = lazy(() => import("../views/FirstStep/PreferenceClient/UpdatePreferenceClient.js"));
 const announcement = lazy(() => import("../views/FirstStep/PreferenceClient/announcement.js"));
 const PreferenceCenter = lazy(() => import("../views/FirstStep/PreferenceCenter/PreferenceCenter.js"));
 const announcementCenter = lazy(() => import("../views/FirstStep/PreferenceCenter/announcementCenter.js"));
@@ -62,6 +63,7 @@ export default function First () {
           <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d"/>}>
             <Switch>
               <Route path="/First/Step" exact component={PreferenceClient}/>
+              <Route path="/First/UpdatePreferences" exact component={UpdatePreferenceClient}/>
               <Route path="/First/announcement" exact component={announcement}/>
               <Route path="/First/StepCenter" exact component={PreferenceCenter}/>
               <Route path="/First/announcementCenter" exact component={announcementCenter}/>
