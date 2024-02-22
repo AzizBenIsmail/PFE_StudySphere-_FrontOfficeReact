@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState , useCallback} from 'react'
 // import { Link } from 'react-router-dom'
 import { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, } from 'react-icons/tb'
 import { BiBeenHere, BiSolidBeenHere } from 'react-icons/bi'
@@ -7,7 +7,7 @@ import { CiSquareRemove } from 'react-icons/ci'
 import {updatePrefClient , getPreferences  }from '../../../Services/ApiPref'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../../../Services/Apiauth'
-// import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 export default function PreferenceClient () {
 
@@ -52,13 +52,14 @@ export default function PreferenceClient () {
 
 
 
-  const initialSelectedLanguages = {
+  const initialSelectedLanguages = useMemo(() => ({
     Francais: false,
     Anglais: false,
     Langue_maternelle: false,
-  };
+  }), []);
 
-  // const history = useHistory()
+
+  const history = useHistory()
   const [user, setUser] = useState([]);
   // const location = useLocation()
   const [Step, setStep] = useState('1')
@@ -72,27 +73,7 @@ export default function PreferenceClient () {
   const [competenceSelectionnee, setCompetenceSelectionnee] = useState('')
   const [selectedState, setSelectedState] = useState('')
   const [selectedCity, setSelectedCity] = useState('')
-  const [preferences, setPreferences] = useState({
-    // domaine_actuelle: '',
-    // objectifs_de_carriere: '',
-    // Domaine_dinteret: '',
-    // competences_dinteret: '',
-    // niveau_dexperience_professionnelle: '',
-    // interets_personnels: '',
-    // date_anniversaire: '',
-    // niveau_etude: '',
-    // niveau_de_difficulte: '',
-    // niveau_dengagement: '',
-    // besoin: '',
-    // emplacement_actuelle: '',
-    // style_dapprentissage: '',
-    // budget: '',
-    // disponibilite: '',
-    // duree_preferee: '',
-    // type_de_contenu_prefere: '',
-    // preferences_linguistiques: '',
-    // historique_dapprentissage: '',
-  })
+  const [preferences, setPreferences] = useState({})
 
 
   // useEffect(() => {
@@ -320,11 +301,31 @@ export default function PreferenceClient () {
     }));
   }, [selectedLanguages]);
 
+  const updateSelectedLanguages = useCallback(() => {
+    const languages = preferences.preferences_linguistiques.split(',');
+    const updatedLanguages = { ...initialSelectedLanguages }; // Initialiser avec les valeurs par défaut
+
+    // Mettre à jour les langues sélectionnées en fonction des préférences linguistiques
+    languages.forEach(language => {
+      updatedLanguages[language.trim()] = true; // Cocher la langue sélectionnée
+    });
+
+    setSelectedLanguages(updatedLanguages); // Mettre à jour le state des langues sélectionnées
+  }, [preferences.preferences_linguistiques, initialSelectedLanguages]);
+
+
+  useEffect(() => {
+    if (preferences.preferences_linguistiques) {
+      updateSelectedLanguages();
+    }
+  }, [preferences.preferences_linguistiques, updateSelectedLanguages]);
+
+
+// Gérer le changement d'état des cases à cocher
   const handleCheckboxChange = (language) => {
-    setSelectedLanguages(prevLanguages => ({
-      ...prevLanguages,
-      [language]: !prevLanguages[language], // Inverse la valeur de la langue sélectionnée
-    }));
+    const updatedLanguages = { ...selectedLanguages };
+    updatedLanguages[language] = !updatedLanguages[language]; // Inverser l'état de la langue sélectionnée
+    setSelectedLanguages(updatedLanguages); // Mettre à jour le state des langues sélectionnées
   };
   const [availability, setAvailability] = useState({
     days: [],
@@ -361,26 +362,39 @@ export default function PreferenceClient () {
     }));
   };
 
-  function DayCheckbox ({ day, checked, onChange }) {
+  function DayCheckbox ({ day, checked, onChange, disponibilite }) {
     return (
       <div>
         <input
           type="checkbox"
           id={`${day}-checkbox`}
           name={day}
-          checked={checked}
+          checked={checked || disponibilite.includes(day.trim())} // Vérifie si le jour est inclus dans la disponibilité
           onChange={onChange}
         />
         <label htmlFor={`${day}-checkbox`}>{day.charAt(0).toUpperCase() + day.slice(1)}</label>
       </div>
     )
   }
-
+  function TimeCheckbox({ time, checked, onChange, dureePreferee }) {
+    return (
+      <div>
+        <input
+          type="checkbox"
+          id={`${time}-checkbox`}
+          name={time}
+          checked={checked || dureePreferee.includes(time.trim())} // Vérifie si le temps est inclus dans les plages horaires préférées
+          onChange={onChange}
+        />
+        <label htmlFor={`${time}-checkbox`}>{time.charAt(0).toUpperCase() + time.slice(1)}</label>
+      </div>
+    );
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       await updatePrefClient(user._id, preferences, config).then(
-        // history.push("/landing")
+        history.push("/landing")
       );
 
     } catch (error) {
@@ -1091,20 +1105,35 @@ export default function PreferenceClient () {
                                 <div className="day-checkboxes">
                                   <div className="day-column">
                                     {[' lundi', ' jeudi', ' samedi'].map((day) => (
-                                      <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
-                                                   onChange={handleDayChange}/>
+                                      <DayCheckbox
+                                        key={day}
+                                        day={day}
+                                        checked={availability.days.includes(day)}
+                                        onChange={handleDayChange}
+                                        disponibilite={preferences.disponibilite} // Passer la disponibilité comme prop
+                                      />
                                     ))}
                                   </div>
                                   <div className="day-column">
                                     {[' mardi', ' vendredi', ' dimanche'].map((day) => (
-                                      <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
-                                                   onChange={handleDayChange}/>
+                                      <DayCheckbox
+                                        key={day}
+                                        day={day}
+                                        checked={availability.days.includes(day)}
+                                        onChange={handleDayChange}
+                                        disponibilite={preferences.disponibilite} // Passer la disponibilité comme prop
+                                      />
                                     ))}
                                   </div>
                                   <div className="day-column">
                                     {[' mercredi'].map((day) => (
-                                      <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
-                                                   onChange={handleDayChange}/>
+                                      <DayCheckbox
+                                        key={day}
+                                        day={day}
+                                        checked={availability.days.includes(day)}
+                                        onChange={handleDayChange}
+                                        disponibilite={preferences.disponibilite} // Passer la disponibilité comme prop
+                                      />
                                     ))}
                                   </div>
                                 </div>
@@ -1113,17 +1142,13 @@ export default function PreferenceClient () {
                                 <h3 className="text-blueGray-400">Heures de la journée</h3>
                                 <div className="time-checkboxes text-blueGray-400">
                                   {['matin', 'après-midi', 'soir'].map((time) => (
-                                    <div key={time}>
-                                      <input
-                                        type="checkbox"
-                                        id={`${time}-checkbox`}
-                                        name={time}
-                                        checked={availability.times.includes(time)}
-                                        onChange={handleTimeChange}
-                                      />
-                                      <label htmlFor={`${time}-checkbox`}
-                                             className="ml-2">{time.charAt(0).toUpperCase() + time.slice(1)}</label>
-                                    </div>
+                                    <TimeCheckbox
+                                      key={time}
+                                      time={time}
+                                      checked={availability.times.includes(time)}
+                                      onChange={handleTimeChange}
+                                      dureePreferee={preferences.duree_preferee} // Passer les plages horaires préférées comme prop
+                                    />
                                   ))}
                                 </div>
                               </div>
