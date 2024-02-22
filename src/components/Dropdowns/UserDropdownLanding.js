@@ -127,8 +127,9 @@ const UserDropdown = () => {
           onClick={() => {
             if (user.role === 'client') {
               history.push("/First/UpdatePreferences");
-            } else {
-              history.push("/First/StepCenter");
+            }
+            if (user.role === 'centre') {
+              history.push("/First/UpdatePreferencesCenter");
             }
           }}
         >
