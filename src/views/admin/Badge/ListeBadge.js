@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo , useCallback } from 'react'
 import PropTypes from "prop-types";
 import { getAllBadges, deleteBadge, createBadge, updateBadge } from "../../../Services/ApiBadge";
 import { FaAngleDown } from 'react-icons/fa';
@@ -55,18 +55,20 @@ export default function ListeBadge({ color }) {
     return valid;
   };
 
-  const loadBadges = async () => {
+  const loadBadges = useCallback(async () => {
     try {
-      const res = await getAllBadges();
+      const res = await getAllBadges(config);
       setBadges(res.data);
     } catch (error) {
       console.error("Error loading badges:", error);
     }
-  };
+  }, [config]);
+
 
   useEffect(() => {
     loadBadges();
-  }, []);
+  }, [loadBadges]);
+
 
   const handleDeleteBadge = async (id) => {
     try {
@@ -226,12 +228,13 @@ export default function ListeBadge({ color }) {
             <tbody>
             {badges.map((badge) => (
               <tr key={badge._id}>
-                <img
-                  // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
-                  alt="UserImage"
-                  src={`http://localhost:5000/images/${badge.image_badge}`}
-                  style={{ width: '80px', height: '80px' }}
-                />
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 font-bold">
+                  <img
+                    alt="UserImage"
+                    src={`http://localhost:5000/images/${badge.image_badge}`}
+                    style={{ width: '80px', height: '80px' }}
+                  />
+                </td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 font-bold">
                   {badge.nom}
                 </td>
@@ -241,8 +244,6 @@ export default function ListeBadge({ color }) {
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                   <button className="bg-red-500 text-white px-4 py-2 rounded mr-2" onClick={() => showDeleteConfirmation(badge._id)}>Supprimer</button>
                   <button className="bg-yellow-500 text-white px-4 py-2 rounded" onClick={() => showEditBadgePopup(badge)}>Modifier le badge</button>
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
                 </td>
               </tr>
             ))}
