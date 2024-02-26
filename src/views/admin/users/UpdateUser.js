@@ -2,8 +2,10 @@ import React, { useEffect, useMemo, useState } from "react";
 
 // components
 import Cookies from "js-cookie";
-import { getUserAuth, register, registerCentre } from '../../Services/Apiauth'
-import { useLocation } from "react-router-dom";
+import { getUserAuth, } from '../../../Services/Apiauth'
+import { getUserByID, updatecentre, updateUser } from '../../../Services/ApiUser'
+
+import { useLocation , useParams } from "react-router-dom";
 // import { NotificationManager } from 'react-notifications'
 
 // import CardLineChart from "components/Cards/CardLineChart.js";
@@ -11,7 +13,7 @@ import { useLocation } from "react-router-dom";
 // import CardPageVisits from "components/Cards/CardPageVisits.js";
 // import CardSocialTraffic from "components/Cards/CardSocialTraffic.js";
 
-export default function AddUser() {
+export default function UpdateUser() {
   //cookies
   const jwt_token = Cookies.get("jwt_token");
 
@@ -43,25 +45,35 @@ export default function AddUser() {
 
   const location = useLocation();
   const message = new URLSearchParams(location.search).get("u");
+  const param = useParams();
+
+
 
   useEffect(() => {
     console.log(message);
 
+    const getUser = async (config) => {
+      await getUserByID(param.id, config).then((res) => {
+        setUser(res.data.user);
+        console.log(res.data.user);
+      }).catch((err) => {
+        console.log(err);
+      });
+    };
+
+    getUser(config);
+
     const interval = setInterval(() => {}, 1000000);
 
     return () => clearInterval(interval);
-  }, [config, message]);
+  }, [config, message,param.id ]);
 
   const [n, setN] = useState(0); // Ajout de la variable n
   const [emailError, setEmailError] = useState("");
   const [image, setImage] = useState()
 
   const [User, setUser] = useState({
-    nom: "",
-    prenom: "",
-    email: "",
     role: message ,
-    password: "",
   });
 
   const [passwordStrength, setPasswordStrength] = useState(0);
@@ -153,7 +165,7 @@ export default function AddUser() {
   };
   const [messageerr, setmessageerr] = useState();
 
-  const add = async (e) => {
+  const update = async (e) => {
     const normalizedNom = User.nom.toLowerCase();
     const passwordLowerCase = User.password.toLowerCase();
     if (
@@ -180,7 +192,7 @@ export default function AddUser() {
     } else if (emailError !== "") {
       setN(9);
     } else {
-      const res = await register(User);
+      const res = await updateUser(User,config);
       console.log(res.data);
       if (res.data.message === undefined) {
         window.location.replace(`/admin/tables/`)
@@ -216,11 +228,11 @@ export default function AddUser() {
       formData.append('nom', User.nom)
       formData.append('prenom', User.prenom)
       formData.append('password', User.password)
-      if (image === undefined) {
-        setN(9)
+      formData.append('image_user', User.image_user)
+      if (image !== undefined) {
+        formData.append('image_user', image, `${User.nom}+.png`)
       } else {
-        formData.append('image_user', image, `${User.username}+.png`)
-        const res = await registerCentre(formData)
+        const res = await updatecentre(formData,User._id,config)
         console.log(res.data)
         if (res.data.message === undefined) {
           window.location.replace(`/admin/tables/`)
@@ -241,31 +253,35 @@ export default function AddUser() {
             <div className="rounded-t bg-white mb-0 px-6 py-6">
               <div className="text-center flex justify-between">
                 <h6 className="text-blueGray-700 text-xl font-bold">
-                  Nouveaux
+                  Modifier {User.nom}
                   {message === "client" ? (
                     <span> Client</span>
                   ) : message === "formateur" ? (
                     <span> Formateur</span>
-                  ) : message === "Centre" ? (
+                  ) : message === "centre" ? (
                     <span> Centre de Formation</span>
                   ) : message === "moderateur" ? (
                     <span> moderateur</span>
+                  ) : message === "admin" ? (
+                    <span> admin</span>
                   ) : null}
                 </h6>
                 <button
                   className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   type="button"
-                  onClick={message === "client" || message === "formateur" || message === "moderateur" ? (e) => add(e) : message === "Centre" ? (e) => addCentre(e) : null}
+                  onClick={message === "client" || message === "formateur" || message === "admin" || message === "moderateur" ? (e) => update(e) : message === "centre" ? (e) => addCentre(e) : null}
                 >
-                  Ajouter un
+                  Modifier
                   {message === "client" ? (
                     <span> Client</span>
                   ) : message === "formateur" ? (
                     <span> Formateur</span>
-                  ) : message === "Centre" ? (
+                  ) : message === "centre" ? (
                     <span> Centre de Formation</span>
                   ) : message === "moderateur" ? (
                     <span> Moderateur</span>
+                  ) : message === "admin" ? (
+                    <span> Admin</span>
                   ) : null}
                 </button>
               </div>
@@ -294,15 +310,17 @@ export default function AddUser() {
                         }
                         label="nom"
                         aria-label="nom"
+                        value={User.nom}
+
                       />
                       {n === 1 ||
                       n === 4 ||
                       n === 5 ||
                       n === 7 ||
                       messageerr ===
-                        "Le Nom doit contenir plus de 3 caractères" ||
+                      "Le Nom doit contenir plus de 3 caractères" ||
                       messageerr ===
-                        "Le Nom doit contenir moins de 15 caractères" ? (
+                      "Le Nom doit contenir moins de 15 caractères" ? (
                         <label style={{ color: "red" }}>
                           Le Nom doit contenir plus de 3 et moin de 15
                         </label>
@@ -311,7 +329,7 @@ export default function AddUser() {
                       )}
                     </div>
                   </div>
-                  {message === "client" || message === "formateur" || message === "moderateur" ? (
+                  {message === "client" || message === "formateur" || message === "moderateur" || message === "admin" ? (
                     <div className="w-full lg:w-6/12 px-4">
                       <div className="relative w-full mb-3">
                         <label
@@ -330,6 +348,8 @@ export default function AddUser() {
                           }
                           label="prenom"
                           aria-label="prenom"
+                          value={User.prenom}
+
                         />
                         {n === 2 ||
                         n === 4 ||
@@ -347,7 +367,7 @@ export default function AddUser() {
                         )}
                       </div>
                     </div>
-                  ) : message === "Centre" ? (
+                  ) : message === "centre" ? (
                     <div className="w-full lg:w-6/12 px-4">
                       <div className="relative w-full mb-3">
                         <label
@@ -364,14 +384,15 @@ export default function AddUser() {
                           onChange={(e) => handlechangeFile(e)}
                           label="image_user"
                           aria-label="image_user"
+                          // value={User.image_user}
                         />
-                        {n === 9 ? (
-                          <label style={{ color: "red" }}>
-                            image obligatoire
-                          </label>
-                        ) : (
-                          ""
-                        )}
+                        {/*{n === 9 ? (*/}
+                        {/*  <label style={{ color: "red" }}>*/}
+                        {/*    image obligatoire*/}
+                        {/*  </label>*/}
+                        {/*) : (*/}
+                        {/*  ""*/}
+                        {/*)}*/}
                       </div>
                     </div>
                   ): null}
@@ -392,6 +413,7 @@ export default function AddUser() {
                         onChange={(e) => handlechange(e)}
                         label="Email"
                         aria-label="Email"
+                        value={User.email}
                       />
                       {n === 4 ? (
                         <label style={{ color: "red" }}>
@@ -431,15 +453,17 @@ export default function AddUser() {
                         onChange={(e) => handlePasswordChange(e)}
                         label="Password"
                         aria-label="Password"
+                        // value={User.password}
+
                       />
                       {n === 3 ||
                       n === 4 ||
                       n === 6 ||
                       n === 7 ||
                       messageerr ===
-                        "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
+                      "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
                       messageerr ===
-                        "Le Mot de passe doit contenir au moins 8 caractères" ? (
+                      "Le Mot de passe doit contenir au moins 8 caractères" ? (
                         <label style={{ color: "red" }}>
                           Le Mot de passe doit contenir au moins une lettre
                           majuscule, une lettre minuscule, un chiffre et un

@@ -19,7 +19,7 @@ import { MdAdminPanelSettings, MdSettingsVoice } from 'react-icons/md'
 import { RiAdminFill } from 'react-icons/ri'
 
 import Cookies from 'js-cookie'
-import { getUserAuth } from '../../Services/Apiauth'
+import { getUserAuth } from '../../../Services/Apiauth'
 import {
   active,
   archiver,
@@ -41,7 +41,7 @@ import {
   upgrade,
   upgradeFormateur,
   upgradeModerateur,
-} from '../../Services/ApiUser'
+} from '../../../Services/ApiUser'
 import { AiOutlineReload } from 'react-icons/ai'
 import { createPopper } from '@popperjs/core'
 import { useHistory } from 'react-router-dom'
@@ -529,10 +529,15 @@ export default function ListUsers ({ color }) {
 
   return (
     <>
+      <div className="flex flex-wrap mt-4">
+        {/*<div className="w-full mb-12 px-4">*/}
+        {/*  <CardTable />*/}
+        {/*</div>*/}
+        <div className="w-full mb-12 px-4">
       <div
         className={
-          'relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded ' +
-          (color === 'light' ? 'bg-white' : 'bg-lightBlue-900 text-white')
+          'relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-lightBlue-900 text-white'
+          // + (color === 'light' ? 'bg-white' : 'bg-lightBlue-900 text-white')
         }
       >
         <div className="rounded-t mb-0 px-4 py-3 border-0">
@@ -911,70 +916,77 @@ export default function ListUsers ({ color }) {
             <tr>
               <th
                 className={
-                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
-                  (color === 'light'
-                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700 '
+                  // +
+                  // (color === 'light'
+                  //   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  //   : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
                 }
               >
                 Utilisateurs
               </th>
               <th
                 className={
-                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
-                  (color === 'light'
-                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700'
+                  // +
+                  // (color === 'light'
+                  //   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  //   : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
                 }
               >
                 Email
               </th>
               <th
                 className={
-                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
-                  (color === 'light'
-                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700'
+                  // +
+                  // (color === 'light'
+                  //   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  //   : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
                 }
               >
                 Role
               </th>
               <th
                 className={
-                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
-                  (color === 'light'
-                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700'
+                  // +
+                  // (color === 'light'
+                  //   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  //   : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
                 }
               >
                 Status
               </th>
               <th
                 className={
-                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
-                  (color === 'light'
-                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700'
+                  // +
+                  // (color === 'light'
+                  //   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  //   : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
                 }
               >
                 Activer
               </th>
               <th
                 className={
-                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
-                  (color === 'light'
-                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700'
+                  // +
+                  // (color === 'light'
+                  //   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  //   : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
                 }
               >
                 Completion
               </th>
               <th
                 className={
-                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left ' +
-                  (color === 'light'
-                    ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                    : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
+                  'px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700'
+                  // +
+                  // (color === 'light'
+                  //   ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  //   : 'bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700')
                 }
               ></th>
             </tr>
@@ -1004,7 +1016,7 @@ export default function ListUsers ({ color }) {
                     <div>
                       <img
                         alt="UserImage"
-                        src={require('assets/img/empty.png').default}
+                        src={require('../../../assets/img/empty.png').default}
                         style={{ width: '80px', height: '80px' }}
                       />
                     </div>
@@ -1076,7 +1088,8 @@ export default function ListUsers ({ color }) {
                   className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right relative ">
                   <button
                     className={`bg-transparent border border-solid hover:bg-blueGray-500 hover:text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 ${
-                      color === 'light' ? 'text-blueGray-600' : 'text-white'
+                      // color === 'light' ? 'text-blueGray-600' : 'text-white'
+                      color ==='text-blueGray-600'
                     }`}
                     type="button"
                     onClick={() => toggleDropdown(user._id)} // Utilisez toggleDropdown au lieu de openDropdown
@@ -1488,6 +1501,8 @@ export default function ListUsers ({ color }) {
             </div>
           </ul>
         </nav>
+      </div>
+        </div>
       </div>
     </>
   )
