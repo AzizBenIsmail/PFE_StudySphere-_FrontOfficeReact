@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 
 // components
 
-import ListUsers from "../admin/ListUsers";
+import ListUsers from "./users/ListUsers";
 // import CardTable from "../../components/Cards/CardTable";
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../../Services/Apiauth'
