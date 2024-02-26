@@ -5,6 +5,7 @@ import { getAllNiveaux } from "../../../Services/ApiNiveau"; // Importez le serv
 import { getUsers } from "../../../Services/ApiUser"; // Importez le service pour récupérer les utilisateurs
 import { FaAngleDown } from 'react-icons/fa';
 import Cookies from 'js-cookie'
+import { getAllBadges } from '../../../Services/ApiBadge'
 
 export default function ListeXP({ color }) {
   const jwt_token = Cookies.get('jwt_token')
@@ -17,6 +18,7 @@ export default function ListeXP({ color }) {
     }
   }, [jwt_token])
   const [xpEntries, setXPEntries] = useState([]);
+  const [badges, setBadges] = useState([]);
   const [niveaux, setNiveaux] = useState([]); // État pour stocker les niveaux
   const [selectedNiveau, setSelectedNiveau] = useState(""); // État pour suivre le niveau sélectionné
   const [users, setUsers] = useState([]); // État pour stocker les utilisateurs
@@ -28,18 +30,15 @@ export default function ListeXP({ color }) {
   const [xpToEdit, setXPToEdit] = useState(null);
   const [newXP, setNewXP] = useState({
     pointsGagnes: 0,
-    source: "",
-    niveauAtteint: "", // ID du niveau atteint
-    badgeId: "", // ID du badge (optionnel)
-    user: "" // ID de l'utilisateur
+    niveauAtteint: "",
+    badgeIds: [], // Utilisez un tableau pour stocker les identifiants des badges sélectionnés
+    userId: ""
   });
-
   const [errors, setErrors] = useState({
     pointsGagnes: "",
-    source: "",
     niveauAtteint: "",
     badgeId: "",
-    user: ""
+    userId: ""
   });
 
   const validateForm = () => {
@@ -47,22 +46,17 @@ export default function ListeXP({ color }) {
     const newErrors = {};
 
     if (!newXP.pointsGagnes) {
-      newErrors.pointsGagnes = "Le nombre de points gagnés est requis";
-      valid = false;
-    }
-
-    if (!newXP.source.trim()) {
-      newErrors.source = "La source des points est requise";
+      newErrors.pointsGagnes = 'Le nombre de points gagnés est requis';
       valid = false;
     }
 
     if (!newXP.niveauAtteint.trim()) {
-      newErrors.niveauAtteint = "Le niveau atteint est requis";
+      newErrors.niveauAtteint = 'Le niveau atteint est requis';
       valid = false;
     }
 
-    if (!newXP.user.trim()) {
-      newErrors.user = "L'utilisateur est requis";
+    if (!newXP.userId.trim()) {
+      newErrors.userId = "L'utilisateur est requis";
       valid = false;
     }
 
@@ -97,11 +91,21 @@ export default function ListeXP({ color }) {
     }
   }, [config]);
 
+  const loadBadges = useCallback(async () => {
+    try {
+      const res = await getAllBadges(config);
+      setBadges(res.data);
+    } catch (error) {
+      console.error("Error loading badges:", error);
+    }
+  }, [config]);
+
   useEffect(() => {
+    loadBadges();
     loadUsers();
     loadNiveaux();
     loadXPEntries();
-  }, [loadUsers, loadNiveaux, loadXPEntries]);
+  }, [loadBadges,loadUsers, loadNiveaux, loadXPEntries]);
 
 
   const handleDeleteXP = async (id) => {
@@ -115,29 +119,26 @@ export default function ListeXP({ color }) {
   };
 
   const handleAddXP = async () => {
-    if (validateForm()) {
       try {
         await createXP(newXP,config);
         loadXPEntries();
         setShowAddXP(false);
         setNewXP({
           pointsGagnes: 0,
-          source: "",
           niveauAtteint: "",
-          badgeId: "",
-          user: ""
+          badgeIds: [], // Réinitialisez la liste des identifiants des badges
+          userId: ""
         });
         setErrors({
           pointsGagnes: "",
-          source: "",
           niveauAtteint: "",
           badgeId: "",
-          user: ""
+          userId: ""
         });
       } catch (error) {
         console.error("Error adding XP entry:", error);
       }
-    }
+
   };
 
   const showDeleteConfirmation = (id) => {
@@ -158,10 +159,9 @@ export default function ListeXP({ color }) {
     setShowAddXP(false);
     setNewXP({
       pointsGagnes: 0,
-      source: "",
       niveauAtteint: "",
       badgeId: "",
-      user: ""
+      userId: ""
     });
   };
 
@@ -174,17 +174,15 @@ export default function ListeXP({ color }) {
         setXPToEdit(null);
         setNewXP({
           pointsGagnes: 0,
-          source: "",
           niveauAtteint: "",
           badgeId: "",
-          user: ""
+          userId: ""
         });
         setErrors({
           pointsGagnes: "",
-          source: "",
           niveauAtteint: "",
           badgeId: "",
-          user: ""
+          userId: ""
         });
       } catch (error) {
         console.error("Error updating XP entry:", error);
@@ -250,14 +248,7 @@ export default function ListeXP({ color }) {
                   "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700"
                 }
               >
-                Points Gagnés
-              </th>
-              <th
-                className={
-                  "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700"
-                }
-              >
-                Source
+                Utilisateur
               </th>
               <th
                 className={
@@ -271,7 +262,14 @@ export default function ListeXP({ color }) {
                   "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700"
                 }
               >
-                Utilisateur
+                Points Gagnés
+              </th>
+              <th
+                className={
+                  "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700"
+                }
+              >
+                Badges
               </th>
               <th
                 className={
@@ -291,16 +289,26 @@ export default function ListeXP({ color }) {
             {xpEntries.map((xp) => (
               <tr key={xp._id}>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 font-bold">
+                  {xp.user.nom}
+                </td>
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                  {xp.niveauAtteint.nom}
+                </td>
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                   {xp.pointsGagnes}
                 </td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  {xp.source}
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  {xp.niveauAtteint}
-                </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  {xp.user}
+                  <div className="flex" >
+                  {xp.badgeIds.map((badge) => (
+                    <>
+                    <img  key={badge._id}
+                      src={`http://localhost:5000/images/${badge.image_badge}`}
+                      alt="..."
+                  className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
+                ></img>
+                    </>
+                    ))}
+                </div>
                 </td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                   <button className="bg-red-500 text-white px-4 py-2 rounded mr-2" onClick={() => showDeleteConfirmation(xp._id)}>Supprimer</button>
@@ -336,10 +344,6 @@ export default function ListeXP({ color }) {
               {errors.pointsGagnes && <p className="text-red-500 text-xs">{errors.pointsGagnes}</p>}
             </div>
             <div className="mb-4">
-              <input type="text" placeholder="Source" value={newXP.source} onChange={(e) => setNewXP({...newXP, source: e.target.value})} />
-              {errors.source && <p className="text-red-500 text-xs">{errors.source}</p>}
-            </div>
-            <div className="mb-4">
               <select
                 value={selectedNiveau}
                 onChange={(e) => setSelectedNiveau(e.target.value)}
@@ -358,6 +362,22 @@ export default function ListeXP({ color }) {
                 <option value="">Sélectionnez un utilisateur</option>
                 {userOptions}
               </select>
+            </div>
+            <div className="mb-4">
+              <select
+                multiple
+                value={newXP.badgeIds}
+                onChange={(e) => setNewXP({...newXP, badgeIds: Array.from(e.target.selectedOptions, option => option.value)})}
+                className="bg-white shadow border rounded px-3 py-2 outline-none"
+              >
+                {/* Options de sélection des badges */}
+                {badges.map(badge => (
+                  <option key={badge._id} value={badge._id}>
+                    {badge.nom} {/* Supposons que le nom du badge est stocké dans un champ "nom" */}
+                  </option>
+                ))}
+              </select>
+
             </div>
             <div className="flex justify-end">
               <button className="bg-emerald-500 text-white px-4 py-2 rounded mr-4" onClick={handleAddXP}>Ajouter</button>
@@ -385,8 +405,8 @@ export default function ListeXP({ color }) {
               {errors.niveauAtteint && <p className="text-red-500 text-xs">{errors.niveauAtteint}</p>}
             </div>
             <div className="mb-4">
-              <input type="text" placeholder="Utilisateur" value={newXP.user} onChange={(e) => setNewXP({...newXP, user: e.target.value})} />
-              {errors.user && <p className="text-red-500 text-xs">{errors.user}</p>}
+              <input type="text" placeholder="Utilisateur" value={newXP.userId} onChange={(e) => setNewXP({...newXP, userId: e.target.value})} />
+              {errors.userId && <p className="text-red-500 text-xs">{errors.userId}</p>}
             </div>
             <div className="flex justify-end">
               <button className="bg-emerald-500 text-white px-4 py-2 rounded mr-4" onClick={handleEditXP}>Enregistrer</button>

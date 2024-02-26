@@ -46,14 +46,15 @@ export default function ListeBadge({ color }) {
       valid = false;
     }
 
-    if (!newBadge.image_badge.trim()) {
-      newErrors.image_badge = "La image_badge du badge est requise";
+    if (!newBadge.image_badge) {
+      newErrors.image_badge = "L'image du badge est requise";
       valid = false;
     }
 
     setErrors(newErrors);
     return valid;
   };
+
 
   const loadBadges = useCallback(async () => {
     try {
