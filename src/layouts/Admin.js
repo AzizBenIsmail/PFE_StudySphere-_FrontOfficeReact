@@ -15,10 +15,13 @@ import Dashboard from "views/admin/Dashboard.js";
 // import Maps from "views/admin/Maps.js";
 import Settings from "views/admin/Settings.js";
 import Profile from "views/admin/Profile.js";
-import Tables from "views/admin/Tables.js";
+import ListUsers from "views/admin/users/ListUsers.js";
 import { InfinitySpin } from 'react-loader-spinner'
-import AddUser from "../views/admin/AddUser.js";
-import UpdateUser from "../views/admin/UpdateUser.js";
+import AddUser from "../views/admin/users/AddUser.js";
+import UpdateUser from "../views/admin/users/UpdateUser.js";
+import ListeNiveau from "../views/admin/Niveau/ListeNiveau.js";
+import ListeBadge from "../views/admin/Badge/ListeBadge.js";
+import LitseXp from "../views/admin/xp/LitseXp.js";
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
@@ -63,10 +66,12 @@ export default function Admin() {
           <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d" />}>
           <Switch>
             <Route path="/admin/dashboard" exact component={Dashboard} />
-            {/*<Route path="/admin/maps" exact component={Maps} />*/}
+            <Route path="/admin/ListeNiveau" exact component={ListeNiveau} />
+            <Route path="/admin/LitseXp" exact component={LitseXp} />
+            <Route path="/admin/ListeBadge" exact component={ListeBadge} />
             <Route path="/admin/settings" exact component={Settings} />
             <Route path="/admin/Profile/:id" exact component={Profile} />
-            <Route path="/admin/tables" exact component={Tables} />
+            <Route path="/admin/tables" exact component={ListUsers} />
             <Route path="/admin/Ajouterutilisateur" exact component={AddUser} />
             <Route path="/admin/Modifierutilisateur/:id" exact component={UpdateUser} />
 
