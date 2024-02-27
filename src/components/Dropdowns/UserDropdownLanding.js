@@ -91,7 +91,7 @@ const UserDropdown = () => {
                 // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
                 alt="UserImage"
                 className="w-full rounded-full align-middle border-none shadow-lg"
-                src={`http://localhost:5000/images/${user.image_user}`}
+                src={`http://localhost:5000/images/Users/${user.image_user}`}
                 style={{ width: "80px", height: "80px" }}
               />
             ) : (

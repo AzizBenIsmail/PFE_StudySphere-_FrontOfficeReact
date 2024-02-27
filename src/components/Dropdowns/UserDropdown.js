@@ -82,7 +82,7 @@ const UserDropdown = () => {
           <img
            alt="..."
             className="w-full rounded-full align-middle border-none shadow-lg"
-           src={`http://localhost:5000/images/${user.image_user}`}
+           src={`http://localhost:5000/images/Users/${user.image_user}`}
           />
           )}
           </span>
