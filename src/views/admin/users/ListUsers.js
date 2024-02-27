@@ -1359,6 +1359,7 @@ export default function ListUsers ({ color }) {
 
           <br></br>
           <br></br>
+          <br></br>
 
           <div className="ml-3 mr-4 mb-6 flex items-center text-xl">
             <span className="mr-2 ml-4 ">Nombre total d'utilisateurs :</span>
