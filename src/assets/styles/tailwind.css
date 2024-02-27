@@ -2783,6 +2783,10 @@ select {
     margin-left: 16rem;
   }
 
+  .md\:ml-60 {
+    margin-left: 14rem;
+  }
+
   .md\:min-h-full {
     min-height: 100%;
   }
@@ -2860,6 +2864,10 @@ select {
 
   .md\:w-64 {
     width: 16rem;
+  }
+
+  .md\:w-60 {
+    width: 14rem;
   }
 
   .md\:w-4\/12 {
