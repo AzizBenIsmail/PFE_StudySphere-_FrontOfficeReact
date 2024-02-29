@@ -126,11 +126,19 @@ const UserDropdown = () => {
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           onClick={() => {
             if (user.role === 'client') {
-              history.push("/First/UpdatePreferences");
+              console.log(user)
+              console.log(user.preferences)
+              if (user.preferences === undefined) {
+                history.push("/First");
+              } else {
+                history.push("/First/UpdatePreferences");
+              }
             }
+
             if (user.role === 'centre') {
-              history.push("/First/UpdatePreferencesCenter");
-            }
+              if (!user.xp) {
+                history.push("/First");
+              }            }
           }}
         >
           Paramètre
