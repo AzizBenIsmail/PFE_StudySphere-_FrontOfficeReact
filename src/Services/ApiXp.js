@@ -21,3 +21,11 @@ export async function deleteXP(id, config) {
 export async function getAllXP(config) {
     return await axios.get(apiURL, config);
 }
+
+export async function add50xp(id, config) {
+  return await axios.put(`${apiURL}/add50xp/${id}`, config);
+}
+
+export async function delete50xp(id, config) {
+  return await axios.put(`${apiURL}/delete50xp/${id}`, config);
+}
