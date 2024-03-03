@@ -1,18 +1,16 @@
 /*eslint-disable*/
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 // components
 import Cookies from 'js-cookie'
-import { getUserAuth, logout } from '../../Services/Apiauth'
 import UserDropdown from '../Dropdowns/UserDropdownLanding'
 import NotificationDropdown from '../Dropdowns/NotificationDropdown'
-import { FaSchool } from 'react-icons/fa'
+import { FaRegStar, FaSchool } from 'react-icons/fa'
 import { MdCastForEducation } from 'react-icons/md'
-import { IoIosNotificationsOutline } from 'react-icons/io'
+import { SiNintendogamecube } from "react-icons/si";
 
-export default function Navbar (props) {
-  const [user, setUser] = useState([])
+export default function Navbar ({ user }) {
   const history = useHistory()
 
   const [navbarOpen, setNavbarOpen] = React.useState(false)
@@ -30,39 +28,6 @@ export default function Navbar (props) {
       },
     }
   }, [jwt_token])
-
-  ////////
-  useEffect(() => {
-    const getAuthUser = async (config) => {
-      await getUserAuth(config)
-      .then((res) => {
-        setUser(res.data.user)
-        // console.log(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    }
-    getAuthUser(config)
-    const interval = setInterval(() => {
-      getAuthUser(config) // appel répété toutes les 10 secondes
-    }, 300000)
-    return () => clearInterval(interval) // nettoyage à la fin du cycle de vie du composant
-  }, [config])
-  const log = async (config, user) => {
-    try {
-      logout(config, user._id)
-      .then(() => {
-        // console.log(res.data.user);
-        window.location.replace(`/login/`)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   return (
     <>
@@ -116,19 +81,28 @@ export default function Navbar (props) {
             </ul>
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="flex items-center">{/*<PagesDropdown />*/}</li>
-              <li className="flex items-center">
-                <button
-                  className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold ml-3"
-                  onClick={() => history.push('/Elearning')}
-                >
-                  <MdCastForEducation
-                    className="mr-2"
-                    style={{ fontSize: '24px' }}
-                  />
-                  Votre Espace
-                </button>
-              </li>
+              {/*<li className="flex items-center">*/}
+              {/*  <button*/}
+              {/*    className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold ml-3"*/}
+              {/*    onClick={() => history.push('/Elearning')}*/}
+              {/*  >*/}
+              {/*    <MdCastForEducation*/}
+              {/*      className="mr-2"*/}
+              {/*      style={{ fontSize: '24px' }}*/}
+              {/*    />*/}
+              {/*    Votre Espace*/}
+              {/*  </button>*/}
+              {/*</li>*/}
+              <div
+                className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold ml-3"
+              >
+                <FaRegStar className="mr-1" style={{ fontSize: '24px' }}
+              />
+                {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && `${user.xp.niveauAtteint.nom}`}
+                <SiNintendogamecube className="mr-2 ml-2" style={{ fontSize: '24px' }}/>
+                {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && ` Xp : ${user.xp.pointsGagnes}`}
 
+              </div>
               <li className="flex items-center">
                 <a
                   className="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
@@ -141,12 +115,10 @@ export default function Navbar (props) {
               </li>
 
               <li className="flex items-center">
-                <li className="flex items-center">
-                  <NotificationDropdown/>
-                </li>
+                <NotificationDropdown/>
               </li>
               <li className="flex items-center">
-                <UserDropdown/>
+                <UserDropdown user={user}/>
               </li>
 
             </ul>
