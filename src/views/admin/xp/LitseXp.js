@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
-import { createXP, deleteXP, getAllXP, updateXP } from '../../../Services/ApiXp'
+import { createXP, delete50xp, deleteXP, getAllXP, updateXP, add50xp} from '../../../Services/ApiXp'
 import { getAllNiveaux } from '../../../Services/ApiNiveau' // Importez le service pour récupérer les niveaux
 import { getUsers } from '../../../Services/ApiUser' // Importez le service pour récupérer les utilisateurs
 import { FaAngleDown } from 'react-icons/fa'
@@ -121,6 +121,24 @@ export default function ListeXP ({ color }) {
       setShowConfirm(false)
     } catch (error) {
       console.error('Error deleting XP entry:', error)
+    }
+  }
+
+  const AddXP = async (id,config) => {
+    try {
+      await add50xp(id, config)
+      loadXPEntries()
+    } catch (error) {
+      console.error('Error Add XP entry:', error)
+    }
+  }
+
+  const DeletexP = async (id,config) => {
+    try {
+      await delete50xp(id, config)
+      loadXPEntries()
+    } catch (error) {
+      console.error('Error Add XP entry:', error)
     }
   }
 
@@ -342,6 +360,12 @@ export default function ListeXP ({ color }) {
                   </button>
                   <button className="bg-yellow-500 text-white px-4 py-2 rounded"
                           onClick={() => showEditXPPopup(xp)}>Modifier l'entrée
+                  </button>
+                  <button className="bg-emerald-500 text-white px-4 py-2 rounded"
+                          onClick={() => AddXP(xp.user._id,config)}>Ajouter 50Xp
+                  </button>
+                  <button className="bg-emerald-500 text-white px-4 py-2 rounded"
+                          onClick={() => DeletexP(xp.user._id,config)}>supprimer 50Xp
                   </button>
                 </td>
               </tr>
