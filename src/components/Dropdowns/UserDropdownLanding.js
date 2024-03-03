@@ -7,13 +7,8 @@ import { useHistory } from "react-router-dom";
 import { RotatingLines } from 'react-loader-spinner'
 
 const UserDropdown = ({user}) => {
-  // const [user, setUser] = useState([]);
   const history = useHistory();
 
-  // dropdown props
-
-  // const history = useHistory();
-  //cookies
   const jwt_token = Cookies.get("jwt_token");
 
   if (!Cookies.get("jwt_token")) {

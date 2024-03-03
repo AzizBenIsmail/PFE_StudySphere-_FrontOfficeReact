@@ -1,5 +1,5 @@
-import { lazy, React, Suspense, useMemo } from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { lazy, React, Suspense, useEffect, useState } from 'react'
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
 
 // components
 // import Navbar from "components/Navbars/AuthNavbar.js";
@@ -23,35 +23,40 @@ const announcementCenter = lazy(() => import("../views/FirstStep/PreferenceCente
 
 export default function First () {
   const jwt_token = Cookies.get('jwt_token')
-
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    }
-  }, [jwt_token])
+  const [user, setUser] = useState(null);
+  const history = useHistory()
 
   //session
-  if (Cookies.get('jwt_token')) {
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin/`)
-          }
-        })
+        if (jwt_token) {
+          const config = {
+            headers: {
+              Authorization: `Bearer ${jwt_token}`,
+            },
+          };
+          const res = await getUserAuth(config);
+          setUser(() => {
+            if (res.data.user.role === 'admin') {
+              history.replace('/admin/');
+            }
+            return res.data.user;
+          });
+        } else {
+          history.replace('/');
+        }
+
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-    fetchData()
-  } else {
-    window.location.replace(`/`)
-  }
+    };
+
+    fetchData();
+  }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
   return (
     <>
-      <Navbar transparent/>
+      <Navbar user={user}/>
       <main>
         <section className="relative w-full h-full py-30 min-h-screen">
           <div

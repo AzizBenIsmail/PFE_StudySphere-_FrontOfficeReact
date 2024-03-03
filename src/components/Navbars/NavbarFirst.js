@@ -8,7 +8,7 @@ import { GiBurningDot } from 'react-icons/gi'
 import UserDropdown from '../Dropdowns/UserDropdownLanding'
 import NotificationDropdown from '../Dropdowns/NotificationDropdown'
 
-export default function Navbar (props) {
+export default function Navbar ({ user }) {
   const [navbarOpen, setNavbarOpen] = React.useState(false)
   return (
     <>
@@ -97,7 +97,7 @@ export default function Navbar (props) {
                 <NotificationDropdown/>
               </li>
               <li className="flex items-center">
-                <UserDropdown/>
+                <UserDropdown user={user}/>
               </li>
             </ul>
           </div>
