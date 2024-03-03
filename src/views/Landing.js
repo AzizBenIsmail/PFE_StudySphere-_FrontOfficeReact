@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
-import { Link } from "react-router-dom";
+import React, { useState , useEffect} from 'react'
+import { Link, useHistory } from "react-router-dom";
 // components
 
 import Navbar from "components/Navbars/Navbar.js";
@@ -8,37 +8,41 @@ import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
 export default function Landing() {
-  const jwt_token = Cookies.get('jwt_token')
+  const [user, setUser] = useState(null);
+  const jwt_token = Cookies.get('jwt_token');
+  const history = useHistory();
 
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    }
-  }, [jwt_token])
-
-  //session
-  if (Cookies.get('jwt_token')) {
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin/`)
-          }
-        })
+        if (jwt_token) {
+          const config = {
+            headers: {
+              Authorization: `Bearer ${jwt_token}`,
+            },
+          };
+          const res = await getUserAuth(config);
+          setUser(() => {
+            if (res.data.user.role === 'admin') {
+              history.replace('/admin/');
+            }
+            return res.data.user;
+          });
+        } else {
+          history.replace('/');
+        }
+
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-    fetchData()
-  }else{
-    window.location.replace(`/`)
-  }
+    };
+
+    fetchData();
+  }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
 
   return (
     <>
-      <Navbar transparent />
+      <Navbar user={user}/>
       <main>
         <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
           <div
@@ -59,6 +63,7 @@ export default function Landing() {
                 <div className="pr-12">
                   <h1 className="text-white font-semibold text-5xl">
                     Your story starts with us.
+                    {/*{user ? `${user.nom} ${user.prenom}` : 'Loading...'}*/}
                   </h1>
                   <p className="mt-4 text-lg text-blueGray-200">
                     This is a simple example of a Landing Page you can build

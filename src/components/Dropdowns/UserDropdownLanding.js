@@ -1,12 +1,13 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { createPopper } from "@popperjs/core";
-import { getUserAuth, logout } from "../../Services/Apiauth";
+import { logout } from "../../Services/Apiauth";
 import Cookies from "js-cookie";
 import { useHistory } from "react-router-dom";
 // import { useHistory } from 'react-router-dom';
+import { RotatingLines } from 'react-loader-spinner'
 
-const UserDropdown = () => {
-  const [user, setUser] = useState([]);
+const UserDropdown = ({user}) => {
+  // const [user, setUser] = useState([]);
   const history = useHistory();
 
   // dropdown props
@@ -27,24 +28,6 @@ const UserDropdown = () => {
     };
   }, [jwt_token]);
 
-  ////////
-  useEffect(() => {
-    const getAuthUser = async (config) => {
-      await getUserAuth(config)
-        .then((res) => {
-          setUser(res.data.user);
-          // console.log(res.data.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getAuthUser(config);
-    const interval = setInterval(() => {
-      getAuthUser(config); // appel répété toutes les 10 secondes
-    }, 300000);
-    return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
-  }, [config]);
   const log = async (config, user) => {
     try {
       logout(config, user._id)
@@ -86,7 +69,8 @@ const UserDropdown = () => {
       >
         <div className="items-center flex">
           <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
-            {user.image_user ? (
+
+            {user && user.image_user ? (
               <img
                 // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
                 alt="UserImage"
@@ -96,11 +80,16 @@ const UserDropdown = () => {
               />
             ) : (
               <div>
-                <img
-                  alt="UserImage"
-                  className="w-full rounded-full align-middle border-none shadow-lg"
-                  src={require("assets/img/images.png").default}
-                  style={{ width: "80px", height: "80px" }}
+                <RotatingLines
+                  visible={true}
+                  height="96"
+                  width="96"
+                  color="grey"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  ariaLabel="rotating-lines-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
                 />
               </div>
             )}
