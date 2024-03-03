@@ -1,6 +1,6 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
-import { MdNotificationAdd } from "react-icons/md";
+import { MdNotificationAdd ,MdNotifications } from "react-icons/md";
 
 const NotificationDropdown = () => {
   // dropdown props
@@ -30,7 +30,7 @@ const NotificationDropdown = () => {
       >
 
         <MdNotificationAdd  className=" mr-3" style={{ fontSize: '29px' }}/>
-        {/*<MdNotifications className=" mr-3" style={{ fontSize: '29px' }}/>*/}
+        <MdNotifications className=" mr-3" style={{ fontSize: '29px' }}/>
 
       </a>
       <div
