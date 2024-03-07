@@ -928,13 +928,22 @@ export default function PreferenceClient () {
                       </div>
 
                       <div className="text-center mt-4">
-                        <button
-                          className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                          type="button"
-                          onClick={(e) => setStep('3')}
-                        >
-                          Suivant
-                        </button>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <button
+                            className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={(e) => setStep('1')}
+                          >
+                            précédent
+                          </button>
+                          <button
+                            className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={(e) => setStep('3')}
+                          >
+                            Suivant
+                          </button>
+                        </div>
                       </div>
                     </form>
                   </>
@@ -1123,7 +1132,14 @@ export default function PreferenceClient () {
                       </div>
                       {Step === '3' ? (<>
                         <div className="text-center mt-4">
-                          {/* <Link to="/landing"> */}
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <button
+                              className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={(e) => setStep('2')}
+                            >
+                              précédent
+                            </button>
                           <button
                             className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                             type="button"
@@ -1131,20 +1147,29 @@ export default function PreferenceClient () {
                           >
                             Valider
                           </button>
-                          {/* </Link> */}
+                          </div>
                         </div>
                       </>) : (<>
-                        <div className="text-center mt-4">
-                          {/* <Link to="/landing"> */}
-                          <button
-                            className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                            type="button"
-                            onClick={(e) => setStep('3')}
-                          >
-                            Suivant
-                          </button>
-                          {/* </Link> */}
-                        </div>
+                        {/*<div className="text-center mt-4">*/}
+                        {/*  /!* <Link to="/landing"> *!/*/}
+                        {/*  <div style={{ display: 'flex', justifyContent: 'space-between' }}>*/}
+                        {/*    <button*/}
+                        {/*      className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"*/}
+                        {/*      type="button"*/}
+                        {/*      onClick={(e) => setStep('2')}*/}
+                        {/*    >*/}
+                        {/*      précédent*/}
+                        {/*    </button>*/}
+                        {/*    <button*/}
+                        {/*      className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"*/}
+                        {/*      type="button"*/}
+                        {/*      onClick={(e) => setStep('3')}*/}
+                        {/*    >*/}
+                        {/*      Suivant*/}
+                        {/*    </button>*/}
+                        {/*  </div>*/}
+                        {/*  /!* </Link> *!/*/}
+                        {/*</div>*/}
                       </>)}
 
                     </form>
