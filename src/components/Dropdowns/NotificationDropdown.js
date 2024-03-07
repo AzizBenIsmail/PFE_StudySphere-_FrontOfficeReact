@@ -67,8 +67,6 @@ const NotificationDropdown = () => {
           setReadNotifications(readNotifs)
           setUnreadNotifications(unreadNotifs)
           setVues(vuNotifs)
-        } else {
-          console.error('User is null or user._id is undefined')
         }
       } catch (error) {
         console.error('Error fetching notifications:', error)
@@ -87,16 +85,18 @@ const NotificationDropdown = () => {
   const [dropdownPopoverShow, setDropdownPopoverShow] = useState(false)
   const btnDropdownRef = React.createRef()
   const popoverDropdownRef = React.createRef()
-  const [classname, setClassname] = useState('mr-3 ml-3 text-white')
-  const handleNotificationClick = async (notificationId) => {
+  const [classname, setClassname] = useState('mr-3 ml-3 text-blueGray-300')
+  const handleNotificationClick = async (notif) => {
     try {
-      await markNotificationAsRead(notificationId, { headers: { Authorization: `Bearer ${jwt_token}` } })
+      await markNotificationAsRead(notif._id, { headers: { Authorization: `Bearer ${jwt_token}` } })
       setNotifications(notifications.map(notification => {
-        if (notification._id === notificationId) {
+        if (notification._id === notif.id) {
           return { ...notification, read: true }
         }
         return notification
       }))
+      window.location.replace(`${notif.url}`);
+
     } catch (error) {
       console.error('Error marking notification as read:', error)
     }
@@ -109,6 +109,7 @@ const NotificationDropdown = () => {
     unreadNotifications.forEach(async notification => {
       await markNotificationAsViewed(notification._id, config)
     })
+
   }
 
   const openDropdownPopover = () => {
@@ -164,7 +165,7 @@ const NotificationDropdown = () => {
           <div className="text-blueGray-400 font-bold">
             Notifications
           </div>
-          <a className="text-lightBlue-600 text-right" href="/lien-vers-votre-page">
+          <a className="text-lightBlue-600 text-right" href="/listeNotifcation">
             Voir tous
           </a>
         </div>
@@ -176,7 +177,7 @@ const NotificationDropdown = () => {
           <div
             key={notification._id}
             className={`py-1 px-4 font-normal text-sm whitespace-normal bg-transparent text-blueGray-700 cursor-pointer hover:bg-blueGray-100 ${notification.read ? 'opacity-50' : ''}`}
-            onClick={() => handleNotificationClick(notification._id)}
+            onClick={() => handleNotificationClick(notification)}
           >
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <div className="mb-1">{notification.content}</div>
@@ -193,7 +194,7 @@ const NotificationDropdown = () => {
           <div
             key={notification._id}
             className={`py-1 px-4 font-normal text-sm whitespace-normal bg-transparent text-blueGray-700 cursor-pointer hover:bg-blueGray-100 ${notification.read ? 'opacity-50' : ''}`}
-            onClick={() => handleNotificationClick(notification._id)}
+            onClick={() => handleNotificationClick(notification)}
           >
             <div className="mb-1">{notification.content}</div>
             <div className="text-xs text-blueGray-500">{moment(notification.createdAt).format('DD/MM/YYYY HH:mm')}</div>
