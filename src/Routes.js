@@ -12,6 +12,8 @@ const Landing = lazy(() => import("views/Landing.js"));
 const Elearning = lazy(() => import("views/E-learning/Landing.js"));
 const Profile = lazy(() => import("views/Profile.js"));
 const updateProfile = lazy(() => import("./views/client/updateProfile.js"));
+const Bienvenu = lazy(() => import("./views/client/Bienvenu.js"));
+const listeNotifcation = lazy(() => import("./views/client/notification/listeNotifcation.js"));
 const Index = lazy(() => import("views/Index.js"));
 
 function Routes() {
@@ -26,6 +28,8 @@ function Routes() {
 
           {/* add routes without layouts */}
           <Route path="/landing" exact component={Landing} />
+          <Route path="/Bienvenu" exact component={Bienvenu} />
+          <Route path="/listeNotifcation" exact component={listeNotifcation} />
           <Route path="/Elearning" exact component={Elearning} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/edit/:id" exact component={updateProfile} />
