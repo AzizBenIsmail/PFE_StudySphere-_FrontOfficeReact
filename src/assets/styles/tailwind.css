@@ -2405,6 +2405,10 @@ select {
   color: rgba(14, 165, 233, var(--tw-text-opacity));
 }
 
+.text-lightBlue-notification {
+  color: rgba(0,19,255);
+}
+
 .text-lightBlue-600 {
   --tw-text-opacity: 1;
   color: rgba(2, 132, 199, var(--tw-text-opacity));
