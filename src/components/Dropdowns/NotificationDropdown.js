@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { createPopper } from '@popperjs/core'
 import { MdNotifications, MdNotificationsActive } from 'react-icons/md'
-
+import { GoDotFill } from 'react-icons/go'
 import Cookies from 'js-cookie'
-import { getNotificationByUser, markNotificationAsRead , markNotificationAsViewed } from '../../Services/ApiNotification'
+import { getNotificationByUser, markNotificationAsRead, markNotificationAsViewed } from '../../Services/ApiNotification'
 import { useHistory } from 'react-router-dom'
 import { getUserAuth } from '../../Services/Apiauth'
 import moment from 'moment'
 
 const NotificationDropdown = () => {
-
   if (!Cookies.get('jwt_token')) {
     window.location.replace('/login-page')
   }
   const jwt_token = Cookies.get('jwt_token')
 
-  // const config = useMemo(() => {
-  //   return {
-  //     headers: {
-  //       Authorization: `Bearer ${jwt_token}`,
-  //     },
-  //   };
-  // }, [jwt_token]);
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    }
+  }, [jwt_token])
 
   const [user, setUser] = useState(null)
   const history = useHistory()
   const [readNotifications, setReadNotifications] = useState([])
+  const [vue, setVues] = useState([])
   const [unreadNotifications, setUnreadNotifications] = useState([])
 
   useEffect(() => {
@@ -38,7 +38,6 @@ const NotificationDropdown = () => {
             },
           }
           const res = await getUserAuth(config)
-          console.log('User data:', res.data) // Log the user data to verify it
           setUser(() => {
             if (res.data.user.role === 'admin') {
               history.replace('/admin/')
@@ -57,10 +56,6 @@ const NotificationDropdown = () => {
   }, [history, jwt_token])
 
   useEffect(() => {
-    console.log('User:', user) // Log the user object to verify it
-  }, [user])
-
-  useEffect(() => {
     const fetchUserNotifications = async () => {
       try {
         if (user && user._id) {
@@ -68,8 +63,10 @@ const NotificationDropdown = () => {
           const allNotifications = response.data
           const readNotifs = allNotifications.filter(notification => notification.read)
           const unreadNotifs = allNotifications.filter(notification => !notification.read)
+          const vuNotifs = allNotifications.filter(notification => !notification.vu)
           setReadNotifications(readNotifs)
           setUnreadNotifications(unreadNotifs)
+          setVues(vuNotifs)
         } else {
           console.error('User is null or user._id is undefined')
         }
@@ -79,27 +76,20 @@ const NotificationDropdown = () => {
     }
 
     fetchUserNotifications()
+
+    // Rafraîchir les notifications toutes les deux secondes
+    const intervalId = setInterval(fetchUserNotifications, 3000)
+
+    return () => clearInterval(intervalId)
   }, [user, jwt_token])
 
   const [notifications, setNotifications] = useState([])
   const [dropdownPopoverShow, setDropdownPopoverShow] = useState(false)
   const btnDropdownRef = React.createRef()
   const popoverDropdownRef = React.createRef()
-
-  const openDropdownPopover = () => {
-    createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
-      placement: 'bottom-start',
-    })
-    setDropdownPopoverShow(true)
-  }
-
-  const closeDropdownPopover = () => {
-    setDropdownPopoverShow(false)
-  }
-
+  const [classname, setClassname] = useState('mr-3 ml-3 text-white')
   const handleNotificationClick = async (notificationId) => {
     try {
-
       await markNotificationAsRead(notificationId, { headers: { Authorization: `Bearer ${jwt_token}` } })
       setNotifications(notifications.map(notification => {
         if (notification._id === notificationId) {
@@ -107,55 +97,60 @@ const NotificationDropdown = () => {
         }
         return notification
       }))
-
     } catch (error) {
       console.error('Error marking notification as read:', error)
     }
   }
 
-  const notificationIconClass = unreadNotifications.length > 0 ? 'text-red-500' : 'text-blueGray-500'
-
-// Ajoutez un effet pour marquer les notifications comme vues lorsqu'elles sont affichées
-  useEffect(() => {
-    const markNotificationsAsViewed = async () => {
-      try {
-        if (user && user._id) {
-          // Marquer toutes les notifications non vues comme vues
-          await markAllNotificationsAsViewed(user._id, { headers: { Authorization: `Bearer ${jwt_token}` } });
-        }
-      } catch (error) {
-        console.error('Error marking notifications as viewed:', error);
-      }
-    };
-
-    markNotificationsAsViewed();
-  }, [user, jwt_token]);
-
-// Fonction pour marquer toutes les notifications non vues comme vues
   const markAllNotificationsAsViewed = async (userId, config) => {
-    const response = await getNotificationByUser(userId, config);
-    const unreadNotifications = response.data.filter(notification => !notification.vu);
+    const response = await getNotificationByUser(userId, config)
+    const unreadNotifications = response.data.filter(notification => !notification.vu)
 
-    // Marquer chaque notification non vue comme vue
     unreadNotifications.forEach(async notification => {
-      await markNotificationAsViewed(notification._id, config);
-    });
-  };
+      await markNotificationAsViewed(notification._id, config)
+    })
+  }
 
+  const openDropdownPopover = () => {
+    createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
+      placement: 'bottom-start',
+    })
+    markAllNotificationsAsViewed(user._id, config)
+    setDropdownPopoverShow(true)
+    popoverDropdownRef.current.style.width = '300px' // Largeur fixe
+    setClassname('mr-3 bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150')
+  }
+
+  const closeDropdownPopover = async () => {
+    if (user && user._id) {
+      const response = await getNotificationByUser(user._id, { headers: { Authorization: `Bearer ${jwt_token}` } })
+      const allNotifications = response.data
+      const readNotifs = allNotifications.filter(notification => notification.read)
+      const unreadNotifs = allNotifications.filter(notification => !notification.read)
+      const vuNotifs = allNotifications.filter(notification => !notification.vu)
+      setReadNotifications(readNotifs)
+      setUnreadNotifications(unreadNotifs)
+      setVues(vuNotifs)
+    } else {
+      console.error('User is null or user._id is undefined')
+    }
+    setClassname('mr-3 text-white ml-3')
+    setDropdownPopoverShow(false)
+  }
 
   return (
     <>
       <div
-        className={`block py-1 px-3 ${notificationIconClass}`}
+        className={`block py-1 px-3 ${vue.length > 0 ? 'text-red-500' : 'text-blueGray-500'}`}
         ref={btnDropdownRef}
         onClick={(e) => {
           e.preventDefault()
           dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover()
         }}
       >
-        {unreadNotifications.length > 0 ?
-          <MdNotificationsActive className="mr-3" style={{ fontSize: '29px' }}/>
-          :<MdNotifications className="mr-3" style={{ fontSize: '29px' }}/>}
+        {vue.length > 0 ?
+          <MdNotificationsActive className={classname} style={{ fontSize: '29px', fontWeight: 'bold' }}/>
+          : <MdNotifications className={classname} style={{ fontSize: '29px' }}/>}
 
       </div>
       <div
@@ -165,8 +160,17 @@ const NotificationDropdown = () => {
           'bg-white text-base z-50 float-left py-2 px-2 list-none text-left rounded shadow-lg mt-1 min-w-48'
         }
       >
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div className="text-blueGray-400 font-bold">
+            Notifications
+          </div>
+          <a className="text-lightBlue-600 text-right" href="/lien-vers-votre-page">
+            Voir tous
+          </a>
+        </div>
+
         {unreadNotifications.length > 0 && (
-          <div className="py-2 px-4 text-6xl font-normal leading-normal mt-0  text-red-500">Notifications non lues</div>
+          <div className="py-2 px-4 text-6xl font-normal leading-normal mt-0 font-bold text-red-500"> Nouveau </div>
         )}
         {unreadNotifications.map(notification => (
           <div
@@ -174,12 +178,16 @@ const NotificationDropdown = () => {
             className={`py-1 px-4 font-normal text-sm whitespace-normal bg-transparent text-blueGray-700 cursor-pointer hover:bg-blueGray-100 ${notification.read ? 'opacity-50' : ''}`}
             onClick={() => handleNotificationClick(notification._id)}
           >
-            <div className="mb-1">{notification.content}</div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div className="mb-1">{notification.content}</div>
+              <GoDotFill className="mr-1 text-lightBlue-500" style={{ fontSize: '24px' }}/>
+            </div>
             <div className="text-xs text-blueGray-500">{moment(notification.createdAt).format('DD/MM/YYYY HH:mm')}</div>
           </div>
         ))}
         {readNotifications.length > 0 && (
-          <div className="py-2 px-4 text-6xl font-normal leading-normal mt-0 text-lightBlue-500">Plus tôt</div>
+          <div className="py-2 px-4 text-6xl font-normal leading-normal mt-0 font-bold text-lightBlue-500">Plus
+            tôt</div>
         )}
         {readNotifications.map(notification => (
           <div
@@ -191,9 +199,9 @@ const NotificationDropdown = () => {
             <div className="text-xs text-blueGray-500">{moment(notification.createdAt).format('DD/MM/YYYY HH:mm')}</div>
           </div>
         ))}
-
       </div>
     </>
   )
 }
+
 export default NotificationDropdown
