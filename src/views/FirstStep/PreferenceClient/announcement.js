@@ -12,7 +12,7 @@ export default function announcement () {
             <div className="relative flex flex-col min-w-0 break-words w-full  shadow-lg rounded-lg bg-blueGray-800 border-0">
               <div className="rounded-t  px-6 py-6 ">
                 <div className="text-center mt-3  ">
-                  <h6 className="text-blueGray-500 text-sm font-bold ">
+                  <h6 className="text-blueGray-400 text-sm  ">
                     Welcome to our platform! We encourage you to complete each step of our form carefully and accurately.
                     Each answer brings you one step closer to your professional goals. Plus, don't forget that every time
                     you reach 1000 points, you unlock a special discount on our training courses. So, immerse yourself
@@ -21,7 +21,7 @@ export default function announcement () {
                 </div>
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
                 <div className="text-center mt-3 ">
-                  <h6 className="text-blueGray-500 text-sm font-bold">
+                  <h6 className="text-blueGray-400 text-sm  ">
                     Bienvenue sur notre plateforme ! Nous vous encourageons à remplir chaque étape de notre
                     formulaire avec soin et précision. Chaque réponse vous rapproche un peu plus de vos objectifs
                     professionnels. De plus, n'oubliez pas que chaque fois que vous atteignez 1000 points,
@@ -40,14 +40,22 @@ export default function announcement () {
                 </div>
                 <hr className="mt-6 border-b-1 border-blueGray-300 " />
               </div>
-              <div className="flex-auto px-4 lg:px-10 py-10 pt-0 flex justify-end"> {/* Ajoutez la classe 'justify-end' pour aligner le contenu à droite */}
-                <div className="right">
+              <div className="flex-auto px-3 lg:px-10 py-10 pt-0 flex justify-end"> {/* Ajoutez la classe 'justify-end' pour aligner le contenu à droite */}
+                <div >
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <img
+                    className="ml-3"
+                    src={require("assets/img/info.gif").default}
+                    alt="..."
+                     style={{ maxWidth: '25%', height: '25%' }}
+                  />
                   <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button"
                   onClick={event => window.location.replace(`/First/Step`) }
                   >
                     <GrFormNextLink style={{fontSize: '40px'}} />
                   </button>
-                </div>
+                  </div>
+                  </div>
               </div>
 
             </div>
