@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { createPopper } from '@popperjs/core'
-import { MdNotifications, MdNotificationsActive } from 'react-icons/md'
+import { MdNotifications, MdNotificationAdd  } from 'react-icons/md'
 import { GoDotFill } from 'react-icons/go'
 import Cookies from 'js-cookie'
 import { getNotificationByUser, markNotificationAsRead, markNotificationAsViewed } from '../../Services/ApiNotification'
@@ -149,8 +149,8 @@ const NotificationDropdown = () => {
         }}
       >
         {vue.length > 0 ?
-          <MdNotificationsActive className={classname} style={{ fontSize: '29px', fontWeight: 'bold' }}/>
-          : <MdNotifications className={classname} style={{ fontSize: '29px' }}/>}
+          <MdNotificationAdd  className={classname} style={{ fontSize: '35px', fontWeight: 'bold' ,color:"#FF0000"}}/>
+          : <MdNotifications className={classname} style={{ fontSize: '35px' }}/>}
 
       </div>
       <div
