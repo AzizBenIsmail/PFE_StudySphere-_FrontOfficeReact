@@ -4,7 +4,7 @@ import { logout } from "../../Services/Apiauth";
 import Cookies from "js-cookie";
 import { useHistory } from "react-router-dom";
 // import { useHistory } from 'react-router-dom';
-import { RotatingLines } from 'react-loader-spinner'
+//import { RotatingLines } from 'react-loader-spinner'
 
 const UserDropdown = ({user}) => {
   const history = useHistory();
@@ -75,16 +75,21 @@ const UserDropdown = ({user}) => {
               />
             ) : (
               <div>
-                <RotatingLines
-                  visible={true}
-                  height="96"
-                  width="96"
-                  color="grey"
-                  strokeWidth="5"
-                  animationDuration="0.75"
-                  ariaLabel="rotating-lines-loading"
-                  wrapperStyle={{}}
-                  wrapperClass=""
+                {/*<RotatingLines*/}
+                {/*  visible={true}*/}
+                {/*  height="96"*/}
+                {/*  width="96"*/}
+                {/*  color="grey"*/}
+                {/*  strokeWidth="5"*/}
+                {/*  animationDuration="0.75"*/}
+                {/*  ariaLabel="rotating-lines-loading"*/}
+                {/*  wrapperStyle={{}}*/}
+                {/*  wrapperClass=""*/}
+                {/*/>*/}
+                <img
+                  alt="..."
+                  src={require("assets/img/client.png").default}
+                  className="shadow-lg rounded-full mx-auto max-w-120-px"
                 />
               </div>
             )}
