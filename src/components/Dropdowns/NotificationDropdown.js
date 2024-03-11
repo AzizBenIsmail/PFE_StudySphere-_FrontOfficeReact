@@ -76,7 +76,7 @@ const NotificationDropdown = () => {
     fetchUserNotifications()
 
     // Rafraîchir les notifications toutes les deux secondes
-    const intervalId = setInterval(fetchUserNotifications, 3000)
+    const intervalId = setInterval(fetchUserNotifications, 7000)
 
     return () => clearInterval(intervalId)
   }, [user, jwt_token])
