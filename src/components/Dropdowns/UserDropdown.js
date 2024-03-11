@@ -120,7 +120,7 @@ const UserDropdown = () => {
           }
           onClick={(e) => e.preventDefault()}
         >
-          Something else here
+          Chat
         </a>
         <div className="h-0 my-2 border border-solid border-blueGray-100"/>
         <a
