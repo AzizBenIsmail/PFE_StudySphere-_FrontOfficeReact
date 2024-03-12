@@ -13,6 +13,8 @@ const Elearning = lazy(() => import("views/E-learning/Landing.js"));
 const Profile = lazy(() => import("views/Profile.js"));
 const updateProfile = lazy(() => import("./views/client/updateProfile.js"));
 const Bienvenu = lazy(() => import("./views/client/info/Bienvenu.js"));
+const recompense = lazy(() => import("./views/client/info/recompense.js"));
+const advertisement = lazy(() => import("./views/client/info/advertisement.js"));
 const listeNotifcation = lazy(() => import("./views/client/notification/listeNotifcation.js"));
 const Index = lazy(() => import("views/Index.js"));
 
@@ -25,10 +27,11 @@ function Routes() {
           <Route path="/admin" component={Admin} />
           <Route path="/auth" component={Auth} />
           <Route path="/First" component={First} />
-
           {/* add routes without layouts */}
           <Route path="/landing" exact component={Landing} />
           <Route path="/Bienvenu" exact component={Bienvenu} />
+          <Route path="/recompense" exact component={recompense} />
+          <Route path="/advertisement" exact component={advertisement} />
           <Route path="/listeNotifcation" exact component={listeNotifcation} />
           <Route path="/Elearning" exact component={Elearning} />
           <Route path="/profile" exact component={Profile} />
