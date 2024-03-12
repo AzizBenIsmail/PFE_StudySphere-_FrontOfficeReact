@@ -72,13 +72,14 @@ export default function Notification() {
 
   const handleDeleteNotification = async (id) => {
     try {
-      await deleteNotification(id,config);
+      await deleteNotification(id, config);
       loadNotifications();
-      setShowConfirm(false);
+      setShowConfirm(false); // Mettre à jour showConfirm après la suppression
     } catch (error) {
       console.error("Error deleting notification:", error);
     }
   };
+
 
   const handleAddNotification = async () => {
     if (validateForm()) {
@@ -110,10 +111,9 @@ export default function Notification() {
   };
 
   const cancelDelete = () => {
-    setShowConfirm(false);
+    setShowConfirm(false); // Mettre à jour showConfirm lors de l'annulation
     setNotificationToDelete(null);
   };
-
   const showAddNotificationPopup = () => {
     setShowAddNotification(true);
   };
@@ -260,7 +260,7 @@ export default function Notification() {
 
       {/* Popup de confirmation */}
       {showConfirm && (
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
           <div className="bg-white p-8 rounded shadow">
             <p>Êtes-vous sûr de vouloir supprimer cette notification ?</p>
             <div className="flex justify-end mt-4">
@@ -273,7 +273,7 @@ export default function Notification() {
 
       {/* Popup d'ajout de notification */}
       {showAddNotification && (
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
           <div className="bg-white p-8 rounded shadow">
             <h3>Ajouter une nouvelle notification</h3>
             <div className="mb-4">
@@ -294,7 +294,7 @@ export default function Notification() {
 
       {/* Popup d'édition de notification */}
       {showEditNotification && (
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
           <div className="bg-white p-8 rounded shadow">
             <h3>Modifier la notification</h3>
             <div className="mb-4">
