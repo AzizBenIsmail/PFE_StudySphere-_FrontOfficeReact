@@ -215,13 +215,28 @@ export default function Notification() {
             {notifications && notifications.map((notification) => (
               <tr key={notification._id}>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 font-bold">
-                  <div className="flex items-center">
-                    <img src={`http://localhost:5000/images/Users/${notification.recipient.image_user}`}
-                         alt="..."
-                         className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                    />
-                    <span className="ml-2">{notification.recipient.nom}</span>
-                  </div>
+                  {notification && notification.recipient.image_user ? (
+                    <div className="flex items-center">
+                      <img src={`http://localhost:5000/images/Users/${notification.recipient.image_user}`}
+                           alt="..."
+                           className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
+                      />
+                      <span className="ml-2">{notification.recipient.nom}</span>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="flex items-center">
+                      <img
+                        alt="..."
+                        src={require("assets/img/client.png").default}
+                        style={{ maxWidth: '120%' }}
+                        className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
+                      />
+                      <span className="ml-2">{notification.recipient.nom}</span>
+                    </div>
+                    </div>
+                  )}
+
                 </td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 font-bold">
                   {notification.content}
