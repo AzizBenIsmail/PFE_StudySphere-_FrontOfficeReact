@@ -28,6 +28,7 @@ const NotificationDropdown = () => {
   const [vue, setVues] = useState([])
   const [unreadNotifications, setUnreadNotifications] = useState([])
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -64,8 +65,8 @@ const NotificationDropdown = () => {
           const readNotifs = allNotifications.filter(notification => notification.read)
           const unreadNotifs = allNotifications.filter(notification => !notification.read)
           const vuNotifs = allNotifications.filter(notification => !notification.vu)
-          setReadNotifications(readNotifs)
-          setUnreadNotifications(unreadNotifs)
+          setReadNotifications(readNotifs.slice(0, 5)) // Prend les 5 premières notifications lues
+          setUnreadNotifications(unreadNotifs.slice(0, 5)) // Prend les 5 premières notifications non lues
           setVues(vuNotifs)
         }
       } catch (error) {
