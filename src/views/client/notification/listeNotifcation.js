@@ -64,7 +64,13 @@ export default function CardTable({ color }) {
   }, [config,user]);
 
   useEffect(() => {
-    loadNotifications();
+    loadNotifications(); // Charger les notifications lors de l'entrée dans la page
+
+    const interval = setInterval(() => {
+      loadNotifications(); // Rafraîchir les notifications toutes les 5 secondes
+    }, 5000);
+
+    return () => clearInterval(interval); // Nettoyer l'intervalle lors du démontage du composant
   }, [loadNotifications]);
 
 
@@ -130,7 +136,7 @@ export default function CardTable({ color }) {
                         {notification.vu ? "Oui" : "Non"}
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                        <button className="bg-red-500 text-white px-4 py-2 rounded mr-4" onClick={() =>  window.location.replace(`${notification.url}`)  }>Afficher</button>
+                        <button className="bg-red-500 text-white px-4 py-2 rounded mr-4" onClick={() =>  window.location.replace(`http://localhost:3000/${notification.url}`)  }>Afficher</button>
                       </td>
                     </tr>
                   ))}
