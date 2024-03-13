@@ -45,7 +45,7 @@ export default function Index() {
   }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
 
   const location = useLocation();
-  const xpGagne = new URLSearchParams(location.search).get("xpPerdu");
+  const xpPerdu = new URLSearchParams(location.search).get("xpPerdu");
 
   return (
     <>
@@ -85,10 +85,7 @@ export default function Index() {
                   <span className="inline-block text-center w-full">Avertissement relatif à une réduction de {xpPerdu} XP!</span> {/* Ajoutez une classe pour augmenter la largeur */}
                 </h4>
                 <p className="text-md font-light mt-2 text-white">
-                  StudySphere, plateforme Web tunisienne novatrice, centralise les centres de formation pour simplifier
-                  la recherche des formations en ligne ou en présentiel. Elle recommande des formations selon la proximité
-                  et le profil des utilisateurs. Avec un espace e-learning interactif pour les formations en ligne,
-                  notre objectif principal est de résoudre le problème de la difficulté à trouver des formations sans concurrence.
+                  Nous tenons à vous informer qu'à partir du moment où votre score d'XP atteint zéro, votre compte sera désactivé temporairement.
                 </p>
               </blockquote>
             </div>
