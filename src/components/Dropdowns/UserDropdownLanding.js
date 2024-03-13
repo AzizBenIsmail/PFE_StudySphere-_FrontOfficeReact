@@ -75,20 +75,10 @@ const UserDropdown = ({user}) => {
               />
             ) : (
               <div>
-                {/*<RotatingLines*/}
-                {/*  visible={true}*/}
-                {/*  height="96"*/}
-                {/*  width="96"*/}
-                {/*  color="grey"*/}
-                {/*  strokeWidth="5"*/}
-                {/*  animationDuration="0.75"*/}
-                {/*  ariaLabel="rotating-lines-loading"*/}
-                {/*  wrapperStyle={{}}*/}
-                {/*  wrapperClass=""*/}
-                {/*/>*/}
                 <img
                   alt="..."
                   src={require("assets/img/client.png").default}
+                  style={{ maxWidth: '120%' }}
                   className="shadow-lg rounded-full mx-auto max-w-120-px"
                 />
               </div>

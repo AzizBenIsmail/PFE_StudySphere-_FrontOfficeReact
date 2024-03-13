@@ -107,11 +107,29 @@ export default function Profile() {
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                     <div className="relative">
-                      <img
-                        alt="..."
-                        src={require("assets/img/team-2-800x800.jpg").default}
-                        className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
-                      />
+                      {/*<img*/}
+                      {/*  alt="..."*/}
+                      {/*  src={require("assets/img/team-2-800x800.jpg").default}*/}
+                      {/*  className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"*/}
+                      {/*/>*/}
+                      {User && User.image_user ? (
+                        <img
+                          // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
+                          alt="UserImage"
+                          className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
+                          src={`http://localhost:5000/images/Users/${User.image_user}`}
+                          // style={{ width: "80px", height: "80px" }}
+                        />
+                      ) : (
+                        <div>
+                          <img
+                            alt="..."
+                            src={require("assets/img/client.png").default}
+                            // style={{ maxWidth: '120%' }}
+                            className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">

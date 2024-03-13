@@ -31,9 +31,9 @@ export default function Sidebar() {
           </Link>
           {/* User */}
           <ul className="md:hidden items-center flex flex-wrap list-none">
-            <li className="inline-block relative">
-              <NotificationDropdown />
-            </li>
+            {/*<li className="inline-block relative">*/}
+            {/*  <NotificationDropdown />*/}
+            {/*</li>*/}
             <li className="inline-block relative">
               <UserDropdown />
             </li>
