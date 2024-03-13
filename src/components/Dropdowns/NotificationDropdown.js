@@ -96,7 +96,7 @@ const NotificationDropdown = () => {
         }
         return notification
       }))
-      window.location.replace(`${notif.url}`);
+      window.location.replace(`http://localhost:3000/${notif.url}`);
 
     } catch (error) {
       console.error('Error marking notification as read:', error)

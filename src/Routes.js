@@ -12,9 +12,9 @@ const Landing = lazy(() => import("views/Landing.js"));
 const Elearning = lazy(() => import("views/E-learning/Landing.js"));
 const Profile = lazy(() => import("views/Profile.js"));
 const updateProfile = lazy(() => import("./views/client/updateProfile.js"));
-const Bienvenu = lazy(() => import("./views/client/info/Bienvenu.js"));
-const recompense = lazy(() => import("./views/client/info/recompense.js"));
-const advertisement = lazy(() => import("./views/client/info/advertisement.js"));
+const welcome = lazy(() => import("./views/client/info/welcome.js"));
+const reward = lazy(() => import("./views/client/info/reward.js"));
+const warning = lazy(() => import("./views/client/info/warning.js"));
 const listeNotifcation = lazy(() => import("./views/client/notification/listeNotifcation.js"));
 const Index = lazy(() => import("views/Index.js"));
 
@@ -29,9 +29,9 @@ function Routes() {
           <Route path="/First" component={First} />
           {/* add routes without layouts */}
           <Route path="/landing" exact component={Landing} />
-          <Route path="/Bienvenu" exact component={Bienvenu} />
-          <Route path="/recompense" exact component={recompense} />
-          <Route path="/advertisement" exact component={advertisement} />
+          <Route path="/Bienvenu" exact component={welcome} />
+          <Route path="/reward" exact component={reward} />
+          <Route path="/warning" exact component={warning} />
           <Route path="/listeNotifcation" exact component={listeNotifcation} />
           <Route path="/Elearning" exact component={Elearning} />
           <Route path="/profile" exact component={Profile} />

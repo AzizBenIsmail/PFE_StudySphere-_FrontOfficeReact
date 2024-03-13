@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import React, { useEffect, useMemo, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 
 import IndexNavbar from "../../../components/Navbars/Navbar.js";
 import Footer from "../../../components/Footers/Footer.js";
@@ -8,7 +8,7 @@ import Cookies from 'js-cookie'
 import { getUserByID } from "../../../Services/ApiUser";
 import { getUserAuth } from '../../../Services/Apiauth'
 import Navbar from "../../../components/Navbars/Navbar.js";
-import { SiWelcometothejungle } from "react-icons/si";
+import { SiNintendogamecube } from "react-icons/si";
 import { IoSchoolSharp } from "react-icons/io5";
 
 export default function Index() {
@@ -43,6 +43,9 @@ export default function Index() {
 
     fetchData();
   }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
+
+  const location = useLocation();
+  const xpGagne = new URLSearchParams(location.search).get("xpGagne");
 
   return (
     <>
@@ -107,15 +110,14 @@ export default function Index() {
                 </svg>
                 <h4 className="text-xl font-bold text-white">
                   <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-18 mb-6 shadow-lg rounded-full mr-2 bg-white">
-                    <SiWelcometothejungle />
+                    <SiNintendogamecube />
                   </div>
-                  <span className="inline-block text-center w-full">Bienvenue sur notre plateforme !</span> {/* Ajoutez une classe pour augmenter la largeur */}
+                  <span className="inline-block text-center w-full">Félicitations ! Vous avez gagné {xpGagne} XP</span> {/* Ajoutez une classe pour augmenter la largeur */}
                 </h4>
                 <p className="text-md font-light mt-2 text-white">
-                  StudySphere, plateforme Web tunisienne novatrice, centralise les centres de formation pour simplifier
-                  la recherche des formations en ligne ou en présentiel. Elle recommande des formations selon la proximité
-                  et le profil des utilisateurs. Avec un espace e-learning interactif pour les formations en ligne,
-                  notre objectif principal est de résoudre le problème de la difficulté à trouver des formations sans concurrence.
+                  n'oubliez pas que chaque fois que vous atteignez 1000 points,
+                  vous débloquez une remise spéciale sur nos formations. Alors, plongez-vous dans le processus et
+                  laissez-nous vous guider vers un avenir brillant et rempli de réussite ! 🚀
                 </p>
               </blockquote>
             </div>
