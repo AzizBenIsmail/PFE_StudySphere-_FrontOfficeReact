@@ -23,6 +23,7 @@ import ListeNiveau from "../views/admin/Niveau/ListeNiveau.js";
 import ListeBadge from "../views/admin/Badge/ListeBadge.js";
 import LitseXp from "../views/admin/xp/LitseXp.js";
 import Notification from "../views/admin/Notification/Notification";
+import Formation from "../views/admin/Formation/Formation";
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
@@ -69,6 +70,7 @@ export default function Admin() {
             <Route path="/admin/dashboard" exact component={Dashboard} />
             <Route path="/admin/ListeNiveau" exact component={ListeNiveau} />
             <Route path="/admin/Notification" exact component={Notification} />
+            <Route path="/admin/Formation" exact component={Formation} />
             <Route path="/admin/LitseXp" exact component={LitseXp} />
             <Route path="/admin/ListeBadge" exact component={ListeBadge} />
             <Route path="/admin/settings" exact component={Settings} />
