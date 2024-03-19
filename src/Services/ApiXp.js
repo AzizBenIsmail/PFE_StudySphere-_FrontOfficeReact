@@ -6,8 +6,8 @@ export async function createXP(xpData, config) {
     return await axios.post(apiURL, xpData, config);
 }
 
-export async function getXPById(id, config) {
-  return await axios.get(`${apiURL}/${id}`, config);
+export async function getByCurrUser(config) {
+  return await axios.get(`${apiURL}/getByCurrUser`, config);
 }
 
 export async function updateXP(id, xpData, config) {
