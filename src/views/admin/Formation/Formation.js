@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Cookies from 'js-cookie';
 import { getAllFormations, createFormation, updateFormation, deleteFormation } from '../../../Services/ApiFormation';
+import { getFormateur, getCentre } from '../../../Services/ApiUser';
 
 export default function ListeFormations({ color }) {
   const jwt_token = Cookies.get('jwt_token');
@@ -13,6 +14,8 @@ export default function ListeFormations({ color }) {
     };
   }, [jwt_token]);
 
+  const [users, setUsers] = useState([]);
+  const [centres, setCentres] = useState([]);
   const [formations, setFormations] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -51,6 +54,29 @@ export default function ListeFormations({ color }) {
     loadFormations();
   }, [loadFormations]);
 
+  const loadFormateurs = useCallback(async () => {
+    try {
+      const res = await getFormateur(config);
+      setUsers(res.data.users);
+    } catch (error) {
+      console.error('Error loading formateurs:', error);
+    }
+  }, [config]);
+
+  // Fonction pour charger la liste des centres
+  const loadCentres = useCallback(async () => {
+    try {
+      const res = await getCentre(config);
+      setCentres(res.data.users);
+    } catch (error) {
+      console.error('Error loading centres:', error);
+    }
+  }, [config]);
+
+  useEffect(() => {
+    loadFormateurs();
+    loadCentres();
+  }, [loadFormateurs, loadCentres]);
   const handleAddFormation = async () => {
     try {
       await createFormation(newFormation, config);
@@ -174,58 +200,58 @@ export default function ListeFormations({ color }) {
             <tbody>
             {formations.map((formation) => (
               <tr key={formation._id}>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 font-bold">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 font-bold">
                   {formation.titre}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                   {formation.description}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                   {formation.niveauRequis}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                   {formation.niveauDengagementRequis}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                   {formation.competences}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                   {formation.niveauDeDifficulte}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                   {formation.styleEnseignement}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                   {formation.Prix}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                   {formation.jours}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4">
                   {formation.typeContenu}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4">
                   {formation.langue}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4">
                   {formation.emplacement}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4">
                   {formation.sujetInteret}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4">
                   {formation.Tranches_Horaires}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4">
                   {formation.duree}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4">
                   {formation.dateDebut}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4">
                   {formation.dateFin}
                 </td>
-                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4">
                   <button className="bg-yellow-500 text-white px-4 py-2 rounded" onClick={() => showEditFormPopup(formation)}>Modifier</button>
                   <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={() => handleDeleteFormation(formation._id)}>Supprimer</button>
                 </td>
@@ -237,19 +263,38 @@ export default function ListeFormations({ color }) {
       </div>
       {/* Popup d'ajout de formation */}
       {showAddForm && (
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-8 rounded shadow lg:w-9/12">
+        <div className="absolute top-11 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white p-8 rounded shadow lg:w-8/12">
             <h3>Ajouter une nouvelle formation</h3>
             {/* Premier groupe de champs */}
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-4 flex items-center">
                 <div>
+                  <label htmlFor="centre">titre :</label>
+                  <input type="text" placeholder="titre" value={newFormation.titre} onChange={(e) => setNewFormation({ ...newFormation, titre: e.target.value })}/>
+                </div>
+                <div>
+                  <label htmlFor="centre">description :</label>
+                  <input type="text" placeholder="description" value={newFormation.description} onChange={(e) => setNewFormation({ ...newFormation, description: e.target.value })}/>
+                </div>
+                <div>
+                  <label htmlFor="centre">competences :</label>
+                  <input type="text" placeholder="competences" value={newFormation.competences} onChange={(e) => setNewFormation({ ...newFormation, competences: e.target.value })}/>
+                </div>
+              </div>
+            </div>
+            <div className="mb-4">
+              <div className="grid grid-cols-3 gap-4 flex items-center">
+                <div>
+                  <label htmlFor="centre">styleEnseignement :</label>
                   <input type="text" placeholder="Style d'enseignement" value={newFormation.styleEnseignement} onChange={(e) => setNewFormation({ ...newFormation, styleEnseignement: e.target.value })}/>
                 </div>
                 <div>
+                  <label htmlFor="centre">Prix :</label>
                   <input type="text" placeholder="Prix" value={newFormation.Prix} onChange={(e) => setNewFormation({ ...newFormation, Prix: e.target.value })}/>
                 </div>
                 <div>
+                  <label htmlFor="centre">jours :</label>
                   <input type="text" placeholder="Jours" value={newFormation.jours} onChange={(e) => setNewFormation({ ...newFormation, jours: e.target.value })}/>
                 </div>
               </div>
@@ -258,12 +303,15 @@ export default function ListeFormations({ color }) {
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-4 flex items-center">
                 <div>
+                  <label htmlFor="centre">typeContenu :</label>
                   <input type="text" placeholder="Type de contenu" value={newFormation.typeContenu} onChange={(e) => setNewFormation({ ...newFormation, typeContenu: e.target.value })}/>
                 </div>
                 <div>
+                  <label htmlFor="centre">langue :</label>
                   <input type="text" placeholder="Langue" value={newFormation.langue} onChange={(e) => setNewFormation({ ...newFormation, langue: e.target.value })}/>
                 </div>
                 <div>
+                  <label htmlFor="centre">emplacement :</label>
                   <input type="text" placeholder="Emplacement" value={newFormation.emplacement} onChange={(e) => setNewFormation({ ...newFormation, emplacement: e.target.value })}/>
                 </div>
               </div>
@@ -272,12 +320,15 @@ export default function ListeFormations({ color }) {
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-4 flex items-center">
                 <div>
+                  <label htmlFor="centre">sujetInteret :</label>
                   <input type="text" placeholder="Sujet d'intérêt" value={newFormation.sujetInteret} onChange={(e) => setNewFormation({ ...newFormation, sujetInteret: e.target.value })}/>
                 </div>
                 <div>
+                  <label htmlFor="centre">Tranches_Horaires :</label>
                   <input type="text" placeholder="Tranches horaires" value={newFormation.Tranches_Horaires} onChange={(e) => setNewFormation({ ...newFormation, Tranches_Horaires: e.target.value })}/>
                 </div>
                 <div>
+                  <label htmlFor="centre">duree :</label>
                   <input type="number" placeholder="Durée" value={newFormation.duree} onChange={(e) => setNewFormation({ ...newFormation, duree: e.target.value })}/>
                 </div>
               </div>
@@ -285,6 +336,10 @@ export default function ListeFormations({ color }) {
             {/* Quatrième groupe de champs */}
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-4 flex items-center">
+                <div>
+                  <label htmlFor="centre">niveauDeDifficulte :</label>
+                  <input type="number" niveauDeDifficulte="Durée" value={newFormation.niveauDeDifficulte} onChange={(e) => setNewFormation({ ...newFormation, niveauDeDifficulte: e.target.value })}/>
+                </div>
                 <div>
                   <input type="date" placeholder="Date de début" value={newFormation.dateDebut} onChange={(e) => setNewFormation({ ...newFormation, dateDebut: e.target.value })}/>
                 </div>
@@ -296,18 +351,42 @@ export default function ListeFormations({ color }) {
                 </div>
               </div>
             </div>
-            <div>
-              <label htmlFor="centre">Centre :</label>
-              <select id="centre" value={newFormation.centre} onChange={(e) => setNewFormation({ ...newFormation, centre: e.target.value })}>
-                {/* Option pour sélectionner un centre */}
-              </select>
+            <div className="mb-4">
+              <div className="grid grid-cols-3 gap-4 flex items-center">
+                <div>
+                  <label htmlFor="centre">niveauDengagementRequis :</label>
+                  <input type="number" placeholder="niveauDengagementRequis" value={newFormation.niveauDengagementRequis} onChange={(e) => setNewFormation({ ...newFormation, niveauDengagementRequis: e.target.value })}/>
+                </div>
+                <div>
+                  <label htmlFor="centre">niveauRequis :</label>
+                  <input type="text" placeholder="niveauRequis" value={newFormation.niveauRequis} onChange={(e) => setNewFormation({ ...newFormation, niveauRequis: e.target.value })}/>
+                </div>
+              </div>
             </div>
-            <div>
-              <label htmlFor="formateur">Formateur :</label>
-              <select id="formateur" value={newFormation.formateur} onChange={(e) => setNewFormation({ ...newFormation, formateur: e.target.value })}>
-                {/* Option pour sélectionner un formateur */}
-              </select>
+            <div className="mb-4">
+              <div className="grid grid-cols-3 gap-4 flex items-center">
+                <div>
+                  <label htmlFor="centre">Centre :</label>
+                  <select id="centre" value={newFormation.centre} onChange={(e) => setNewFormation({ ...newFormation, centre: e.target.value })}>
+                    <option value="">Sélectionner un centre</option>
+                    {centres.map((centre) => (
+                      <option key={centre._id} value={centre._id}>{centre.nom}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="formateur">Formateur :</label>
+                  <select id="formateur" value={newFormation.formateur} onChange={(e) => setNewFormation({ ...newFormation, formateur: e.target.value })}>
+                    <option value="">Sélectionner un formateur</option>
+                    {users.map((user) => (
+                      <option key={user._id} value={user._id}>{user.nom}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
             </div>
+
+
             {/* Boutons de soumission et d'annulation */}
             <div className="flex justify-end">
               <button className="bg-emerald-500 text-white px-4 py-2 rounded mr-4" onClick={handleAddFormation}>Ajouter</button>
