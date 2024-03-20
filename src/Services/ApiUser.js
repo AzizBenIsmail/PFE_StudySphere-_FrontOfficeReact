@@ -94,6 +94,10 @@ export async function getUserByID(id, config) {
   return await axios.get(`${ apiURL }/User/${ id }`, config);
 }
 
+export async function getUsersForSidebar( config) {
+  return await axios.get(`${ apiURL }/sidebarUser`, config);
+}
+
 export async function deleteUser(id, config) {
   return await axios.delete(`${ apiURL }/${ id }`, config);
 }

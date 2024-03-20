@@ -20,8 +20,12 @@ import { InfinitySpin } from 'react-loader-spinner'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
+
+
 export default function Auth() {
   const jwt_token = Cookies.get('jwt_token')
+
+
 
   const config = useMemo(() => {
     return {
@@ -30,6 +34,10 @@ export default function Auth() {
       },
     }
   }, [jwt_token])
+
+
+ 
+
 
   //session
   if (Cookies.get('jwt_token')) {

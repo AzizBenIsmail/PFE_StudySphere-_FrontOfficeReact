@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from "react-router-dom";
 import { InfinitySpin } from "react-loader-spinner";
 
 // layouts
@@ -15,13 +15,19 @@ const updateProfile = lazy(() => import("./views/client/updateProfile.js"));
 const welcome = lazy(() => import("./views/client/info/welcome.js"));
 const reward = lazy(() => import("./views/client/info/reward.js"));
 const warning = lazy(() => import("./views/client/info/warning.js"));
-const listeNotifcation = lazy(() => import("./views/client/notification/listeNotifcation.js"));
+const listeNotifcation = lazy(() =>
+  import("./views/client/notification/listeNotifcation.js")
+);
 const Index = lazy(() => import("views/Index.js"));
+
+const Chat = lazy(() => import("./views/chat/Main.js"));
 
 function Routes() {
   return (
     <>
-      <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d" />}>
+      <Suspense
+        fallback={<InfinitySpin width="200" height="200" color="#4fa94d" />}
+      >
         <Switch>
           {/* add routes with layouts */}
           <Route path="/admin" component={Admin} />
@@ -38,6 +44,10 @@ function Routes() {
           <Route path="/edit/:id" exact component={updateProfile} />
           <Route path="/" exact component={Index} />
           {/*<Route path="/" component={Auth} />*/}
+
+          {/* New route for the chat page */}
+          <Route path="/chat" exact component={Chat} />
+
           {/* add redirect for first page */}
           <Redirect from="*" to="/" />
         </Switch>

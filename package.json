@@ -13,6 +13,8 @@
     "autoprefixer": "10.2.5",
     "axios": "^1.6.4",
     "chart.js": "2.9.4",
+    "daisyui": "^4.7.2",
+    "emoji-picker-react": "^4.8.0",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8",
     "js-cookie": "^3.0.5",
@@ -21,6 +23,7 @@
     "react-bootstrap": "^2.9.2",
     "react-dom": "17.0.1",
     "react-easy-crop": "^5.0.4",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^4.12.0",
     "react-loader-spinner": "^6.1.6",
     "react-notifications": "^1.7.4",
@@ -60,6 +63,9 @@
     "typescript": "4.2.3"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5"
   }
 }

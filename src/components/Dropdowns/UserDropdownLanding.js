@@ -3,6 +3,7 @@ import { createPopper } from "@popperjs/core";
 import { logout } from "../../Services/Apiauth";
 import Cookies from "js-cookie";
 import { useHistory } from "react-router-dom";
+
 // import { useHistory } from 'react-router-dom';
 //import { RotatingLines } from 'react-loader-spinner'
 
@@ -127,9 +128,9 @@ const UserDropdown = ({user}) => {
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           }
-          onClick={(e) => e.preventDefault()}
+          onClick={() => history.push("/chat")}
         >
-          Something else here
+          Chat
         </button>
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
         <a
