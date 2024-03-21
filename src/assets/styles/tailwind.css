@@ -1754,6 +1754,10 @@ select {
   margin-top: 1.5rem;
 }
 
+.mt-7 {
+  margin-top: 2.5rem;
+}
+
 .mb-6 {
   margin-bottom: 1.5rem;
 }
@@ -2882,6 +2886,14 @@ select {
   .md\:w-60 {
     width: 14rem;
   }
+
+  .md\:w-2\/12 {
+    width: 25%;
+  }
+
+  /*.md\:w-2\/12 {*/
+  /*  width: 33%;*/
+  /*}*/
 
   .md\:w-4\/12 {
     width: 33.333333%;
