@@ -1,16 +1,24 @@
-import React, { useState , useEffect} from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 // components
-
 import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footers/Footer.js";
-import Cookies from 'js-cookie'
-import { getUserAuth } from '../Services/Apiauth'
+import Cookies from "js-cookie";
+import { getUserAuth } from "../Services/Apiauth";
+import { getAllFormations } from "../Services/ApiFormation";
 
 export default function Landing() {
   const [user, setUser] = useState(null);
-  const jwt_token = Cookies.get('jwt_token');
+  const jwt_token = Cookies.get("jwt_token");
   const history = useHistory();
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+  }, [jwt_token]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,15 +31,14 @@ export default function Landing() {
           };
           const res = await getUserAuth(config);
           setUser(() => {
-            if (res.data.user.role === 'admin') {
-              history.replace('/admin/');
+            if (res.data.user.role === "admin") {
+              history.replace("/admin/");
             }
             return res.data.user;
           });
         } else {
-          history.replace('/');
+          history.replace("/");
         }
-
       } catch (error) {
         console.log(error);
       }
@@ -40,9 +47,24 @@ export default function Landing() {
     fetchData();
   }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
 
+  const [formations, setFormations] = useState([]);
+
+  const loadFormations = useCallback(async () => {
+    try {
+      const res = await getAllFormations(config);
+      setFormations(res.data.formations);
+    } catch (error) {
+      console.error("Error loading formations:", error);
+    }
+  }, [config]);
+
+  useEffect(() => {
+    loadFormations();
+  }, [loadFormations]);
+
   return (
     <>
-      <Navbar user={user}/>
+      <Navbar user={user} />
       <main>
         <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
           <div
@@ -63,7 +85,6 @@ export default function Landing() {
                 <div className="pr-12">
                   <h1 className="text-white font-semibold text-5xl">
                     Your story starts with us.
-                    {/*{user ? `${user.nom} ${user.prenom}` : 'Loading...'}*/}
                   </h1>
                   <p className="mt-4 text-lg text-blueGray-200">
                     This is a simple example of a Landing Page you can build
@@ -74,74 +95,98 @@ export default function Landing() {
               </div>
             </div>
           </div>
-          <div
-            className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
-            style={{ transform: "translateZ(0)" }}
-          >
-            <svg
-              className="absolute bottom-0 overflow-hidden"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-              version="1.1"
-              viewBox="0 0 2560 100"
-              x="0"
-              y="0"
-            >
-              <polygon
-                className="text-blueGray-200 fill-current"
-                points="2560 0 2560 100 0 100"
-              ></polygon>
-            </svg>
-          </div>
         </div>
-
         <section className="pb-20 bg-blueGray-200 -mt-24">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap">
-              <div className="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">
-                <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                  <div className="px-4 py-5 flex-auto">
-                    <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
-                      <i className="fas fa-award"></i>
-                    </div>
-                    <h6 className="text-xl font-semibold">Awarded Agency</h6>
-                    <p className="mt-2 mb-4 text-blueGray-500">
-                      Divide details about your product or agency work into
-                      parts. A paragraph describing a feature will be enough.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              {/*<div className="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">*/}
+              {/*  <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">*/}
+              {/*    <div className="px-4 py-5 flex-auto">*/}
+              {/*      <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">*/}
+              {/*        <i className="fas fa-award"></i>*/}
+              {/*      </div>*/}
+              {/*      <h6 className="text-xl font-semibold">Awarded Agency</h6>*/}
+              {/*      <p className="mt-2 mb-4 text-blueGray-500">*/}
+              {/*        Divide details about your product or agency work into*/}
+              {/*        parts. A paragraph describing a feature will be enough.*/}
+              {/*      </p>*/}
+              {/*    </div>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
 
-              <div className="w-full md:w-4/12 px-4 text-center">
-                <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                  <div className="px-4 py-5 flex-auto">
-                    <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
-                      <i className="fas fa-retweet"></i>
+              {/*<div className="w-full md:w-4/12 px-4 text-center">*/}
+              {/*  <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">*/}
+              {/*    <div className="px-4 py-5 flex-auto">*/}
+              {/*      <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">*/}
+              {/*        <i className="fas fa-retweet"></i>*/}
+              {/*      </div>*/}
+              {/*      <h6 className="text-xl font-semibold">Free Revisions</h6>*/}
+              {/*      <p className="mt-2 mb-4 text-blueGray-500">*/}
+              {/*        Keep you user engaged by providing meaningful information.*/}
+              {/*        Remember that by this time, the user is curious.*/}
+              {/*      </p>*/}
+              {/*    </div>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
+              {formations.map((formation) => (
+                <div
+                  className="pt-6 w-full md:w-2/12 px-4 text-center"
+                  key={formation._id}
+                >
+                  <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                    <div className="px-4 py-5 flex-auto">
+                      {/*<div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">*/}
+                      {/*  <i className="fas fa-fingerprint"></i>*/}
+                      {/*</div>*/}
+                      <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                        <img
+                          alt="..."
+                          className="align-middle border-none max-w-full h-auto rounded-lg"
+                          src={`http://localhost:5000/images/Users/${formation.image_Formation}`}
+                          // style={{ width: "350px", height: "350px" }}
+                          style={{ width: "250px", height: "150px" }}
+                        />
+                        <span
+                          style={{
+                            position: "absolute",
+                            top: "94%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            // fontSize: "16px",
+                            // color: "white",
+                            // background: "green",
+                            // padding: "8px 8px",
+                            // borderRadius: "8px",
+                          }}
+                        >
+                          <img
+                            alt="..."
+                            className="shadow rounded-full max-w-full h-auto align-middle border-none  bg-indigo-500"
+                            src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                            // style={{ width: '100px' }}
+                            style={{ width: '70px' }}
+                          />
+                          {/*<div className="flex flex-wrap justify-center">*/}
+                          {/*  <div className="w-6/12 sm:w-4/12 px-4">*/}
+                          {/*    <img*/}
+                          {/*      src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}*/}
+                          {/*      alt="..."*/}
+                          {/*    />*/}
+                          {/*  </div>*/}
+                          {/*</div>*/}
+                        </span>
+                      </div>
+                      <h6 className="text-xl font-semibold">
+                        {formation.titre}
+                      </h6>
+                      <p className="mt-2 mb-4 text-blueGray-500">
+                        Write a few lines about each one. A paragraph describing
+                        a feature will be enough. Keep you user engaged!
+                      </p>
                     </div>
-                    <h6 className="text-xl font-semibold">Free Revisions</h6>
-                    <p className="mt-2 mb-4 text-blueGray-500">
-                      Keep you user engaged by providing meaningful information.
-                      Remember that by this time, the user is curious.
-                    </p>
                   </div>
                 </div>
-              </div>
-
-              <div className="pt-6 w-full md:w-4/12 px-4 text-center">
-                <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                  <div className="px-4 py-5 flex-auto">
-                    <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">
-                      <i className="fas fa-fingerprint"></i>
-                    </div>
-                    <h6 className="text-xl font-semibold">Verified Company</h6>
-                    <p className="mt-2 mb-4 text-blueGray-500">
-                      Write a few lines about each one. A paragraph describing a
-                      feature will be enough. Keep you user engaged!
-                    </p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
 
             <div className="flex flex-wrap items-center mt-32">
