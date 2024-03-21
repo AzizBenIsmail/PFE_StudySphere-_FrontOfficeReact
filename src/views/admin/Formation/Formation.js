@@ -77,24 +77,53 @@ export default function ListeFormations({ color }) {
     loadFormateurs();
     loadCentres();
   }, [loadFormateurs, loadCentres]);
+  // Fonction pour gérer le changement d'image
+  const handleImageChange = (e) => {
+    const imageFile = e.target.files[0];
+    setNewFormation({ ...newFormation, image: imageFile }); // Stockez l'image dans l'état local
+  };
+
+// Fonction pour ajouter une nouvelle formation avec image
   const handleAddFormation = async () => {
     try {
-      await createFormation(newFormation, config);
-      loadFormations();
-      setShowAddForm(false);
-      setNewFormation({ titre: '', description: '' });
+      const formData = new FormData();
+      formData.append('image_Formation', newFormation.image); // Ajoutez l'image à l'objet FormData
+      formData.append('titre', newFormation.titre); // Ajoutez l'image à l'objet FormData
+      formData.append('description', newFormation.description); // Ajoutez l'image à l'objet FormData
+      formData.append('competences', newFormation.competences); // Ajoutez l'image à l'objet FormData
+      formData.append('styleEnseignement', newFormation.styleEnseignement); // Ajoutez l'image à l'objet FormData
+      formData.append('Prix', newFormation.Prix); // Ajoutez l'image à l'objet FormData
+      formData.append('jours', newFormation.jours); // Ajoutez l'image à l'objet FormData
+      formData.append('typeContenu', newFormation.typeContenu); // Ajoutez l'image à l'objet FormData
+      formData.append('langue', newFormation.langue); // Ajoutez l'image à l'objet FormData
+      formData.append('emplacement', newFormation.emplacement); // Ajoutez l'image à l'objet FormData
+      formData.append('sujetInteret', newFormation.sujetInteret); // Ajoutez l'image à l'objet FormData
+      formData.append('Tranches_Horaires', newFormation.Tranches_Horaires); // Ajoutez l'image à l'objet FormData
+      formData.append('duree', newFormation.duree); // Ajoutez l'image à l'objet FormData
+      formData.append('niveauDengagementRequis', newFormation.niveauDengagementRequis); // Ajoutez l'image à l'objet FormData
+      formData.append('niveauDeDifficulte', newFormation.niveauDeDifficulte); // Ajoutez l'image à l'objet FormData
+      formData.append('niveauRequis', newFormation.niveauRequis); // Ajoutez l'image à l'objet FormData
+      formData.append('dateDebut', newFormation.dateDebut); // Ajoutez l'image à l'objet FormData
+      formData.append('dateFin', newFormation.dateFin); // Ajoutez l'image à l'objet FormData
+      formData.append('centre', newFormation.centre); // Ajoutez l'image à l'objet FormData
+      formData.append('formateur', newFormation.formateur); // Ajoutez l'image à l'objet FormData
+
+      // Ajoutez d'autres champs de formation à formData
+      await createFormation(formData, config);
+      // Reste du code pour ajouter la formation sans image
     } catch (error) {
       console.error('Error adding formation:', error);
     }
   };
 
+// Fonction pour modifier une formation avec image
   const handleEditFormation = async () => {
     try {
-      await updateFormation(formationToEdit._id, newFormation, config);
-      loadFormations();
-      setShowEditForm(false);
-      setFormationToEdit(null);
-      setNewFormation({ titre: '', description: '' });
+      const formData = new FormData();
+      formData.append('image', newFormation.image); // Ajoutez l'image à l'objet FormData
+      // Ajoutez d'autres champs de formation à formData
+      await updateFormation(formationToEdit._id, formData, config);
+      // Reste du code pour modifier la formation sans image
     } catch (error) {
       console.error('Error updating formation:', error);
     }
@@ -368,7 +397,7 @@ export default function ListeFormations({ color }) {
                 <div>
                   <label htmlFor="centre">Centre :</label>
                   <select id="centre" value={newFormation.centre} onChange={(e) => setNewFormation({ ...newFormation, centre: e.target.value })}>
-                    <option value="">Sélectionner un centre</option>
+                    <option value="">Sélectionner un</option>
                     {centres.map((centre) => (
                       <option key={centre._id} value={centre._id}>{centre.nom}</option>
                     ))}
@@ -377,7 +406,7 @@ export default function ListeFormations({ color }) {
                 <div>
                   <label htmlFor="formateur">Formateur :</label>
                   <select id="formateur" value={newFormation.formateur} onChange={(e) => setNewFormation({ ...newFormation, formateur: e.target.value })}>
-                    <option value="">Sélectionner un formateur</option>
+                    <option value="">Sélectionner un</option>
                     {users.map((user) => (
                       <option key={user._id} value={user._id}>{user.nom}</option>
                     ))}
@@ -385,6 +414,7 @@ export default function ListeFormations({ color }) {
                 </div>
               </div>
             </div>
+            <input type="file" accept="image/*" onChange={(e) => handleImageChange(e)} />
 
 
             {/* Boutons de soumission et d'annulation */}
