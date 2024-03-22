@@ -130,11 +130,11 @@ export default function Landing() {
               {/*</div>*/}
               {formations.map((formation) => (
                 <div
-                  className="pt-6 w-full md:w-2/12 px-4 text-center"
+                  className="pt-6 w-full md:w-2/12 px-2 text-center"
                   key={formation._id}
                 >
                   <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                    <div className="px-4 py-5 flex-auto">
+                    <div className="px-2 py-5 flex-auto">
                       {/*<div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">*/}
                       {/*  <i className="fas fa-fingerprint"></i>*/}
                       {/*</div>*/}
@@ -144,8 +144,28 @@ export default function Landing() {
                           className="align-middle border-none max-w-full h-auto rounded-lg"
                           src={`http://localhost:5000/images/Users/${formation.image_Formation}`}
                           // style={{ width: "350px", height: "350px" }}
-                          style={{ width: "250px", height: "150px" }}
+                          style={{ width: "350px", height: "150px" }}
                         />
+                        <span
+                          style={{
+                            position: "absolute",
+                            top: "5%",
+                            left: "82%",
+                            transform: "translate(-50%, -50%) ",
+                            // fontSize: "16px",
+                            // color: "white",
+                            // background: "grey",
+                            // padding: "8px 8px",
+                            // borderRadius: "8px",
+                          }}
+                        >
+                               <img
+                                 alt="..."
+                                 className="shadow rounded-full max-w-full h-auto align-middle border-none  bg-indigo-500"
+                                 src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                 style={{  width: '70px' }}
+                               />
+                        </span>
                         <span
                           style={{
                             position: "absolute",
@@ -166,6 +186,7 @@ export default function Landing() {
                             // style={{ width: '100px' }}
                             style={{ width: '70px' }}
                           />
+
                           {/*<div className="flex flex-wrap justify-center">*/}
                           {/*  <div className="w-6/12 sm:w-4/12 px-4">*/}
                           {/*    <img*/}
@@ -180,8 +201,7 @@ export default function Landing() {
                         {formation.titre}
                       </h6>
                       <p className="mt-2 mb-4 text-blueGray-500">
-                        Write a few lines about each one. A paragraph describing
-                        a feature will be enough. Keep you user engaged!
+                        {formation.description}
                       </p>
                     </div>
                   </div>
