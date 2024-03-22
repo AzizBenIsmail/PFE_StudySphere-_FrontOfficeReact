@@ -130,8 +130,10 @@ export async function upgradeFormateur (id, config) {
   return await axios.put(`${apiURL}/upgradeFormateur`, { id }, config)
 }
 
-export async function updateUser (user, config) {
-  return await axios.put(`${apiURL}/update/${user._id}`, user, config)
+export async function updateUser (formData, id, config) {
+  return await axios.put(`${apiURL}/update/${id}`, formData, config, {
+    headers: {"Content-Type": "multipart/form-data"}
+  });
 }
 
 export async function updatecentre(formData, id, config) {

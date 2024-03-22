@@ -165,6 +165,8 @@ export default function UpdateUser() {
   };
   const [messageerr, setmessageerr] = useState();
 
+  let formData = new FormData();
+
   const update = async (e) => {
     const normalizedNom = User.nom.toLowerCase();
     const passwordLowerCase = User.password.toLowerCase();
@@ -192,58 +194,66 @@ export default function UpdateUser() {
     } else if (emailError !== "") {
       setN(9);
     } else {
-      const res = await updateUser(User,config);
-      console.log(res.data);
-      if (res.data.message === undefined) {
-        window.location.replace(`/admin/tables/`)
+      formData.append("email", User.email);
+      formData.append("nom", User.nom);
+      formData.append("prenom", User.prenom);
+      formData.append("password", User.password);
+      if (image === undefined) {
+        setN(9);
       } else {
-        setmessageerr(res.data.message);
+        formData.append("image_user", image, `${User.nom}+.png`);
+        const res = await updateUser(formData, User._id, config);
+        console.log(res.data);
+        if (res.data.message === undefined) {
+          window.location.replace(`/admin/tables/`)
+        } else {
+          setmessageerr(res.data.message);
+        }
       }
     }
   };
 
-  let formData = new FormData()
   const addCentre = async (e) => {
-    const normalizedNom = User.nom.toLowerCase()
-    const passwordLowerCase = User.password.toLowerCase()
-    if (emailError === 'Veuillez entrer une adresse e-mail valide.') {
-    } else if (User.nom === '' && User.email === '' && User.password === '') {
-      setN(4) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '' && User.email === '') {
-      setN(5) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.email === '' && User.password === '') {
-      setN(6) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '' && User.password === '') {
-      setN(7) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === '') {
-      setN(1) // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.email === '') {
-      setN(2)
-    } else if (User.password === '') {
-      setN(3)
+    const normalizedNom = User.nom.toLowerCase();
+    const passwordLowerCase = User.password.toLowerCase();
+    if (emailError === "Veuillez entrer une adresse e-mail valide.") {
+    } else if (User.nom === "" && User.email === "" && User.password === "") {
+      setN(4); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "" && User.email === "") {
+      setN(5); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.email === "" && User.password === "") {
+      setN(6); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "" && User.password === "") {
+      setN(7); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.nom === "") {
+      setN(1); // Utilisation de setN pour mettre à jour la valeur de n
+    } else if (User.email === "") {
+      setN(2);
+    } else if (User.password === "") {
+      setN(3);
     } else if (passwordLowerCase.includes(normalizedNom)) {
       setN(8);
     } else {
-      formData.append('email', User.email)
-      formData.append('nom', User.nom)
-      formData.append('prenom', User.prenom)
-      formData.append('password', User.password)
-      formData.append('image_user', User.image_user)
-      if (image !== undefined) {
-        formData.append('image_user', image, `${User.nom}+.png`)
+      formData.append("email", User.email);
+      formData.append("nom", User.nom);
+      formData.append("prenom", User.prenom);
+      formData.append("password", User.password);
+      if (image === undefined) {
+        setN(9);
       } else {
-        const res = await updatecentre(formData,User._id,config)
-        console.log(res.data)
+        formData.append("image_user", image, `${User.nom}+.png`);
+        const res = await updatecentre(formData, User._id, config);
+        console.log(res.data);
         if (res.data.message === undefined) {
-          window.location.replace(`/admin/tables/`)
+          window.location.replace(`/admin/tables/`);
         } else {
-          setmessageerr(res.data.message)
-          console.log(res.data.message)
+          setmessageerr(res.data.message);
+          console.log(res.data.message);
           // showNotification('error', res.data.message, 'Erreur')
         }
       }
     }
-  }
+  };
 
   return (
     <>
@@ -488,6 +498,31 @@ export default function UpdateUser() {
                           ></div>
                         </div>
                       </div>
+                    </div>
+                    <div className="relative w-full mb-3">
+                      <label
+                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                        htmlFor="grid-password"
+                      >
+                        Image
+                      </label>
+                      <input
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        placeholder="image_user"
+                        type="file"
+                        name="image_user"
+                        onChange={(e) => handlechangeFile(e)}
+                        label="image_user"
+                        aria-label="image_user"
+                        // value={User.image_user}
+                      />
+                      {/*{n === 9 ? (*/}
+                      {/*  <label style={{ color: "red" }}>*/}
+                      {/*    image obligatoire*/}
+                      {/*  </label>*/}
+                      {/*) : (*/}
+                      {/*  ""*/}
+                      {/*)}*/}
                     </div>
                   </div>
                 </div>
