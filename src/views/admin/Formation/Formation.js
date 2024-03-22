@@ -110,7 +110,7 @@ export default function ListeFormations ({ color }) {
       formData.append('formateur', newFormation.formateur) // Ajoutez l'image à l'objet FormData
 
       // Ajoutez d'autres champs de formation à formData
-      await createFormation(formData, config)
+      await createFormation(formData, config).then(showAddForm(false))
       // Reste du code pour ajouter la formation sans image
     } catch (error) {
       console.error('Error adding formation:', error)
@@ -303,31 +303,55 @@ export default function ListeFormations ({ color }) {
       emplacement: `${selectedState}, ${event.target.value}`, // Mettez à jour emplacement_actuelle avec la ville sélectionnée
     }))
   }
-  const [selectedDomainedinteret, setSelectedDomainedinteret] = useState('')
 
-  const sousListes = {
-    Etudiant: ['Étudiant', 'Lycéen', 'Apprenti', 'Stagiaire'],
-    RH: ['Recruteur', 'Gestionnaire de la paie', 'Responsable des ressources humaines', 'Analyste des avantages sociaux', 'Spécialiste de la formation et du développement'],
-    IT: ['Developpeur logiciel', 'Administrateur système', 'Ingenieur en sécurité informatique', 'Analyste en assurance qualité', 'Architecte cloud'],
-    Developpeur: ['Developpeur FullStack', 'Developpeur front-end', 'Developpeur back-end', 'Concepteur UX/UI', 'Integrateur web', 'Developpeur mobile', 'Specialiste en SEO'],
-    Architecture: ['Architecte', 'Urbaniste', 'Technicien en batiment', 'Designer d\'interieur', 'Ingenieur structure'],
-    Finance: ['Analyste financier', 'Comptable', 'Controleur financier', 'Conseiller en investissement', 'Trader'],
-    Marketing: ['Chef de produit', 'Responsable marketing digital', 'Analyste de marche', 'Charge de communication', 'Gestionnaire de marque'],
-    Medical: ['Medecin generaliste', 'Infirmier', 'Chirurgien', 'Pharmacien', 'Radiologue'],
-    Juridique: ['Avocat', 'Juge', 'Notaire', 'Huissier de justice', 'Conseiller juridique'],
-    Education: ['Enseignant', 'Professeur d\'universite', 'Formateur', 'Conseiller pedagogique', 'Directeur d\'ecole'],
-    Ingenierie: ['Ingenieur civil', 'Ingenieur mecanique', 'Ingenieur electrique', 'Ingenieur en aerospatiale', 'Ingenieur logiciel'],
-    Art_et_culture: ['Artiste', 'Ecrivain', 'Musicien', 'Acteur', 'Historien d\'art'],
-    Vente: ['Commercial', 'Vendeur', 'Chef de secteur', 'Conseiller de vente', 'Representant commercial'],
-    Communication: ['Responsable communication', 'Charge de relations publiques', 'Community manager', 'Attache de presse', 'Responsable des evenements'],
-    Recherche: ['Chercheur', 'Assistant de recherche', 'Technicien de laboratoire', 'Ingenieur de recherche', 'Analyste de donnees'],
-    Consultation: ['Consultant en gestion', 'Consultant en strategie', 'Consultant financier', 'Consultant en informatique', 'Consultant RH'],
-    Logistique: ['Responsable logistique', 'Gestionnaire des stocks', 'Planificateur de production', 'Coordinateur de transport', 'Agent de fret'],
-    Transport: ['Chauffeur de camion', 'Pilote d\'avion', 'Mecanicien d\'avion', 'Agent de service a la clientele', 'Agent de bord'],
-    Tourisme: ['Agent de voyage', 'Guide touristique', 'Directeur d\'hotel', 'Responsable des reservations', 'Animateur touristique']
+  const [availability, setAvailability] = useState({
+    days: [],
+    times: [],
+  })
+
+  const handleDayChange = (event) => {
+    const { name, checked } = event.target
+    setAvailability((prevAvailability) => ({
+      ...prevAvailability,
+      days: checked ? [...prevAvailability.days, name] : prevAvailability.days.filter((day) => day !== name),
+    }))
+
+    setNewFormation((prevPreferences) => ({
+      ...prevPreferences,
+      jours: checked
+        ? [...prevPreferences.jours.split(','), name].join(',')
+        : prevPreferences.jours.split(',').filter((day) => day !== name).join(','),
+    }))
   }
-  const handleChangedinteret = (event) => {
-    setSelectedDomainedinteret(event.target.value)
+
+  const handleTimeChange = (event) => {
+    const { name, checked } = event.target
+    setAvailability((prevAvailability) => ({
+      ...prevAvailability,
+      times: checked ? [...prevAvailability.times, name] : prevAvailability.times.filter((time) => time !== name),
+    }))
+
+    setNewFormation((prevPreferences) => ({
+      ...prevPreferences,
+      Tranches_Horaires: checked
+        ? [...prevPreferences.Tranches_Horaires.split(','), name].join(',')
+        : prevPreferences.Tranches_Horaires.split(',').filter((time) => time !== name).join(','),
+    }))
+  }
+
+  function DayCheckbox ({ day, checked, onChange }) {
+    return (
+      <div>
+        <input
+          type="checkbox"
+          id={`${day}-checkbox`}
+          name={day}
+          checked={checked}
+          onChange={onChange}
+        />
+        <label htmlFor={`${day}-checkbox`}>{day.charAt(0).toUpperCase() + day.slice(1)}</label>
+      </div>
+    )
   }
 
   return (
@@ -506,32 +530,58 @@ export default function ListeFormations ({ color }) {
             {/* Premier groupe de champs */}
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-4 flex items-center">
-                <div>
+                <div className="w-full">
                   <label htmlFor="titre">titre</label>
                   <input type="text" placeholder="titre" value={newFormation.titre}
                          onChange={(e) => setNewFormation({ ...newFormation, titre: e.target.value })}
                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
-                <div className="px-4">
+                <div className="px-4 w-full">
                   <label htmlFor="description">description</label>
                   <input type="text" placeholder="description" value={newFormation.description}
                          onChange={(e) => setNewFormation({ ...newFormation, description: e.target.value })}
                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
-                <div>
+                <div className=" w-full">
+                  <label htmlFor="centre">Centre :</label>
+                  <select id="centre" value={newFormation.centre}
+                          onChange={(e) => setNewFormation({ ...newFormation, centre: e.target.value })}
+                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                  >
+                    <option value="">Sélectionner un</option>
+                    {centres.map((centre) => (
+                      <option key={centre._id} value={centre._id}>{centre.nom}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="px-3 w-full">
+                  <label htmlFor="formateur">Formateur :</label>
+                  <select id="formateur" value={newFormation.formateur}
+                          onChange={(e) => setNewFormation({ ...newFormation, formateur: e.target.value })}
+                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  >
+                    <option value="">Sélectionner un</option>
+                    {users.map((user) => (
+                      <option key={user._id} value={user._id}>{user.nom}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="mb-4">
+              <div className="grid grid-cols-3 gap-4 flex items-center">
+
+                <div className=" w-full">
                   <label htmlFor="Prix">Prix</label>
                   <input type="number" placeholder="Prix" value={newFormation.Prix}
                          onChange={(e) => setNewFormation({ ...newFormation, Prix: e.target.value })}
                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
                 </div>
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="grid grid-cols-3 gap-4 flex items-center">
-                <div>
+                <div className="px-4 w-full">
                   <label htmlFor="Style d'enseignement">styleEnseignement</label>
                   {/*<input type="text" placeholder="Style d'enseignement" value={newFormation.styleEnseignement} onChange={(e) => setNewFormation({ ...newFormation, styleEnseignement: e.target.value })}/>*/}
                   <select
@@ -546,7 +596,8 @@ export default function ListeFormations ({ color }) {
                     <option value="presentiel">Présentiel</option>
                   </select>
                 </div>
-                <div className="px-4">
+
+                <div className="w-full">
                   <label htmlFor="niveauRequis">niveauRequis</label>
                   {/*<input type="text" placeholder="niveauRequis" value={newFormation.niveauRequis} onChange={(e) => setNewFormation({ ...newFormation, niveauRequis: e.target.value })}/>*/}
                   <select
@@ -565,7 +616,7 @@ export default function ListeFormations ({ color }) {
                     {/* Ajoutez d'autres options selon vos besoins */}
                   </select>
                 </div>
-                <div>
+                <div className="px-4 w-full">
                   <label htmlFor="Type de contenu">typeContenu</label>
                   {/*<input type="text" placeholder="Type de contenu" value={newFormation.typeContenu} onChange={(e) => setNewFormation({ ...newFormation, typeContenu: e.target.value })}/>*/}
                   <select
@@ -631,59 +682,6 @@ export default function ListeFormations ({ color }) {
                   <input type="file" accept="image/*" onChange={(e) => handleImageChange(e)}
                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   /></div>
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="grid grid-cols-3 gap-4 flex items-center">
-                <div>
-                  <label htmlFor="niveauDeDifficulte">niveauDeDifficulte :</label>
-                  {/*<input type="Date de début" placeholder="niveauDeDifficulte" value={newFormation.niveauDeDifficulte} onChange={(e) => setNewFormation({ ...newFormation, niveauDeDifficulte: e.target.value })}/>*/}
-                  <select
-                    id="niveauDeDifficulte"
-                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    name="niveauDeDifficulte"
-                    onChange={(e) => handleSelectChange(e)}
-                  >
-                    <option value="">Niveau Difficulte</option>
-                    <option value="debutant">Débutant</option>
-                    <option value="intermediaire">Intermédiaire</option>
-                    <option value="avance">Avancé</option>
-                  </select>
-                </div>
-                <div className="px-4">
-                  <label htmlFor="niveauDengagementRequis">niveauDengagementRequis :</label>
-                  {/*<input type="number" placeholder="niveauDengagementRequis" value={newFormation.niveauDengagementRequis} onChange={(e) => setNewFormation({ ...newFormation, niveauDengagementRequis: e.target.value })}/>*/}
-                  <select
-                    id="niveauDengagementRequis"
-                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    name="niveauDengagementRequis"
-                    onChange={(e) => handleSelectChange(e)}
-                  >
-                    <option value="">Niveau D'engagement</option>
-                    <option value="4S">consacrer du temps régulier à la formation 4 Seance</option>
-                    <option value="2S">sessions d'apprentissage plus courtes 2 Seance</option>
-                    <option value="1S">intermittentes 1 Seance</option>
-                  </select>
-                </div>
-                {/*<div>*/}
-                {/*  <label htmlFor="niveauRequis">niveauRequis :</label>*/}
-                {/*  /!*<input type="text" placeholder="niveauRequis" value={newFormation.niveauRequis} onChange={(e) => setNewFormation({ ...newFormation, niveauRequis: e.target.value })}/>*!/*/}
-                {/*  <select*/}
-                {/*    id="niveauRequis"*/}
-                {/*    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                {/*    name="niveauRequis"*/}
-                {/*    onChange={(e) => handleSelectChange(e)}*/}
-                {/*  >*/}
-                {/*    <option value="">Niveau Etude</option>*/}
-                {/*    <option value="Primaire">Primaire</option>*/}
-                {/*    <option value="Secondaire">Secondaire</option>*/}
-                {/*    <option value="Baccalaureat">Baccalaureat</option>*/}
-                {/*    <option value="Superieur">Superieur</option>*/}
-                {/*    <option value="Maitrise">Maitrise</option>*/}
-                {/*    <option value="Formations">Formations</option>*/}
-                {/*    /!* Ajoutez d'autres options selon vos besoins *!/*/}
-                {/*  </select>*/}
-                {/*</div>*/}
               </div>
             </div>
             {/*<div className="mb-4">*/}
@@ -756,8 +754,8 @@ export default function ListeFormations ({ color }) {
                     </div>
                     <div>
                       {domaineSelectionne && (
-                        <div className="px-4">
-                          <label htmlFor="competence">Sélectionnez une compétence :</label>
+                        <div className="px-4 w-full">
+                          <label htmlFor="competence">Sélectionnez compétence </label>
                           <select id="competence" value={competenceSelectionnee} name="competences_dinteret"
                                   onChange={handleChangeCompetence}
                                   className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -772,12 +770,58 @@ export default function ListeFormations ({ color }) {
                         </div>
                       )}
                     </div>
+                    <div className="px-4 w-full">
+                      <div className="grid grid-cols-3 gap-4 flex items-center">
+                        <div className="w-full">
+                          <label htmlFor="Emplacement"> Emplacement </label>
+                          {/*<input type="text" placeholder="Emplacement" value={newFormation.emplacement} onChange={(e) => setNewFormation({ ...newFormation, emplacement: e.target.value })}/>*/}
+                          <div>
+                            <select
+                              id="state-select"
+                              value={selectedState}
+                              onChange={handleStateChange}
+                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            >
+                              <option value="">Sélectionner un état</option>
+                              {states.map((state, index) => (
+                                <option key={index} value={state}>
+                                  {state}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="px-4 w-full">
+                          {selectedState && (
+                            <div>
+                              <label
+                                htmlFor="city-select">
+                                Ville
+                              </label>
+                              <select
+                                id="city-select"
+                                value={selectedCity}
+                                onChange={handleCityChange}
+                                className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                              >
+                                <option value="">Sélectionner une ville</option>
+                                {citiesByState[selectedState].map((city, index) => (
+                                  <option key={index} value={city}>
+                                    {city}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
               <div className="mb-4">
                 <div className="grid grid-cols-3 gap-4 flex items-center">
-                  <div className="w-full  ">
+                  <div className="w-full ">
                     <div className="relative w-full ">
                       {/*<label className="block uppercase text-blueGray-600 text-xs font-bold "*/}
                       {/*       htmlFor="competence-input">Compétence Formation</label>*/}
@@ -828,125 +872,180 @@ export default function ListeFormations ({ color }) {
               </div>
               <div className="mb-4">
                 <div className="grid grid-cols-3 gap-4 flex items-center">
-                  <div>
-                    <div className="grid grid-cols-3 gap-4 flex items-center">
-                      <div >
-                        <label htmlFor="Emplacement"> Emplacement Etat</label>
-                        {/*<input type="text" placeholder="Emplacement" value={newFormation.emplacement} onChange={(e) => setNewFormation({ ...newFormation, emplacement: e.target.value })}/>*/}
-                        <div>
-                          <select
-                            id="state-select"
-                            value={selectedState}
-                            onChange={handleStateChange}
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                          >
-                            <option value="">Sélectionner un état</option>
-                            {states.map((state, index) => (
-                              <option key={index} value={state}>
-                                {state}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-                      <div className="px-4">
-                        {selectedState && (
-                          <div >
-                            <label
-                                   htmlFor="city-select">
-                              Ville
-                            </label>
-                            <select
-                              id="city-select"
-                              value={selectedCity}
-                              onChange={handleCityChange}
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            >
-                              <option value="">Sélectionner une ville</option>
-                              {citiesByState[selectedState].map((city, index) => (
-                                <option key={index} value={city}>
-                                  {city}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        )}
-                      </div>
+                  <div className="w-full">
+                    <label htmlFor="niveauDeDifficulte">niveauDeDifficulte</label>
+                    {/*<input type="Date de début" placeholder="niveauDeDifficulte" value={newFormation.niveauDeDifficulte} onChange={(e) => setNewFormation({ ...newFormation, niveauDeDifficulte: e.target.value })}/>*/}
+                    <select
+                      id="niveauDeDifficulte"
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      name="niveauDeDifficulte"
+                      onChange={(e) => handleSelectChange(e)}
+                    >
+                      <option value="">Niveau Difficulte</option>
+                      <option value="debutant">Débutant</option>
+                      <option value="intermediaire">Intermédiaire</option>
+                      <option value="avance">Avancé</option>
+                    </select>
+                  </div>
+                  <div className="px-4 ">
+                    <div className=" w-full">
+                      <label htmlFor="niveauDengagementRequis">niveauDengagementRequis</label>
+                      {/*<input type="number" placeholder="niveauDengagementRequis" value={newFormation.niveauDengagementRequis} onChange={(e) => setNewFormation({ ...newFormation, niveauDengagementRequis: e.target.value })}/>*/}
+                      <select
+                        id="niveauDengagementRequis"
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        name="niveauDengagementRequis"
+                        onChange={(e) => handleSelectChange(e)}
+                      >
+                        <option value="">Niveau D'engagement</option>
+                        <option value="4S">consacrer du temps régulier à la formation 4 Seance</option>
+                        <option value="2S">sessions d'apprentissage plus courtes 2 Seance</option>
+                        <option value="1S">intermittentes 1 Seance</option>
+                      </select>
                     </div>
                   </div>
+                  <div className="w-full">
+                    {/*<input type="date" placeholder="Date de début" value={newFormation.dateDebut} onChange={(e) => setNewFormation({ ...newFormation, dateDebut: e.target.value })}/>*/}
+                    <label htmlFor="dateDebut">Date Debut </label>
+                    <input
+                      type="date"
+                      id="dateDebut"
+                      name="dateDebut"
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      onChange={handleSelectChange}
+                      max={new Date().toISOString().split('T')[0]} // Définit la date maximale sur aujourd'hui
+                    />
+                  </div>
+                  <div className="px-4 w-full">
+                    {/*<input type="date" placeholder="Date de fin" value={newFormation.dateFin} onChange={(e) => setNewFormation({ ...newFormation, dateFin: e.target.value })}/>*/}
+                    <label htmlFor="dateFin w-full">Date Fin</label>
+                    <input
+                      type="date"
+                      id="dateFin"
+                      name="dateFin"
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      onChange={handleSelectChange}
+                      max={new Date().toISOString().split('T')[0]} // Définit la date maximale sur aujourd'hui
+                    />
+                  </div>
+                  {/*<div>*/}
+                  {/*  <label htmlFor="niveauRequis">niveauRequis :</label>*/}
+                  {/*  /!*<input type="text" placeholder="niveauRequis" value={newFormation.niveauRequis} onChange={(e) => setNewFormation({ ...newFormation, niveauRequis: e.target.value })}/>*!/*/}
+                  {/*  <select*/}
+                  {/*    id="niveauRequis"*/}
+                  {/*    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
+                  {/*    name="niveauRequis"*/}
+                  {/*    onChange={(e) => handleSelectChange(e)}*/}
+                  {/*  >*/}
+                  {/*    <option value="">Niveau Etude</option>*/}
+                  {/*    <option value="Primaire">Primaire</option>*/}
+                  {/*    <option value="Secondaire">Secondaire</option>*/}
+                  {/*    <option value="Baccalaureat">Baccalaureat</option>*/}
+                  {/*    <option value="Superieur">Superieur</option>*/}
+                  {/*    <option value="Maitrise">Maitrise</option>*/}
+                  {/*    <option value="Formations">Formations</option>*/}
+                  {/*    /!* Ajoutez d'autres options selon vos besoins *!/*/}
+                  {/*  </select>*/}
+                  {/*</div>*/}
+                </div>
+              </div>
+              <div className="mb-4">
+                <div className="grid grid-cols-3 gap-4 flex items-center">
+
                 </div>
               </div>
             </div>
             {/* Quatrième groupe de champs */}
             <div className="mb-4">
-              <div className="grid grid-cols-3 gap-4 flex items-center">
-                <div>
-                  {/*<input type="date" placeholder="Date de début" value={newFormation.dateDebut} onChange={(e) => setNewFormation({ ...newFormation, dateDebut: e.target.value })}/>*/}
-                  <label htmlFor="niveauDeDifficulte">Date Debut </label>
-                  <input
-                    type="date"
-                    id="dateDebut"
-                    name="dateDebut"
-                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    onChange={handleSelectChange}
-                    max={new Date().toISOString().split('T')[0]} // Définit la date maximale sur aujourd'hui
-                  />
-                </div>
-                <div>
-                  {/*<input type="date" placeholder="Date de fin" value={newFormation.dateFin} onChange={(e) => setNewFormation({ ...newFormation, dateFin: e.target.value })}/>*/}
-                  <label htmlFor="niveauDeDifficulte">Date Fin</label>
-                  <input
-                    type="date"
-                    id="dateFin"
-                    name="dateFin"
-                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    onChange={handleSelectChange}
-                    max={new Date().toISOString().split('T')[0]} // Définit la date maximale sur aujourd'hui
-                  />
-                </div>
-                <div>
-                  {/* Ajoutez ici les champs pour les références aux utilisateurs */}
+              <div>
+                <div className="availability-container">
+                  <h2 className="availability-heading text-blueGray-300">Disponibilité</h2>
+                  <div className="days-section text-blueGray-400">
+                    <h3 className="text-blueGray-400">Jours de la semaine</h3>
+                    <div className="day-checkboxes">
+                      <div className="day-column">
+                        {[' lundi'].map((day) => (
+                          <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
+                                       onChange={handleDayChange}/>
+                        ))}
+                      </div>
+                      <div className="day-column">
+                        {[' mardi'].map((day) => (
+                          <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
+                                       onChange={handleDayChange}/>
+                        ))}
+                      </div>
+                      <div className="day-column">
+                        {[' mercredi'].map((day) => (
+                          <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
+                                       onChange={handleDayChange}/>
+                        ))}
+                      </div>
+                      <div className="day-column">
+                        {[' jeudi'].map((day) => (
+                          <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
+                                       onChange={handleDayChange}/>
+                        ))}
+                      </div>
+                      <div className="day-column">
+                        {[' vendredi'].map((day) => (
+                          <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
+                                       onChange={handleDayChange}/>
+                        ))}
+                      </div>
+                      <div className="day-column">
+                        {[' samedi'].map((day) => (
+                          <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
+                                       onChange={handleDayChange}/>
+                        ))}
+                      </div>
+                      <div className="day-column">
+                        {[' dimanche'].map((day) => (
+                          <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
+                                       onChange={handleDayChange}/>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="times-section">
+                    <h3 className="text-blueGray-400">Heures de la journée</h3>
+                    <div className="time-checkboxes text-blueGray-400">
+                      {['matin', 'après-midi', 'soir'].map((time) => (
+                        <div key={time}>
+                          <input
+                            type="checkbox"
+                            id={`${time}-checkbox`}
+                            name={time}
+                            checked={availability.times.includes(time)}
+                            onChange={handleTimeChange}
+                          />
+                          <label htmlFor={`${time}-checkbox`}
+                                 className="ml-2">{time.charAt(0).toUpperCase() + time.slice(1)}</label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-4 flex items-center">
-                <div>
-                  <label htmlFor="centre">Centre :</label>
-                  <select id="centre" value={newFormation.centre}
-                          onChange={(e) => setNewFormation({ ...newFormation, centre: e.target.value })}>
-                    <option value="">Sélectionner un</option>
-                    {centres.map((centre) => (
-                      <option key={centre._id} value={centre._id}>{centre.nom}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="formateur">Formateur :</label>
-                  <select id="formateur" value={newFormation.formateur}
-                          onChange={(e) => setNewFormation({ ...newFormation, formateur: e.target.value })}>
-                    <option value="">Sélectionner un</option>
-                    {users.map((user) => (
-                      <option key={user._id} value={user._id}>{user.nom}</option>
-                    ))}
-                  </select>
-                </div>
+
               </div>
             </div>
             <div className="w-full lg:w-4/12 px-4">
 
-              <div>
-                <label htmlFor="Tranches horaires">Tranches_Horaires :</label>
-                <input type="text" placeholder="Tranches horaires" value={newFormation.Tranches_Horaires}
-                       onChange={(e) => setNewFormation({ ...newFormation, Tranches_Horaires: e.target.value })}/>
-              </div>
-              <div>
-                <label htmlFor="Jours">jours</label>
-                <input type="text" placeholder="Jours" value={newFormation.jours}
-                       onChange={(e) => setNewFormation({ ...newFormation, jours: e.target.value })}/>
-              </div>
+              {/*<div>*/}
+              {/*  <label htmlFor="Tranches horaires">Tranches_Horaires :</label>*/}
+              {/*  <input type="text" placeholder="Tranches horaires" value={newFormation.Tranches_Horaires}*/}
+              {/*         onChange={(e) => setNewFormation({ ...newFormation, Tranches_Horaires: e.target.value })}/>*/}
+              {/*</div>*/}
+              {/*<div>*/}
+              {/*  <label htmlFor="Jours">jours</label>*/}
+              {/*  <input type="text" placeholder="Jours" value={newFormation.jours}*/}
+              {/*         onChange={(e) => setNewFormation({ ...newFormation, jours: e.target.value })}/>*/}
+              {/*</div>*/}
             </div>
-
 
             {/* Boutons de soumission et d'annulation */}
             <div className="flex justify-end">
