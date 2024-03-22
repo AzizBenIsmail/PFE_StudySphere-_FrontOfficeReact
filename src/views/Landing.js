@@ -144,7 +144,7 @@ export default function Landing() {
                           className="align-middle border-none max-w-full h-auto rounded-lg"
                           src={`http://localhost:5000/images/Users/${formation.image_Formation}`}
                           // style={{ width: "350px", height: "350px" }}
-                          style={{ width: "250px", height: "220px" }}
+                          style={{ width: "350px", height: "250px" }}
                         />
                         <span
                           style={{
