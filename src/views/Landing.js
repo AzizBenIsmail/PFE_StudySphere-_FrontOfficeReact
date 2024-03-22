@@ -130,11 +130,11 @@ export default function Landing() {
               {/*</div>*/}
               {formations.map((formation) => (
                 <div
-                  className="pt-6 w-full md:w-2/12 px-2 text-center"
+                  className="pt-6 w-full md:w-2/12 px-4 text-center"
                   key={formation._id}
                 >
                   <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                    <div className="px-2 py-5 flex-auto">
+                    <div className="px-4 py-5 flex-auto">
                       {/*<div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">*/}
                       {/*  <i className="fas fa-fingerprint"></i>*/}
                       {/*</div>*/}
@@ -144,7 +144,7 @@ export default function Landing() {
                           className="align-middle border-none max-w-full h-auto rounded-lg"
                           src={`http://localhost:5000/images/Users/${formation.image_Formation}`}
                           // style={{ width: "350px", height: "350px" }}
-                          style={{ width: "350px", height: "150px" }}
+                          style={{ width: "250px", height: "150px" }}
                         />
                         <span
                           style={{
