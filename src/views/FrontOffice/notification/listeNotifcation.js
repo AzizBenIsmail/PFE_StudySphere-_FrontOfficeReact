@@ -6,7 +6,7 @@ import Navbar from '../../../components/Navbars/Navbar.js'
 import Cookies from 'js-cookie'
 import { useHistory } from 'react-router-dom'
 import { getUserAuth } from '../../../Services/Apiauth'
-import Footer from "components/Footers/Footer.js";
+import Footer from "../../../components/Footers/Footer.js";
 import {
   getNotificationByUser,
 } from '../../../Services/ApiNotification'

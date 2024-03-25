@@ -19,7 +19,7 @@ const BadgesNiveauXp = lazy(() =>
 const reward = lazy(() => import("./views/FrontOffice/info/reward.js"));
 const warning = lazy(() => import("./views/FrontOffice/info/warning.js"));
 const listeNotifcation = lazy(() =>
-  import("./views/client/notification/listeNotifcation.js")
+  import("./views/FrontOffice/notification/listeNotifcation.js")
 );
 const Index = lazy(() => import("views/Index.js"));
 
