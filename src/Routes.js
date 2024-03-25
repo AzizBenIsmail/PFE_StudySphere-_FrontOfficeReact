@@ -12,12 +12,12 @@ const Landing = lazy(() => import("views/Landing.js"));
 const Elearning = lazy(() => import("views/E-learning/Landing.js"));
 const Profile = lazy(() => import("./views/client/Profile.js"));
 const updateProfile = lazy(() => import("./views/client/updateProfile.js"));
-const welcome = lazy(() => import("./views/client/info/welcome.js"));
+const welcome = lazy(() => import("./views/FrontOffice/info/welcome.js"));
 const BadgesNiveauXp = lazy(() =>
-  import("./views/client/info/BadgesNiveauXp.js")
+  import("./views/FrontOffice/info/BadgesNiveauXp.js")
 );
-const reward = lazy(() => import("./views/client/info/reward.js"));
-const warning = lazy(() => import("./views/client/info/warning.js"));
+const reward = lazy(() => import("./views/FrontOffice/info/reward.js"));
+const warning = lazy(() => import("./views/FrontOffice/info/warning.js"));
 const listeNotifcation = lazy(() =>
   import("./views/client/notification/listeNotifcation.js")
 );

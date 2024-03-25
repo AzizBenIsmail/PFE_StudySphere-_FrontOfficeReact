@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 // components
-import Navbar from "components/Navbars/Navbar.js";
-import Footer from "components/Footers/FooterSmall.js";
+import Navbar from "../../../components/Navbars/Navbar.js";
+import Footer from "../../../components/Footers/FooterSmall.js";
 import Cookies from "js-cookie";
 import { getUserAuth } from "../../../Services/Apiauth";
 import { getByCurrUser } from "../../../Services/ApiXp";
