@@ -355,10 +355,10 @@ export default function PreferenceClient () {
     <>
       <div className=" container mx-auto px-1 h-full ">
         <div className="flex content-center items-center justify-center h-full">
-          <div className="w-full lg:w-9/12 px-1 ">
+          <div className="w-full lg:w-9/12 pb-6 ">
             <div
               className="relative flex flex-col min-w-0 break-words w-full  shadow-lg rounded-lg bg-blueGray-800 border-0">
-              <div className="rounded-t  px-6 py-6">
+              <div className="rounded-t px-6 py-6">
                 <div className="text-center ">
                   <h6 className="text-blueGray-500 text-sm font-bold">
                     {Step === "1" ? ( <>+ 150 pt ✨</> ) :
