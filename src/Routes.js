@@ -11,6 +11,7 @@ const First = lazy(() => import("./layouts/First.js"));
 const Landing = lazy(() => import("./views/FrontOffice/client/Landing.js"));
 const Elearning = lazy(() => import("views/E-learning/Landing.js"));
 const Profile = lazy(() => import("./views/FrontOffice/client/Profile.js"));
+const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
 const updateProfile = lazy(() => import("./views/FrontOffice/client/updateProfile.js"));
 const welcome = lazy(() => import("./views/FrontOffice/info/welcome.js"));
 const BadgesNiveauXp = lazy(() =>
@@ -48,6 +49,7 @@ function Routes() {
           <Route path="/Elearning" exact component={Elearning} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/edit/:id" exact component={updateProfile} />
+          <Route path="/DetailsFormation/:id" exact component={DetailsFormation} />
           <Route path="/" exact component={Index} />
           {/*<Route path="/" component={Auth} />*/}
           {/* add redirect for first page */}
