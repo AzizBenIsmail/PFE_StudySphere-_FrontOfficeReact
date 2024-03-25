@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Cookies from 'js-cookie'
 
-import Navbar from "../../components/Navbars/Navbar.js";
-import Footer from "../../components/Footers/Footer.js";
-import { getUserAuth } from '../../Services/Apiauth'
+import Navbar from "../../../components/Navbars/Navbar.js";
+import Footer from "../../../components/Footers/FooterSmall.js";
+import { getUserAuth } from '../../../Services/Apiauth'
 import { useHistory, useParams } from 'react-router-dom'
   // import { FaUserCog } from 'react-icons/fa'
   // import { getUserByID } from '../Services/ApiUser'
@@ -100,7 +100,7 @@ export default function Profile() {
             {/*</svg>*/}
           </div>
         </section>
-        <section className="relative py-16 bg-blueGray-200">
+        <section className="relative py-15 bg-blueGray-200">
           <div className="container mx-auto px-4">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
               <div className="px-6">
@@ -124,7 +124,7 @@ export default function Profile() {
                         <div>
                           <img
                             alt="..."
-                            src={require("../../assets/img/client.png").default}
+                            src={require("../../../assets/img/client.png").default}
                             // style={{ maxWidth: '120%' }}
                             className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
                           />
@@ -185,7 +185,7 @@ export default function Profile() {
                     </div>
                   </div>
                 </div>
-                <div className="text-center mt-12">
+                <div className="text-center">
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
                     {User.nom} {User.prenom}
                   </h3>
@@ -229,26 +229,26 @@ export default function Profile() {
                     University of Computer Science
                   </div>
                 </div>
-                <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
-                  <div className="flex flex-wrap justify-center">
-                    <div className="w-full lg:w-9/12 px-4">
-                      <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                        An artist of considerable range, Jenna the name taken by
-                        Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                        performs and records all of his own music, giving it a
-                        warm, intimate feel with a solid groove structure. An
-                        artist of considerable range.
-                      </p>
-                      <a
-                        href="#pablo"
-                        className="font-normal text-lightBlue-500"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        Show more
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                {/*<div className="mt-10 py-10 border-t border-blueGray-200 text-center">*/}
+                {/*  <div className="flex flex-wrap justify-center">*/}
+                {/*    <div className="w-full lg:w-9/12 px-4">*/}
+                {/*      <p className="mb-4 text-lg leading-relaxed text-blueGray-700">*/}
+                {/*        An artist of considerable range, Jenna the name taken by*/}
+                {/*        Melbourne-raised, Brooklyn-based Nick Murphy writes,*/}
+                {/*        performs and records all of his own music, giving it a*/}
+                {/*        warm, intimate feel with a solid groove structure. An*/}
+                {/*        artist of considerable range.*/}
+                {/*      </p>*/}
+                {/*      <a*/}
+                {/*        href="#pablo"*/}
+                {/*        className="font-normal text-lightBlue-500"*/}
+                {/*        onClick={(e) => e.preventDefault()}*/}
+                {/*      >*/}
+                {/*        Show more*/}
+                {/*      </a>*/}
+                {/*    </div>*/}
+                {/*  </div>*/}
+                {/*</div>*/}
               </div>
             </div>
           </div>

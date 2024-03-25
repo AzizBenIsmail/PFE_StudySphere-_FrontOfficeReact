@@ -2,12 +2,12 @@ import React, { useEffect, useMemo, useState } from "react";
 
 // components
 import Cookies from "js-cookie";
-import { getUserAuth } from "../../Services/Apiauth";
-import { getUserByID, updatecentre, updateUser } from "../../Services/ApiUser";
+import { getUserAuth } from "../../../Services/Apiauth";
+import { getUserByID, updatecentre, updateUser } from "../../../Services/ApiUser";
 
 import { useLocation, useParams } from "react-router-dom";
-import Navbar from "../../components/Navbars/Navbar";
-import Footer from "../../components/Footers/FooterSmall";
+import Navbar from "../../../components/Navbars/Navbar";
+import Footer from "../../../components/Footers/FooterSmall";
 // import { NotificationManager } from 'react-notifications'
 
 // import CardLineChart from "components/Cards/CardLineChart.js";
