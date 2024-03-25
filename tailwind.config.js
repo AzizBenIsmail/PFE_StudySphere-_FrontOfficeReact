@@ -13,9 +13,12 @@ module.exports = {
       "./src/*.html",
       "./public/**/*.js",
       "./public/*.js",
+      
     ],
     options: {
-      safelist: [],
+      safelist: [
+       
+      ],
     },
   },
   theme: {
@@ -78,7 +81,7 @@ module.exports = {
       },
       backgroundSize: {
         full: "100%",
-      },
+      }
     },
   },
   variants: [
@@ -96,7 +99,9 @@ module.exports = {
     "disabled",
   ],
   plugins: [
+   
     require("@tailwindcss/forms"),
+    
     plugin(function ({ addComponents, theme }) {
       const screens = theme("screens", {});
       addComponents([

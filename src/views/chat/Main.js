@@ -25,13 +25,16 @@ import Navbar from '../../components/Navbars/Navbar'
 
 const Main = () => {
   return (
-    <div className=' bg-lightBlue-300 flex flex-col min-h-screen'>
-      <Navbar/>
-      <div className='flex-1 flex items-center justify-center'>
+    <div className='bg-lightBlue-300 flex flex-col min-h-screen'>
+      <Navbar />
+      <div className='flex-1 flex items-center justify-center mb-4  mt-16'> {/* Added mb-4 for margin-bottom */}
         <Home />
       </div>
-      <Footer />
+      <footer className="mt-auto"><Footer /></footer>
     </div>
   );
 };
+
 export default Main;
+
+
