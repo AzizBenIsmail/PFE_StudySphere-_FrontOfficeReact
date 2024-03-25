@@ -1,22 +1,19 @@
 /*eslint-disable*/
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
-import IndexNavbar from "../../../components/Navbars/Navbar.js";
-import Footer from "../../../components/Footers/FooterSmall.js";
+import Navbar from '../../../components/Navbars/Navbar.js'
+import Footer from '../../../components/Footers/FooterSmall.js'
 import Cookies from 'js-cookie'
-import { getUserByID } from "../../../Services/ApiUser";
 import { getUserAuth } from '../../../Services/Apiauth'
-import Navbar from "../../../components/Navbars/Navbar.js";
-import { SiNintendogamecube } from "react-icons/si";
-import { IoSchoolSharp } from "react-icons/io5";
 import { getFormationById } from '../../../Services/ApiFormation'
+import { GiMoneyStack } from 'react-icons/gi'
 
-export default function Index() {
+export default function Index () {
   const [user, setUser] = useState(null)
   const jwt_token = Cookies.get('jwt_token')
   const history = useHistory()
-  const param = useParams();
+  const param = useParams()
 
   const config = useMemo(() => {
     return {
@@ -57,7 +54,7 @@ export default function Index() {
 
   const loadFormations = useCallback(async () => {
     try {
-      const res = await getFormationById(param.id,config)
+      const res = await getFormationById(param.id, config)
       setFormation(res.data.formation)
       console.log(res)
     } catch (error) {
@@ -71,48 +68,18 @@ export default function Index() {
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={user}/>
       <section className="py-20 bg-bleu-500 overflow-hidden">
-        <div className="container mx-auto pb-20">
+        <div className="container mx-auto pb-6">
           <div className="flex flex-wrap justify-center">
-            {/*<div className="w-full md:w-5/12 px-12 md:px-4 ml-auto mr-auto md:mt-40">*/}
-            {/*  <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">*/}
-            {/*    /!*<i className="fas fa-code-branch text-xl"></i>*!/*/}
-            {/*    <SiWelcometothejungle />*/}
-            {/*  </div>*/}
-            {/*  <h3 className="text-3xl mb-2 font-semibold leading-normal text-white">*/}
-            {/*    Bienvenue sur notre plateforme !*/}
-            {/*  </h3>*/}
-            {/*  <p className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-400">*/}
-            {/*    Nous{" "}*/}
-            {/*    <a*/}
-            {/*      href="https://tailwindcss.com/?ref=creativetim"*/}
-            {/*      className="text-blueGray-300"*/}
-            {/*      target="_blank"*/}
-            {/*    >*/}
-            {/*      vous encourageons à remplir chaque étape de notre*/}
-            {/*    </a>{" "}*/}
-            {/*    formulaire avec soin et précision. Chaque réponse vous rapproche un peu plus de vos objectifs*/}
-            {/*    professionnels. De plus, n'oubliez pas que chaque fois que vous atteignez 1000 points,*/}
-            {/*    vous débloquez une remise spéciale sur nos formations. Alors,*/}
-            {/*  </p>*/}
-            {/*  <p className="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-400">*/}
-            {/*    plongez-vous dans le processus et*/}
-            {/*    laissez-nous vous guider vers un avenir brillant et rempli de réussite ! 🚀*/}
-            {/*  </p>*/}
-            {/*</div>*/}
-            {/*<div className="w-full md:w-4/12 px-4 mr-auto ml-auto mt-32 relative">*/}
-            {/*  <IoSchoolSharp*/}
-            {/*    className="fab fa-github text-blueGray-700 absolute -top-150-px -right-100 left-auto opacity-80 text-55"/>*/}
-            {/*</div>*/}
           </div>
         </div>
-
       </section>
-      <div className="container mx-auto py-2">
+      <div className="container mx-auto ">
         <div className="flex flex-wrap items-center">
           <div className="w-13/12 md:w-6/12 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-32">
-            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-bleu-500">
+            <div
+              className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-bleu-500">
               {formation && formation.image_Formation ? (
                 <img
                   alt="..."
@@ -142,7 +109,8 @@ export default function Index() {
                 {/*  ></polygon>*/}
                 {/*</svg>*/}
                 <h4 className="text-xl font-bold text-white">
-                  <span className="inline-block text-center w-full">{formation.titre}</span> {/* Ajoutez une classe pour augmenter la largeur */}
+                  <span
+                    className="inline-block text-center w-full">{formation.titre}</span> {/* Ajoutez une classe pour augmenter la largeur */}
                 </h4>
                 <p className="text-md font-light mt-2 text-white">
                   {formation.description}
@@ -157,21 +125,23 @@ export default function Index() {
               <div className="w-full md:w-6/12 px-4">
                 <div className="relative flex flex-col mt-4">
                   <div className="px-4 py-5 flex-auto">
-                    <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
-                      <i className="fas fa-sitemap"></i>
+                    <div
+                      className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
+                      <GiMoneyStack style={{ fontSize: '50px' }}
+                      />
                     </div>
                     <h6 className="text-xl mb-1 font-semibold">
-                      CSS Components
+                      Prix
                     </h6>
                     <p className="mb-4 text-blueGray-500">
-                      Notus React comes with a huge number of Fully Coded CSS
-                      components.
+                      {formation.Prix}
                     </p>
                   </div>
                 </div>
                 <div className="relative flex flex-col min-w-0">
                   <div className="px-4 py-5 flex-auto">
-                    <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
+                    <div
+                      className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
                       <i className="fas fa-drafting-compass"></i>
                     </div>
                     <h6 className="text-xl mb-1 font-semibold">
@@ -187,7 +157,8 @@ export default function Index() {
               <div className="w-full md:w-6/12 px-4">
                 <div className="relative flex flex-col min-w-0 mt-4">
                   <div className="px-4 py-5 flex-auto">
-                    <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
+                    <div
+                      className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
                       <i className="fas fa-newspaper"></i>
                     </div>
                     <h6 className="text-xl mb-1 font-semibold">Pages</h6>
@@ -199,7 +170,8 @@ export default function Index() {
                 </div>
                 <div className="relative flex flex-col min-w-0">
                   <div className="px-4 py-5 flex-auto">
-                    <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
+                    <div
+                      className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
                       <i className="fas fa-file-alt"></i>
                     </div>
                     <h6 className="text-xl mb-1 font-semibold">
@@ -217,7 +189,7 @@ export default function Index() {
         </div>
       </div>
 
-      <Footer />
+      <Footer absolute/>
     </>
-  );
+  )
 }
