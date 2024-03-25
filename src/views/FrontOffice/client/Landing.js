@@ -1,24 +1,24 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 // components
-import Navbar from "components/Navbars/Navbar.js";
-import Footer from "components/Footers/Footer.js";
-import Cookies from "js-cookie";
-import { getUserAuth } from "../Services/Apiauth";
-import { getAllFormations } from "../Services/ApiFormation";
+import Navbar from '../../../components/Navbars/Navbar.js'
+import Footer from '../../../components/Footers/Footer.js'
+import Cookies from 'js-cookie'
+import { getUserAuth } from '../../../Services/Apiauth'
+import { getAllFormations } from '../../../Services/ApiFormation'
 
-export default function Landing() {
-  const [user, setUser] = useState(null);
-  const jwt_token = Cookies.get("jwt_token");
-  const history = useHistory();
+export default function Landing () {
+  const [user, setUser] = useState(null)
+  const jwt_token = Cookies.get('jwt_token')
+  const history = useHistory()
 
   const config = useMemo(() => {
     return {
       headers: {
         Authorization: `Bearer ${jwt_token}`,
       },
-    };
-  }, [jwt_token]);
+    }
+  }, [jwt_token])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,43 +28,43 @@ export default function Landing() {
             headers: {
               Authorization: `Bearer ${jwt_token}`,
             },
-          };
-          const res = await getUserAuth(config);
+          }
+          const res = await getUserAuth(config)
           setUser(() => {
-            if (res.data.user.role === "admin") {
-              history.replace("/admin/");
+            if (res.data.user.role === 'admin') {
+              history.replace('/admin/')
             }
-            return res.data.user;
-          });
+            return res.data.user
+          })
         } else {
-          history.replace("/");
+          history.replace('/')
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    };
+    }
 
-    fetchData();
-  }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
+    fetchData()
+  }, [history, jwt_token]) // Inclure history et jwt_token dans le tableau de dépendances
 
-  const [formations, setFormations] = useState([]);
+  const [formations, setFormations] = useState([])
 
   const loadFormations = useCallback(async () => {
     try {
-      const res = await getAllFormations(config);
-      setFormations(res.data.formations);
+      const res = await getAllFormations(config)
+      setFormations(res.data.formations)
     } catch (error) {
-      console.error("Error loading formations:", error);
+      console.error('Error loading formations:', error)
     }
-  }, [config]);
+  }, [config])
 
   useEffect(() => {
-    loadFormations();
-  }, [loadFormations]);
+    loadFormations()
+  }, [loadFormations])
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar user={user}/>
       <main>
         <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-55">
           <div
@@ -82,7 +82,7 @@ export default function Landing() {
           <div className="container relative mx-auto">
             <div className="items-center flex flex-wrap">
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-                <div className="pr-12">
+                <div className="pr-12 pt-12 mt-2">
                   <h1 className="text-white font-semibold text-5xl">
                     Your story starts with us.
                   </h1>
@@ -99,36 +99,8 @@ export default function Landing() {
         <section className="pb-20 bg-blueGray-200 -mt-24">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap">
-              {/*<div className="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">*/}
-              {/*  <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">*/}
-              {/*    <div className="px-4 py-5 flex-auto">*/}
-              {/*      <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">*/}
-              {/*        <i className="fas fa-award"></i>*/}
-              {/*      </div>*/}
-              {/*      <h6 className="text-xl font-semibold">Awarded Agency</h6>*/}
-              {/*      <p className="mt-2 mb-4 text-blueGray-500">*/}
-              {/*        Divide details about your product or agency work into*/}
-              {/*        parts. A paragraph describing a feature will be enough.*/}
-              {/*      </p>*/}
-              {/*    </div>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
-
-              {/*<div className="w-full md:w-4/12 px-4 text-center">*/}
-              {/*  <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">*/}
-              {/*    <div className="px-4 py-5 flex-auto">*/}
-              {/*      <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">*/}
-              {/*        <i className="fas fa-retweet"></i>*/}
-              {/*      </div>*/}
-              {/*      <h6 className="text-xl font-semibold">Free Revisions</h6>*/}
-              {/*      <p className="mt-2 mb-4 text-blueGray-500">*/}
-              {/*        Keep you user engaged by providing meaningful information.*/}
-              {/*        Remember that by this time, the user is curious.*/}
-              {/*      </p>*/}
-              {/*    </div>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
               {formations.map((formation) => (
+
                 <div
                   className="pt-6 w-full md:w-2/12 px-4 text-center"
                   key={formation._id}
@@ -138,20 +110,26 @@ export default function Landing() {
                       {/*<div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">*/}
                       {/*  <i className="fas fa-fingerprint"></i>*/}
                       {/*</div>*/}
-                      <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                        <img
-                          alt="..."
-                          className="align-middle border-none max-w-full h-auto rounded-lg"
-                          src={`http://localhost:5000/images/Users/${formation.image_Formation}`}
-                          // style={{ width: "350px", height: "350px" }}
-                          style={{ width: "350px", height: "220px" }}
-                        />
+                      <div
+                        className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                        <Link
+                          to="/landing"
+                        >
+                          <img
+                            alt="..."
+                            className="align-middle border-none max-w-full h-auto rounded-lg"
+                            src={`http://localhost:5000/images/Users/${formation.image_Formation}`}
+                            // style={{ width: "350px", height: "350px" }}
+                            style={{ width: '350px', height: '220px' }}
+                          />
+                        </Link>
+
                         <span
                           style={{
-                            position: "absolute",
-                            top: "5%",
-                            left: "82%",
-                            transform: "translate(-50%, -50%) ",
+                            position: 'absolute',
+                            top: '5%',
+                            left: '82%',
+                            transform: 'translate(-50%, -50%) ',
                             // fontSize: "16px",
                             // color: "white",
                             // background: "grey",
@@ -159,19 +137,23 @@ export default function Landing() {
                             // borderRadius: "8px",
                           }}
                         >
+                          <Link
+                            to="/landing"
+                          >
                                <img
                                  alt="..."
                                  className="shadow rounded-full max-w-full h-auto align-middle border-none  bg-indigo-500"
                                  src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                                 style={{  width: '70px' }}
+                                 style={{ width: '70px' }}
                                />
+                          </Link>
                         </span>
                         <span
                           style={{
-                            position: "absolute",
-                            top: "94%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
+                            position: 'absolute',
+                            top: '94%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
                             // fontSize: "16px",
                             // color: "white",
                             // background: "green",
@@ -179,6 +161,9 @@ export default function Landing() {
                             // borderRadius: "8px",
                           }}
                         >
+                          <Link
+                            to="/landing"
+                          >
                           <img
                             alt="..."
                             className="shadow rounded-full max-w-full h-auto align-middle border-none  bg-indigo-500"
@@ -186,7 +171,7 @@ export default function Landing() {
                             // style={{ width: '100px' }}
                             style={{ width: '70px' }}
                           />
-
+                          </Link>
                           {/*<div className="flex flex-wrap justify-center">*/}
                           {/*  <div className="w-6/12 sm:w-4/12 px-4">*/}
                           {/*    <img*/}
@@ -205,13 +190,15 @@ export default function Landing() {
                       </p>
                     </div>
                   </div>
+
                 </div>
               ))}
             </div>
 
             <div className="flex flex-wrap items-center mt-32">
               <div className="w-full md:w-5/12 px-4 mr-auto ml-auto">
-                <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
+                <div
+                  className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
                   <i className="fas fa-user-friends text-xl"></i>
                 </div>
                 <h3 className="text-3xl mb-2 font-semibold leading-normal">
@@ -234,7 +221,8 @@ export default function Landing() {
               </div>
 
               <div className="w-full md:w-4/12 px-4 mr-auto ml-auto">
-                <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-lightBlue-500">
+                <div
+                  className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-lightBlue-500">
                   <img
                     alt="..."
                     src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80"
@@ -270,7 +258,7 @@ export default function Landing() {
         <section className="relative py-20">
           <div
             className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
-            style={{ transform: "translateZ(0)" }}
+            style={{ transform: 'translateZ(0)' }}
           >
             <svg
               className="absolute bottom-0 overflow-hidden"
@@ -299,7 +287,8 @@ export default function Landing() {
               </div>
               <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
                 <div className="md:pr-12">
-                  <div className="text-lightBlue-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-lightBlue-300">
+                  <div
+                    className="text-lightBlue-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-lightBlue-300">
                     <i className="fas fa-rocket text-xl"></i>
                   </div>
                   <h3 className="text-3xl font-semibold">A growing company</h3>
@@ -312,7 +301,8 @@ export default function Landing() {
                     <li className="py-2">
                       <div className="flex items-center">
                         <div>
-                          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-lightBlue-600 bg-lightBlue-200 mr-3">
+                          <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-lightBlue-600 bg-lightBlue-200 mr-3">
                             <i className="fas fa-fingerprint"></i>
                           </span>
                         </div>
@@ -326,7 +316,8 @@ export default function Landing() {
                     <li className="py-2">
                       <div className="flex items-center">
                         <div>
-                          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-lightBlue-600 bg-lightBlue-200 mr-3">
+                          <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-lightBlue-600 bg-lightBlue-200 mr-3">
                             <i className="fab fa-html5"></i>
                           </span>
                         </div>
@@ -340,7 +331,8 @@ export default function Landing() {
                     <li className="py-2">
                       <div className="flex items-center">
                         <div>
-                          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-lightBlue-600 bg-lightBlue-200 mr-3">
+                          <span
+                            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-lightBlue-600 bg-lightBlue-200 mr-3">
                             <i className="far fa-paper-plane"></i>
                           </span>
                         </div>
@@ -375,7 +367,7 @@ export default function Landing() {
                 <div className="px-6">
                   <img
                     alt="..."
-                    src={require("assets/img/team-1-800x800.jpg").default}
+                    src={require('../../../assets/img/team-1-800x800.jpg').default}
                     className="shadow-lg rounded-full mx-auto max-w-120-px"
                   />
                   <div className="pt-6 text-center">
@@ -410,7 +402,7 @@ export default function Landing() {
                 <div className="px-6">
                   <img
                     alt="..."
-                    src={require("assets/img/team-2-800x800.jpg").default}
+                    src={require('../../../assets/img/team-2-800x800.jpg').default}
                     className="shadow-lg rounded-full mx-auto max-w-120-px"
                   />
                   <div className="pt-6 text-center">
@@ -439,7 +431,7 @@ export default function Landing() {
                 <div className="px-6">
                   <img
                     alt="..."
-                    src={require("assets/img/team-3-800x800.jpg").default}
+                    src={require('../../../assets/img/team-3-800x800.jpg').default}
                     className="shadow-lg rounded-full mx-auto max-w-120-px"
                   />
                   <div className="pt-6 text-center">
@@ -474,7 +466,7 @@ export default function Landing() {
                 <div className="px-6">
                   <img
                     alt="..."
-                    src={require("assets/img/team-4-470x470.png").default}
+                    src={require('../../../assets/img/team-4-470x470.png').default}
                     className="shadow-lg rounded-full mx-auto max-w-120-px"
                   />
                   <div className="pt-6 text-center">
@@ -518,7 +510,7 @@ export default function Landing() {
         <section className="pb-20 relative block bg-blueGray-800">
           <div
             className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
-            style={{ transform: "translateZ(0)" }}
+            style={{ transform: 'translateZ(0)' }}
           >
             <svg
               className="absolute bottom-0 overflow-hidden"
@@ -551,7 +543,8 @@ export default function Landing() {
             </div>
             <div className="flex flex-wrap mt-12 justify-center">
               <div className="w-full lg:w-3/12 px-4 text-center">
-                <div className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
+                <div
+                  className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
                   <i className="fas fa-medal text-xl"></i>
                 </div>
                 <h6 className="text-xl mt-5 font-semibold text-white">
@@ -563,7 +556,8 @@ export default function Landing() {
                 </p>
               </div>
               <div className="w-full lg:w-3/12 px-4 text-center">
-                <div className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
+                <div
+                  className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
                   <i className="fas fa-poll text-xl"></i>
                 </div>
                 <h5 className="text-xl mt-5 font-semibold text-white">
@@ -575,7 +569,8 @@ export default function Landing() {
                 </p>
               </div>
               <div className="w-full lg:w-3/12 px-4 text-center">
-                <div className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
+                <div
+                  className="text-blueGray-800 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
                   <i className="fas fa-lightbulb text-xl"></i>
                 </div>
                 <h5 className="text-xl mt-5 font-semibold text-white">
@@ -593,7 +588,8 @@ export default function Landing() {
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap justify-center lg:-mt-64 -mt-48">
               <div className="w-full lg:w-6/12 px-4">
-                <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
+                <div
+                  className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200">
                   <div className="flex-auto p-5 lg:p-10">
                     <h4 className="text-2xl font-semibold">
                       Want to work with us?
@@ -659,7 +655,7 @@ export default function Landing() {
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer/>
     </>
-  );
+  )
 }

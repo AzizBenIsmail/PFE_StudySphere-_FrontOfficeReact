@@ -8,7 +8,7 @@ const Auth = lazy(() => import("layouts/Auth.js"));
 const First = lazy(() => import("./layouts/First.js"));
 
 // views without layouts
-const Landing = lazy(() => import("views/Landing.js"));
+const Landing = lazy(() => import("./views/FrontOffice/client/Landing.js"));
 const Elearning = lazy(() => import("views/E-learning/Landing.js"));
 const Profile = lazy(() => import("./views/FrontOffice/client/Profile.js"));
 const updateProfile = lazy(() => import("./views/FrontOffice/client/updateProfile.js"));
