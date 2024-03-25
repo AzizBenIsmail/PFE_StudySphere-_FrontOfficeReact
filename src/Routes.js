@@ -10,7 +10,7 @@ const First = lazy(() => import("./layouts/First.js"));
 // views without layouts
 const Landing = lazy(() => import("views/Landing.js"));
 const Elearning = lazy(() => import("views/E-learning/Landing.js"));
-const Profile = lazy(() => import("views/Profile.js"));
+const Profile = lazy(() => import("./views/client/Profile.js"));
 const updateProfile = lazy(() => import("./views/client/updateProfile.js"));
 const welcome = lazy(() => import("./views/client/info/welcome.js"));
 const BadgesNiveauXp = lazy(() =>
