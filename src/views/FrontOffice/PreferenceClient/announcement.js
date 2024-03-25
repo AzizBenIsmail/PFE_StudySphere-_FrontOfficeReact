@@ -45,7 +45,7 @@ export default function announcement () {
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <img
                     className="ml-3"
-                    src={require("assets/img/info.gif").default}
+                    src={require("../../../assets/img/info.gif").default}
                     alt="..."
                      style={{ maxWidth: '25%', height: '25%' }}
                   />
