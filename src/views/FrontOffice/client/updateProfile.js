@@ -248,7 +248,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <Navbar transparent />
+      <Navbar user={User} />
       <main className="profile-page">
         <section className="relative block h-550-px">
           <div
@@ -282,7 +282,7 @@ export default function Dashboard() {
             {/*  ></polygon>*/}
             {/*</svg>*/}
           </div>
-          <div className="flex py-42 flex-wrap">
+          <div className="flex py-40 flex-wrap">
             <div className="w-full px-12">
               <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
                 <div className="rounded-t bg-white mb-0 px-6 py-6">
@@ -636,9 +636,9 @@ export default function Dashboard() {
           </div>
         </section>
       </main>
-      <div className="py-41">
+      {/*<div className="py-41">*/}
         <Footer />
-      </div>
+      {/*</div>*/}
     </>
   );
 }
