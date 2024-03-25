@@ -58,7 +58,7 @@ export default function First () {
     <>
       <Navbar user={user}/>
       <main>
-        <section className="relative w-full h-full py-30 bg-bleu-500 min-h-screen-55">
+        <section className="relative w-full h-full py-11 bg-bleu-500 min-h-screen-55">
           {/*<div*/}
           {/*  className="absolute top-0 w-full h-full  bg-no-repeat bg-full"*/}
           {/*  // style={{*/}
@@ -77,8 +77,8 @@ export default function First () {
               <Redirect from="/First" to="/First/announcement"/>
             </Switch>
           </Suspense>
-          <FooterSmall absolute/>
         </section>
+        <FooterSmall absolute/>
       </main>
     </>
   )

@@ -10,7 +10,7 @@ export default function announcement () {
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-9/12 px-1 ">
             <div className="relative flex flex-col min-w-0 break-words w-full  shadow-lg rounded-lg bg-blueGray-800 border-0">
-              <div className="rounded-t  px-6 py-6 ">
+              <div className="rounded-t  px-6 py-10 ">
                 <div className="text-center mt-3  ">
                   <h6 className="text-blueGray-400 text-sm  ">
                     Welcome to our platform! We encourage you to complete each step of our form carefully and accurately.
