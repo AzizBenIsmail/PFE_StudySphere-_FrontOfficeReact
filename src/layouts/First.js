@@ -58,14 +58,14 @@ export default function First () {
     <>
       <Navbar user={user}/>
       <main>
-        <section className="relative w-full h-full py-30 min-h-screen">
-          <div
-            className="absolute top-0 w-full h-full bg-blueGray-800 bg-no-repeat bg-full"
-            style={{
-              backgroundImage:
-                'url(' + require('assets/img/FirstStep.png').default + ')',
-            }}
-          ></div>
+        <section className="relative w-full h-full py-30 bg-bleu-500 min-h-screen-55">
+          {/*<div*/}
+          {/*  className="absolute top-0 w-full h-full  bg-no-repeat bg-full"*/}
+          {/*  // style={{*/}
+          {/*  //   backgroundImage:*/}
+          {/*  //     'url(' + require('assets/img/FirstStep.png').default + ')',*/}
+          {/*  // }}*/}
+          {/*></div>*/}
           <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d"/>}>
             <Switch>
               <Route path="/First/Step" exact component={PreferenceClient}/>

@@ -50,8 +50,8 @@ export default function Index() {
   return (
     <>
       <Navbar user={user} />
-      <section className="py-20 bg-blueGray-600 overflow-hidden">
-        <div className="container mx-auto pb-0">
+      <section className="py-20 bg-bleu-500 overflow-hidden">
+        <div className="container mx-auto pb-20">
           <div className="flex flex-wrap justify-center">
             {/*<div className="w-full md:w-5/12 px-12 md:px-4 ml-auto mr-auto md:mt-40">*/}
             {/*  <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">*/}
@@ -87,7 +87,7 @@ export default function Index() {
         </div>
 
       </section>
-      <div className="container mx-auto py-20">
+      <div className="container mx-auto py-2">
         <div className="flex flex-wrap items-center">
           <div className="w-13/12 md:w-6/12 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-32">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-emerald-500">

@@ -106,8 +106,8 @@ export default function BadgesNiveauXp() {
     <>
       <Navbar user={user} />
       <main>
-        <section className="py-16 bg-blueGray-600 overflow-hidden">
-          <div className="container mx-auto pb-0">
+        <section className="py-16 bg-bleu-500 overflow-hidden">
+          <div className="container mx-auto pb-20">
             <div className="flex flex-wrap justify-center"></div>
           </div>
         </section>

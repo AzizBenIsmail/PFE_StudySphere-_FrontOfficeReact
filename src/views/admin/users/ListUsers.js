@@ -81,7 +81,7 @@ export default function ListUsers ({ color }) {
     await getUsers(config)
     .then((res) => {
       setUsers(res.data.users)
-      // console.log(res.data.users)
+     console.log(res.session)
     })
     .catch((err) => {
       console.log(err)

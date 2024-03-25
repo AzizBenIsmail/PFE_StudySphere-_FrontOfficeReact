@@ -66,17 +66,17 @@ export default function Landing() {
     <>
       <Navbar user={user} />
       <main>
-        <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
+        <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-55">
           <div
             className="absolute top-0 w-full h-full bg-center bg-cover"
-            style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')",
-            }}
+            // style={{
+            //   backgroundImage:
+            //     "url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')",
+            // }}
           >
             <span
               id="blackOverlay"
-              className="w-full h-full absolute opacity-75 bg-black"
+              className="w-full h-full absolute opacity-100 bg-bleu-500"
             ></span>
           </div>
           <div className="container relative mx-auto">
@@ -144,7 +144,7 @@ export default function Landing() {
                           className="align-middle border-none max-w-full h-auto rounded-lg"
                           src={`http://localhost:5000/images/Users/${formation.image_Formation}`}
                           // style={{ width: "350px", height: "350px" }}
-                          style={{ width: "350px", height: "250px" }}
+                          style={{ width: "350px", height: "220px" }}
                         />
                         <span
                           style={{
