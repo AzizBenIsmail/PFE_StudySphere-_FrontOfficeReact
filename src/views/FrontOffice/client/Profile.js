@@ -253,8 +253,8 @@ export default function Profile() {
             </div>
           </div>
         </section>
+        <Footer absolute />
       </main>
-      <Footer />
     </>
   );
 }

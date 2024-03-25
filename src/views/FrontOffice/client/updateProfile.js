@@ -637,7 +637,7 @@ export default function Dashboard() {
         </section>
       </main>
       {/*<div className="py-41">*/}
-        <Footer />
+      <Footer absolute />
       {/*</div>*/}
     </>
   );
