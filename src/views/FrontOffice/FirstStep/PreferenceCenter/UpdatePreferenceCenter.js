@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState , useCallback} from 'react'
 // import { Link } from 'react-router-dom'
 import { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, } from 'react-icons/tb'
 import { BiBeenHere, BiSolidBeenHere } from 'react-icons/bi'
 // import { useLocation } from 'react-router-dom'
 import { CiSquareRemove } from 'react-icons/ci'
-import {addPreferencesCentre }from '../../../Services/ApiPref'
+import {updatePrefClient , getPreferences  }from '../../../../Services/ApiPref'
 import Cookies from 'js-cookie'
-import { getUserAuth } from '../../../Services/Apiauth'
+import { getUserAuth } from '../../../../Services/Apiauth'
 import { useHistory } from 'react-router-dom'
 
 export default function PreferenceCenter () {
@@ -25,30 +25,39 @@ export default function PreferenceCenter () {
     };
   }, [jwt_token]);
 
-  ////////
+// Assurez-vous de déclarer `user` avant de l'utiliser
   useEffect(() => {
-    const getAuthUser = async (config) => {
-      await getUserAuth(config)
-      .then((res) => {
-        setUser(res.data.user);
-        // console.log(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    };
-    getAuthUser(config);
-    const interval = setInterval(() => {
-      getAuthUser(config); // appel répété toutes les 10 secondes
-    }, 300000);
-    return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
-  }, [config]);
+    const fetchData = async () => {
+      try {
+        const userResponse = await getUserAuth(config);
+        setUser(userResponse.data.user);
 
-  const initialSelectedLanguages = {
+        const prefResponse = await getPreferences(userResponse.data.user._id, config);
+        setPreferences(prefResponse.data); // Remplir le state preferences avec les données de préférences
+        setSelectedCompetences(convertToFrameworkArray(prefResponse.data.competences_dinteret));
+
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+
+    const interval = setInterval(() => {
+      fetchData(); // appel répété toutes les 10 secondes
+    }, 300000);
+
+    return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
+  }, [config]); // `user` n'est pas inclus ici car il est initialisé dans le useEffect
+
+
+
+  const initialSelectedLanguages = useMemo(() => ({
     Francais: false,
     Anglais: false,
     Langue_maternelle: false,
-  };
+  }), []);
+
 
   const history = useHistory()
   const [user, setUser] = useState([]);
@@ -63,15 +72,18 @@ export default function PreferenceCenter () {
   const [competenceSelectionnee, setCompetenceSelectionnee] = useState('')
   const [selectedState, setSelectedState] = useState('')
   const [selectedCity, setSelectedCity] = useState('')
-  const [preferences, setPreferences] = useState({
-    domaine_actuelle: '',
-    competences_dinteret: '',
-    date_anniversaire: '',
-    emplacement_actuelle: '',
-    disponibilite: '',
-    duree_preferee: '',
-    preferences_linguistiques: '',
-  })
+  const [preferences, setPreferences] = useState({})
+
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     console.log(selectedCompetences);
+  //   }, 90000)
+  //
+  //   return () => clearInterval(timer) // Nettoyer l'intervalle lors du démontage du composant
+  // }, [preferences.competences_dinteret, selectedCompetences]);
+
+
   const handleSelectChange = (event) => {
     setPreferences({ ...preferences, [event.target.name]: event.target.value })
   }
@@ -183,6 +195,23 @@ export default function PreferenceCenter () {
     }))
 
   }
+  function convertToFrameworkArray(string) {
+    // Supprime les espaces en début et fin de chaîne
+    string = string.trim();
+
+    // Vérifie si la chaîne est vide
+    if (!string) {
+      return [];
+    }
+
+    // Divise la chaîne en un tableau en utilisant la virgule comme délimiteur
+    const frameworks = string.split(',');
+
+    // Supprime les espaces en début et fin de chaque élément du tableau
+    const trimmedFrameworks = frameworks.map(framework => framework.trim());
+
+    return trimmedFrameworks;
+  }
 
   const handleRemoveCompetence = (competenceToRemove, event) => {
     event.preventDefault()
@@ -231,12 +260,12 @@ export default function PreferenceCenter () {
   useEffect(() => {
     const timer = setInterval(() => {
       console.log(preferences)
-      // console.log(selectedCompetences);
+      console.log(selectedCompetences);
       setPreferences(prevPreferences => ({
         ...prevPreferences,
         competences_dinteret: selectedCompetences.join(', ')
       }))
-    }, 1500)
+    }, 3000)
 
     return () => clearInterval(timer) // Nettoyer l'intervalle lors du démontage du composant
   }, [preferences, selectedCompetences])
@@ -269,11 +298,31 @@ export default function PreferenceCenter () {
     }));
   }, [selectedLanguages]);
 
+  const updateSelectedLanguages = useCallback(() => {
+    const languages = preferences.preferences_linguistiques.split(',');
+    const updatedLanguages = { ...initialSelectedLanguages }; // Initialiser avec les valeurs par défaut
+
+    // Mettre à jour les langues sélectionnées en fonction des préférences linguistiques
+    languages.forEach(language => {
+      updatedLanguages[language.trim()] = true; // Cocher la langue sélectionnée
+    });
+
+    setSelectedLanguages(updatedLanguages); // Mettre à jour le state des langues sélectionnées
+  }, [preferences.preferences_linguistiques, initialSelectedLanguages]);
+
+
+  useEffect(() => {
+    if (preferences.preferences_linguistiques) {
+      updateSelectedLanguages();
+    }
+  }, [preferences.preferences_linguistiques, updateSelectedLanguages]);
+
+
+// Gérer le changement d'état des cases à cocher
   const handleCheckboxChange = (language) => {
-    setSelectedLanguages(prevLanguages => ({
-      ...prevLanguages,
-      [language]: !prevLanguages[language], // Inverse la valeur de la langue sélectionnée
-    }));
+    const updatedLanguages = { ...selectedLanguages };
+    updatedLanguages[language] = !updatedLanguages[language]; // Inverser l'état de la langue sélectionnée
+    setSelectedLanguages(updatedLanguages); // Mettre à jour le state des langues sélectionnées
   };
   const [availability, setAvailability] = useState({
     days: [],
@@ -310,25 +359,40 @@ export default function PreferenceCenter () {
     }));
   };
 
-  function DayCheckbox ({ day, checked, onChange }) {
+  function DayCheckbox ({ day, checked, onChange, disponibilite }) {
     return (
       <div>
         <input
           type="checkbox"
           id={`${day}-checkbox`}
           name={day}
-          checked={checked}
+          checked={checked || disponibilite.includes(day.trim())} // Vérifie si le jour est inclus dans la disponibilité
           onChange={onChange}
         />
         <label htmlFor={`${day}-checkbox`}>{day.charAt(0).toUpperCase() + day.slice(1)}</label>
       </div>
     )
   }
-
+  function TimeCheckbox({ time, checked, onChange, dureePreferee }) {
+    return (
+      <div>
+        <input
+          type="checkbox"
+          id={`${time}-checkbox`}
+          name={time}
+          checked={checked || dureePreferee.includes(time.trim())} // Vérifie si le temps est inclus dans les plages horaires préférées
+          onChange={onChange}
+        />
+        <label htmlFor={`${time}-checkbox`}>{time.charAt(0).toUpperCase() + time.slice(1)}</label>
+      </div>
+    );
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await addPreferencesCentre(user._id, preferences, config).then(history.push("/landing"));
+      await updatePrefClient(user._id, preferences, config).then(
+        history.push("/landing")
+      );
 
     } catch (error) {
       console.error('Error submitting preferences:', error);
@@ -339,7 +403,7 @@ export default function PreferenceCenter () {
   return (
     <>
       <div className=" container mx-auto px-1 h-full ">
-        <div className="flex content-center items-center justify-center h-full">
+        <div className="flex content-center items-center justify-center h-full ">
           <div className="w-full lg:w-9/12 px-1 ">
             <div
               className="relative flex flex-col min-w-0 break-words w-full  shadow-lg rounded-lg bg-blueGray-800 border-0">
@@ -495,7 +559,7 @@ export default function PreferenceCenter () {
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                               htmlFor="domaine-select"
                             >
-                              Votre Domaine
+                              Votre Domaine Actuel
                             </label>
                             <select
                               id="domaine-select"
@@ -503,7 +567,7 @@ export default function PreferenceCenter () {
                               onChange={handleChangeactuelle}
                               value={selectedDomaineactuelle}
                             >
-                              <option value="">Sélectionnez votre domaine actuel</option>
+                              <option value="">{preferences.domaine_actuelle}</option>
                               {Object.keys(sousListes).map((domaine) => (
                                 <option key={domaine} value={domaine}>{domaine}</option>
                               ))}
@@ -525,7 +589,7 @@ export default function PreferenceCenter () {
                                 name="domaine_actuelle"
                                 onChange={(e) => handleSelectChange(e)}
                               >
-                                <option value="">Sélectionnez une spécialisation</option>
+                                <option value="">{preferences.domaine_actuelle}</option>
                                 {sousListes[selectedDomaineactuelle].map((specialisation, index) => (
                                   <option key={index} value={specialisation}>{specialisation}</option>
                                 ))}
@@ -534,7 +598,9 @@ export default function PreferenceCenter () {
                           )}
                         </div>
 
-                        <div className="w-full lg:w-6/12 px-4">
+
+
+                        <div className="w-full lg:w-4/12 px-4">
                           <div className="relative w-full mb-3">
                             <div>
                               <label
@@ -616,7 +682,12 @@ export default function PreferenceCenter () {
                             </div>
                           </div>
                         </div>
+
+
+
                       </div>
+
+
                       <div className="text-center mt-4">
                         {/* <Link to="/landing"> */}
                         <button
@@ -648,6 +719,7 @@ export default function PreferenceCenter () {
                               name="date_anniversaire"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                               onChange={handleSelectChange}
+                              defaultValue={preferences.date_anniversaire}
                               max={new Date().toISOString().split('T')[0]} // Définit la date maximale sur aujourd'hui
                             />
                           </div>
@@ -683,7 +755,7 @@ export default function PreferenceCenter () {
                               onChange={handleStateChange}
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             >
-                              <option value="">Sélectionner un état</option>
+                              <option value="">{preferences.emplacement_actuelle}</option>
                               {states.map((state, index) => (
                                 <option key={index} value={state}>
                                   {state}
@@ -714,8 +786,6 @@ export default function PreferenceCenter () {
                             </div>
                           )}
                         </div>
-
-
                         <div className="w-full lg:w-6/12 px-4">
                           <div className="relative w-full mb-3">
                             <div className="availability-container">
@@ -725,20 +795,35 @@ export default function PreferenceCenter () {
                                 <div className="day-checkboxes">
                                   <div className="day-column">
                                     {[' lundi', ' jeudi', ' samedi'].map((day) => (
-                                      <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
-                                                   onChange={handleDayChange}/>
+                                      <DayCheckbox
+                                        key={day}
+                                        day={day}
+                                        checked={availability.days.includes(day)}
+                                        onChange={handleDayChange}
+                                        disponibilite={preferences.disponibilite} // Passer la disponibilité comme prop
+                                      />
                                     ))}
                                   </div>
                                   <div className="day-column">
                                     {[' mardi', ' vendredi', ' dimanche'].map((day) => (
-                                      <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
-                                                   onChange={handleDayChange}/>
+                                      <DayCheckbox
+                                        key={day}
+                                        day={day}
+                                        checked={availability.days.includes(day)}
+                                        onChange={handleDayChange}
+                                        disponibilite={preferences.disponibilite} // Passer la disponibilité comme prop
+                                      />
                                     ))}
                                   </div>
                                   <div className="day-column">
                                     {[' mercredi'].map((day) => (
-                                      <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
-                                                   onChange={handleDayChange}/>
+                                      <DayCheckbox
+                                        key={day}
+                                        day={day}
+                                        checked={availability.days.includes(day)}
+                                        onChange={handleDayChange}
+                                        disponibilite={preferences.disponibilite} // Passer la disponibilité comme prop
+                                      />
                                     ))}
                                   </div>
                                 </div>
@@ -747,17 +832,13 @@ export default function PreferenceCenter () {
                                 <h3 className="text-blueGray-400">Heures de la journée</h3>
                                 <div className="time-checkboxes text-blueGray-400">
                                   {['matin', 'après-midi', 'soir'].map((time) => (
-                                    <div key={time}>
-                                      <input
-                                        type="checkbox"
-                                        id={`${time}-checkbox`}
-                                        name={time}
-                                        checked={availability.times.includes(time)}
-                                        onChange={handleTimeChange}
-                                      />
-                                      <label htmlFor={`${time}-checkbox`}
-                                             className="ml-2">{time.charAt(0).toUpperCase() + time.slice(1)}</label>
-                                    </div>
+                                    <TimeCheckbox
+                                      key={time}
+                                      time={time}
+                                      checked={availability.times.includes(time)}
+                                      onChange={handleTimeChange}
+                                      dureePreferee={preferences.duree_preferee} // Passer les plages horaires préférées comme prop
+                                    />
                                   ))}
                                 </div>
                               </div>

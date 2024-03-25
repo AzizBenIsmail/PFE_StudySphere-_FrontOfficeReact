@@ -16,10 +16,10 @@ import { getUserAuth } from '../Services/Apiauth'
 // import { getUserAuth } from '../Services/Apiauth'
 const PreferenceClient = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceClient/PreferenceClient.js"));
 const UpdatePreferenceClient = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceClient/UpdatePreferenceClient.js"));
-const UpdatePreferenceCenter = lazy(() => import("../views/FrontOffice/PreferenceCenter/UpdatePreferenceCenter.js"));
+const UpdatePreferenceCenter = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceCenter/UpdatePreferenceCenter.js"));
 const announcement = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceClient/announcement.js"));
-const PreferenceCenter = lazy(() => import("../views/FrontOffice/PreferenceCenter/PreferenceCenter.js"));
-const announcementCenter = lazy(() => import("../views/FrontOffice/PreferenceCenter/announcementCenter.js"));
+const PreferenceCenter = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceCenter/PreferenceCenter.js"));
+const announcementCenter = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceCenter/announcementCenter.js"));
 
 export default function First () {
   const jwt_token = Cookies.get('jwt_token')
