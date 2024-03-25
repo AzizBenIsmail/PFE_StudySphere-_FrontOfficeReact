@@ -2049,6 +2049,11 @@ select {
   padding-bottom: 2.5rem;
 }
 
+.py-11 {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
 .px-12 {
   padding-left: 3rem;
   padding-right: 3rem;
