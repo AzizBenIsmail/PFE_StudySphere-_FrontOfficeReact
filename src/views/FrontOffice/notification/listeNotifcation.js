@@ -6,7 +6,7 @@ import Navbar from '../../../components/Navbars/Navbar.js'
 import Cookies from 'js-cookie'
 import { useHistory } from 'react-router-dom'
 import { getUserAuth } from '../../../Services/Apiauth'
-import Footer from "../../../components/Footers/Footer.js";
+import Footer from "../../../components/Footers/FooterSmall.js";
 import {
   getNotificationByUser,
 } from '../../../Services/ApiNotification'
@@ -77,9 +77,9 @@ export default function CardTable({ color }) {
   return (
     <>
       <Navbar user={user}/>
-      <section className="py-20 bg-blueGray-600 overflow-hidden">
+      <section className="py-10 bg-bleu-500 overflow-hidden ">
         <div className="container mx-auto ">
-          <div className="flex flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center py-10">
             <div
               className={
                 "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-lightBlue-900 text-white"
