@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState , useCallback} from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 // import { Link } from 'react-router-dom'
 import { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, } from 'react-icons/tb'
 import { BiBeenHere, BiSolidBeenHere } from 'react-icons/bi'
 // import { useLocation } from 'react-router-dom'
 import { CiSquareRemove } from 'react-icons/ci'
-import {updatePrefClient , getPreferences  }from '../../../Services/ApiPref'
+import {addPreferences }from '../../../../Services/ApiPref'
 import Cookies from 'js-cookie'
-import { getUserAuth } from '../../../Services/Apiauth'
+import { getUserAuth } from '../../../../Services/Apiauth'
 import { useHistory } from 'react-router-dom'
 
 export default function PreferenceClient () {
@@ -25,39 +25,30 @@ export default function PreferenceClient () {
     };
   }, [jwt_token]);
 
-// Assurez-vous de déclarer `user` avant de l'utiliser
+  ////////
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userResponse = await getUserAuth(config);
-        setUser(userResponse.data.user);
-
-        const prefResponse = await getPreferences(userResponse.data.user._id, config);
-        setPreferences(prefResponse.data); // Remplir le state preferences avec les données de préférences
-        setSelectedCompetences(convertToFrameworkArray(prefResponse.data.competences_dinteret));
-
-      } catch (error) {
-        console.log(error);
-      }
+    const getAuthUser = async (config) => {
+      await getUserAuth(config)
+      .then((res) => {
+        setUser(res.data.user);
+        // console.log(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     };
-
-    fetchData();
-
+    getAuthUser(config);
     const interval = setInterval(() => {
-      fetchData(); // appel répété toutes les 10 secondes
+      getAuthUser(config); // appel répété toutes les 10 secondes
     }, 300000);
-
     return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
-  }, [config]); // `user` n'est pas inclus ici car il est initialisé dans le useEffect
+  }, [config]);
 
-
-
-  const initialSelectedLanguages = useMemo(() => ({
+  const initialSelectedLanguages = {
     Francais: false,
     Anglais: false,
     Langue_maternelle: false,
-  }), []);
-
+  };
 
   const history = useHistory()
   const [user, setUser] = useState([]);
@@ -73,18 +64,27 @@ export default function PreferenceClient () {
   const [competenceSelectionnee, setCompetenceSelectionnee] = useState('')
   const [selectedState, setSelectedState] = useState('')
   const [selectedCity, setSelectedCity] = useState('')
-  const [preferences, setPreferences] = useState({})
-
-
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     console.log(selectedCompetences);
-  //   }, 90000)
-  //
-  //   return () => clearInterval(timer) // Nettoyer l'intervalle lors du démontage du composant
-  // }, [preferences.competences_dinteret, selectedCompetences]);
-
-
+  const [preferences, setPreferences] = useState({
+    domaine_actuelle: '',
+    objectifs_de_carriere: '',
+    Domaine_dinteret: '',
+    competences_dinteret: '',
+    niveau_dexperience_professionnelle: '',
+    interets_personnels: '',
+    date_anniversaire: '',
+    niveau_etude: '',
+    niveau_de_difficulte: '',
+    niveau_dengagement: '',
+    besoin: '',
+    emplacement_actuelle: '',
+    style_dapprentissage: '',
+    budget: '',
+    disponibilite: '',
+    duree_preferee: '',
+    type_de_contenu_prefere: '',
+    preferences_linguistiques: '',
+    historique_dapprentissage: '',
+  })
   const handleSelectChange = (event) => {
     setPreferences({ ...preferences, [event.target.name]: event.target.value })
   }
@@ -198,23 +198,6 @@ export default function PreferenceClient () {
     }))
 
   }
-  function convertToFrameworkArray(string) {
-    // Supprime les espaces en début et fin de chaîne
-    string = string.trim();
-
-    // Vérifie si la chaîne est vide
-    if (!string) {
-      return [];
-    }
-
-    // Divise la chaîne en un tableau en utilisant la virgule comme délimiteur
-    const frameworks = string.split(',');
-
-    // Supprime les espaces en début et fin de chaque élément du tableau
-    const trimmedFrameworks = frameworks.map(framework => framework.trim());
-
-    return trimmedFrameworks;
-  }
 
   const handleRemoveCompetence = (competenceToRemove, event) => {
     event.preventDefault()
@@ -263,12 +246,12 @@ export default function PreferenceClient () {
   useEffect(() => {
     const timer = setInterval(() => {
       console.log(preferences)
-      console.log(selectedCompetences);
+      // console.log(selectedCompetences);
       setPreferences(prevPreferences => ({
         ...prevPreferences,
         competences_dinteret: selectedCompetences.join(', ')
       }))
-    }, 3000)
+    }, 1500)
 
     return () => clearInterval(timer) // Nettoyer l'intervalle lors du démontage du composant
   }, [preferences, selectedCompetences])
@@ -301,31 +284,11 @@ export default function PreferenceClient () {
     }));
   }, [selectedLanguages]);
 
-  const updateSelectedLanguages = useCallback(() => {
-    const languages = preferences.preferences_linguistiques.split(',');
-    const updatedLanguages = { ...initialSelectedLanguages }; // Initialiser avec les valeurs par défaut
-
-    // Mettre à jour les langues sélectionnées en fonction des préférences linguistiques
-    languages.forEach(language => {
-      updatedLanguages[language.trim()] = true; // Cocher la langue sélectionnée
-    });
-
-    setSelectedLanguages(updatedLanguages); // Mettre à jour le state des langues sélectionnées
-  }, [preferences.preferences_linguistiques, initialSelectedLanguages]);
-
-
-  useEffect(() => {
-    if (preferences.preferences_linguistiques) {
-      updateSelectedLanguages();
-    }
-  }, [preferences.preferences_linguistiques, updateSelectedLanguages]);
-
-
-// Gérer le changement d'état des cases à cocher
   const handleCheckboxChange = (language) => {
-    const updatedLanguages = { ...selectedLanguages };
-    updatedLanguages[language] = !updatedLanguages[language]; // Inverser l'état de la langue sélectionnée
-    setSelectedLanguages(updatedLanguages); // Mettre à jour le state des langues sélectionnées
+    setSelectedLanguages(prevLanguages => ({
+      ...prevLanguages,
+      [language]: !prevLanguages[language], // Inverse la valeur de la langue sélectionnée
+    }));
   };
   const [availability, setAvailability] = useState({
     days: [],
@@ -362,40 +325,25 @@ export default function PreferenceClient () {
     }));
   };
 
-  function DayCheckbox ({ day, checked, onChange, disponibilite }) {
+  function DayCheckbox ({ day, checked, onChange }) {
     return (
       <div>
         <input
           type="checkbox"
           id={`${day}-checkbox`}
           name={day}
-          checked={checked || disponibilite.includes(day.trim())} // Vérifie si le jour est inclus dans la disponibilité
+          checked={checked}
           onChange={onChange}
         />
         <label htmlFor={`${day}-checkbox`}>{day.charAt(0).toUpperCase() + day.slice(1)}</label>
       </div>
     )
   }
-  function TimeCheckbox({ time, checked, onChange, dureePreferee }) {
-    return (
-      <div>
-        <input
-          type="checkbox"
-          id={`${time}-checkbox`}
-          name={time}
-          checked={checked || dureePreferee.includes(time.trim())} // Vérifie si le temps est inclus dans les plages horaires préférées
-          onChange={onChange}
-        />
-        <label htmlFor={`${time}-checkbox`}>{time.charAt(0).toUpperCase() + time.slice(1)}</label>
-      </div>
-    );
-  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await updatePrefClient(user._id, preferences, config).then(
-        history.push("/landing")
-      );
+      await addPreferences(user._id, preferences, config).then(history.push("/landing"));
 
     } catch (error) {
       console.error('Error submitting preferences:', error);
@@ -570,7 +518,7 @@ export default function PreferenceClient () {
                               onChange={handleChangeactuelle}
                               value={selectedDomaineactuelle}
                             >
-                              <option value="">{preferences.domaine_actuelle}</option>
+                              <option value="">Sélectionnez votre domaine actuel</option>
                               {Object.keys(sousListes).map((domaine) => (
                                 <option key={domaine} value={domaine}>{domaine}</option>
                               ))}
@@ -592,7 +540,7 @@ export default function PreferenceClient () {
                                 name="domaine_actuelle"
                                 onChange={(e) => handleSelectChange(e)}
                               >
-                                <option value="">{preferences.domaine_actuelle}</option>
+                                <option value="">Sélectionnez une spécialisation</option>
                                 {sousListes[selectedDomaineactuelle].map((specialisation, index) => (
                                   <option key={index} value={specialisation}>{specialisation}</option>
                                 ))}
@@ -614,7 +562,7 @@ export default function PreferenceClient () {
                               name="objectifs_de_carriere"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">{preferences.objectifs_de_carriere}</option>
+                              <option value="">votre Objectifs De Carrière</option>
                               <option value="Changer_de_carriere">Changer de carrière</option>
                               <option value="Devenir_un_leader_dans_mon_domaine">Devenir un leader dans mon domaine
                               </option>
@@ -649,7 +597,7 @@ export default function PreferenceClient () {
                               onChange={handleChangedinteret}
                               value={selectedDomainedinteret}
                             >
-                              <option value="">{preferences.Domaine_dinteret}</option>
+                              <option value="">Sélectionnez votre Domaine D'intérêt</option>
                               {Object.keys(sousListes).map((domaine) => (
                                 <option key={domaine} value={domaine}>{domaine}</option>
                               ))}
@@ -670,7 +618,7 @@ export default function PreferenceClient () {
                                 name="Domaine_dinteret"
                                 onChange={(e) => handleSelectChange(e)}
                               >
-                                <option value="">{preferences.Domaine_dinteret}</option>
+                                <option value="">Sélectionnez une spécialisation</option>
                                 {sousListes[selectedDomainedinteret].map((specialisation, index) => (
                                   <option key={index} value={specialisation}>{specialisation}</option>
                                 ))}
@@ -774,7 +722,7 @@ export default function PreferenceClient () {
                               name="niveau_dexperience_professionnelle"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">{preferences.niveau_dexperience_professionnelle}</option>
+                              <option value="">Sélectionnez votre Niveau d'expérience professionnelle</option>
                               <option value="debutant">Débutant (0-2 ans)</option>
                               <option value="intermediaire">Intermédiaire (3-5 ans)</option>
                               <option value="expert">Expert (5-10 ans)</option>
@@ -797,7 +745,7 @@ export default function PreferenceClient () {
                               name="interets_personnels"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">{preferences.interets_personnels}</option>
+                              <option value="">Sélectionnez votre Intérêts personnels</option>
                               <option value="musique">Musique</option>
                               <option value="sports">Sports</option>
                               <option value="arts">Arts</option>
@@ -822,7 +770,6 @@ export default function PreferenceClient () {
                               name="date_anniversaire"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                               onChange={handleSelectChange}
-                              defaultValue={preferences.date_anniversaire}
                               max={new Date().toISOString().split('T')[0]} // Définit la date maximale sur aujourd'hui
                             />
                           </div>
@@ -867,7 +814,7 @@ export default function PreferenceClient () {
                               name="niveau_etude"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">{preferences.niveau_etude}</option>
+                              <option value="">Sélectionnez votre Niveau Etude</option>
                               <option value="Primaire">Primaire</option>
                               <option value="Secondaire">Secondaire</option>
                               <option value="Baccalaureat">Baccalaureat</option>
@@ -897,7 +844,7 @@ export default function PreferenceClient () {
                               name="niveau_dengagement"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">{preferences.niveau_dengagement}</option>
+                              <option value="">Sélectionnez votre Niveau D'engagement</option>
                               <option value="4S">consacrer du temps régulier à la formation 4 Seance</option>
                               <option value="2S">sessions d'apprentissage plus courtes 2 Seance</option>
                               <option value="1S">intermittentes 1 Seance</option>
@@ -918,7 +865,7 @@ export default function PreferenceClient () {
                               name="besoin"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">{preferences.besoin}</option>
+                              <option value="">Sélectionnez votre Besoin</option>
                               <option value="certification">Certification</option>
                               <option value="competences">Acquisition de nouvelles compétences</option>
                               <option value="Experience">Experience Realisation projet</option>
@@ -945,7 +892,7 @@ export default function PreferenceClient () {
                               name="niveau_de_difficulte"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">{preferences.niveau_de_difficulte}</option>
+                              <option value="">Sélectionnez votre Niveau Difficulte</option>
                               <option value="debutant">Débutant</option>
                               <option value="intermediaire">Intermédiaire</option>
                               <option value="avance">Avancé</option>
@@ -971,7 +918,7 @@ export default function PreferenceClient () {
                               name="style_dapprentissage"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">{preferences.style_dapprentissage}</option>
+                              <option value="">Sélectionnez votre Style d'apprentissage</option>
                               <option value="enligne">Enligne</option>
                               <option value="hybride">Hybride</option>
                               <option value="presentiel">Présentiel</option>
@@ -1018,7 +965,7 @@ export default function PreferenceClient () {
                               onChange={handleStateChange}
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             >
-                              <option value="">{preferences.emplacement_actuelle}</option>
+                              <option value="">Sélectionner un état</option>
                               {states.map((state, index) => (
                                 <option key={index} value={state}>
                                   {state}
@@ -1068,7 +1015,7 @@ export default function PreferenceClient () {
                               name="budget"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">{preferences.budget}</option>
+                              <option value="">Sélectionnez votre Budget</option>
                               <option value="gratuit">Gratuit 0$</option>
                               <option value="limite">Budget limité 0$-100$</option>
                               <option value="modere">Budget modéré 100$-500$</option>
@@ -1096,7 +1043,7 @@ export default function PreferenceClient () {
                               name="type_de_contenu_prefere"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">{preferences.type_de_contenu_prefere}</option>
+                              <option value="">Sélectionnez votre Type de contenu préféré</option>
                               <option value="interactifs">Cours interactifs</option>
                               <option value="workshop">workshop</option>
                               <option value="projet">Projet</option>
@@ -1114,35 +1061,20 @@ export default function PreferenceClient () {
                                 <div className="day-checkboxes">
                                   <div className="day-column">
                                     {[' lundi', ' jeudi', ' samedi'].map((day) => (
-                                      <DayCheckbox
-                                        key={day}
-                                        day={day}
-                                        checked={availability.days.includes(day)}
-                                        onChange={handleDayChange}
-                                        disponibilite={preferences.disponibilite} // Passer la disponibilité comme prop
-                                      />
+                                      <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
+                                                   onChange={handleDayChange}/>
                                     ))}
                                   </div>
                                   <div className="day-column">
                                     {[' mardi', ' vendredi', ' dimanche'].map((day) => (
-                                      <DayCheckbox
-                                        key={day}
-                                        day={day}
-                                        checked={availability.days.includes(day)}
-                                        onChange={handleDayChange}
-                                        disponibilite={preferences.disponibilite} // Passer la disponibilité comme prop
-                                      />
+                                      <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
+                                                   onChange={handleDayChange}/>
                                     ))}
                                   </div>
                                   <div className="day-column">
                                     {[' mercredi'].map((day) => (
-                                      <DayCheckbox
-                                        key={day}
-                                        day={day}
-                                        checked={availability.days.includes(day)}
-                                        onChange={handleDayChange}
-                                        disponibilite={preferences.disponibilite} // Passer la disponibilité comme prop
-                                      />
+                                      <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
+                                                   onChange={handleDayChange}/>
                                     ))}
                                   </div>
                                 </div>
@@ -1151,13 +1083,17 @@ export default function PreferenceClient () {
                                 <h3 className="text-blueGray-400">Heures de la journée</h3>
                                 <div className="time-checkboxes text-blueGray-400">
                                   {['matin', 'après-midi', 'soir'].map((time) => (
-                                    <TimeCheckbox
-                                      key={time}
-                                      time={time}
-                                      checked={availability.times.includes(time)}
-                                      onChange={handleTimeChange}
-                                      dureePreferee={preferences.duree_preferee} // Passer les plages horaires préférées comme prop
-                                    />
+                                    <div key={time}>
+                                      <input
+                                        type="checkbox"
+                                        id={`${time}-checkbox`}
+                                        name={time}
+                                        checked={availability.times.includes(time)}
+                                        onChange={handleTimeChange}
+                                      />
+                                      <label htmlFor={`${time}-checkbox`}
+                                             className="ml-2">{time.charAt(0).toUpperCase() + time.slice(1)}</label>
+                                    </div>
                                   ))}
                                 </div>
                               </div>
@@ -1204,42 +1140,36 @@ export default function PreferenceClient () {
                             >
                               précédent
                             </button>
-                            <button
-                              className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                              type="button"
-                              onClick={(e) =>handleSubmit(e)}
-                            >
-                              Valider
-                            </button>
-                          </div>
-                        </div>
-                      </>) : (<>
-                        <div className="text-center mt-4">
-                          {/* <Link to="/landing"> */}
                           <button
                             className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                             type="button"
-                            onClick={(e) => setStep('3')}
+                            onClick={(e) =>handleSubmit(e)}
                           >
-                            Suivant
+                            Valider
                           </button>
-                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <button
-                              className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                              type="button"
-                              onClick={(e) => setStep('2')}
-                            >
-                              précédent
-                            </button>
-                            <button
-                              className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                              type="button"
-                              onClick={(e) => setStep('3')}
-                            >
-                              Suivant
-                            </button>
                           </div>
                         </div>
+                      </>) : (<>
+                        {/*<div className="text-center mt-4">*/}
+                        {/*  /!* <Link to="/landing"> *!/*/}
+                        {/*  <div style={{ display: 'flex', justifyContent: 'space-between' }}>*/}
+                        {/*    <button*/}
+                        {/*      className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"*/}
+                        {/*      type="button"*/}
+                        {/*      onClick={(e) => setStep('2')}*/}
+                        {/*    >*/}
+                        {/*      précédent*/}
+                        {/*    </button>*/}
+                        {/*    <button*/}
+                        {/*      className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"*/}
+                        {/*      type="button"*/}
+                        {/*      onClick={(e) => setStep('3')}*/}
+                        {/*    >*/}
+                        {/*      Suivant*/}
+                        {/*    </button>*/}
+                        {/*  </div>*/}
+                        {/*  /!* </Link> *!/*/}
+                        {/*</div>*/}
                       </>)}
 
                     </form>
