@@ -24,7 +24,7 @@ import { BrowserRouter } from "react-router-dom";
 import Routes from './Routes';
 import { AuthContextProvider } from './views/chat/context/AuthContext'; 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-
+import {SocketContextProvider} from './views/chat/context/SocketContext'
 
 
 
@@ -35,7 +35,9 @@ import "assets/styles/tailwind.css";
 ReactDOM.render(
   <BrowserRouter>
     <AuthContextProvider> {/* Wrap Routes with AuthContextProvider */}
+    <SocketContextProvider>
       <Routes />
+      </SocketContextProvider>
     </AuthContextProvider>
   </BrowserRouter>,
   document.getElementById("root")
