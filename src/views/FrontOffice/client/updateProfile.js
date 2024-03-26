@@ -49,18 +49,18 @@ export default function Dashboard() {
   const message = new URLSearchParams(location.search).get("u");
   const param = useParams();
 
+
+
   useEffect(() => {
     console.log(message);
 
     const getUser = async (config) => {
-      await getUserByID(param.id, config)
-        .then((res) => {
-          setUser(res.data.user);
-          console.log(res.data.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      await getUserByID(param.id, config).then((res) => {
+        setUser(res.data.user);
+        console.log(res.data.user);
+      }).catch((err) => {
+        console.log(err);
+      });
     };
 
     getUser(config);
@@ -68,14 +68,14 @@ export default function Dashboard() {
     const interval = setInterval(() => {}, 1000000);
 
     return () => clearInterval(interval);
-  }, [config, message, param.id]);
+  }, [config, message,param.id ]);
 
   const [n, setN] = useState(0); // Ajout de la variable n
   const [emailError, setEmailError] = useState("");
-  const [image, setImage] = useState();
+  const [image, setImage] = useState()
 
   const [User, setUser] = useState({
-    role: message,
+    role: message ,
   });
 
   const [passwordStrength, setPasswordStrength] = useState(0);
@@ -105,9 +105,10 @@ export default function Dashboard() {
   };
 
   const handlechangeFile = (e) => {
-    setImage(e.target.files[0]);
-    console.log(e.target.files[0]);
-  };
+    setImage(e.target.files[0])
+    console.log(e.target.files[0])
+  }
+
 
   const checkPasswordStrength = (password, nom) => {
     const hasUppercase = /[A-Z]/.test(password);
@@ -166,7 +167,9 @@ export default function Dashboard() {
   };
   const [messageerr, setmessageerr] = useState();
 
-  const add = async (e) => {
+  let formData = new FormData();
+
+  const update = async (e) => {
     const normalizedNom = User.nom.toLowerCase();
     const passwordLowerCase = User.password.toLowerCase();
     if (
@@ -193,17 +196,25 @@ export default function Dashboard() {
     } else if (emailError !== "") {
       setN(9);
     } else {
-      const res = await updateUser(User, config);
-      console.log(res.data);
-      if (res.data.message === undefined) {
-        window.location.replace(`/admin/tables/`);
+      formData.append("email", User.email);
+      formData.append("nom", User.nom);
+      formData.append("prenom", User.prenom);
+      formData.append("password", User.password);
+      if (image === undefined) {
+        setN(9);
       } else {
-        setmessageerr(res.data.message);
+        formData.append("image_user", image, `${User.nom}+.png`);
+        const res = await updateUser(formData, User._id, config);
+        console.log(res.data);
+        if (res.data.message === undefined) {
+          window.location.replace(`/admin/tables/`)
+        } else {
+          setmessageerr(res.data.message);
+        }
       }
     }
   };
 
-  let formData = new FormData();
   const addCentre = async (e) => {
     const normalizedNom = User.nom.toLowerCase();
     const passwordLowerCase = User.password.toLowerCase();
@@ -245,7 +256,6 @@ export default function Dashboard() {
       }
     }
   };
-
   return (
     <>
       <Navbar user={User} />
@@ -304,16 +314,7 @@ export default function Dashboard() {
                     <button
                       className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={
-                        message === "client" ||
-                        message === "formateur" ||
-                        message === "admin" ||
-                        message === "moderateur"
-                          ? (e) => add(e)
-                          : message === "centre"
-                          ? (e) => addCentre(e)
-                          : null
-                      }
+                      onClick={message === "client" || message === "formateur" || message === "admin" || message === "moderateur" ? (e) => update(e) : message === "centre" ? (e) => addCentre(e) : null}
                     >
                       Modifier
                       {message === "client" ? (
@@ -355,15 +356,16 @@ export default function Dashboard() {
                             label="nom"
                             aria-label="nom"
                             value={User.nom}
+
                           />
                           {n === 1 ||
                           n === 4 ||
                           n === 5 ||
                           n === 7 ||
                           messageerr ===
-                            "Le Nom doit contenir plus de 3 caractères" ||
+                          "Le Nom doit contenir plus de 3 caractères" ||
                           messageerr ===
-                            "Le Nom doit contenir moins de 15 caractères" ? (
+                          "Le Nom doit contenir moins de 15 caractères" ? (
                             <label style={{ color: "red" }}>
                               Le Nom doit contenir plus de 3 et moin de 15
                             </label>
@@ -372,10 +374,7 @@ export default function Dashboard() {
                           )}
                         </div>
                       </div>
-                      {message === "client" ||
-                      message === "formateur" ||
-                      message === "moderateur" ||
-                      message === "admin" ? (
+                      {message === "client" || message === "formateur" || message === "moderateur" || message === "admin" ? (
                         <div className="w-full lg:w-6/12 px-4">
                           <div className="relative w-full mb-3">
                             <label
@@ -395,15 +394,16 @@ export default function Dashboard() {
                               label="prenom"
                               aria-label="prenom"
                               value={User.prenom}
+
                             />
                             {n === 2 ||
                             n === 4 ||
                             n === 5 ||
                             n === 6 ||
                             messageerr ===
-                              "Le Prenom doit contenir plus de 3 characters" ||
+                            "Le Prenom doit contenir plus de 3 characters" ||
                             messageerr ===
-                              "Le Prenom doit contenir plus de 15 characters" ? (
+                            "Le Prenom doit contenir plus de 15 characters" ? (
                               <label style={{ color: "red" }}>
                                 Le Prenom doit contenir plus de 3 et moin de 15
                               </label>
@@ -431,16 +431,16 @@ export default function Dashboard() {
                               aria-label="image_user"
                               // value={User.image_user}
                             />
-                            {n === 9 ? (
-                              <label style={{ color: "red" }}>
-                                image obligatoire
-                              </label>
-                            ) : (
-                              ""
-                            )}
+                            {/*{n === 9 ? (*/}
+                            {/*  <label style={{ color: "red" }}>*/}
+                            {/*    image obligatoire*/}
+                            {/*  </label>*/}
+                            {/*) : (*/}
+                            {/*  ""*/}
+                            {/*)}*/}
                           </div>
                         </div>
-                      ) : null}
+                      ): null}
 
                       <div className="w-full lg:w-6/12 px-4">
                         <div className="relative w-full mb-3">
@@ -498,16 +498,17 @@ export default function Dashboard() {
                             onChange={(e) => handlePasswordChange(e)}
                             label="Password"
                             aria-label="Password"
-                            // value={User.password}
+                            value={User.password}
+
                           />
                           {n === 3 ||
                           n === 4 ||
                           n === 6 ||
                           n === 7 ||
                           messageerr ===
-                            "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
+                          "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
                           messageerr ===
-                            "Le Mot de passe doit contenir au moins 8 caractères" ? (
+                          "Le Mot de passe doit contenir au moins 8 caractères" ? (
                             <label style={{ color: "red" }}>
                               Le Mot de passe doit contenir au moins une lettre
                               majuscule, une lettre minuscule, un chiffre et un
@@ -516,8 +517,8 @@ export default function Dashboard() {
                             </label>
                           ) : n === 8 ? (
                             <label style={{ color: "red" }}>
-                              Il est important de ne pas inclure ton nom dans le
-                              mot de passe. Nom dans le mot de passe
+                              Il est important de ne pas inclure ton nom dans le mot
+                              de passe. Nom dans le mot de passe
                             </label>
                           ) : (
                             ""
@@ -528,12 +529,35 @@ export default function Dashboard() {
                                 style={{
                                   width: `${(passwordStrength / 3) * 100}%`,
                                 }}
-                                className={`${getStrengthColor(
-                                  passwordStrength
-                                )}`}
+                                className={`${getStrengthColor(passwordStrength)}`}
                               ></div>
                             </div>
                           </div>
+                        </div>
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            htmlFor="grid-password"
+                          >
+                            Image
+                          </label>
+                          <input
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="image_user"
+                            type="file"
+                            name="image_user"
+                            onChange={(e) => handlechangeFile(e)}
+                            label="image_user"
+                            aria-label="image_user"
+                            // value={User.image_user}
+                          />
+                          {/*{n === 9 ? (*/}
+                          {/*  <label style={{ color: "red" }}>*/}
+                          {/*    image obligatoire*/}
+                          {/*  </label>*/}
+                          {/*) : (*/}
+                          {/*  ""*/}
+                          {/*)}*/}
                         </div>
                       </div>
                     </div>
