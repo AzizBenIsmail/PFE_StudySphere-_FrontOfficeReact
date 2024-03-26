@@ -219,7 +219,7 @@ export default function AddUser() {
       if (image === undefined) {
         setN(9)
       } else {
-        formData.append('image_user', image, `${User.username}+.png`)
+        formData.append('image_user', image, `${image.name}`)
         const res = await registerCentre(formData)
         console.log(res.data)
         if (res.data.message === undefined) {
