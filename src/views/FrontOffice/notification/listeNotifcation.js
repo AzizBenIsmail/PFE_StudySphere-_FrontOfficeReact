@@ -147,7 +147,7 @@ export default function CardTable({ color }) {
             </div>
         </div>
       </section>
-      <Footer absolute />
+      <Footer  />
     </>
   );
 }
