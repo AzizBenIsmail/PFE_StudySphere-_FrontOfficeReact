@@ -78,7 +78,7 @@ export default function First () {
             </Switch>
           </Suspense>
         </section>
-        <FooterSmall absolute/>
+        <FooterSmall />
       </main>
     </>
   )
