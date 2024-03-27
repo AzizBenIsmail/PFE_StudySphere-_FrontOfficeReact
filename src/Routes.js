@@ -19,6 +19,7 @@ const BadgesNiveauXp = lazy(() =>
 );
 const reward = lazy(() => import("./views/FrontOffice/info/reward.js"));
 const warning = lazy(() => import("./views/FrontOffice/info/warning.js"));
+const warningAuth = lazy(() => import("./views/FrontOffice/info/warningAuth.js"));
 const listeNotifcation = lazy(() =>
   import("./views/FrontOffice/notification/listeNotifcation.js")
 );
@@ -45,6 +46,7 @@ function Routes() {
           <Route path="/BadgesNiveauXp" exact component={BadgesNiveauXp} />
           <Route path="/reward" exact component={reward} />
           <Route path="/warning" exact component={warning} />
+          <Route path="/warningAuth" exact component={warningAuth} />
           <Route path="/listeNotifcation" exact component={listeNotifcation} />
           <Route path="/Elearning" exact component={Elearning} />
           <Route path="/profile" exact component={Profile} />
