@@ -1492,6 +1492,7 @@ select {
   font-weight: 600;
 }
 
+
 .font-bold {
   font-weight: 700;
 }
@@ -2435,6 +2436,11 @@ select {
   color: rgba(14, 165, 233, var(--tw-text-opacity));
 }
 
+.text-lightBleu-500 {
+  --tw-text-opacity: 1;
+  color: rgba(37, 150, 190, var(--tw-text-opacity));
+}
+
 .text-lightBlue-notification {
   color: rgba(0,19,255);
 }
@@ -2591,7 +2597,7 @@ select {
 }
 
 .w-1\/8 {
-  width: 12%;
+  width: 15%;
 }
 
 .w-10\/12 {
