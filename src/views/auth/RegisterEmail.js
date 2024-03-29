@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { forgetPassword, getUserAuth, registerEmail } from '../../Services/Apiauth'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
-import { GiBurningDot } from 'react-icons/gi'
+import { MdMarkEmailUnread } from "react-icons/md";
 
 export default function Register () {
   const jwt_token = Cookies.get('jwt_token')
@@ -129,22 +129,23 @@ export default function Register () {
                     className="text-white text-sm font-bold leading-relaxed inline-flex items-center mr-4 py-2 whitespace-nowrap uppercase"
                     to="/"
                   >
-                    <img
-                      src={require('assets/img/LogoDark.png').default}
-                      alt="..."
-                      className="mr-4"
-                      style={{ maxWidth: '40%', height: '20%' }}
-                    />
-                    <GiBurningDot size={45} className="mr-4" style={{ color: 'red' }}/>
-                    <img
-                      src={require('assets/img/LogoBridge.png').default}
-                      alt="..."
-                      className="mr-4"
-                      style={{ maxWidth: '40%', height: '20%' }}
-                    />
+                    {/*<img*/}
+                    {/*  src={require('assets/img/LogoDark.png').default}*/}
+                    {/*  alt="..."*/}
+                    {/*  className="mr-4"*/}
+                    {/*  style={{ maxWidth: '40%', height: '20%' }}*/}
+                    {/*/>*/}
+                    {/*<GiBurningDot size={45} className="mr-4" style={{ color: 'red' }}/>*/}
+                    {/*<img*/}
+                    {/*  src={require('assets/img/LogoBridge.png').default}*/}
+                    {/*  alt="..."*/}
+                    {/*  className="mr-4"*/}
+                    {/*  style={{ maxWidth: '40%', height: '20%' }}*/}
+                    {/*/>*/}
                   </Link>
-                  <h6 className="text-3xl font-normal leading-normal mt-0 mb-2 text-lightBlue-800">
-                    S'inscrire
+                  <h6 className="text-3xl font-semibold leading-normal mt-0 mb-2 text-lightBlue-800">
+                    <MdMarkEmailUnread />
+                    Se connecter ou créer un compte
                   </h6>
                 </div>
                 {/*<div className="btn-wrapper text-center">*/}

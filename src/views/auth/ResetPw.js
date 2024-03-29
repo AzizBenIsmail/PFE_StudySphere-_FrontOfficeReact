@@ -188,7 +188,7 @@ export default function ResetPw() {
                   >
                     {/* ... (previous code) */}
                   </Link>
-                  <h6 className="text-3xl font-normal leading-normal mt-0 mb-2 text-lightBlue-800">
+                  <h6 className="text-3xl font-semibold leading-normal mt-0 mb-2 text-lightBlue-800">
                     Réinitialiser mon mot de passe
                   </h6>
                 </div>
