@@ -198,17 +198,15 @@ export default function UpdateUser() {
       formData.append("nom", User.nom);
       formData.append("prenom", User.prenom);
       formData.append("password", User.password);
-      if (image === undefined) {
-        setN(9);
-      } else {
+      if (image !== undefined) {
         formData.append("image_user", image, `${User.nom}+.png`);
+      }
         const res = await updateUser(formData, User._id, config);
         console.log(res.data);
         if (res.data.message === undefined) {
           window.location.replace(`/admin/tables/`)
         } else {
           setmessageerr(res.data.message);
-        }
       }
     }
   };
