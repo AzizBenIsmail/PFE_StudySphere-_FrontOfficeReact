@@ -17,21 +17,11 @@ export default function Navbar ({ user }) {
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div
             className="w-full relative flex justify-between items-center lg:w-auto lg:static lg:block lg:justify-start">
-            <div
-              className="text-white inline-flex items-center py-2"
-            >
-              <img
-                src={require('assets/img/Logo.png').default}
-                alt="..."
-                style={{ maxWidth: '25%' }}
-              />
-              <GiBurningDot size={25} />
-              <img
-                src={require('assets/img/LogoBridge.png').default}
-                alt="..."
-                style={{ maxWidth: '25%' }}
-              />
-            </div>
+            {/*<div*/}
+            {/*  className="text-white inline-flex items-center py-2"*/}
+            {/*>*/}
+
+            {/*</div>*/}
             <button
               className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
               type="button"
@@ -48,6 +38,11 @@ export default function Navbar ({ user }) {
             }
             id="example-navbar-warning"
           >
+            <img
+              src={require('assets/img/LogoDark.png').default}
+              alt="..."
+              className="w-1/8 sm:w-4/12 "
+            />
             <ul className="flex flex-col lg:flex-row list-none mr-auto">
               <li className="flex items-center">
                 <a
