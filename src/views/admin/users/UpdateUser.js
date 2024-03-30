@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 
 // components
 import Cookies from "js-cookie";
-import { getUserAuth, } from '../../../Services/Apiauth'
 import { getUserByID, updatecentre, updateUser } from '../../../Services/ApiUser'
 
 import { useLocation , useParams } from "react-router-dom";
@@ -25,23 +24,23 @@ export default function UpdateUser() {
     };
   }, [jwt_token]);
 
-  //session
-  if (Cookies.get("jwt_token")) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === "client") {
-            window.location.replace(`/landing/`);
-          }
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  } else {
-    window.location.replace(`/`);
-  }
+  // //session
+  // if (Cookies.get("jwt_token")) {
+  //   const fetchData = async () => {
+  //     try {
+  //       await getUserAuth(config).then((res) => {
+  //         if (res.data.user.role === "client") {
+  //           window.location.replace(`/landing/`);
+  //         }
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchData();
+  // } else {
+  //   window.location.replace(`/`);
+  // }
 
   const location = useLocation();
   const message = new URLSearchParams(location.search).get("u");
@@ -76,15 +75,6 @@ export default function UpdateUser() {
     role: message ,
   });
 
-  const [passwordStrength, setPasswordStrength] = useState(0);
-
-  const handlePasswordChange = (e) => {
-    const newPassword = e.target.value;
-    setUser({ ...User, password: newPassword });
-
-    const strengthCode = checkPasswordStrength(newPassword, User.nom);
-    setPasswordStrength(strengthCode);
-  };
 
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value });
@@ -108,96 +98,29 @@ export default function UpdateUser() {
   }
 
 
-  const checkPasswordStrength = (password, nom) => {
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasDigit = /\d/.test(password);
-    const normalizedNom = nom.toLowerCase();
-    const passwordLowerCase = password.toLowerCase();
-
-    if (password.length === 0) {
-      return 0; // Le nom existe dans le mot de passe (Faible)
-    } else if (passwordLowerCase.includes(normalizedNom)) {
-      return 1; // Le nom existe dans le mot de passe (Faible)
-    } else if (password.length < 3) {
-      return 1; // Faible
-    } else if (password.length < 8) {
-      return 2; // Faible
-    } else if (hasUppercase && hasLowercase && hasDigit) {
-      return 4; // Très fort (ajoutez vos propres critères)
-    } else {
-      return 2; // Moyen
-    }
-  };
-
-  const getStrengthColor = (strength) => {
-    switch (strength) {
-      case 0:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500";
-      case 1:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500";
-      case 2:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500";
-      case 3:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500";
-      case 4:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500";
-      default:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500";
-    }
-  };
-
-  const getColor = (strength) => {
-    switch (strength) {
-      case 0:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200";
-      case 1:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200";
-      case 2:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-orange-200";
-      case 3:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200";
-      case 4:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-emerald-200";
-      default:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200";
-    }
-  };
   const [messageerr, setmessageerr] = useState();
 
   let formData = new FormData();
 
   const update = async (e) => {
-    const normalizedNom = User.nom.toLowerCase();
-    const passwordLowerCase = User.password.toLowerCase();
     if (
       User.nom === "" &&
       User.prenom === "" &&
-      User.password === "" &&
       User.email === ""
     ) {
       setN(4); // Utilisation de setN pour mettre à jour la valeur de n
     } else if (User.nom === "" && User.prenom === "") {
       setN(5); // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.prenom === "" && User.password === "") {
+    } else if (User.prenom === "" ) {
       setN(6); // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === "" && User.password === "") {
+    } else if (User.nom === "" ) {
       setN(7); // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === "") {
-      setN(1); // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.prenom === "") {
-      setN(2);
-    } else if (User.password === "") {
-      setN(3);
-    } else if (passwordLowerCase.includes(normalizedNom)) {
-      setN(8);
     } else if (emailError !== "") {
       setN(9);
     } else {
       formData.append("email", User.email);
       formData.append("nom", User.nom);
       formData.append("prenom", User.prenom);
-      formData.append("password", User.password);
       if (image !== undefined) {
         formData.append("image_user", image, `${User.nom}+.png`);
       }
@@ -445,58 +368,58 @@ export default function UpdateUser() {
                     </div>
                   </div>
                   <div className="w-full lg:w-6/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlFor="grid-password"
-                      >
-                        mot de passe
-                      </label>
-                      <input
-                        defaultValue=""
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="Password"
-                        type="password"
-                        name="password"
-                        onChange={(e) => handlePasswordChange(e)}
-                        label="Password"
-                        aria-label="Password"
-                        // value={User.password}
+                    {/*<div className="relative w-full mb-3">*/}
+                    {/*  <label*/}
+                    {/*    className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
+                    {/*    htmlFor="grid-password"*/}
+                    {/*  >*/}
+                    {/*    mot de passe*/}
+                    {/*  </label>*/}
+                    {/*  <input*/}
+                    {/*    defaultValue=""*/}
+                    {/*    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
+                    {/*    placeholder="Password"*/}
+                    {/*    type="password"*/}
+                    {/*    name="password"*/}
+                    {/*    onChange={(e) => handlePasswordChange(e)}*/}
+                    {/*    label="Password"*/}
+                    {/*    aria-label="Password"*/}
+                    {/*    // value={User.password}*/}
 
-                      />
-                      {n === 3 ||
-                      n === 4 ||
-                      n === 6 ||
-                      n === 7 ||
-                      messageerr ===
-                      "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
-                      messageerr ===
-                      "Le Mot de passe doit contenir au moins 8 caractères" ? (
-                        <label style={{ color: "red" }}>
-                          Le Mot de passe doit contenir au moins une lettre
-                          majuscule, une lettre minuscule, un chiffre et un
-                          symbole Exemple mdp : Exemple@123 | Exemple#123 |
-                          Exemple.123 | Exemple/123 | Exemple*123{" "}
-                        </label>
-                      ) : n === 8 ? (
-                        <label style={{ color: "red" }}>
-                          Il est important de ne pas inclure ton nom dans le mot
-                          de passe. Nom dans le mot de passe
-                        </label>
-                      ) : (
-                        ""
-                      )}
-                      <div className="relative pt-1">
-                        <div className={`${getColor(passwordStrength)}`}>
-                          <div
-                            style={{
-                              width: `${(passwordStrength / 3) * 100}%`,
-                            }}
-                            className={`${getStrengthColor(passwordStrength)}`}
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
+                    {/*  />*/}
+                    {/*  {n === 3 ||*/}
+                    {/*  n === 4 ||*/}
+                    {/*  n === 6 ||*/}
+                    {/*  n === 7 ||*/}
+                    {/*  messageerr ===*/}
+                    {/*  "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||*/}
+                    {/*  messageerr ===*/}
+                    {/*  "Le Mot de passe doit contenir au moins 8 caractères" ? (*/}
+                    {/*    <label style={{ color: "red" }}>*/}
+                    {/*      Le Mot de passe doit contenir au moins une lettre*/}
+                    {/*      majuscule, une lettre minuscule, un chiffre et un*/}
+                    {/*      symbole Exemple mdp : Exemple@123 | Exemple#123 |*/}
+                    {/*      Exemple.123 | Exemple/123 | Exemple*123{" "}*/}
+                    {/*    </label>*/}
+                    {/*  ) : n === 8 ? (*/}
+                    {/*    <label style={{ color: "red" }}>*/}
+                    {/*      Il est important de ne pas inclure ton nom dans le mot*/}
+                    {/*      de passe. Nom dans le mot de passe*/}
+                    {/*    </label>*/}
+                    {/*  ) : (*/}
+                    {/*    ""*/}
+                    {/*  )}*/}
+                    {/*  <div className="relative pt-1">*/}
+                    {/*    <div className={`${getColor(passwordStrength)}`}>*/}
+                    {/*      <div*/}
+                    {/*        style={{*/}
+                    {/*          width: `${(passwordStrength / 3) * 100}%`,*/}
+                    {/*        }}*/}
+                    {/*        className={`${getStrengthColor(passwordStrength)}`}*/}
+                    {/*      ></div>*/}
+                    {/*    </div>*/}
+                    {/*  </div>*/}
+                    {/*</div>*/}
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
