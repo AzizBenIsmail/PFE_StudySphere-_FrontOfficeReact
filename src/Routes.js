@@ -10,6 +10,7 @@ const First = lazy(() => import("./layouts/First.js"));
 // views without layouts
 const Landing = lazy(() => import("./views/FrontOffice/client/Landing.js"));
 const Profile = lazy(() => import("./views/FrontOffice/client/Profile.js"));
+const Parametre = lazy(() => import("./views/FrontOffice/client/Parametre/Parametre.js"));
 const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
 const updateProfile = lazy(() => import("./views/FrontOffice/client/updateProfile.js"));
 const welcome = lazy(() => import("./views/FrontOffice/info/welcome.js"));
@@ -48,6 +49,7 @@ function Routes() {
           <Route path="/warningAuth" exact component={warningAuth} />
           <Route path="/listeNotifcation" exact component={listeNotifcation} />
           <Route path="/profile" exact component={Profile} />
+          <Route path="/Parametre" exact component={Parametre} />
           <Route path="/edit/:id" exact component={updateProfile} />
           <Route path="/DetailsFormation/:id" exact component={DetailsFormation} />
           <Route path="/" exact component={Index} />
