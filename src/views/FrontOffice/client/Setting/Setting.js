@@ -89,29 +89,31 @@ export default function Profile () {
             </div>
           </div>
           <div className="container mx-auto flex justify-center">
-            <div className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4">
-              <div className="px-6 flex py-3" onClick={() => {
-                if (User.role === 'client') {
-                  console.log(User)
-                  console.log(User.preferences)
-                  if (User.preferences === undefined) {
-                    history.push("/First");
-                  } else {
-                    history.push("/First/UpdatePreferences");
-                  }
-                }
+            <div className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
+                 onClick={() => {
+                   if (User.role === 'client') {
+                     console.log(User)
+                     console.log(User.preferences)
+                     if (User.preferences === undefined) {
+                       history.push("/First");
+                     } else {
+                       history.push("/First/UpdatePreferences");
+                     }
+                   }
 
-                if (User.role === 'centre') {
-                  if (!User.xp) {
-                    history.push("/First");
-                  }
-                }
-              }}>
-                <FaRegUserCircle style={{ fontSize: '50px' }} className="mt-3" />
+                   if (User.role === 'centre') {
+                     if (!User.xp) {
+                       history.push("/First");
+                     }
+                   }
+                 }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
+                 onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 20px 0px rgba(0,0,0,0.3)'}
+                 onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
+              <div className="px-6 flex py-3" >
+                <FaRegUserCircle style={{ fontSize: '50px' }} className="mt-3"/>
                 <div className="ml-4 leading-parametre mt-2">
                   <h3 className="text-2xl font-semibold text-blueGray-700">
                     Informations personnelles
-                    <span className="text-blue-500 text-xs ml-1"> (cliquable)</span> {/* Indication de clicabilité */}
                   </h3>
                   <h3 className="text-1xl font-normal text-blueGray-600">
                     Informations personnelles
@@ -119,6 +121,7 @@ export default function Profile () {
                 </div>
               </div>
             </div>
+
 
             <div
               className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
