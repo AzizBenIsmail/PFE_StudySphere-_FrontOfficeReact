@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, {  useMemo, useState } from 'react';
 import Cookies from 'js-cookie';
-import { getUserAuth , Password } from '../../../Services/Apiauth';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { UpdatePasswordByAdmin } from '../../../Services/ApiUser';
+import { useParams } from 'react-router-dom'
 
 export default function ResetPw() {
-  const location = useLocation();
-  const token = new URLSearchParams(location.search).get('token');
+
+  const token = Cookies.get("jwt_token");
+
   const config = useMemo(() => {
     return {
       headers: {
@@ -15,63 +15,18 @@ export default function ResetPw() {
     };
   }, [token]);
 
-  // Session check
-  // if (Cookies.get('jwt_token')) {
-  //   const fetchData = async () => {
-  //     try {
-  //       await getUserAuth(config).then((res) => {
-  //         if (res.data.user.role === 'client') {
-  //           window.location.replace(`/landing/`);
-  //         }
-  //         if (res.data.user.role === 'admin') {
-  //           window.location.replace(`/admin/`);
-  //         }
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }
-
   const [isLoading, setIsLoading] = useState(false);
-  const message = new URLSearchParams(location.search).get('message');
-  const email = new URLSearchParams(location.search).get('email');
   const [n, setN] = useState(0) // Ajout de la variable n
   const [passwordStrength, setPasswordStrength] = useState(0)
   const [messageerr, setmessageerr] = useState()
+  const param = useParams();
 
   const [user, setUser] = useState({
     password: '',
     confirmPassword: '',
-    email : email ,
     token : token,
   });
   const [passwordError, setPasswordError] = useState('');
-
-  useEffect(() => {
-    showNotification('success', 'success', message);
-
-    const interval = setInterval(() => {}, 1000000);
-
-    return () => clearInterval(interval);
-  }, [config, message]);
-
-  const showNotification = (type, title, message, autoDismissTime = 1000) => {
-    switch (type) {
-      case 'success':
-        NotificationManager.success(message, title, autoDismissTime);
-        break;
-      case 'error':
-        NotificationManager.error(message, title, autoDismissTime);
-        break;
-      case 'info':
-        NotificationManager.info(title, message, autoDismissTime);
-        break;
-      default:
-        break;
-    }
-  };
 
   const handlechange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -145,28 +100,28 @@ export default function ResetPw() {
 
   const handleSavePassword = async () => {
     // console.log(config);
-    if (user.password === user.confirmPassword || user.password=== '') {
+    if (user.password=== '')
+    {
+      setN(2)
+    }else if (user.password === user.confirmPassword || user.password=== '') {
       if(n === 4) {
         try {
           setIsLoading(true);
-          const response = await Password(user,config);
+          const response = await UpdatePasswordByAdmin(param.id,user,config);
           console.log(response);
           if (response.data.message === "Mot de passe modifié avec succès. Veuillez vérifier votre boîte mail.") {
-            window.location.replace(`/auth/login/`)
-            // console.log(response);
-            // showNotification('success', 'Success', response.data.message);
+            window.location.replace(`/admin/tables/`)
           } else {
             setmessageerr(response.data.message)
-            showNotification('error',response.data.message, 'Erreur')
+            //showNotification('error',response.data.message, 'Erreur')
           }
         } catch (error) {
-          // console.log(error);
-          showNotification('error', 'Error', 'error');
+           console.log(error);
         } finally {
           setIsLoading(false);
         }
       }else{
-        showNotification('error', 'Error', "Exemple mdp : Exemple@123");
+        //showNotification('error', 'Error', "Exemple mdp : Exemple@123");
       }
     } else {
       setPasswordError('Les mots de passe ne correspondent pas.');
@@ -175,19 +130,12 @@ export default function ResetPw() {
 
   return (
     <>
-      <NotificationContainer />
-      <div className="container mx-auto px-4 h-full">
-        <div className="flex content-center items-center justify-center h-full">
-          <div className="w-full lg:w-6/12 px-4">
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
-              <div className="rounded-t mb-0 px-6 py-6">
+      <div className="flex py-40 flex-wrap">
+        <div className="w-full px-12">
+          <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
+            <div className="rounded-t bg-white mb-0 px-6 py-6">
+              <div className="text-center flex justify-between">
                 <div className="text-center mb-3">
-                  <Link
-                    className="text-white text-sm font-bold leading-relaxed inline-flex items-center mr-4 py-2 whitespace-nowrap uppercase"
-                    to="/"
-                  >
-                    {/* ... (previous code) */}
-                  </Link>
                   <h6 className="text-3xl font-semibold leading-normal mt-0 mb-2 text-lightBlue-800">
                     Réinitialiser mon mot de passe
                   </h6>
@@ -265,18 +213,6 @@ export default function ResetPw() {
                   </label>
                   {isLoading && <p>Chargement en cours...</p>}
                 </form>
-              </div>
-            </div>
-            <div className="flex flex-wrap mt-6 relative">
-              <div className="w-1/2">
-                <Link to="/auth/registerEmail?message=1" className="text-blueGray-200">
-                  <small> .</small>
-                </Link>
-              </div>
-              <div className="w-1/2 text-right">
-                <Link to="/auth/login" className="text-blueGray-200">
-                  <small> Se connecter </small>
-                </Link>
               </div>
             </div>
           </div>

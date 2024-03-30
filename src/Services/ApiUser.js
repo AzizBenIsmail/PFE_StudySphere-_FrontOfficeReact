@@ -141,3 +141,7 @@ export async function updatecentre(formData, id, config) {
     headers: {"Content-Type": "multipart/form-data"}
   });
 }
+
+export async function UpdatePasswordByAdmin (id,user, config) {
+  return await axios.put(`${apiURL}/UpdatePasswordByAdmin/${ id }`, user, config )
+}
