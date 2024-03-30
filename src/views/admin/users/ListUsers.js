@@ -45,6 +45,7 @@ import {
 import { AiOutlineReload } from 'react-icons/ai'
 import { createPopper } from '@popperjs/core'
 import { useHistory } from 'react-router-dom'
+import { MdOutlinePassword } from "react-icons/md";
 
 export default function ListUsers ({ color }) {
   //cookies
@@ -1301,6 +1302,19 @@ export default function ListUsers ({ color }) {
                           style={{ fontSize: '20px' }}
                         />
                         Modifier
+                      </button>
+                      <button
+                        className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
+                        type="button"
+                        onClick={() =>
+                          history.push(`/admin/UpdatePassword/${user._id}`)
+                        }
+                      >
+                        <MdOutlinePassword
+                          className="mr-2"
+                          style={{ fontSize: '20px' }}
+                        />
+                        Reset Password
                       </button>
                       <button
                         className="text-sm py-2 px-4 font-normal block w-full flex items-center justify-start bg-transparent text-white"
