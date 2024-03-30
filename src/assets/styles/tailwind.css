@@ -1549,6 +1549,10 @@ select {
   height: 70px;
 }
 
+.h-200-px {
+  height: 200px;
+}
+
 .h-350-px {
   height: 350px;
 }
@@ -1624,6 +1628,10 @@ select {
 
 .leading-normal {
   line-height: 1.5;
+}
+
+.leading-parametre {
+  line-height: 3;
 }
 
 .leading-relaxed {
@@ -1805,6 +1813,10 @@ select {
 
 .mb-24 {
   margin-bottom: 6rem;
+}
+
+.mb-48 {
+  margin-bottom: 12rem;
 }
 
 .mt-32 {
@@ -2022,6 +2034,10 @@ select {
 
 .py-4 {
   padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.py-4a {
   padding-bottom: 1rem;
 }
 
@@ -3108,6 +3124,11 @@ select {
   .lg\:w-9\/12 {
     width: 75%;
   }
+
+  .lg\:w-12\/12 {
+    width: 80%;
+  }
+
 }
 
 @media (min-width: 1280px) {
