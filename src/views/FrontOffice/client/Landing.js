@@ -6,7 +6,7 @@ import Footer from "../../../components/Footers/Footer.js";
 import Cookies from "js-cookie";
 import { getUserAuth } from "../../../Services/Apiauth";
 import { getAllFormations } from "../../../Services/ApiFormation";
-import { GrNext , GrPrevious } from "react-icons/gr";
+import { FaChevronRight , FaChevronLeft  } from "react-icons/fa";
 
 export default function Landing() {
   const [user, setUser] = useState(null);
@@ -117,7 +117,7 @@ export default function Landing() {
                 disabled={startIndex === 0}
                 className=" bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
-                <GrPrevious style={{ fontSize: '40px' }}/>
+                <FaChevronLeft style={{ fontSize: '40px' }}/>
 
               </button>
               {displayedFormations.map((formation) => (
@@ -207,25 +207,25 @@ export default function Landing() {
                 disabled={endIndex === formations.length - 1}
                 className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
-                <GrNext style={{ fontSize: '40px' }}/>
+                <FaChevronRight style={{ fontSize: '40px' }}/>
               </button>
             </div>
-            {/*<div className="flex justify-center mt-8">*/}
-            {/*  <button*/}
-            {/*    onClick={handlePrevPage}*/}
-            {/*    disabled={startIndex === 0}*/}
-            {/*    className="px-4 py-2 mr-4 bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"*/}
-            {/*  >*/}
-            {/*    Précédent*/}
-            {/*  </button>*/}
-            {/*  <button*/}
-            {/*    onClick={handleNextPage}*/}
-            {/*    disabled={endIndex === formations.length - 1}*/}
-            {/*    className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"*/}
-            {/*  >*/}
-            {/*    Suivant*/}
-            {/*  </button>*/}
-            {/*</div>*/}
+            <div className="flex justify-center mt-8">
+              <button
+                onClick={handlePrevPage}
+                disabled={startIndex === 0}
+                className="px-4 py-2 mr-4 bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                Précédent
+              </button>
+              <button
+                onClick={handleNextPage}
+                disabled={endIndex === formations.length - 1}
+                className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                Suivant
+              </button>
+            </div>
             <div className="flex flex-wrap items-center mt-32">
               <div className="w-full md:w-5/12 px-4 mr-auto ml-auto">
                 <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
