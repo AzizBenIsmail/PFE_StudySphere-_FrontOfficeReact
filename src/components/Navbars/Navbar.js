@@ -86,19 +86,19 @@ export default function Navbar ({ user }) {
               <div
                 className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold ml-3"
               >
-                <Link
-                  to="/BadgesNiveauXp"
-                >
-                  <li className="flex items-center">
+                {/*<Link*/}
+                {/*  to="/BadgesNiveauXp"*/}
+                {/*>*/}
+                {/*  <li className="flex items-center">*/}
 
-                  <FaRegStar className="mr-1" style={{ fontSize: '24px' }}/>
+                {/*  <FaRegStar className="mr-1" style={{ fontSize: '24px' }}/>*/}
 
-                {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && `${user.xp.niveauAtteint.nom}`}
+                {/*{user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && `${user.xp.niveauAtteint.nom}`}*/}
 
-                  <SiNintendogamecube className="mr-2 ml-2" style={{ fontSize: '24px' }}/>
-                  {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && ` Xp : ${user.xp.pointsGagnes}`}
-                  </li>
-                  </Link>
+                {/*  <SiNintendogamecube className="mr-2 ml-2" style={{ fontSize: '24px' }}/>*/}
+                {/*  {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && ` Xp : ${user.xp.pointsGagnes}`}*/}
+                {/*  </li>*/}
+                {/*  </Link>*/}
 
               </div>
               <li className="flex items-center">
