@@ -107,7 +107,7 @@ export default function Profile () {
                      }
                    }
                  }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
-                 onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 20px 0px rgba(0,0,0,0.3)'}
+                 onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
               <div className="px-6 flex py-3" >
                 <FaRegUserCircle style={{ fontSize: '50px' }} className="mt-3"/>
@@ -116,16 +116,34 @@ export default function Profile () {
                     Informations personnelles
                   </h3>
                   <h3 className="text-1xl font-normal text-blueGray-600">
-                    Informations personnelles
+                    Mettez à jour vos informations .
                   </h3>
                 </div>
               </div>
             </div>
 
-
             <div
               className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
-              >
+              onClick={() => {
+                if (User.role === 'client') {
+                  console.log(User)
+                  console.log(User.preferences)
+                  if (User.preferences === undefined) {
+                    history.push("/First");
+                  } else {
+                    history.push("/First/UpdatePreferences");
+                  }
+                }
+
+                if (User.role === 'centre') {
+                  if (!User.xp) {
+                    history.push("/First");
+                  }
+                }
+              }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+            >
               <div className="px-6 flex py-3">
                 <MdRoomPreferences style={{ fontSize: '50px' }} className="mt-3"/>
                 <div className=" ml-4 leading-parametre mt-2">
@@ -133,7 +151,7 @@ export default function Profile () {
                     Préférences
                   </h3>
                   <h3 className="text-1xl font-normal mb-2 text-blueGray-600 ">
-                    Modifiez votre Preference, votre devise et vos exigences en matière d'accessibilité.
+                    Modifiez votre Preference .
                   </h3>
                 </div>
               </div>
@@ -143,7 +161,27 @@ export default function Profile () {
         <section className="relative py-1 bg-blueGray-200">
           <div className="container mx-auto flex justify-center">
             <div
-              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4">
+              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"onClick={() => {
+              if (User.role === 'client') {
+                console.log(User)
+                console.log(User.preferences)
+                if (User.preferences === undefined) {
+                  history.push("/First");
+                } else {
+                  history.push("/First/UpdatePreferences");
+                }
+              }
+
+              if (User.role === 'centre') {
+                if (User.preferences === undefined) {
+                  history.push("/First/announcementCenter");
+                } else {
+                  history.push("/First/UpdatePreferencesCenter");
+                }
+              }
+            }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
               <div className="px-6 flex py-3">
                 <MdOutlineSecurity style={{ fontSize: '50px' }} className="mt-3"/>
                 <div className="ml-4 leading-parametre mt-2">
@@ -151,13 +189,31 @@ export default function Profile () {
                     Sécurité
                   </h3>
                   <h3 className="text-1xl font-normal mb-2 text-blueGray-600">
-                    Modifiez vos paramètres de sécurité, configurez une authentification sécurisée ou supprimez votre
-                    compte </h3>
+                    Modifiez vos paramètres de sécurité ou supprimez votre compte </h3>
                 </div>
               </div>
             </div>
             <div
-              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4">
+              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
+              onClick={() => {
+                if (User.role === 'client') {
+                  console.log(User)
+                  console.log(User.preferences)
+                  if (User.preferences === undefined) {
+                    history.push("/First");
+                  } else {
+                    history.push("/First/UpdatePreferences");
+                  }
+                }
+
+                if (User.role === 'centre') {
+                  if (!User.xp) {
+                    history.push("/First");
+                  }
+                }
+              }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
               <div className="px-6 flex py-6">
                 <IoMdNotificationsOutline style={{ fontSize: '50px' }} className="mt-3"/>
                 <div className="ml-4 leading-parametre mt-2 ">
@@ -165,17 +221,35 @@ export default function Profile () {
                     Notifications par e-mail
                   </h3>
                   <h3 className="text-1xl font-normal text-blueGray-600">
-                    Choisisser les notification que vous recevrez et desabonner-bous des autres.
+                    Choisisser les notification que vous recevrez .
                   </h3>
                 </div>
               </div>
             </div>
           </div>
         </section>
-        <section className="relative py-1 bg-blueGray-200">
+        <section className="relative py-1 bg-blueGray-200 mb-3">
           <div className="container mx-auto  flex justify-center">
             <div
-              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4">
+              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"onClick={() => {
+              if (User.role === 'client') {
+                console.log(User)
+                console.log(User.preferences)
+                if (User.preferences === undefined) {
+                  history.push("/First");
+                } else {
+                  history.push("/First/UpdatePreferences");
+                }
+              }
+
+              if (User.role === 'centre') {
+                if (!User.xp) {
+                  history.push("/First");
+                }
+              }
+            }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
               <div className="px-6 flex py-6">
                 <IoIosCard style={{ fontSize: '50px' }} className="mt-3"/>
                 <div className="ml-4 leading-parametre mt-2">
@@ -189,7 +263,25 @@ export default function Profile () {
               </div>
             </div>
             <div
-              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4">
+              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"onClick={() => {
+              if (User.role === 'client') {
+                console.log(User)
+                console.log(User.preferences)
+                if (User.preferences === undefined) {
+                  history.push("/First");
+                } else {
+                  history.push("/First/UpdatePreferences");
+                }
+              }
+
+              if (User.role === 'centre') {
+                if (!User.xp) {
+                  history.push("/First");
+                }
+              }
+            }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
               <div className="px-6 flex py-6">
                 <BiSolidUserAccount style={{ fontSize: '50px' }} className="mt-3"/>
                 <div className="ml-4 leading-parametre mt-2">
@@ -197,8 +289,7 @@ export default function Profile () {
                     Confientialiter
                   </h3>
                   <h3 className="text-1xl font-normal mb-2 text-blueGray-600">
-                    Exercez vos droits relatifs a la protection de la confidentialite et controler la maniere dont vos
-                    donnees sont utilisees
+                    Exercez vos droits relatifs a la protection de la confidentialite
                   </h3>
                 </div>
               </div>
