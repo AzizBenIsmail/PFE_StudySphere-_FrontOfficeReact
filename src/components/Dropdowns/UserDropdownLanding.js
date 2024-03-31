@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { createPopper } from "@popperjs/core";
 import { logout } from "../../Services/Apiauth";
 import Cookies from "js-cookie";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from 'react-router-dom'
 // import { useHistory } from 'react-router-dom';
 import { CiUser } from "react-icons/ci";
 import { RiLogoutCircleLine } from "react-icons/ri";
@@ -54,9 +54,8 @@ const UserDropdown = ({user}) => {
   };
   return (
     <>
-      <a
+      <div
         className="text-blueGray-500 block"
-        href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {
           e.preventDefault();
@@ -64,15 +63,14 @@ const UserDropdown = ({user}) => {
         }}
       >
         <div className="items-center flex">
-          <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
-
+          <span className="w-12 h-12 text-sm text-white bg-orange-100 inline-flex items-center justify-center rounded-full">
             {user && user.image_user ? (
               <img
                 // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
                 alt="UserImage"
-                className="w-full rounded-full align-middle border-none shadow-lg"
+                  className="w-full rounded-full align-middle border-none shadow-lg"
                 src={`http://localhost:5000/images/Users/${user.image_user}`}
-                style={{ width: "80px", height: "80px" }}
+                style={{ width: "80px" }}
               />
             ) : (
               <div>
@@ -80,13 +78,29 @@ const UserDropdown = ({user}) => {
                   alt="..."
                   src={require("assets/img/client.png").default}
                   style={{ maxWidth: '120%' }}
-                  className="shadow-lg rounded-full mx-auto max-w-120-px"
+                  // className="shadow-lg rounded-full mx-auto max-w-120-px"
                 />
               </div>
             )}
           </span>
+          <div className="ml-2 text-blueGray-200">
+            {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && (
+              <>
+                <div>{user.nom}</div>
+                <Link
+                  to="/BadgesNiveauXp"
+                >
+                <div className="text-xs font-normal text-orange-500">
+                  {user.xp.niveauAtteint.nom}
+                  {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && ` Xp : ${user.xp.pointsGagnes}`}
+                </div>
+                </Link>
+              </>
+            )}
+          </div>
+
         </div>
-      </a>
+      </div>
       <div
         ref={popoverDropdownRef}
         className={
@@ -101,6 +115,7 @@ const UserDropdown = ({user}) => {
           onClick={() => history.push("/profile")}
         >
           {user && user.image_user ? (
+            <>
             <img
               // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
               alt="UserImage"
@@ -108,19 +123,24 @@ const UserDropdown = ({user}) => {
               src={`http://localhost:5000/images/Users/${user.image_user}`}
               style={{ width: "40px" }}
             />
+              <div className="ml-2 ">
+                {user.nom}
+              </div>
+            </>
           ) : (
-            <div>
+            <>
               <img
                 alt="..."
                 src={require("assets/img/client.png").default}
                 style={{ maxWidth: '20%' }}
                 className="shadow rounded-full max-w-full h-auto align-middle border-none"
               />
-            </div>
+              <div className="ml-2 ">
+               Profile
+              </div>
+            </>
           )}
-          <div className="ml-2">
-          {user.nom}
-          </div>
+
         </button>
         <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
 
