@@ -1752,6 +1752,11 @@ select {
   margin-left: 1.75rem;
 }
 
+
+.ml-8 {
+  margin-left: 2.75rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
@@ -2615,6 +2620,10 @@ select {
   width: 50%;
 }
 
+.w-1\/4 {
+  width: 30%;
+}
+
 .w-6\/12 {
   width: 50%;
 }
@@ -2625,6 +2634,10 @@ select {
 
 .w-10\/12 {
   width: 83.333333%;
+}
+
+.w-7\/12 {
+  width: 65%;
 }
 
 .w-full {
