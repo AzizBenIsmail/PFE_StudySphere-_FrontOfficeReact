@@ -113,8 +113,6 @@ export default function Profile () {
               className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
               onClick={() => {
                 if (User.role === 'client') {
-                  console.log(User)
-                  console.log(User.preferences)
                   if (User.preferences === undefined) {
                     history.push("/First");
                   } else {
@@ -123,8 +121,10 @@ export default function Profile () {
                 }
 
                 if (User.role === 'centre') {
-                  if (!User.xp) {
-                    history.push("/First");
+                  if (User.preferences === undefined) {
+                    history.push("/First/announcementCenter");
+                  } else {
+                    history.push("/First/UpdatePreferencesCenter");
                   }
                 }
               }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
