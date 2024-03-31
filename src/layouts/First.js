@@ -4,7 +4,7 @@ import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
 // components
 // import Navbar from "components/Navbars/AuthNavbar.js";
 import FooterSmall from 'components/Footers/FooterSmall.js'
-import Navbar from '../components/Navbars/NavbarFirst'
+import Navbar from '../components/Navbars/Navbar'
 
 // views
 // import Login from "views/auth/Login.js";
