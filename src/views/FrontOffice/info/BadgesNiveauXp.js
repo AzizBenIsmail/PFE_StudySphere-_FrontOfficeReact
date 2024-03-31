@@ -113,8 +113,8 @@ export default function BadgesNiveauXp() {
           </div>
         </section>
         {xpEntry ? (
-          <div className="flex py-30 flex-wrap">
-          <SiedBarSetting />
+          <div className="flex flex-wrap mt-4">
+          <SiedBarSetting code="5"/>
             <div className="w-7/12 px-6">
             <div className="flex flex-wrap justify-center text-center ">
               <div className="w-full lg:w-6/12 px-4">
