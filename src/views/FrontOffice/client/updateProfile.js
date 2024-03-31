@@ -22,9 +22,7 @@ export default function Dashboard() {
   const history = useHistory();
   const location = useLocation();
   const message = new URLSearchParams(location.search).get("u");
-  const [User, setUser] = useState({
-    role: message ,
-  });
+  const [User, setUser] = useState({});
 
   const config = useMemo(() => {
     return {
@@ -44,12 +42,12 @@ export default function Dashboard() {
             },
           };
           const res = await getUserAuth(config);
-          setUser(() => {
-            if (res.data.user.role === "admin") {
-              history.replace("/admin/");
-            }
-            return res.data.user;
-          });
+          const data = res.data.user
+          console.log(data)
+          setUser(data)
+          if (res.data.user.role === "admin") {
+            history.replace("/admin/");
+          }
         } else {
           history.replace("/");
         }
@@ -163,10 +161,6 @@ export default function Dashboard() {
         <section className="relative block h-550-px">
           <div
             className="absolute top-0 w-full h-full bg-center bg-cover"
-            // style={{
-            //   backgroundImage:
-            //     "url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80')",
-            // }}
           >
             <span
               id="blackOverlay"
@@ -179,7 +173,7 @@ export default function Dashboard() {
           >
           </div>
           <div className="flex py-30 flex-wrap">
-            <SiedBarSetting />
+            <SiedBarSetting code="1"/>
             <div className="w-7/12 px-6">
               <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
                 <div className="rounded-t bg-white mb-0 px-6 py-6">
