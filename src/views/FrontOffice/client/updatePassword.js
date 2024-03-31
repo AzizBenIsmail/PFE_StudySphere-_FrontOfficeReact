@@ -149,7 +149,7 @@ export default function ResetPw() {
           const response = await UpdatePassword(user,config);
           console.log(response);
           if (response.data.message === "Mot de passe modifié avec succès. Veuillez vérifier votre boîte mail.") {
-            window.location.replace(`/profile/`)
+            window.location.replace(`/Setting/`)
           } else {
             setmessageerr(response.data.message)
             //showNotification('error',response.data.message, 'Erreur')
@@ -186,7 +186,7 @@ export default function ResetPw() {
           >
           </div>
       <div className="flex py-30 flex-wrap">
-        <SiedBarSetting />
+        <SiedBarSetting code="3" />
         <div className="w-7/12 px-6">
           <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
             <div className="rounded-t bg-white mb-0 px-6 py-6">
