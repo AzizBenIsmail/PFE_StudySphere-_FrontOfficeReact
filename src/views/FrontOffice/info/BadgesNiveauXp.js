@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { getUserAuth } from "../../../Services/Apiauth";
 import { getByCurrUser } from "../../../Services/ApiXp";
 import { getAllNiveaux } from "../../../Services/ApiNiveau";
+import SiedBarSetting from '../client/Setting/SiedBarSetting'
 
 export default function BadgesNiveauXp() {
   const [user, setUser] = useState(null);
@@ -112,7 +113,9 @@ export default function BadgesNiveauXp() {
           </div>
         </section>
         {xpEntry ? (
-          <div>
+          <div className="flex py-30 flex-wrap">
+          <SiedBarSetting />
+            <div className="w-7/12 px-6">
             <div className="flex flex-wrap justify-center text-center ">
               <div className="w-full lg:w-6/12 px-4">
                 <h2 className="text-5xl mt-4 font-semibold">
@@ -169,6 +172,7 @@ export default function BadgesNiveauXp() {
                 </div>
               </div>
             </section>
+          </div>
           </div>
         ) : (
           <div className="flex flex-wrap justify-center text-center ">
