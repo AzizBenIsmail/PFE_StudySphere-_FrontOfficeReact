@@ -4,6 +4,7 @@ import { UpdatePassword } from '../../../Services/ApiUser';
 import Navbar from '../../../components/Navbars/Navbar'
 import Footer from '../../../components/Footers/FooterSmall'
 import { getUserAuth } from '../../../Services/Apiauth'
+import SiedBarSetting from './Setting/SiedBarSetting'
 
 export default function ResetPw() {
 
@@ -165,6 +166,7 @@ export default function ResetPw() {
       setPasswordError('Les mots de passe ne correspondent pas.');
     }
   };
+  const [openTab, setOpenTab] = React.useState(1);
 
   return (
     <>
@@ -184,8 +186,9 @@ export default function ResetPw() {
             style={{ transform: "translateZ(0)" }}
           >
           </div>
-      <div className="flex py-40 flex-wrap">
-        <div className="w-full px-12">
+      <div className="flex py-30 flex-wrap">
+        <SiedBarSetting />
+        <div className="w-7/12 px-6">
           <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
             <div className="rounded-t bg-white mb-0 px-6 py-6">
               <div className="text-center flex justify-between">
