@@ -317,13 +317,6 @@ export default function UpdateUser() {
                           aria-label="image_user"
                           // value={User.image_user}
                         />
-                        {/*{n === 9 ? (*/}
-                        {/*  <label style={{ color: "red" }}>*/}
-                        {/*    image obligatoire*/}
-                        {/*  </label>*/}
-                        {/*) : (*/}
-                        {/*  ""*/}
-                        {/*)}*/}
                       </div>
                     </div>
                   ): null}
@@ -368,58 +361,6 @@ export default function UpdateUser() {
                     </div>
                   </div>
                   <div className="w-full lg:w-6/12 px-4">
-                    {/*<div className="relative w-full mb-3">*/}
-                    {/*  <label*/}
-                    {/*    className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                    {/*    htmlFor="grid-password"*/}
-                    {/*  >*/}
-                    {/*    mot de passe*/}
-                    {/*  </label>*/}
-                    {/*  <input*/}
-                    {/*    defaultValue=""*/}
-                    {/*    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                    {/*    placeholder="Password"*/}
-                    {/*    type="password"*/}
-                    {/*    name="password"*/}
-                    {/*    onChange={(e) => handlePasswordChange(e)}*/}
-                    {/*    label="Password"*/}
-                    {/*    aria-label="Password"*/}
-                    {/*    // value={User.password}*/}
-
-                    {/*  />*/}
-                    {/*  {n === 3 ||*/}
-                    {/*  n === 4 ||*/}
-                    {/*  n === 6 ||*/}
-                    {/*  n === 7 ||*/}
-                    {/*  messageerr ===*/}
-                    {/*  "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||*/}
-                    {/*  messageerr ===*/}
-                    {/*  "Le Mot de passe doit contenir au moins 8 caractères" ? (*/}
-                    {/*    <label style={{ color: "red" }}>*/}
-                    {/*      Le Mot de passe doit contenir au moins une lettre*/}
-                    {/*      majuscule, une lettre minuscule, un chiffre et un*/}
-                    {/*      symbole Exemple mdp : Exemple@123 | Exemple#123 |*/}
-                    {/*      Exemple.123 | Exemple/123 | Exemple*123{" "}*/}
-                    {/*    </label>*/}
-                    {/*  ) : n === 8 ? (*/}
-                    {/*    <label style={{ color: "red" }}>*/}
-                    {/*      Il est important de ne pas inclure ton nom dans le mot*/}
-                    {/*      de passe. Nom dans le mot de passe*/}
-                    {/*    </label>*/}
-                    {/*  ) : (*/}
-                    {/*    ""*/}
-                    {/*  )}*/}
-                    {/*  <div className="relative pt-1">*/}
-                    {/*    <div className={`${getColor(passwordStrength)}`}>*/}
-                    {/*      <div*/}
-                    {/*        style={{*/}
-                    {/*          width: `${(passwordStrength / 3) * 100}%`,*/}
-                    {/*        }}*/}
-                    {/*        className={`${getStrengthColor(passwordStrength)}`}*/}
-                    {/*      ></div>*/}
-                    {/*    </div>*/}
-                    {/*  </div>*/}
-                    {/*</div>*/}
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -437,108 +378,9 @@ export default function UpdateUser() {
                         aria-label="image_user"
                         // value={User.image_user}
                       />
-                      {/*{n === 9 ? (*/}
-                      {/*  <label style={{ color: "red" }}>*/}
-                      {/*    image obligatoire*/}
-                      {/*  </label>*/}
-                      {/*) : (*/}
-                      {/*  ""*/}
-                      {/*)}*/}
                     </div>
                   </div>
                 </div>
-
-                {/*<hr className="mt-6 border-b-1 border-blueGray-300"/>*/}
-
-                {/*<h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">*/}
-                {/*  d'autre Information*/}
-                {/*</h6>*/}
-                {/*<div className="flex flex-wrap">*/}
-                {/*  <div className="w-full lg:w-12/12 px-4">*/}
-                {/*    <div className="relative w-full mb-3">*/}
-                {/*      <label*/}
-                {/*        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                {/*        htmlFor="grid-password"*/}
-                {/*      >*/}
-                {/*        Address*/}
-                {/*      </label>*/}
-                {/*      <input*/}
-                {/*        type="text"*/}
-                {/*        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                {/*        defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"*/}
-                {/*      />*/}
-                {/*    </div>*/}
-                {/*  </div>*/}
-                {/*  <div className="w-full lg:w-4/12 px-4">*/}
-                {/*    <div className="relative w-full mb-3">*/}
-                {/*      <label*/}
-                {/*        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                {/*        htmlFor="grid-password"*/}
-                {/*      >*/}
-                {/*        spécialité*/}
-                {/*      </label>*/}
-                {/*      <input*/}
-                {/*        type="email"*/}
-                {/*        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                {/*        defaultValue="New York"*/}
-                {/*      />*/}
-                {/*    </div>*/}
-                {/*  </div>*/}
-                {/*  <div className="w-full lg:w-4/12 px-4">*/}
-                {/*    <div className="relative w-full mb-3">*/}
-                {/*      <label*/}
-                {/*        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                {/*        htmlFor="grid-password"*/}
-                {/*      >*/}
-                {/*        Langue*/}
-                {/*      </label>*/}
-                {/*      <input*/}
-                {/*        type="text"*/}
-                {/*        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                {/*        defaultValue="United States"*/}
-                {/*      />*/}
-                {/*    </div>*/}
-                {/*  </div>*/}
-                {/*  <div className="w-full lg:w-4/12 px-4">*/}
-                {/*    <div className="relative w-full mb-3">*/}
-                {/*      <label*/}
-                {/*        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                {/*        htmlFor="grid-password"*/}
-                {/*      >*/}
-                {/*        Postal Code*/}
-                {/*      </label>*/}
-                {/*      <input*/}
-                {/*        type="text"*/}
-                {/*        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                {/*        defaultValue="Postal Code"*/}
-                {/*      />*/}
-                {/*    </div>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-                {/*<hr className="mt-6 border-b-1 border-blueGray-300"/>*/}
-
-                {/*<h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">*/}
-                {/*  About Me*/}
-                {/*</h6>*/}
-                {/*<div className="flex flex-wrap">*/}
-                {/*  <div className="w-full lg:w-12/12 px-4">*/}
-                {/*    <div className="relative w-full mb-3">*/}
-                {/*      <label*/}
-                {/*        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                {/*        htmlFor="grid-password"*/}
-                {/*      >*/}
-                {/*        About me*/}
-                {/*      </label>*/}
-                {/*      <textarea*/}
-                {/*        type="text"*/}
-                {/*        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                {/*        defaultValue="A beautiful UI Kit and Admin for React & Tailwind CSS. It is Free and Open Source."*/}
-                {/*        rows="4"*/}
-                {/*      ></textarea>*/}
-                {/*    </div>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
               </form>
             </div>
           </div>
