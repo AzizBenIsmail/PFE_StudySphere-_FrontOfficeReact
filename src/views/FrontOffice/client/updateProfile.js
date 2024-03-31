@@ -3,9 +3,9 @@ import React, { useEffect, useMemo, useState } from "react";
 // components
 import Cookies from "js-cookie";
 import { getUserAuth } from "../../../Services/Apiauth";
-import { getUserByID, updatecentre, updateUser } from "../../../Services/ApiUser";
+import { updatecentre, updateUser } from "../../../Services/ApiUser";
 
-import { useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation } from 'react-router-dom'
 import Navbar from "../../../components/Navbars/Navbar";
 import Footer from "../../../components/Footers/FooterSmall";
 // import { NotificationManager } from 'react-notifications'
@@ -18,6 +18,7 @@ import Footer from "../../../components/Footers/FooterSmall";
 export default function Dashboard() {
   //cookies
   const jwt_token = Cookies.get("jwt_token");
+  const history = useHistory();
 
   const config = useMemo(() => {
     return {
@@ -27,48 +28,35 @@ export default function Dashboard() {
     };
   }, [jwt_token]);
 
-  //session
-  if (Cookies.get("jwt_token")) {
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === "admin") {
-            window.location.replace(`/admin/`);
-          }
-        });
+        if (jwt_token) {
+          const config = {
+            headers: {
+              Authorization: `Bearer ${jwt_token}`,
+            },
+          };
+          const res = await getUserAuth(config);
+          setUser(() => {
+            if (res.data.user.role === "admin") {
+              history.replace("/admin/");
+            }
+            return res.data.user;
+          });
+        } else {
+          history.replace("/");
+        }
       } catch (error) {
         console.log(error);
       }
     };
-    fetchData();
-  } else {
-    window.location.replace(`/`);
-  }
 
+    fetchData();
+  }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
   const location = useLocation();
   const message = new URLSearchParams(location.search).get("u");
-  const param = useParams();
 
-
-
-  useEffect(() => {
-    console.log(message);
-
-    const getUser = async (config) => {
-      await getUserByID(param.id, config).then((res) => {
-        setUser(res.data.user);
-        console.log(res.data.user);
-      }).catch((err) => {
-        console.log(err);
-      });
-    };
-
-    getUser(config);
-
-    const interval = setInterval(() => {}, 1000000);
-
-    return () => clearInterval(interval);
-  }, [config, message,param.id ]);
 
   const [n, setN] = useState(0); // Ajout de la variable n
   const [emailError, setEmailError] = useState("");
@@ -108,36 +96,28 @@ export default function Dashboard() {
   let formData = new FormData();
 
   const update = async (e) => {
-    const normalizedNom = User.nom.toLowerCase();
-    const passwordLowerCase = User.password.toLowerCase();
     if (
       User.nom === "" &&
       User.prenom === "" &&
-      User.password === "" &&
       User.email === ""
     ) {
       setN(4); // Utilisation de setN pour mettre à jour la valeur de n
     } else if (User.nom === "" && User.prenom === "") {
       setN(5); // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.prenom === "" && User.password === "") {
+    } else if (User.prenom === "" ) {
       setN(6); // Utilisation de setN pour mettre à jour la valeur de n
-    } else if (User.nom === "" && User.password === "") {
+    } else if (User.nom === "" ) {
       setN(7); // Utilisation de setN pour mettre à jour la valeur de n
     } else if (User.nom === "") {
       setN(1); // Utilisation de setN pour mettre à jour la valeur de n
     } else if (User.prenom === "") {
       setN(2);
-    } else if (User.password === "") {
-      setN(3);
-    } else if (passwordLowerCase.includes(normalizedNom)) {
-      setN(8);
     } else if (emailError !== "") {
       setN(9);
     } else {
       formData.append("email", User.email);
       formData.append("nom", User.nom);
       formData.append("prenom", User.prenom);
-      formData.append("password", User.password);
       if (image !== undefined) {
         formData.append("image_user", image, `${User.nom}+.png`);
       }
