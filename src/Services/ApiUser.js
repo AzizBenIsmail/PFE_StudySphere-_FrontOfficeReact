@@ -145,3 +145,7 @@ export async function updatecentre(formData, id, config) {
 export async function UpdatePasswordByAdmin (id,user, config) {
   return await axios.put(`${apiURL}/UpdatePasswordByAdmin/${ id }`, user, config )
 }
+
+export async function UpdatePassword (user, config) {
+  return await axios.put(`${apiURL}/UpdatePassword`, user, config )
+}
