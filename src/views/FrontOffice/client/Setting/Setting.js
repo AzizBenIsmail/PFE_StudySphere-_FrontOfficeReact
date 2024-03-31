@@ -9,7 +9,8 @@ import { useHistory, useParams } from 'react-router-dom'
 // import { getUserByID } from '../Services/ApiUser'
 import { FaRegUserCircle } from 'react-icons/fa'
 import { MdOutlineSecurity, MdRoomPreferences } from 'react-icons/md'
-import { IoIosCard, IoMdNotificationsOutline } from 'react-icons/io'
+import { IoMdNotificationsOutline } from 'react-icons/io'
+import { SiOpslevel } from "react-icons/si";
 import { BiSolidUserAccount } from 'react-icons/bi'
 
 export default function Profile () {
@@ -202,30 +203,17 @@ export default function Profile () {
         <section className="relative py-1 bg-blueGray-200 mb-3">
           <div className="container mx-auto  flex justify-center">
             <div
-              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"onClick={() => {
-              if (User.role === 'client') {
-                console.log(User)
-                console.log(User.preferences)
-                if (User.preferences === undefined) {
-                  history.push("/First");
-                } else {
-                  history.push("/First/UpdatePreferences");
-                }
-              }
-
-              if (User.role === 'centre') {
-                if (!User.xp) {
-                  history.push("/First");
-                }
-              }
+              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
+              onClick={() => {
+                  history.push("/BadgesNiveauXp");
             }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
               onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
               onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
               <div className="px-6 flex py-6">
-                <IoIosCard style={{ fontSize: '50px' }} className="mt-3"/>
+                <SiOpslevel  style={{ fontSize: '50px' }} className="mt-3"/>
                 <div className="ml-4 leading-parametre mt-2">
                   <h3 className="text-2xl font-semibold text-blueGray-700 ">
-                    Information de paiement
+                    Niveau , Badge et Point Xp
                   </h3>
                   <h3 className="text-1xl font-normal mb-2 text-blueGray-600 ">
                     Ajouter ou Supprimer vos moyens de paiment en toute securite
@@ -234,7 +222,8 @@ export default function Profile () {
               </div>
             </div>
             <div
-              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"onClick={() => {
+              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
+              onClick={() => {
               if (User.role === 'client') {
                 console.log(User)
                 console.log(User.preferences)
