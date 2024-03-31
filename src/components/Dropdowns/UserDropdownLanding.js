@@ -4,7 +4,8 @@ import { logout } from "../../Services/Apiauth";
 import Cookies from "js-cookie";
 import { useHistory } from "react-router-dom";
 // import { useHistory } from 'react-router-dom';
-//import { RotatingLines } from 'react-loader-spinner'
+import { CiUser } from "react-icons/ci";
+import { RiLogoutCircleLine } from "react-icons/ri";
 
 const UserDropdown = ({user}) => {
   const history = useHistory();
@@ -95,50 +96,74 @@ const UserDropdown = ({user}) => {
       >
         <button
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
           onClick={() => history.push("/profile")}
         >
-          Profile
+          {user && user.image_user ? (
+            <img
+              // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
+              alt="UserImage"
+              className="shadow rounded-full max-w-full h-auto align-middle border-none"
+              src={`http://localhost:5000/images/Users/${user.image_user}`}
+              style={{ width: "40px" }}
+            />
+          ) : (
+            <div>
+              <img
+                alt="..."
+                src={require("assets/img/client.png").default}
+                style={{ maxWidth: '20%' }}
+                className="shadow rounded-full max-w-full h-auto align-middle border-none"
+              />
+            </div>
+          )}
+          <div className="ml-2">
+          {user.nom}
+          </div>
         </button>
-        <button
-          className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          onClick={() => {
-            if (user.role === 'client') {
-              console.log(user)
-              console.log(user.preferences)
-              if (user.preferences === undefined) {
-                history.push("/First");
-              } else {
-                history.push("/First/UpdatePreferences");
-              }
-            }
+        <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
 
-            if (user.role === 'centre') {
-              if (!user.xp) {
-                history.push("/First");
-              }            }
-          }}
-        >
-          Preference
-        </button>
+        {/*<button*/}
+        {/*  className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"*/}
+        {/*  onClick={() => {*/}
+        {/*    if (user.role === 'client') {*/}
+        {/*      console.log(user)*/}
+        {/*      console.log(user.preferences)*/}
+        {/*      if (user.preferences === undefined) {*/}
+        {/*        history.push("/First");*/}
+        {/*      } else {*/}
+        {/*        history.push("/First/UpdatePreferences");*/}
+        {/*      }*/}
+        {/*    }*/}
+
+        {/*    if (user.role === 'centre') {*/}
+        {/*      if (!user.xp) {*/}
+        {/*        history.push("/First");*/}
+        {/*      }            }*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  Preference*/}
+        {/*</button>*/}
 
         <button
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           }
           onClick={(e) => history.push("/Setting") }
         >
-          Paramètre
+          <CiUser style={{ fontSize: '20px' }} className="mr-1"/>
+          Gerer mon compte
         </button>
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
         <a
           href="#pablo"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           }
           onClick={() => log(config, user)}
         >
+          <RiLogoutCircleLine style={{ fontSize: '20px' }} className="mr-1" />
           Se déconnecter
         </a>
       </div>
