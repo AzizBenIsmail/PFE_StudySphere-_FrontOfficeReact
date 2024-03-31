@@ -78,15 +78,8 @@ export default function Dashboard() {
     role: message ,
   });
 
-  const [passwordStrength, setPasswordStrength] = useState(0);
 
-  const handlePasswordChange = (e) => {
-    const newPassword = e.target.value;
-    setUser({ ...User, password: newPassword });
 
-    const strengthCode = checkPasswordStrength(newPassword, User.nom);
-    setPasswordStrength(strengthCode);
-  };
 
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value });
@@ -110,62 +103,7 @@ export default function Dashboard() {
   }
 
 
-  const checkPasswordStrength = (password, nom) => {
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasDigit = /\d/.test(password);
-    const normalizedNom = nom.toLowerCase();
-    const passwordLowerCase = password.toLowerCase();
-
-    if (password.length === 0) {
-      return 0; // Le nom existe dans le mot de passe (Faible)
-    } else if (passwordLowerCase.includes(normalizedNom)) {
-      return 1; // Le nom existe dans le mot de passe (Faible)
-    } else if (password.length < 3) {
-      return 1; // Faible
-    } else if (password.length < 8) {
-      return 2; // Faible
-    } else if (hasUppercase && hasLowercase && hasDigit) {
-      return 4; // Très fort (ajoutez vos propres critères)
-    } else {
-      return 2; // Moyen
-    }
-  };
-
-  const getStrengthColor = (strength) => {
-    switch (strength) {
-      case 0:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500";
-      case 1:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500";
-      case 2:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500";
-      case 3:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500";
-      case 4:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500";
-      default:
-        return "shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-lightBlue-500";
-    }
-  };
-
-  const getColor = (strength) => {
-    switch (strength) {
-      case 0:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200";
-      case 1:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200";
-      case 2:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-orange-200";
-      case 3:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200";
-      case 4:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-emerald-200";
-      default:
-        return "overflow-hidden h-2 mb-4 text-xs flex rounded bg-lightBlue-200";
-    }
-  };
-  const [messageerr, setmessageerr] = useState();
+    const [messageerr, setmessageerr] = useState();
 
   let formData = new FormData();
 
@@ -275,20 +213,6 @@ export default function Dashboard() {
             className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
             style={{ transform: "translateZ(0)" }}
           >
-            {/*<svg*/}
-            {/*  className="absolute bottom-0 overflow-hidden"*/}
-            {/*  xmlns="http://www.w3.org/2000/svg"*/}
-            {/*  preserveAspectRatio="none"*/}
-            {/*  version="1.1"*/}
-            {/*  viewBox="0 0 2560 100"*/}
-            {/*  x="0"*/}
-            {/*  y="0"*/}
-            {/*>*/}
-            {/*  <polygon*/}
-            {/*    className="text-blueGray-200 fill-current"*/}
-            {/*    points="2560 0 2560 100 0 100"*/}
-            {/*  ></polygon>*/}
-            {/*</svg>*/}
           </div>
           <div className="flex py-40 flex-wrap">
             <div className="w-full px-12">
@@ -429,13 +353,6 @@ export default function Dashboard() {
                               aria-label="image_user"
                               // value={User.image_user}
                             />
-                            {/*{n === 9 ? (*/}
-                            {/*  <label style={{ color: "red" }}>*/}
-                            {/*    image obligatoire*/}
-                            {/*  </label>*/}
-                            {/*) : (*/}
-                            {/*  ""*/}
-                            {/*)}*/}
                           </div>
                         </div>
                       ): null}
@@ -485,58 +402,6 @@ export default function Dashboard() {
                             className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                             htmlFor="grid-password"
                           >
-                            mot de passe
-                          </label>
-                          <input
-                            defaultValue=""
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            placeholder="Password"
-                            type="password"
-                            name="password"
-                            onChange={(e) => handlePasswordChange(e)}
-                            label="Password"
-                            aria-label="Password"
-                            value={User.password}
-
-                          />
-                          {n === 3 ||
-                          n === 4 ||
-                          n === 6 ||
-                          n === 7 ||
-                          messageerr ===
-                          "Le Mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un symbole Exemple mdp : Exemple@123 | Exemple#123 | Exemple.123 | Exemple/123 | Exemple*123" ||
-                          messageerr ===
-                          "Le Mot de passe doit contenir au moins 8 caractères" ? (
-                            <label style={{ color: "red" }}>
-                              Le Mot de passe doit contenir au moins une lettre
-                              majuscule, une lettre minuscule, un chiffre et un
-                              symbole Exemple mdp : Exemple@123 | Exemple#123 |
-                              Exemple.123 | Exemple/123 | Exemple*123{" "}
-                            </label>
-                          ) : n === 8 ? (
-                            <label style={{ color: "red" }}>
-                              Il est important de ne pas inclure ton nom dans le mot
-                              de passe. Nom dans le mot de passe
-                            </label>
-                          ) : (
-                            ""
-                          )}
-                          <div className="relative pt-1">
-                            <div className={`${getColor(passwordStrength)}`}>
-                              <div
-                                style={{
-                                  width: `${(passwordStrength / 3) * 100}%`,
-                                }}
-                                className={`${getStrengthColor(passwordStrength)}`}
-                              ></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="relative w-full mb-3">
-                          <label
-                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                            htmlFor="grid-password"
-                          >
                             Image
                           </label>
                           <input
@@ -549,108 +414,9 @@ export default function Dashboard() {
                             aria-label="image_user"
                             // value={User.image_user}
                           />
-                          {/*{n === 9 ? (*/}
-                          {/*  <label style={{ color: "red" }}>*/}
-                          {/*    image obligatoire*/}
-                          {/*  </label>*/}
-                          {/*) : (*/}
-                          {/*  ""*/}
-                          {/*)}*/}
                         </div>
                       </div>
                     </div>
-
-                    {/*<hr className="mt-6 border-b-1 border-blueGray-300"/>*/}
-
-                    {/*<h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">*/}
-                    {/*  d'autre Information*/}
-                    {/*</h6>*/}
-                    {/*<div className="flex flex-wrap">*/}
-                    {/*  <div className="w-full lg:w-12/12 px-4">*/}
-                    {/*    <div className="relative w-full mb-3">*/}
-                    {/*      <label*/}
-                    {/*        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                    {/*        htmlFor="grid-password"*/}
-                    {/*      >*/}
-                    {/*        Address*/}
-                    {/*      </label>*/}
-                    {/*      <input*/}
-                    {/*        type="text"*/}
-                    {/*        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                    {/*        defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"*/}
-                    {/*      />*/}
-                    {/*    </div>*/}
-                    {/*  </div>*/}
-                    {/*  <div className="w-full lg:w-4/12 px-4">*/}
-                    {/*    <div className="relative w-full mb-3">*/}
-                    {/*      <label*/}
-                    {/*        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                    {/*        htmlFor="grid-password"*/}
-                    {/*      >*/}
-                    {/*        spécialité*/}
-                    {/*      </label>*/}
-                    {/*      <input*/}
-                    {/*        type="email"*/}
-                    {/*        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                    {/*        defaultValue="New York"*/}
-                    {/*      />*/}
-                    {/*    </div>*/}
-                    {/*  </div>*/}
-                    {/*  <div className="w-full lg:w-4/12 px-4">*/}
-                    {/*    <div className="relative w-full mb-3">*/}
-                    {/*      <label*/}
-                    {/*        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                    {/*        htmlFor="grid-password"*/}
-                    {/*      >*/}
-                    {/*        Langue*/}
-                    {/*      </label>*/}
-                    {/*      <input*/}
-                    {/*        type="text"*/}
-                    {/*        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                    {/*        defaultValue="United States"*/}
-                    {/*      />*/}
-                    {/*    </div>*/}
-                    {/*  </div>*/}
-                    {/*  <div className="w-full lg:w-4/12 px-4">*/}
-                    {/*    <div className="relative w-full mb-3">*/}
-                    {/*      <label*/}
-                    {/*        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                    {/*        htmlFor="grid-password"*/}
-                    {/*      >*/}
-                    {/*        Postal Code*/}
-                    {/*      </label>*/}
-                    {/*      <input*/}
-                    {/*        type="text"*/}
-                    {/*        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                    {/*        defaultValue="Postal Code"*/}
-                    {/*      />*/}
-                    {/*    </div>*/}
-                    {/*  </div>*/}
-                    {/*</div>*/}
-
-                    {/*<hr className="mt-6 border-b-1 border-blueGray-300"/>*/}
-
-                    {/*<h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">*/}
-                    {/*  About Me*/}
-                    {/*</h6>*/}
-                    {/*<div className="flex flex-wrap">*/}
-                    {/*  <div className="w-full lg:w-12/12 px-4">*/}
-                    {/*    <div className="relative w-full mb-3">*/}
-                    {/*      <label*/}
-                    {/*        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                    {/*        htmlFor="grid-password"*/}
-                    {/*      >*/}
-                    {/*        About me*/}
-                    {/*      </label>*/}
-                    {/*      <textarea*/}
-                    {/*        type="text"*/}
-                    {/*        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                    {/*        defaultValue="A beautiful UI Kit and Admin for React & Tailwind CSS. It is Free and Open Source."*/}
-                    {/*        rows="4"*/}
-                    {/*      ></textarea>*/}
-                    {/*    </div>*/}
-                    {/*  </div>*/}
-                    {/*</div>*/}
                   </form>
                 </div>
               </div>
