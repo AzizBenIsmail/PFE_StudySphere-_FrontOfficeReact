@@ -8,6 +8,7 @@ import { updatecentre, updateUser } from "../../../Services/ApiUser";
 import { useHistory, useLocation } from 'react-router-dom'
 import Navbar from "../../../components/Navbars/Navbar";
 import Footer from "../../../components/Footers/FooterSmall";
+import SiedBarSetting from './Setting/SiedBarSetting'
 // import { NotificationManager } from 'react-notifications'
 
 // import CardLineChart from "components/Cards/CardLineChart.js";
@@ -116,7 +117,8 @@ export default function Dashboard() {
       formData.append("nom", User.nom);
       formData.append("prenom", User.prenom);
       if (image !== undefined) {
-        formData.append("image_user", image, `${User.nom}.png`);
+        //formData.append("image_user", image, `${User.nom}.png`);
+        formData.append("image_user", image, `${User.nom}`);
       }
         const res = await updateUser(formData, User._id, config);
         console.log(res.data);
@@ -139,7 +141,8 @@ export default function Dashboard() {
       formData.append("email", User.email);
       formData.append("nom", User.nom);
       if (image !== undefined) {
-        formData.append("image_user", image, `${User.nom}.png`);
+        // formData.append("image_user", image, `${User.nom}.png`);
+        formData.append("image_user", image, `${User.nom}`);
       }
         const res = await updatecentre(formData, User._id, config);
         console.log(res.data);
@@ -152,6 +155,7 @@ export default function Dashboard() {
     }
     console.log(n)
   };
+
   return (
     <>
       <Navbar user={User} />
@@ -174,8 +178,9 @@ export default function Dashboard() {
             style={{ transform: "translateZ(0)" }}
           >
           </div>
-          <div className="flex py-40 flex-wrap">
-            <div className="w-full px-12">
+          <div className="flex py-30 flex-wrap">
+            <SiedBarSetting />
+            <div className="w-7/12 px-6">
               <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
                 <div className="rounded-t bg-white mb-0 px-6 py-6">
                   <div className="text-center flex justify-between">
