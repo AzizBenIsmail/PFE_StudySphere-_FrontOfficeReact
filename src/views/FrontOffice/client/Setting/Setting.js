@@ -147,24 +147,9 @@ export default function Profile () {
         <section className="relative py-1 bg-blueGray-200">
           <div className="container mx-auto flex justify-center">
             <div
-              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"onClick={() => {
-              if (User.role === 'client') {
-                console.log(User)
-                console.log(User.preferences)
-                if (User.preferences === undefined) {
-                  history.push("/First");
-                } else {
-                  history.push("/First/UpdatePreferences");
-                }
-              }
-
-              if (User.role === 'centre') {
-                if (User.preferences === undefined) {
-                  history.push("/First/announcementCenter");
-                } else {
-                  history.push("/First/UpdatePreferencesCenter");
-                }
-              }
+              className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
+              onClick={() => {
+                  history.push("/updatePassword");
             }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
               onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
               onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
@@ -186,7 +171,7 @@ export default function Profile () {
                   console.log(User)
                   console.log(User.preferences)
                   if (User.preferences === undefined) {
-                    history.push("/First");
+                    history.push("/updatePassword");
                   } else {
                     history.push("/First/UpdatePreferences");
                   }
@@ -206,7 +191,7 @@ export default function Profile () {
                   <h3 className="text-2xl font-semibold text-blueGray-700 ">
                     Notifications par e-mail
                   </h3>
-                  <h3 className="text-1xl font-normal text-blueGray-600">
+                    <h3 className="text-1xl font-normal text-blueGray-600">
                     Choisisser les notification que vous recevrez .
                   </h3>
                 </div>
