@@ -166,7 +166,6 @@ export default function ResetPw() {
       setPasswordError('Les mots de passe ne correspondent pas.');
     }
   };
-  const [openTab, setOpenTab] = React.useState(1);
 
   return (
     <>
