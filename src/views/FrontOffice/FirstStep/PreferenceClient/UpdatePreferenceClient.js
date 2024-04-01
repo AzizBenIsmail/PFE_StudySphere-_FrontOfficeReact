@@ -8,6 +8,7 @@ import {updatePrefClient , getPreferences  }from '../../../../Services/ApiPref'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../../../../Services/Apiauth'
 import { useHistory } from 'react-router-dom'
+import SiedBarSetting from '../../client/Setting/SiedBarSetting'
 
 export default function PreferenceClient () {
 
@@ -405,9 +406,9 @@ export default function PreferenceClient () {
 
   return (
     <>
-      <div className=" container mx-auto px-1 h-full ">
-        <div className="flex content-center items-center justify-center h-full">
-          <div className="w-full lg:w-9/12 px-1 ">
+    <div className="flex flex-wrap mt-4">
+      <SiedBarSetting code="2"/>
+      <div className="w-7/12 px-6 ">
             <div
               className="relative flex flex-col min-w-0 break-words w-full  shadow-lg rounded-lg bg-blueGray-800 border-0">
               <div className="rounded-t px-6 py-6">
@@ -1248,7 +1249,6 @@ export default function PreferenceClient () {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </>
   )
