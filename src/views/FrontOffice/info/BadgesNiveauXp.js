@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 // components
-import Navbar from "../../../components/Navbars/Navbar.js";
-import Footer from "../../../components/Footers/FooterSmall.js";
+// import Navbar from "../../../components/Navbars/Navbar.js";
+// import Footer from "../../../components/Footers/FooterSmall.js";
 import Cookies from "js-cookie";
-import { getUserAuth } from "../../../Services/Apiauth";
+// import { getUserAuth } from "../../../Services/Apiauth";
 import { getByCurrUser } from "../../../Services/ApiXp";
 import { getAllNiveaux } from "../../../Services/ApiNiveau";
 import SiedBarSetting from '../client/Setting/SiedBarSetting'
 
 export default function BadgesNiveauXp() {
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const jwt_token = Cookies.get("jwt_token");
   if (!Cookies.get("jwt_token")) {
     window.location.replace("/login-page");
@@ -22,7 +22,7 @@ export default function BadgesNiveauXp() {
       },
     };
   }, [jwt_token]);
-  const history = useHistory();
+  // const history = useHistory();
   const [xpEntry, setXPEntry] = useState(null);
   const [niveaux, setNiveaux] = useState([]);
 
@@ -39,32 +39,32 @@ export default function BadgesNiveauXp() {
     loadXPEntries();
   }, [loadXPEntries]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (jwt_token) {
-          const config = {
-            headers: {
-              Authorization: `Bearer ${jwt_token}`,
-            },
-          };
-          const res = await getUserAuth(config);
-          setUser(() => {
-            if (res.data.user.role === "admin") {
-              history.replace("/admin/");
-            }
-            return res.data.user;
-          });
-        } else {
-          history.replace("/");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (jwt_token) {
+  //         const config = {
+  //           headers: {
+  //             Authorization: `Bearer ${jwt_token}`,
+  //           },
+  //         };
+  //         const res = await getUserAuth(config);
+  //         setUser(() => {
+  //           if (res.data.user.role === "admin") {
+  //             history.replace("/admin/");
+  //           }
+  //           return res.data.user;
+  //         });
+  //       } else {
+  //         history.replace("/");
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //
+  //   fetchData();
+  // }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
 
   const loadNiveaux = useCallback(async () => {
     try {
@@ -105,18 +105,33 @@ export default function BadgesNiveauXp() {
 
   return (
     <>
-      <Navbar user={user} />
-      <main>
-        <section className="py-16 bg-bleu-500 overflow-hidden">
-          <div className="container mx-auto pb-20">
-            <div className="flex flex-wrap justify-center"></div>
-          </div>
-        </section>
+      {/*<main className="profile-page">*/}
+      {/*  <section className="relative block h-550-px">*/}
+      {/*    <div*/}
+      {/*      className="absolute top-0 w-full h-full bg-center bg-cover"*/}
+      {/*    >*/}
+      {/*      <span*/}
+      {/*        id="blackOverlay"*/}
+      {/*        className="w-full h-full absolute opacity-100 bg-bleu-500"*/}
+      {/*      ></span>*/}
+      {/*    </div>*/}
+      {/*    <div*/}
+      {/*      className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"*/}
+      {/*      style={{ transform: "translateZ(0)" }}*/}
+      {/*    >*/}
+      {/*    </div>*/}
+      {/*<Navbar user={user} />*/}
+      {/*<main className="profile-page">*/}
+      {/*  <section className="relative block h-550-px">*/}
+      {/*    <div className="absolute top-0 w-full h-full bg-center bg-cover">*/}
+      {/*      <div className="flex flex-wrap justify-center"></div>*/}
+      {/*    </div>*/}
+
         {xpEntry ? (
-          <div className="flex flex-wrap mt-4">
+          <div className="flex py-30 flex-wrap">
           <SiedBarSetting code="5"/>
             <div className="w-7/12 px-6">
-            <div className="flex flex-wrap justify-center text-center ">
+              <div className="relative flex flex-col min-w-0 break-words w-full mb-6 items-center text-blueGray-100 border-0">
               <div className="w-full lg:w-6/12 px-4">
                 <h2 className="text-5xl mt-4 font-semibold">
                   {xpEntry.niveauAtteint.nom} | Xp : {xpEntry.pointsGagnes}{" "}
@@ -145,9 +160,10 @@ export default function BadgesNiveauXp() {
                     ></div>
                   </div>
                 </div>
-                <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-purple-600 bg-purple-200 uppercase last:mr-0 mr-1">
+                <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-purple-600 bg-purple-200 ">
                   Badges
                 </span>
+
                 <div className="flex flex-wrap">
                   {xpEntry.badgeIds.map((badge) => (
                     <div
@@ -158,7 +174,7 @@ export default function BadgesNiveauXp() {
                         <img
                           alt="..."
                           src={`http://localhost:5000/images/badges/${badge.image_badge}`}
-                          className="shadow-lg rounded-full mx-auto max-w-120-px"
+                          className="shadow-lg rounded-full bg-blueGray-100 mx-auto max-w-120-px"
                         />
                         <div className="pt-6 text-center">
                           <h5 className="text-xl font-bold">{badge.nom}</h5>
@@ -179,8 +195,9 @@ export default function BadgesNiveauXp() {
             <p>Loading...</p>
           </div>
         )}
-      </main>
-      <Footer />
+      {/*  </section>*/}
+      {/*</main>*/}
+      {/*<Footer />*/}
     </>
   );
 }
