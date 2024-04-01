@@ -84,7 +84,7 @@ const Tabs = ({code}) => {
                     console.log(code)
                     setOpenTab(code)
                     console.log(openTab)
-                    history.push(`/edit/${User._id}?u=${User.role.toLowerCase()}`)
+                    history.push(`/GestionCompte/edit/${User._id}?u=${User.role.toLowerCase()}`)
 
                   }}
                   data-toggle="tab"
@@ -155,7 +155,7 @@ const Tabs = ({code}) => {
                     console.log(code)
                     setOpenTab(code)
                     console.log(openTab)
-                    history.push("/updatePassword");
+                    history.push("/GestionCompte/updatePassword");
                   }}
                   data-toggle="tab"
                   href="#link3"
@@ -207,7 +207,7 @@ const Tabs = ({code}) => {
                 onClick={e => {
                   e.preventDefault()
                   setOpenTab(code)
-                  history.push("/BadgesNiveauXp");
+                  history.push("/GestionCompte/BadgesNiveauXp");
                 }}
                 data-toggle="tab"
                 href="#link3"

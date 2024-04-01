@@ -88,7 +88,7 @@ const UserDropdown = ({user}) => {
               <>
                 <div>{user.nom}</div>
                 <Link
-                  to="/BadgesNiveauXp"
+                  to="/GestionCompte/BadgesNiveauXp"
                 >
                 <div className="text-xs font-normal text-orange-500">
                   {user.xp.niveauAtteint.nom}

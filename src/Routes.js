@@ -6,14 +6,15 @@ import { InfinitySpin } from "react-loader-spinner";
 const Admin = lazy(() => import("layouts/Admin.js"));
 const Auth = lazy(() => import("layouts/Auth.js"));
 const First = lazy(() => import("./layouts/First.js"));
+const GestionCompte = lazy(() => import("./layouts/GestionCompte.js"));
 
 // views without layouts
 const Landing = lazy(() => import("./views/FrontOffice/client/Landing.js"));
 const Profile = lazy(() => import("./views/FrontOffice/client/Profile.js"));
 const Setting = lazy(() => import("./views/FrontOffice/client/Setting/Setting.js"));
-const updatePassword = lazy(() => import("./views/FrontOffice/client/updatePassword.js"));
+const updatePassword = lazy(() => import("./views/FrontOffice/client/Setting/updatePassword.js"));
 const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
-const updateProfile = lazy(() => import("./views/FrontOffice/client/updateProfile.js"));
+const updateProfile = lazy(() => import("./views/FrontOffice/client/Setting/updateProfile.js"));
 const welcome = lazy(() => import("./views/FrontOffice/info/welcome.js"));
 const BadgesNiveauXp = lazy(() =>
   import("./views/FrontOffice/info/BadgesNiveauXp.js")
@@ -41,6 +42,7 @@ function Routes() {
           <Route path="/admin" component={Admin} />
           <Route path="/auth" component={Auth} />
           <Route path="/First" component={First} />
+          <Route path="/GestionCompte" component={GestionCompte} />
           {/* add routes without layouts */}
           <Route path="/landing" exact component={Landing} />
           <Route path="/Bienvenu" exact component={welcome} />
