@@ -175,6 +175,33 @@ const Tabs = ({code}) => {
                 <a
                   className={
                     'text-xs px-5 py-3 shadow-lg rounded block leading-normal ' +
+                    (openTab === "5"
+                      ? 'text-lightBlue-600'
+                      : 'text-lightBlue-800')
+                  }
+                  onClick={e => {
+                    e.preventDefault()
+                    setOpenTab(code)
+                    history.push("/GestionCompte/BadgesNiveauXp");
+                  }}
+                  data-toggle="tab"
+                  href="#link3"
+                  role="tablist"
+                >
+                  <div className="px-6 flex py-1">
+                    <SiOpslevel  style={{ fontSize: '25px' }} className="mt-1"/>
+                    <div className="ml-2">
+                      <h3 className="text-1xl mt-2">
+                        Niveau , Badge et Point Xp
+                      </h3>
+                    </div>
+                  </div>
+                </a>
+              </li>
+              <li className="-mb-px mr-2 last:mr-0 flex-auto ">
+                <a
+                  className={
+                    'text-xs px-5 py-3 shadow-lg rounded block leading-normal ' +
                     (openTab ==="4"
                       ? 'text-lightBlue-600'
                       : 'text-lightBlue-800')
@@ -196,33 +223,8 @@ const Tabs = ({code}) => {
                     </div>
                   </div>
                 </a>
-              </li><li className="-mb-px mr-2 last:mr-0 flex-auto ">
-              <a
-                className={
-                  'text-xs px-5 py-3 shadow-lg rounded block leading-normal ' +
-                  (openTab === "5"
-                    ? 'text-lightBlue-600'
-                    : 'text-lightBlue-800')
-                }
-                onClick={e => {
-                  e.preventDefault()
-                  setOpenTab(code)
-                  history.push("/GestionCompte/BadgesNiveauXp");
-                }}
-                data-toggle="tab"
-                href="#link3"
-                role="tablist"
-              >
-                <div className="px-6 flex py-1">
-                  <SiOpslevel  style={{ fontSize: '25px' }} className="mt-1"/>
-                  <div className="ml-2">
-                    <h3 className="text-1xl mt-2">
-                      Niveau , Badge et Point Xp
-                    </h3>
-                  </div>
-                </div>
-              </a>
-            </li><li className="-mb-px mr-2 last:mr-0 flex-auto ">
+              </li>
+              <li className="-mb-px mr-2 last:mr-0 flex-auto ">
               <a
                 className={
                   'text-xs px-5 py-3 shadow-lg rounded block leading-normal ' +
