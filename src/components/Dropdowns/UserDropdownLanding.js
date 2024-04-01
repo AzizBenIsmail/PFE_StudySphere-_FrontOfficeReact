@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom'
 // import { useHistory } from 'react-router-dom';
 import { CiUser } from "react-icons/ci";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { IoIosNotificationsOutline } from "react-icons/io";
 
 const UserDropdown = ({user}) => {
   const history = useHistory();
@@ -172,8 +173,17 @@ const UserDropdown = ({user}) => {
           }
           onClick={(e) => history.push("/Setting") }
         >
-          <CiUser style={{ fontSize: '20px' }} className="mr-1"/>
+          <IoIosNotificationsOutline style={{ fontSize: '20px' }} className="mr-1"/>
           Gerer mon compte
+        </button>
+        <button
+          className={
+            "flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          }
+          onClick={(e) => history.push("/listeNotifcation") }
+        >
+          <CiUser style={{ fontSize: '20px' }} className="mr-1"/>
+          Mes Notification
         </button>
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
         <a
