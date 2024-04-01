@@ -17,7 +17,7 @@ import { getUserAuth } from '../Services/Apiauth'
 const updatePassword = lazy(() => import("../views/FrontOffice/client/Setting/updatePassword.js"));
 const updateProfile = lazy(() => import("../views/FrontOffice/client/Setting/updateProfile.js"));
 const BadgesNiveauXp = lazy(() =>
-  import("../views/FrontOffice/info/BadgesNiveauXp.js")
+  import("../views/FrontOffice/client/Setting/BadgesNiveauXp.js")
 );
 export default function GestionCompte () {
   const jwt_token = Cookies.get('jwt_token')
