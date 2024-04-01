@@ -5,9 +5,9 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 // import Footer from "../../../components/Footers/FooterSmall.js";
 import Cookies from "js-cookie";
 // import { getUserAuth } from "../../../Services/Apiauth";
-import { getByCurrUser } from "../../../Services/ApiXp";
-import { getAllNiveaux } from "../../../Services/ApiNiveau";
-import SiedBarSetting from '../client/Setting/SiedBarSetting'
+import { getByCurrUser } from "../../../../Services/ApiXp";
+import { getAllNiveaux } from "../../../../Services/ApiNiveau";
+import SiedBarSetting from './SiedBarSetting'
 
 export default function BadgesNiveauXp() {
   // const [user, setUser] = useState(null);
