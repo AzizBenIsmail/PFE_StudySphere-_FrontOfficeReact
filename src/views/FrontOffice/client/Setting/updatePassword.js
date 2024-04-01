@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import Cookies from 'js-cookie';
-import { UpdatePassword } from '../../../Services/ApiUser';
-import Navbar from '../../../components/Navbars/Navbar'
-import Footer from '../../../components/Footers/FooterSmall'
-import { getUserAuth } from '../../../Services/Apiauth'
-import SiedBarSetting from './Setting/SiedBarSetting'
+import { UpdatePassword } from '../../../../Services/ApiUser';
+// import Navbar from '../../../../components/Navbars/Navbar'
+// import Footer from '../../../../components/Footers/FooterSmall'
+// import { getUserAuth } from '../../../../Services/Apiauth'
+import SiedBarSetting from './SiedBarSetting'
 
 export default function ResetPw() {
 
@@ -18,43 +18,43 @@ export default function ResetPw() {
     }
   }, [jwt_token])
 
-  //session
-  if (Cookies.get('jwt_token')) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin/`)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  } else {
-    window.location.replace(`/`)
-  }
+  // //session
+  // if (Cookies.get('jwt_token')) {
+  //   const fetchData = async () => {
+  //     try {
+  //       await getUserAuth(config).then((res) => {
+  //         if (res.data.user.role === 'admin') {
+  //           window.location.replace(`/admin/`)
+  //         }
+  //       })
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   fetchData()
+  // } else {
+  //   window.location.replace(`/`)
+  // }
+  //
+  // const [userAuth, setUserAuth] = useState({});
 
-  const [userAuth, setUserAuth] = useState({});
+  // useEffect(() => {
+  //   const getUser = async (config) => {
+  //     await getUserAuth(config).then((res) => {
+  //       setUserAuth(res.data.user)
+  //       //console.log(res.data.user)
+  //     }).catch((err) => {
+  //       console.log(err)
+  //     })
+  //   }
+  //
+  //   getUser(config)
+  //
+  //   const interval = setInterval(() => {}, 1000000)
+  //
+  //   return () => clearInterval(interval)
+  // }, [config])
 
-  useEffect(() => {
-
-    const getUser = async (config) => {
-      await getUserAuth(config).then((res) => {
-        setUserAuth(res.data.user)
-        //console.log(res.data.user)
-      }).catch((err) => {
-        console.log(err)
-      })
-    }
-
-    getUser(config)
-
-    const interval = setInterval(() => {}, 1000000)
-
-    return () => clearInterval(interval)
-  }, [config])
   const [isLoading, setIsLoading] = useState(false);
   const [n, setN] = useState(0) // Ajout de la variable n
   const [passwordStrength, setPasswordStrength] = useState(0)
@@ -169,22 +169,22 @@ export default function ResetPw() {
 
   return (
     <>
-      <Navbar user={userAuth} />
-      <main className="profile-page">
-        <section className="relative block h-550-px">
-          <div
-            className="absolute top-0 w-full h-full bg-center bg-cover"
-          >
-            <span
-              id="blackOverlay"
-              className="w-full h-full absolute opacity-100 bg-bleu-500"
-            ></span>
-          </div>
-          <div
-            className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
-            style={{ transform: "translateZ(0)" }}
-          >
-          </div>
+      {/*<Navbar user={userAuth} />*/}
+      {/*<main className="profile-page">*/}
+      {/*  <section className="relative block h-550-px">*/}
+      {/*    <div*/}
+      {/*      className="absolute top-0 w-full h-full bg-center bg-cover"*/}
+      {/*    >*/}
+      {/*      <span*/}
+      {/*        id="blackOverlay"*/}
+      {/*        className="w-full h-full absolute opacity-100 bg-bleu-500"*/}
+      {/*      ></span>*/}
+      {/*    </div>*/}
+      {/*    <div*/}
+      {/*      className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"*/}
+      {/*      style={{ transform: "translateZ(0)" }}*/}
+      {/*    >*/}
+      {/*    </div>*/}
       <div className="flex py-30 flex-wrap">
         <SiedBarSetting code="3" />
         <div className="w-7/12 px-6">
@@ -273,10 +273,10 @@ export default function ResetPw() {
           </div>
         </div>
       </div>
-        </section>
-      </main>
-      {/*<div className="py-41">*/}
-      <Footer absolute />
+      {/*  </section>*/}
+      {/*</main>*/}
+      {/*/!*<div className="py-41">*!/*/}
+      {/*<Footer absolute />*/}
       {/*</div>*/}
     </>
   );

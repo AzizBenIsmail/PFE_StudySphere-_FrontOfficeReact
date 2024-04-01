@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from "react";
 
 // components
 import Cookies from "js-cookie";
-import { getUserAuth } from "../../../Services/Apiauth";
-import { updatecentre, updateUser } from "../../../Services/ApiUser";
+import { getUserAuth } from "../../../../Services/Apiauth";
+import { updatecentre, updateUser } from "../../../../Services/ApiUser";
 
 import { useHistory, useLocation } from 'react-router-dom'
-import Navbar from "../../../components/Navbars/Navbar";
-import Footer from "../../../components/Footers/FooterSmall";
-import SiedBarSetting from './Setting/SiedBarSetting'
+// import Navbar from "../../../components/Navbars/Navbar";
+// import Footer from "../../../components/Footers/FooterSmall";
+import SiedBarSetting from './SiedBarSetting'
 // import { NotificationManager } from 'react-notifications'
 
 // import CardLineChart from "components/Cards/CardLineChart.js";
@@ -156,22 +156,22 @@ export default function Dashboard() {
 
   return (
     <>
-      <Navbar user={User} />
-      <main className="profile-page">
-        <section className="relative block h-550-px">
-          <div
-            className="absolute top-0 w-full h-full bg-center bg-cover"
-          >
-            <span
-              id="blackOverlay"
-              className="w-full h-full absolute opacity-100 bg-bleu-500"
-            ></span>
-          </div>
-          <div
-            className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
-            style={{ transform: "translateZ(0)" }}
-          >
-          </div>
+      {/*<Navbar user={User} />*/}
+      {/*<main className="profile-page">*/}
+      {/*  <section className="relative block h-550-px">*/}
+      {/*    <div*/}
+      {/*      className="absolute top-0 w-full h-full bg-center bg-cover"*/}
+      {/*    >*/}
+      {/*      <span*/}
+      {/*        id="blackOverlay"*/}
+      {/*        className="w-full h-full absolute opacity-100 bg-bleu-500"*/}
+      {/*      ></span>*/}
+      {/*    </div>*/}
+      {/*    <div*/}
+      {/*      className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"*/}
+      {/*      style={{ transform: "translateZ(0)" }}*/}
+      {/*    >*/}
+      {/*    </div>*/}
           <div className="flex py-30 flex-wrap">
             <SiedBarSetting code="1"/>
             <div className="w-7/12 px-6">
@@ -360,10 +360,10 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        </section>
-      </main>
-      {/*<div className="py-41">*/}
-      <Footer absolute />
+      {/*  </section>*/}
+      {/*</main>*/}
+      {/*/!*<div className="py-41">*!/*/}
+      {/*<Footer absolute />*/}
       {/*</div>*/}
     </>
   );
