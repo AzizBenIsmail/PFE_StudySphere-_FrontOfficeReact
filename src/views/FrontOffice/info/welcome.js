@@ -12,47 +12,15 @@ import { SiWelcometothejungle } from "react-icons/si";
 import { IoSchoolSharp } from "react-icons/io5";
 
 export default function Index() {
-  const [user, setUser] = useState(null);
-  const jwt_token = Cookies.get('jwt_token');
-  const history = useHistory();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (jwt_token) {
-          const config = {
-            headers: {
-              Authorization: `Bearer ${jwt_token}`,
-            },
-          };
-          const res = await getUserAuth(config);
-          setUser(() => {
-            if (res.data.user.role === 'admin') {
-              history.replace('/admin/');
-            }
-            return res.data.user;
-          });
-        } else {
-          history.replace('/');
-        }
-
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
-
   return (
     <>
-      <Navbar user={user} />
-      <section className="py-16 bg-bleu-500 overflow-hidden">
-        <div className="container mx-auto pb-20">
-          <div className="flex flex-wrap justify-center">
-          </div>
-        </div>
-      </section>
+      {/*<Navbar user={user} />*/}
+      {/*<section className="py-16 bg-bleu-500 overflow-hidden">*/}
+      {/*  <div className="container mx-auto pb-20">*/}
+      {/*    <div className="flex flex-wrap justify-center">*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</section>*/}
       <div className="container mx-auto py-2">
         <div className="flex flex-wrap items-center">
           <div className="w-13/12 md:w-6/12 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-32">
