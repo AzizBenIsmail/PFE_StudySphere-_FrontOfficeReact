@@ -3432,3 +3432,14 @@ select {
 .save-button:hover {
   background-color: #0056b3;
 }
+
+
+.w-8 {
+  width: 8rem;
+}
+.w-60 {
+  width: 18rem; 
+}
+
+
+

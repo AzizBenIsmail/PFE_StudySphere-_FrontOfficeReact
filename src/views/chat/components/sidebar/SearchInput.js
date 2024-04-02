@@ -30,7 +30,9 @@ const SearchInput = ({ onSearchChange, onConversationClick }) => {
   const filteredConversations = conversations.filter((c) => {
     console.log("c:", c);
     console.log("search:", search);
-    return c.nom && search && c.nom.toLowerCase().includes(search.toLowerCase());
+    return (
+      c.nom && search && c.nom.toLowerCase().includes(search.toLowerCase())
+    );
   });
 
   const handleConversationSelect = (conversation) => {
@@ -69,7 +71,9 @@ const SearchInput = ({ onSearchChange, onConversationClick }) => {
           {filteredConversations.map((conversation) => (
             <li
               className={`flex gap-4 items-center rounded p-16 py-1 cursor-pointer w-full ${
-                clickedConversation?._id === conversation._id ? "bg-blue-500" : "hover:bg-sky-500"
+                clickedConversation?._id === conversation._id
+                  ? "bg-blue-500"
+                  : "hover:bg-sky-500"
               }`}
               key={conversation._id}
               onClick={() => handleConversationSelect(conversation)}
@@ -91,24 +95,3 @@ const SearchInput = ({ onSearchChange, onConversationClick }) => {
 };
 
 export default SearchInput;
-
-// import { FaSearch } from "react-icons/fa";
-
-// const SearchInput = () => {
-//   return (
-//     <form className="flex items-center gap-2">
-//       <input
-//         type="text"
-//         placeholder="Search…"
-//         className="input input-bordered rounded-full"
-//       />
-//       <button
-//         type="submit"
-//         className="btn btn-circle bg-purple-500 text-white rounded-full p-2"
-//       >
-//         <FaSearch className="w-6 h-6 outline-none" />
-//       </button>
-//     </form>
-//   );
-// };
-// export default SearchInput;
