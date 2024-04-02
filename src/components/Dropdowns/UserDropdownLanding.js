@@ -3,7 +3,7 @@ import { createPopper } from "@popperjs/core";
 import { logout } from "../../Services/Apiauth";
 import Cookies from "js-cookie";
 import { Link, useHistory } from 'react-router-dom'
-// import { useHistory } from 'react-router-dom';
+import { AiOutlineFieldNumber } from "react-icons/ai";
 import { CiUser } from "react-icons/ci";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { IoIosNotificationsOutline } from "react-icons/io";
@@ -88,14 +88,26 @@ const UserDropdown = ({user}) => {
             {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && (
               <>
                 <div>{user.nom}</div>
-                <Link
-                  to="/GestionCompte/BadgesNiveauXp"
-                >
+                  {user && user.role === "centre" ? ( <>
+                    <Link
+                      to="/GestionCompte/BadgesNiveauXp"
+                    >
+                      <div className="flex text-xs font-normal text-orange-500">
+                        <AiOutlineFieldNumber style={{ fontSize: '18px' }}/>
+                        formation
+                       </div>
+                    </Link>
+                  </> ) : ( <>
+                    <Link
+                      to="/GestionCompte/BadgesNiveauXp"
+                    >
                 <div className="text-xs font-normal text-orange-500">
                   {user.xp.niveauAtteint.nom}
                   {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && ` Xp : ${user.xp.pointsGagnes}`}
                 </div>
-                </Link>
+                    </Link>
+                      </>
+                    )}
               </>
             )}
           </div>
