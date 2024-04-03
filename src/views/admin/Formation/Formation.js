@@ -908,7 +908,7 @@ export default function ListeFormations ({ color }) {
                     {/*<input type="date" placeholder="Date de début" value={newFormation.dateDebut} onChange={(e) => setNewFormation({ ...newFormation, dateDebut: e.target.value })}/>*/}
                     <label htmlFor="dateDebut">Date Debut </label>
                     <input
-                      type="date"
+                      type="datetime-local"
                       id="dateDebut"
                       name="dateDebut"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -920,7 +920,7 @@ export default function ListeFormations ({ color }) {
                     {/*<input type="date" placeholder="Date de fin" value={newFormation.dateFin} onChange={(e) => setNewFormation({ ...newFormation, dateFin: e.target.value })}/>*/}
                     <label htmlFor="dateFin w-full">Date Fin</label>
                     <input
-                      type="date"
+                      type="datetime-local"
                       id="dateFin"
                       name="dateFin"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
