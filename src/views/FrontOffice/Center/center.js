@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import {  useHistory } from "react-router-dom";
 // components
 import Navbar from "../../../components/Navbars/Navbar.js";
 import Footer from "../../../components/Footers/Footer.js";
 import Cookies from "js-cookie";
 import { getUserAuth } from "../../../Services/Apiauth";
-import { getAllFormations } from "../../../Services/ApiFormation";
 import { FaChevronRight , FaChevronLeft  } from "react-icons/fa";
 import { getCentre } from '../../../Services/ApiUser'
 
