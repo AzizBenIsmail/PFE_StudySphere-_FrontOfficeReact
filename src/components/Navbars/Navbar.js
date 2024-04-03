@@ -66,7 +66,7 @@ export default function Navbar ({ user }) {
               </Link>
                 <button
                   className="lg:text-white lg:hover:text-indigo-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                  onClick={() => history.push('/')}
+                  onClick={() => history.push('/training')}
                 >
                   <MdCastForEducation
                     className="mr-2"
@@ -76,7 +76,7 @@ export default function Navbar ({ user }) {
                 </button>
                 <button
                   className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                  onClick={() => history.push('/')}
+                  onClick={() => history.push('/center')}
                 >
                   <FaSchool className="mr-2" style={{ fontSize: '24px' }}/>
                   Centre de formation
