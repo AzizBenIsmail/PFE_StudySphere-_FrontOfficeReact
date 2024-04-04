@@ -64,23 +64,27 @@ export default function Navbar ({ user }) {
               >
                 ForMe.com
               </Link>
-                <Link
-                  className="lg:text-white lg:hover:text-indigo-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                  to="/landing/training"
-                >
-                  <MdCastForEducation
-                    className="mr-2"
-                    style={{ fontSize: '24px' }}
-                  />
-                  Formation
-                </Link>
-              <Link
-                className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                to="/landing/center"
-              >
-                <BiSolidSchool  className="mr-2" style={{ fontSize: '24px' }}/>
-                  Centre de formation
-              </Link>
+              {user && (user.role === "client" || user.role === "formateur")  ? (
+                <>
+                  <Link
+                    className="lg:text-white lg:hover:text-indigo-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                    to="/landing/training"
+                  >
+                    <MdCastForEducation
+                      className="mr-2"
+                      style={{ fontSize: '24px' }}
+                    />
+                    Formation
+                  </Link>
+                  <Link
+                    className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                    to="/landing/center"
+                  >
+                    <BiSolidSchool  className="mr-2" style={{ fontSize: '24px' }}/>
+                    Centre de formation
+                  </Link>
+                </>
+              ) : null }
 
             </ul>
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
