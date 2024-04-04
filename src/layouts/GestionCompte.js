@@ -74,7 +74,7 @@ export default function GestionCompte () {
               <Route path="/GestionCompte/updatePassword" exact component={updatePassword} />
               <Route path="/GestionCompte/edit/:id" exact component={updateProfile} />
               <Route path="/GestionCompte/BadgesNiveauXp" exact component={BadgesNiveauXp} />
-              <Redirect from="/GestionCompte" to="/GestionCompte/updatePassword"/>
+              <Redirect from="/GestionCompte" to="Setting"/>
             </Switch>
           </Suspense>
         </section>
