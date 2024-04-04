@@ -6,13 +6,13 @@ import { InfinitySpin } from "react-loader-spinner";
 const Admin = lazy(() => import("layouts/Admin.js"));
 const Auth = lazy(() => import("layouts/Auth.js"));
 const First = lazy(() => import("./layouts/First.js"));
-const GestionCompte = lazy(() => import("./layouts/GestionCompte.js"));
+const AccountManagement = lazy(() => import("./layouts/AccountManagement.js"));
 const Info = lazy(() => import("./layouts/Info.js"));
 const LandingLayout = lazy(() => import("./layouts/LandingLayout.js"));
 
 // views without layouts
 const Profile = lazy(() => import("./views/FrontOffice/client/Profile.js"));
-const Setting = lazy(() => import("./views/FrontOffice/client/Setting/Setting.js"));
+const Setting = lazy(() => import("./views/FrontOffice/AccountManagement/Setting.js"));
 const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
 const listeNotifcation = lazy(() =>
   import("./views/FrontOffice/notification/listeNotifcation.js")
@@ -34,7 +34,7 @@ function Routes() {
           <Route path="/admin" component={Admin} />
           <Route path="/auth" component={Auth} />
           <Route path="/First" component={First} />
-          <Route path="/GestionCompte" component={GestionCompte} />
+          <Route path="/AccountManagement" component={AccountManagement} />
           <Route path="/Info" component={Info} />
           <Route path="/landing" component={LandingLayout} />
 

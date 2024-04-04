@@ -8,7 +8,7 @@ import {updatePrefClient , getPreferences  }from '../../../../Services/ApiPref'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../../../../Services/Apiauth'
 import { useHistory } from 'react-router-dom'
-import SiedBarSetting from '../../client/Setting/SiedBarSetting'
+import SiedBarSetting from '../../AccountManagement/SiedBarSetting'
 
 export default function PreferenceClient () {
 

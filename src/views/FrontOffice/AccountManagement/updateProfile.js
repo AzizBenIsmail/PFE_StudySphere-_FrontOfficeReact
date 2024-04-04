@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 
 // components
 import Cookies from "js-cookie";
-import { getUserAuth } from "../../../../Services/Apiauth";
-import { updatecentre, updateUser } from "../../../../Services/ApiUser";
+import { getUserAuth } from "../../../Services/Apiauth";
+import { updatecentre, updateUser } from "../../../Services/ApiUser";
 
 import { useHistory, useLocation } from 'react-router-dom'
 // import Navbar from "../../../components/Navbars/Navbar";

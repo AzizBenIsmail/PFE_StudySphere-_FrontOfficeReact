@@ -6,7 +6,7 @@ import { SiOpslevel } from 'react-icons/si'
 import { BiSolidUserAccount } from 'react-icons/bi'
 import Cookies from 'js-cookie'
 import { useHistory, useParams } from 'react-router-dom'
-import { getUserAuth } from '../../../../Services/Apiauth'
+import { getUserAuth } from '../../../Services/Apiauth'
 
 const Tabs = ({code}) => {
   const [openTab, setOpenTab] = React.useState(code)
@@ -155,7 +155,7 @@ const Tabs = ({code}) => {
                     console.log(code)
                     setOpenTab(code)
                     console.log(openTab)
-                    history.push("/GestionCompte/updatePassword");
+                    history.push("/AccountManagement/updatePassword");
                   }}
                   data-toggle="tab"
                   href="#link3"
@@ -182,7 +182,7 @@ const Tabs = ({code}) => {
                   onClick={e => {
                     e.preventDefault()
                     setOpenTab(code)
-                    history.push("/GestionCompte/BadgesNiveauXp");
+                    history.push("/AccountManagement/BadgesNiveauXp");
                   }}
                   data-toggle="tab"
                   href="#link3"

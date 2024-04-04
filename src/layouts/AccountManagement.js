@@ -14,12 +14,12 @@ import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 // import Cookies from 'js-cookie'
 // import { getUserAuth } from '../Services/Apiauth'
-const updatePassword = lazy(() => import("../views/FrontOffice/client/Setting/updatePassword.js"));
-const updateProfile = lazy(() => import("../views/FrontOffice/client/Setting/updateProfile.js"));
+const updatePassword = lazy(() => import("../views/FrontOffice/AccountManagement/updatePassword.js"));
+const updateProfile = lazy(() => import("../views/FrontOffice/AccountManagement/updateProfile.js"));
 const BadgesNiveauXp = lazy(() =>
-  import("../views/FrontOffice/client/Setting/BadgesNiveauXp.js")
+  import("../views/FrontOffice/AccountManagement/BadgesNiveauXp.js")
 );
-export default function GestionCompte () {
+export default function AccountManagement () {
   const jwt_token = Cookies.get('jwt_token')
   const [user, setUser] = useState(null);
   const history = useHistory()
@@ -77,10 +77,10 @@ export default function GestionCompte () {
               }
             >
               <Switch>
-              <Route path="/GestionCompte/updatePassword" exact component={updatePassword} />
-              <Route path="/GestionCompte/edit/:id" exact component={updateProfile} />
-              <Route path="/GestionCompte/BadgesNiveauXp" exact component={BadgesNiveauXp} />
-              <Redirect from="/GestionCompte" to="Setting"/>
+              <Route path="/AccountManagement/updatePassword" exact component={updatePassword} />
+              <Route path="/AccountManagement/edit/:id" exact component={updateProfile} />
+              <Route path="/AccountManagement/BadgesNiveauXp" exact component={BadgesNiveauXp} />
+              <Redirect from="/AccountManagement" to="Setting"/>
             </Switch>
           </Suspense>
         </section>

@@ -90,7 +90,7 @@ const UserDropdown = ({user}) => {
                 <div>{user.nom}</div>
                   {user && user.role === "centre" ? ( <>
                     <Link
-                      to="/GestionCompte/BadgesNiveauXp"
+                      to="/AccountManagement/BadgesNiveauXp"
                     >
                       <div className="flex text-xs font-normal text-orange-500">
                         <AiOutlineFieldNumber style={{ fontSize: '18px' }}/>
@@ -99,7 +99,7 @@ const UserDropdown = ({user}) => {
                     </Link>
                   </> ) : ( <>
                     <Link
-                      to="/GestionCompte/BadgesNiveauXp"
+                      to="/AccountManagement/BadgesNiveauXp"
                     >
                 <div className="text-xs font-normal text-orange-500">
                   {user.xp.niveauAtteint.nom}

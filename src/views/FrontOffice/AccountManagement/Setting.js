@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Cookies from 'js-cookie'
 
-import Navbar from '../../../../components/Navbars/Navbar.js'
-import Footer from '../../../../components/Footers/FooterSmall.js'
-import { getUserAuth } from '../../../../Services/Apiauth'
+import Navbar from '../../../components/Navbars/Navbar.js'
+import Footer from '../../../components/Footers/FooterSmall.js'
+import { getUserAuth } from '../../../Services/Apiauth'
 import { useHistory, useParams } from 'react-router-dom'
 // import { FaUserCog } from 'react-icons/fa'
 // import { getUserByID } from '../Services/ApiUser'
@@ -92,7 +92,7 @@ export default function Profile () {
           <div className="container mx-auto flex justify-center">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
                  onClick={() => {
-                   history.push(`/GestionCompte/edit/${User._id}?u=${User.role.toLowerCase()}`)
+                   history.push(`/AccountManagement/edit/${User._id}?u=${User.role.toLowerCase()}`)
                  }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
                  onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
@@ -150,7 +150,7 @@ export default function Profile () {
             <div
               className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
               onClick={() => {
-                  history.push("GestionCompte/updatePassword");
+                  history.push("AccountManagement/updatePassword");
             }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
               onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
               onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
@@ -205,7 +205,7 @@ export default function Profile () {
             <div
               className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
               onClick={() => {
-                  history.push("/GestionCompte/BadgesNiveauXp");
+                  history.push("/AccountManagement/BadgesNiveauXp");
             }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
               onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
               onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>

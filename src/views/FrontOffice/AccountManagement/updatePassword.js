@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import Cookies from 'js-cookie';
-import { UpdatePassword } from '../../../../Services/ApiUser';
+import { UpdatePassword } from '../../../Services/ApiUser';
 // import Navbar from '../../../../components/Navbars/Navbar'
 // import Footer from '../../../../components/Footers/FooterSmall'
 // import { getUserAuth } from '../../../../Services/Apiauth'
