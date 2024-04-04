@@ -46,7 +46,7 @@ Here are all the page from the project:
   - [Login](https://demos.creative-tim.com/notus-react/auth/login?ref=nr-github-readme)
   - [Register](https://demos.creative-tim.com/notus-react/auth/register?ref=nr-github-readme)
 - Presentation Samples
-  - [Landing](https://demos.creative-tim.com/notus-react/landing?ref=nr-github-readme)
+  - [LandingLayout](https://demos.creative-tim.com/notus-react/landing?ref=nr-github-readme)
   - [Profile](https://demos.creative-tim.com/notus-react/profile?ref=nr-github-readme)
 
 
@@ -170,7 +170,7 @@ notus-react
 │   │   └── Auth.js
 │   └── views
 │       ├── Index.js
-│       ├── Landing.js
+│       ├── LandingLayout.js
 │       ├── Profile.js
 │       ├── admin
 │       │   ├── Dashboard.js
