@@ -1,20 +1,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 // components
-import Navbar from "../../../components/Navbars/Navbar.js";
-import Footer from "../../../components/Footers/Footer.js";
 import Cookies from "js-cookie";
-import { getUserAuth } from "../../../Services/Apiauth";
 import { getAllFormations } from "../../../Services/ApiFormation";
 import { FaChevronRight , FaChevronLeft  } from "react-icons/fa";
 
 export default function Landing() {
-  const [user, setUser] = useState(null);
   const [formations, setFormations] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(2);
   const jwt_token = Cookies.get("jwt_token");
-  const history = useHistory();
 
   const config = useMemo(() => {
     return {
@@ -24,35 +19,7 @@ export default function Landing() {
     };
   }, [jwt_token]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (jwt_token) {
-          const config = {
-            headers: {
-              Authorization: `Bearer ${jwt_token}`,
-            },
-          };
-          const res = await getUserAuth(config);
-          setUser(() => {
-            if (res.data.user.role === "admin") {
-              history.replace("/admin/");
-            }
-            return res.data.user;
-          });
-        } else {
-          history.replace("/");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
-
-
-  const loadFormations = useCallback(async () => {
+ const loadFormations = useCallback(async () => {
     try {
       const res = await getAllFormations(config);
       setFormations(res.data.formations);

@@ -11,9 +11,6 @@ const Info = lazy(() => import("./layouts/Info.js"));
 const LandingLayout = lazy(() => import("./layouts/LandingLayout.js"));
 
 // views without layouts
-const Landing = lazy(() => import("./views/FrontOffice/client/Landing.js"));
-const training = lazy(() => import("./views/FrontOffice/Training/training.js"));
-const center = lazy(() => import("./views/FrontOffice/Center/center"));
 const Profile = lazy(() => import("./views/FrontOffice/client/Profile.js"));
 const Setting = lazy(() => import("./views/FrontOffice/client/Setting/Setting.js"));
 const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
@@ -42,15 +39,11 @@ function Routes() {
           <Route path="/landing" component={LandingLayout} />
 
           {/* add routes without layouts */}
-          {/*<Route path="/landing" exact component={Landing} />*/}
           <Route path="/listeNotifcation" exact component={listeNotifcation} />
           <Route path="/profile" exact component={Profile} />
-          {/*<Route path="/center" exact component={center} />*/}
-          {/*<Route path="/training" exact component={training} />*/}
           <Route path="/Setting" exact component={Setting} />
           <Route path="/DetailsFormation/:id" exact component={DetailsFormation} />
           <Route path="/" exact component={Index} />
-          {/*<Route path="/" component={Auth} />*/}
           {/* add redirect for first page */}
           <Redirect from="*" to="/" />
         </Switch>

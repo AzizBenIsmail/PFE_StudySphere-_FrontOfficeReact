@@ -1,20 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {  useHistory } from "react-router-dom";
 // components
-import Navbar from "../../../components/Navbars/Navbar.js";
-import Footer from "../../../components/Footers/Footer.js";
 import Cookies from "js-cookie";
-import { getUserAuth } from "../../../Services/Apiauth";
 import { FaChevronRight , FaChevronLeft  } from "react-icons/fa";
 import { getCentre } from '../../../Services/ApiUser'
 
 export default function Landing() {
-  const [user, setUser] = useState(null);
   const [centers, setCenters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const centersPerPage = 6;
   const jwt_token = Cookies.get("jwt_token");
-  const history = useHistory();
 
   const config = useMemo(() => {
     return {
@@ -24,27 +18,6 @@ export default function Landing() {
     };
   }, [jwt_token]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (jwt_token) {
-          const res = await getUserAuth(config);
-          setUser(() => {
-            if (res.data.user.role === "admin") {
-              history.replace("/admin/");
-            }
-            return res.data.user;
-          });
-        } else {
-          history.replace("/");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [config, history, jwt_token]);
 
   const loadCenters = useCallback(async () => {
     try {

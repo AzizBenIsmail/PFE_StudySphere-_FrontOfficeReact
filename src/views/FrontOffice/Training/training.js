@@ -1,21 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 // components
-import Navbar from "../../../components/Navbars/Navbar.js";
-import Footer from "../../../components/Footers/Footer.js";
 import Cookies from "js-cookie";
-import { getUserAuth } from "../../../Services/Apiauth";
 import { getAllFormations } from "../../../Services/ApiFormation";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { GiEmptyHourglass } from "react-icons/gi";
 
 export default function Landing() {
-  const [user, setUser] = useState(null);
   const [formations, setFormations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const formationsPerPage = 6;
   const jwt_token = Cookies.get("jwt_token");
-  const history = useHistory();
 
   const config = useMemo(() => {
     return {
@@ -24,28 +19,6 @@ export default function Landing() {
       },
     };
   }, [jwt_token]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (jwt_token) {
-          const res = await getUserAuth(config);
-          setUser(() => {
-            if (res.data.user.role === "admin") {
-              history.replace("/admin/");
-            }
-            return res.data.user;
-          });
-        } else {
-          history.replace("/");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [config, history, jwt_token]);
 
   const loadFormations = useCallback(async () => {
     try {
