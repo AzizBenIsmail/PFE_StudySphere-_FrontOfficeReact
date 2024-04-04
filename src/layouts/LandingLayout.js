@@ -74,8 +74,14 @@ export default function LandingLayout () {
             </div>
           </div>
         </div>
-      <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d"/>}>
-        <Switch>
+        <Suspense
+          fallback={
+            <div className="flex justify-center items-center h-screen">
+              <InfinitySpin width="200" height="200" color="#4fa94d" />
+            </div>
+          }
+        >
+          <Switch>
           <Route path="/landing/center" exact component={center} />
           <Route path="/landing/training" exact component={training} />
           <Route path="/landing/landing" exact component={Landing} />

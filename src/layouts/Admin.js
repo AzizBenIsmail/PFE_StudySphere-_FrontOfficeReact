@@ -66,7 +66,13 @@ export default function Admin() {
         {/* Header */}
         <HeaderStats />
         <div className="px-4 md:px-10 mx-auto w-full -m-24">
-          <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d" />}>
+            <Suspense
+              fallback={
+                <div className="flex justify-center items-center h-screen">
+                  <InfinitySpin width="200" height="200" color="#4fa94d" />
+                </div>
+              }
+            >
           <Switch>
             <Route path="/admin/dashboard" exact component={Dashboard} />
             <Route path="/admin/ListeNiveau" exact component={ListeNiveau} />

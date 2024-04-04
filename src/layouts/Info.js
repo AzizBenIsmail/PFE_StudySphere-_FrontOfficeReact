@@ -62,8 +62,13 @@ export default function Info () {
         </div>
       </div>
     </section>
-          <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d"/>}>
-            <Switch>
+      <Suspense
+        fallback={
+          <div className="flex justify-center items-center h-screen">
+            <InfinitySpin width="200" height="200" color="#4fa94d" />
+          </div>
+        }
+      >            <Switch>
               <Route path="/Info/Bienvenu" exact component={welcome} />
               <Route path="/Info/reward" exact component={reward} />
               <Route path="/Info/warning" exact component={warning} />

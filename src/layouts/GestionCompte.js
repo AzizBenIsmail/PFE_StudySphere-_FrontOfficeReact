@@ -69,8 +69,14 @@ export default function GestionCompte () {
               style={{ transform: "translateZ(0)" }}
             >
             </div>
-            <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d"/>}>
-            <Switch>
+            <Suspense
+              fallback={
+                <div className="flex justify-center items-center h-screen">
+                  <InfinitySpin width="200" height="200" color="#4fa94d" />
+                </div>
+              }
+            >
+              <Switch>
               <Route path="/GestionCompte/updatePassword" exact component={updatePassword} />
               <Route path="/GestionCompte/edit/:id" exact component={updateProfile} />
               <Route path="/GestionCompte/BadgesNiveauXp" exact component={BadgesNiveauXp} />

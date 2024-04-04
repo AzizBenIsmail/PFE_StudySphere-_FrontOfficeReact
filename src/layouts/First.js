@@ -66,7 +66,13 @@ export default function First () {
           {/*  //     'url(' + require('assets/img/FirstStep.png').default + ')',*/}
           {/*  // }}*/}
           {/*></div>*/}
-          <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d"/>}>
+          <Suspense
+            fallback={
+              <div className="flex justify-center items-center h-screen">
+                <InfinitySpin width="200" height="200" color="#4fa94d" />
+              </div>
+            }
+          >
             <Switch>
               <Route path="/First/Step" exact component={PreferenceClient}/>
               <Route path="/First/UpdatePreferences" exact component={UpdatePreferenceClient}/>

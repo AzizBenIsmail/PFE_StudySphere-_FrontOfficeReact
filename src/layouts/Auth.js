@@ -61,7 +61,13 @@ export default function Auth() {
                 "url(" + require("assets/img/register_bg_2.png").default + ")",
             }}
           ></div>
-          <Suspense fallback={<InfinitySpin width="200" height="200" color="#4fa94d" />}>
+          <Suspense
+            fallback={
+              <div className="flex justify-center items-center h-screen">
+                <InfinitySpin width="200" height="200" color="#4fa94d" />
+              </div>
+            }
+          >
             <Switch>
               <Route path="/auth/login" exact component={Login} />
               <Route path="/auth/registerEmail" exact component={RegisterEmail} />
