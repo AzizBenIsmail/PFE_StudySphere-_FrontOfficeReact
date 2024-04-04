@@ -8,6 +8,7 @@ const Auth = lazy(() => import("layouts/Auth.js"));
 const First = lazy(() => import("./layouts/First.js"));
 const GestionCompte = lazy(() => import("./layouts/GestionCompte.js"));
 const Info = lazy(() => import("./layouts/Info.js"));
+const LandingLayout = lazy(() => import("./layouts/LandingLayout.js"));
 
 // views without layouts
 const Landing = lazy(() => import("./views/FrontOffice/client/Landing.js"));
@@ -38,12 +39,14 @@ function Routes() {
           <Route path="/First" component={First} />
           <Route path="/GestionCompte" component={GestionCompte} />
           <Route path="/Info" component={Info} />
+          <Route path="/landing" component={LandingLayout} />
+
           {/* add routes without layouts */}
-          <Route path="/landing" exact component={Landing} />
+          {/*<Route path="/landing" exact component={Landing} />*/}
           <Route path="/listeNotifcation" exact component={listeNotifcation} />
           <Route path="/profile" exact component={Profile} />
-          <Route path="/center" exact component={center} />
-          <Route path="/training" exact component={training} />
+          {/*<Route path="/center" exact component={center} />*/}
+          {/*<Route path="/training" exact component={training} />*/}
           <Route path="/Setting" exact component={Setting} />
           <Route path="/DetailsFormation/:id" exact component={DetailsFormation} />
           <Route path="/" exact component={Index} />

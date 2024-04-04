@@ -71,33 +71,7 @@ export default function Landing() {
   }
   return (
     <>
-      <Navbar user={user} />
-      <main>
-        <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-55">
-          <div className="absolute top-0 w-full h-full bg-center bg-cover">
-            <span
-              id="blackOverlay"
-              className="w-full h-full absolute opacity-100 bg-bleu-500"
-            ></span>
-          </div>
-          <div className="container relative mx-auto">
-            <div className="items-center flex flex-wrap">
-              <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-                <div className="pr-12 pt-12 mt-2">
-                  <h1 className="text-white font-semibold text-5xl">
-                    Your story starts with us.
-                  </h1>
-                  <p className="mt-4 text-lg text-blueGray-200">
-                    This is a simple example of a Landing Page you can build
-                    using Notus React. It features multiple CSS components based
-                    on the Tailwind CSS design system.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <section className="pb-20 bg-blueGray-200 -mt-24">
+      <section className="pb-20 bg-blueGray-200 -mt-24">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap">
               {currentCenters.map((center) => (
@@ -122,7 +96,7 @@ export default function Landing() {
                         {center.nom}
                       </h6>
                       <p className="mt-2 mb-4 text-blueGray-500">
-                        {center.preferences && center.preferences.domaine_actuelle ? center.preferences.domaine_actuelle : "No domain found"}
+                        {center.preferences && center.preferences.domaine_actuelle ? center.preferences.domaine_actuelle : "Le centre ne prend pas en compte les détails."}
                       </p>
                     </div>
                   </div>
@@ -183,8 +157,6 @@ export default function Landing() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
     </>
   );
 }

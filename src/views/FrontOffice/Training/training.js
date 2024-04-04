@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { getUserAuth } from "../../../Services/Apiauth";
 import { getAllFormations } from "../../../Services/ApiFormation";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { GiEmptyHourglass } from "react-icons/gi";
 
 export default function Landing() {
   const [user, setUser] = useState(null);
@@ -72,35 +73,59 @@ export default function Landing() {
   for (let i = 1; i <= Math.ceil(formations.length / formationsPerPage); i++) {
     pageNumbers.push(i);
   }
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return date.toLocaleDateString("fr-FR", options);
+  };
+
+// Fonction pour formater l'heure
+  const formatTime = (dateString) => {
+    const date = new Date(dateString);
+    const options = { hour: "numeric", minute: "numeric" };
+    return date.toLocaleTimeString("fr-FR", options);
+  };
+
+  const splitDescription = (description, formationId) => {
+    const words = description.split(" ");
+    let wordCount = 0;
+    let truncated = false;
+    return words.map((word, index) => {
+      if (wordCount >= 15 && !truncated) {
+        truncated = true;
+        return (
+          <Link key={index} to={`/DetailsFormation/${formationId}`}>
+            (... voir plus)
+          </Link>
+        );
+      } else if (wordCount >= 15) {
+        return null;
+      } else {
+        wordCount++;
+        if (wordCount % 4 === 0) {
+          return (
+            <span key={index}>
+            {word} <br />
+          </span>
+          );
+        } else {
+          return <span key={index}>{word} </span>;
+        }
+      }
+    });
+  };
+
+// Fonction pour convertir les minutes en heures
+  const convertMinutesToHours = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    return `${hours}H${remainingMinutes}Min`;
+  };
+
   return (
     <>
-      <Navbar user={user} />
-      <main>
-        <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-55">
-          <div className="absolute top-0 w-full h-full bg-center bg-cover">
-            <span
-              id="blackOverlay"
-              className="w-full h-full absolute opacity-100 bg-bleu-500"
-            ></span>
-          </div>
-          <div className="container relative mx-auto">
-            <div className="items-center flex flex-wrap">
-              <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-                <div className="pr-12 pt-12 mt-2">
-                  <h1 className="text-white font-semibold text-5xl">
-                    Your story starts with us.
-                  </h1>
-                  <p className="mt-4 text-lg text-blueGray-200">
-                    This is a simple example of a Landing Page you can build
-                    using Notus React. It features multiple CSS components based
-                    on the Tailwind CSS design system.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <section className="pb-20 bg-blueGray-200 -mt-24">
+    <section className="pb-20 bg-blueGray-200 -mt-24">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1">
               {currentFormations.map((formation) => (
@@ -129,15 +154,15 @@ export default function Landing() {
                             <span
                               key={index}
                               style={{
-                                border: "2px solid rgba(186, 230, 253, 1)",
+                                border: "2px solid rgba(226, 232, 240, 1)",
                                 marginRight:
                                   index ===
                                   formation.competences.split(",").length - 1
                                     ? "0"
                                     : "5px",
                               }}
-                              className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-black bg-white uppercase last:mr-0 mr-1"
-                              style={{ border: "1px solid black" }}                            >
+                              className="text-xs font-semibold inline-block text-blueGray-500 py-1 px-2 uppercase rounded-full text-black bg-white uppercase last:mr-0 mr-1"
+                              >
                               {competence.trim()}
                             </span>
                           ))}
@@ -146,7 +171,7 @@ export default function Landing() {
                         {formation.titre}
                       </h6>
                       <p className="mt-2 mb-4 text-blueGray-500">
-                        {formation.description}
+                        {splitDescription(formation.description,formation._id)}
                       </p>
                       <div className="flex items-center mb-4">
                         <img
@@ -155,77 +180,46 @@ export default function Landing() {
                           src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
                           style={{ width: "25px" }}
                         />
-                        <p className="text-xs text-blueGray-400 ml-1 ">posté par {formation.centre.nom}</p>
+                        <p className="text-xs text-blueGray-400 ml-2 ">posté par {formation.centre.nom}</p>
                         <img
                           alt="..."
-                          className="shadow ml-1 rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                          className="shadow ml-2 rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
                           src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
                           style={{ width: "25px" }}
                         />
-                        <p className="text-xs text-blueGray-400 ml-1">posté par {formation.formateur.nom}</p>
+                        <p className="text-xs text-blueGray-400 ml-2">posté par {formation.formateur.nom}</p>
                       </div>
 
                     </div>
                     <div className="px-4 py-5 flex-auto">
-                      <h6 className="text-xl font-semibold">
-                        Date
-                      </h6>
-                      <p className="mt-2 mb-4 text-blueGray-500">
-                        {formation.dateDebut}
-                      </p>
-                    </div>
-                    <div className="px-4 py-5 flex-auto">
-                      <h6 className="text-xl font-semibold">
-                        Date
-                      </h6>
-                      <p className="mt-2 mb-4 text-blueGray-500">
-                        {formation.dateDebut}
-                      </p>
+                      <h6 className="text-xl font-semibold">Date</h6>
+                      <div className="flex items-center">
+                        <p className="mt-2 mb-4 text-blueGray-500">
+                          {formatDate(formation.dateDebut)}
+                        </p>
+                        <GiEmptyHourglass  style={{ fontSize: '25px' }}/>
+                        <p className="mt-2 mb-4 text-blueGray-500">
+                          {formatTime(formation.dateDebut)}
+                        </p>
+                      </div>
                     </div>
                     <div className="px-4 py-5 flex-auto">
                     <h6 className="text-xl font-semibold">
-                      Date
+                      Duree
                     </h6>
                     <p className="mt-2 mb-4 text-blueGray-500">
-                      {formation.dateDebut}
+                      {convertMinutesToHours(formation.duree)}
+
                     </p>
                   </div>
-                    {/*<div className="p-4">*/}
-                    {/*  <span*/}
-                    {/*    style={{*/}
-                    {/*      position: "absolute",*/}
-                    {/*      top: "5%",*/}
-                    {/*      left: "2%",*/}
-                    {/*      transform: "translate(-50%, -50%) ",*/}
-                    {/*    }}*/}
-                    {/*  >*/}
-                    {/*    <Link to="/landing">*/}
-                    {/*      <img*/}
-                    {/*        alt="..."*/}
-                    {/*        className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"*/}
-                    {/*        src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}*/}
-                    {/*        style={{ width: "70px" }}*/}
-                    {/*      />*/}
-                    {/*    </Link>*/}
-                    {/*  </span>*/}
-                    {/*  <span*/}
-                    {/*    style={{*/}
-                    {/*      position: "absolute",*/}
-                    {/*      top: "94%",*/}
-                    {/*      left: "50%",*/}
-                    {/*      transform: "translate(-50%, -50%)",*/}
-                    {/*    }}*/}
-                    {/*  >*/}
-                    {/*    <Link to="/landing">*/}
-                    {/*      <img*/}
-                    {/*        alt="..."*/}
-                    {/*        className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"*/}
-                    {/*        src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}*/}
-                    {/*        style={{ width: "70px" }}*/}
-                    {/*      />*/}
-                    {/*    </Link>*/}
-                    {/*  </span>*/}
-                    {/*</div>*/}
+                    <div className="px-4 py-5 flex-auto">
+                      <h6 className="text-xl font-semibold">
+                        Prix
+                      </h6>
+                      <p className="mt-2 mb-4 text-blueGray-500">
+                        {formation.Prix} DT
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -313,8 +307,6 @@ export default function Landing() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
     </>
   );
 }
