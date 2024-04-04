@@ -8,7 +8,7 @@ import UserDropdown from '../Dropdowns/UserDropdownLanding'
 import NotificationDropdown from '../Dropdowns/NotificationDropdown'
 import { FaRegStar, FaSchool } from 'react-icons/fa'
 import { MdCastForEducation } from 'react-icons/md'
-import { SiNintendogamecube } from "react-icons/si";
+import { BiSolidSchool  } from "react-icons/bi";
 
 export default function Navbar ({ user }) {
   const history = useHistory()
@@ -64,23 +64,24 @@ export default function Navbar ({ user }) {
               >
                 ForMe.com
               </Link>
-                <button
+                <Link
                   className="lg:text-white lg:hover:text-indigo-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                  onClick={() => history.push('/landing/training')}
+                  to="/landing/training"
                 >
                   <MdCastForEducation
                     className="mr-2"
                     style={{ fontSize: '24px' }}
                   />
                   Formation
-                </button>
-                <button
-                  className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                  onClick={() => history.push('/landing/center')}
-                >
-                  <FaSchool className="mr-2" style={{ fontSize: '24px' }}/>
+                </Link>
+              <Link
+                className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                to="/landing/center"
+              >
+                <BiSolidSchool  className="mr-2" style={{ fontSize: '24px' }}/>
                   Centre de formation
-                </button>
+              </Link>
+
             </ul>
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <div
