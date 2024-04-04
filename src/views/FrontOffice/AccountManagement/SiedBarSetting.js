@@ -84,7 +84,7 @@ const Tabs = ({code}) => {
                     console.log(code)
                     setOpenTab(code)
                     console.log(openTab)
-                    history.push(`/GestionCompte/edit/${User._id}?u=${User.role.toLowerCase()}`)
+                    history.push(`/AccountManagement/edit/${User._id}?u=${User.role.toLowerCase()}`)
 
                   }}
                   data-toggle="tab"
