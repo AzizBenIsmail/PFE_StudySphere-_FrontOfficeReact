@@ -2,19 +2,13 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from "prop-types";
 // components
 
-import Navbar from '../../../components/Navbars/Navbar.js'
 import Cookies from 'js-cookie'
-import { useHistory } from 'react-router-dom'
-import { getUserAuth } from '../../../Services/Apiauth'
-import Footer from "../../../components/Footers/FooterSmall.js";
 import {
   getNotificationByUser,
 } from '../../../Services/ApiNotification'
 
 export default function CardTable({ color }) {
-  const [user, setUser] = useState(null);
   const jwt_token = Cookies.get('jwt_token');
-  const history = useHistory();
 
   const config = useMemo(() => {
     return {
@@ -24,44 +18,16 @@ export default function CardTable({ color }) {
     }
   }, [jwt_token]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (jwt_token) {
-          const config = {
-            headers: {
-              Authorization: `Bearer ${jwt_token}`,
-            },
-          };
-          const res = await getUserAuth(config);
-          setUser(() => {
-            if (res.data.user.role === 'admin') {
-              history.replace('/admin/');
-            }
-            return res.data.user;
-          });
-        } else {
-          history.replace('/');
-        }
-
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
-
   const [notifications, setNotifications] = useState([]);
 
   const loadNotifications = useCallback(async () => {
     try {
-      const res = await getNotificationByUser(user._id,config);
+      const res = await getNotificationByUser(config);
       setNotifications(res.data);
     } catch (error) {
       console.error("Error loading notifications:", error);
     }
-  }, [config,user]);
+  }, [config]);
 
   useEffect(() => {
     loadNotifications(); // Charger les notifications lors de l'entrée dans la page
@@ -76,9 +42,7 @@ export default function CardTable({ color }) {
 
   return (
     <>
-      <Navbar user={user}/>
-      <section className="py-10 bg-bleu-500 overflow-hidden ">
-        <div className="container mx-auto ">
+        <div className="container mx-auto -mt-32 ">
           <div className="flex flex-wrap justify-center py-10">
             <div
               className={
@@ -99,8 +63,13 @@ export default function CardTable({ color }) {
                 </div>
               </div>
               <div className="block w-full overflow-x-auto">
-                {/* Notifications table */}
-                <table className="items-center w-full bg-transparent border-collapse">
+                {notifications.length === 0 ? (
+                  <div className="text-center py-4">
+                    <p className="text-gray-500">Aucune notification disponible.</p>
+                  </div>
+                ) : (
+
+                  <table className="items-center w-full bg-transparent border-collapse">
                   <thead>
                   <tr>
                     <th className="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700">
@@ -142,12 +111,11 @@ export default function CardTable({ color }) {
                   ))}
                   </tbody>
                 </table>
+                )}
+              </div>
               </div>
             </div>
-            </div>
         </div>
-      </section>
-      <Footer  />
     </>
   );
 }
