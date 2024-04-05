@@ -9,9 +9,9 @@ const First = lazy(() => import("./layouts/First.js"));
 const AccountManagement = lazy(() => import("./layouts/AccountManagement.js"));
 const Info = lazy(() => import("./layouts/Info.js"));
 const LandingLayout = lazy(() => import("./layouts/LandingLayout.js"));
+const Profiles = lazy(() => import("./layouts/Profiles.js"));
 
 // views without layouts
-const Profile = lazy(() => import("./views/FrontOffice/client/Profile.js"));
 const Setting = lazy(() => import("./views/FrontOffice/AccountManagement/Setting.js"));
 const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
 const Index = lazy(() => import("views/Index.js"));
@@ -34,9 +34,10 @@ function Routes() {
           <Route path="/AccountManagement" component={AccountManagement} />
           <Route path="/Info" component={Info} />
           <Route path="/landing" component={LandingLayout} />
+          <Route path="/profile" component={Profiles} />
 
           {/* add routes without layouts */}
-          <Route path="/profile" exact component={Profile} />
+          {/*<Route path="/profile" exact component={Profile} />*/}
           <Route path="/Setting" exact component={Setting} />
           <Route path="/DetailsFormation/:id" exact component={DetailsFormation} />
           <Route path="/" exact component={Index} />
