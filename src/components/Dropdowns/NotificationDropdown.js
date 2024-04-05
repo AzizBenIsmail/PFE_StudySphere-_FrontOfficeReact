@@ -60,7 +60,7 @@ const NotificationDropdown = () => {
     const fetchUserNotifications = async () => {
       try {
         if (user && user._id) {
-          const response = await getNotificationByUser(user._id, { headers: { Authorization: `Bearer ${jwt_token}` } })
+          const response = await getNotificationByUser( { headers: { Authorization: `Bearer ${jwt_token}` } })
           const allNotifications = response.data
           const readNotifs = allNotifications.filter(notification => notification.read)
           const unreadNotifs = allNotifications.filter(notification => !notification.read)
@@ -103,8 +103,8 @@ const NotificationDropdown = () => {
     }
   }
 
-  const markAllNotificationsAsViewed = async (userId, config) => {
-    const response = await getNotificationByUser(userId, config)
+  const markAllNotificationsAsViewed = async (config) => {
+    const response = await getNotificationByUser(config)
     const unreadNotifications = response.data.filter(notification => !notification.vu)
 
     unreadNotifications.forEach(async notification => {
@@ -117,7 +117,7 @@ const NotificationDropdown = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: 'bottom-start',
     })
-    markAllNotificationsAsViewed(user._id, config)
+    markAllNotificationsAsViewed( config)
     setDropdownPopoverShow(true)
     popoverDropdownRef.current.style.width = '300px' // Largeur fixe
     setClassname('mr-3 bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs py-1 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150')
@@ -166,7 +166,7 @@ const NotificationDropdown = () => {
           <div className="text-blueGray-400 font-bold">
             Notifications
           </div>
-          <a className="text-lightBlue-600 text-right" href="/listeNotifcation">
+          <a className="text-lightBlue-600 text-right" href="/landing/notification">
             Voir tous
           </a>
         </div>

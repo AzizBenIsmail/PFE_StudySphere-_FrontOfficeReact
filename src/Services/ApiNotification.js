@@ -20,8 +20,8 @@ export async function getNotificationById(notificationId, config) {
 }
 
 // Fonction pour récupérer les notifications d'un utilisateur
-export async function getNotificationByUser(userId, config) {
-  return await axios.get(`${apiURL}/${userId}`, config);
+export async function getNotificationByUser( config) {
+  return await axios.get(`${apiURL}/getNotificationByUser`, config);
 }
 
 // Fonction pour mettre à jour une notification
