@@ -192,7 +192,7 @@ const UserDropdown = ({user}) => {
           className={
             "flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           }
-          onClick={(e) => history.push("/listeNotifcation") }
+          onClick={(e) => history.push("/landing/notification") }
         >
           <CiUser style={{ fontSize: '20px' }} className="mr-1"/>
           Mes Notification

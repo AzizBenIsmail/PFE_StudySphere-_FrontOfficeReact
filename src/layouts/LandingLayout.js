@@ -12,6 +12,7 @@ import { getUserAuth } from '../Services/Apiauth'
 const center = lazy(() => import("../views/FrontOffice/Center/center"));
 const training = lazy(() => import("../views/FrontOffice/Training/training"));
 const Landing = lazy(() => import("../views/FrontOffice/client/Landing"));
+const notification = lazy(() => import("../views/FrontOffice/notification/listeNotifcation"));
 
 export default function LandingLayout () {
   const jwt_token = Cookies.get('jwt_token')
@@ -85,7 +86,8 @@ export default function LandingLayout () {
           <Route path="/landing/center" exact component={center} />
           <Route path="/landing/training" exact component={training} />
           <Route path="/landing/landing" exact component={Landing} />
-          <Redirect from="/landing" to="/landing/landing"/>
+          <Route path="/landing/notification" exact component={notification} />
+            <Redirect from="/landing" to="/landing/landing"/>
         </Switch>
       </Suspense>
       </main>

@@ -14,9 +14,6 @@ const LandingLayout = lazy(() => import("./layouts/LandingLayout.js"));
 const Profile = lazy(() => import("./views/FrontOffice/client/Profile.js"));
 const Setting = lazy(() => import("./views/FrontOffice/AccountManagement/Setting.js"));
 const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
-const listeNotifcation = lazy(() =>
-  import("./views/FrontOffice/notification/listeNotifcation.js")
-);
 const Index = lazy(() => import("views/Index.js"));
 
 function Routes() {
@@ -39,7 +36,6 @@ function Routes() {
           <Route path="/landing" component={LandingLayout} />
 
           {/* add routes without layouts */}
-          <Route path="/listeNotifcation" exact component={listeNotifcation} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/Setting" exact component={Setting} />
           <Route path="/DetailsFormation/:id" exact component={DetailsFormation} />
