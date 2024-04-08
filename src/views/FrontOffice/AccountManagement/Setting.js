@@ -4,12 +4,12 @@ import Cookies from 'js-cookie'
 import Navbar from '../../../components/Navbars/Navbar.js'
 import Footer from '../../../components/Footers/FooterSmall.js'
 import { getUserAuth } from '../../../Services/Apiauth'
-import { Link, useHistory, useParams } from 'react-router-dom'
+import {  useHistory, useParams } from 'react-router-dom'
 import { FaRegUserCircle } from 'react-icons/fa'
-import { MdCastForEducation, MdOutlineSecurity, MdRoomPreferences } from 'react-icons/md'
+import { MdOutlineSecurity, MdRoomPreferences } from 'react-icons/md'
 import { IoMdNotificationsOutline } from 'react-icons/io'
 import { SiOpslevel } from "react-icons/si";
-import { BiSolidSchool, BiSolidUserAccount } from 'react-icons/bi'
+import { BiSolidUserAccount } from 'react-icons/bi'
 import { MdOutlineClass } from "react-icons/md";
 
 export default function Profile () {
@@ -169,7 +169,7 @@ export default function Profile () {
                 <div
                   className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
                   onClick={() => {
-                    history.push("/First/UpdatePreferences");
+                    history.push("/AccountManagement/createFormation");
                   }}
                   onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                   onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}

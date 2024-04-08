@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FaRegUserCircle } from 'react-icons/fa'
-import { MdOutlineSecurity, MdRoomPreferences } from 'react-icons/md'
+import { MdOutlineClass, MdOutlineSecurity, MdRoomPreferences } from 'react-icons/md'
 import { IoMdNotificationsOutline } from 'react-icons/io'
 import { SiOpslevel } from 'react-icons/si'
 import { BiSolidUserAccount } from 'react-icons/bi'
@@ -10,7 +10,6 @@ import { getUserAuth } from '../../../Services/Apiauth'
 
 const Tabs = ({code}) => {
   const [openTab, setOpenTab] = React.useState(code)
-  console.log(code)
   const jwt_token = Cookies.get('jwt_token')
   const history = useHistory()
 
@@ -49,7 +48,6 @@ const Tabs = ({code}) => {
     const getUser = async (config) => {
       await getUserAuth(config).then((res) => {
         setUser(res.data.user)
-        console.log(res.data.user)
       }).catch((err) => {
         console.log(err)
       })
@@ -198,32 +196,63 @@ const Tabs = ({code}) => {
                   </div>
                 </a>
               </li>
-              <li className="-mb-px mr-2 last:mr-0 flex-auto ">
-                <a
-                  className={
-                    'text-xs px-5 py-3 shadow-lg rounded block leading-normal ' +
-                    (openTab ==="4"
-                      ? 'text-lightBlue-600'
-                      : 'text-lightBlue-800')
-                  }
-                  onClick={e => {
-                    e.preventDefault()
-                    setOpenTab(code)
-                  }}
-                  data-toggle="tab"
-                  href="#link3"
-                  role="tablist"
-                >
-                  <div className="px-6 flex py-1">
-                    <IoMdNotificationsOutline style={{ fontSize: '25px' }} className="mt-1"/>
-                    <div className="ml-2">
-                      <h3 className="text-1xl mt-2">
-                        Notifications par e-mail
-                      </h3>
+              {User && (User.role === "centre" )  ? (
+                <li className="-mb-px mr-2 last:mr-0 flex-auto ">
+                  <a
+                    className={
+                      'text-xs px-5 py-3 shadow-lg rounded block leading-normal ' +
+                      (openTab ==="4"
+                        ? 'text-lightBlue-600'
+                        : 'text-lightBlue-800')
+                    }
+                    onClick={e => {
+                      e.preventDefault()
+                      setOpenTab(code)
+                      history.push("/AccountManagement/createFormation");
+                    }}
+                    data-toggle="tab"
+                    href="#link3"
+                    role="tablist"
+                  >
+                    <div className="px-6 flex py-1">
+                      <MdOutlineClass style={{ fontSize: '25px' }} className="mt-1"/>
+                      <div className="ml-2">
+                        <h3 className="text-1xl mt-2">
+                          Gére Les Formation
+                        </h3>
+                      </div>
                     </div>
-                  </div>
-                </a>
-              </li>
+                  </a>
+                </li>
+                ) :
+                <li className="-mb-px mr-2 last:mr-0 flex-auto ">
+                  <a
+                    className={
+                      'text-xs px-5 py-3 shadow-lg rounded block leading-normal ' +
+                      (openTab ==="4"
+                        ? 'text-lightBlue-600'
+                        : 'text-lightBlue-800')
+                    }
+                    onClick={e => {
+                      e.preventDefault()
+                      setOpenTab(code)
+                    }}
+                    data-toggle="tab"
+                    href="#link3"
+                    role="tablist"
+                  >
+                    <div className="px-6 flex py-1">
+                      <IoMdNotificationsOutline style={{ fontSize: '25px' }} className="mt-1"/>
+                      <div className="ml-2">
+                        <h3 className="text-1xl mt-2">
+                          Notifications par e-mail
+                        </h3>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              }
+
               <li className="-mb-px mr-2 last:mr-0 flex-auto ">
               <a
                 className={
