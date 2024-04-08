@@ -10,6 +10,10 @@ export async function getFormationById(id, config) {
   return await axios.get(`${apiURL}/${id}`, config);
 }
 
+export async function getFormationByCenter( config) {
+  return await axios.get(`${apiURL}/FormationByCentre`, config);
+}
+
 export async function updateFormation(id, formationData, config) {
   return await axios.put(`${apiURL}/${id}`, formationData, config);
 }

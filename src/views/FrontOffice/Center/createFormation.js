@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Cookies from 'js-cookie'
-import { createFormation, deleteFormation, getAllFormations, updateFormation } from '../../../Services/ApiFormation'
+import { createFormation, deleteFormation, getFormationByCenter, updateFormation } from '../../../Services/ApiFormation'
 import { getCentre, getFormateur } from '../../../Services/ApiUser'
 import { CiSquareRemove } from 'react-icons/ci'
 import SiedBarSetting from '../AccountManagement/SiedBarSetting'
@@ -44,18 +44,33 @@ export default function ListeFormations ({ color }) {
     formateur: '', // Ici, vous pouvez stocker l'ID du formateur sélectionné
   })
 
+// Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(3); // Nombre d'éléments à afficher par page
+
+  let currentItems = [];
+  if (formations) {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    currentItems = formations.slice(indexOfFirstItem, indexOfLastItem);
+  }
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+
   const loadFormations = useCallback(async () => {
     try {
-      const res = await getAllFormations(config)
-      setFormations(res.data.formations)
+      const res = await getFormationByCenter(config);
+      setFormations(res.data.formations);
+      console.log(res.data.formations)
     } catch (error) {
-      console.error('Error loading formations:', error)
+      console.error('Error loading formations:', error);
     }
-  }, [config])
+  }, [config]);
 
   useEffect(() => {
-    loadFormations()
-  }, [loadFormations])
+    loadFormations();
+  }, [loadFormations]);
 
   const loadFormateurs = useCallback(async () => {
     try {
@@ -112,14 +127,14 @@ export default function ListeFormations ({ color }) {
       formData.append('formateur', newFormation.formateur) // Ajoutez l'image à l'objet FormData
 
       // Ajoutez d'autres champs de formation à formData
-      await createFormation(formData, config).then(showAddForm(false))
+      await createFormation(formData, config)
+      setShowAddForm(false)
       // Reste du code pour ajouter la formation sans image
     } catch (error) {
       console.error('Error adding formation:', error)
     }
   }
 
-// Fonction pour modifier une formation avec image
   const handleEditFormation = async () => {
     try {
       const formData = new FormData()
@@ -363,7 +378,7 @@ export default function ListeFormations ({ color }) {
         <div className="w-7/12 px-6">
           <div
             className={'relative flex flex-col min-w-0 break-words  mb-6 shadow-lg rounded bg-lightBlue-900 text-white'}>
-        <div className="rounded-t mb-0 px-4 py-3 border-0">
+        <div className="rounded-t mb-0 px-4 border-0">
           <div className="flex flex-wrap items-center">
             <div className="relative w-full px-4 max-w-full flex-grow flex-1">
               <h3 className={'font-semibold text-lg text-white'}>
@@ -458,7 +473,14 @@ export default function ListeFormations ({ color }) {
             </tr>
             </thead>
             <tbody>
-            {formations.map((formation) => (
+            {currentItems.length === 0 ? (
+              <tr>
+                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4" colSpan="22">
+                  Aucune formation trouvée.
+                </td>
+              </tr>
+            ) : (
+              currentItems.map((formation) => (
               <tr key={formation._id}>
                 <td
                   className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 font-bold">
@@ -521,11 +543,44 @@ export default function ListeFormations ({ color }) {
                   </button>
                 </td>
               </tr>
-            ))}
+            )))}
             </tbody>
           </table>
+          <ul className="flex list-none rounded-md ">
+            <li className="mr-2">
+              <button
+                className="px-3 rounded-md bg-gray-200 text-gray-800 focus:outline-none"
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+            </li>
+            {/* Afficher les numéros de page */}
+            {Array.from({ length: Math.ceil(formations.length / itemsPerPage) }, (_, index) => (
+              <li key={index} className="mr-2">
+                <button
+                  className={`px-3 rounded-md ${
+                    currentPage === index + 1 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-800'
+                  } focus:outline-none`}
+                  onClick={() => paginate(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+            <li className="ml-2">
+              <button
+                className="px-3 rounded-md bg-gray-200 text-gray-800 focus:outline-none"
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === Math.ceil(formations.length / itemsPerPage)}
+              >
+                Next
+              </button>
+            </li>
+          </ul>
         </div>
-        </div>
+          </div>
       </div>
       </div>
       {showAddForm && (
