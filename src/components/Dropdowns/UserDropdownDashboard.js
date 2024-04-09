@@ -4,7 +4,7 @@ import { getUserAuth, logout } from '../../Services/Apiauth'
 import Cookies from 'js-cookie'
 // import { useHistory } from 'react-router-dom';
 
-const UserDropdown = () => {
+const UserDropdownDashboard = () => {
   const [user, setUser] = useState([])
 
   // dropdown props
@@ -136,4 +136,4 @@ const UserDropdown = () => {
   )
 }
 
-export default UserDropdown
+export default UserDropdownDashboard

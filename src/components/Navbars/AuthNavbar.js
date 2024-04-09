@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 // components
 import { SlLogin } from 'react-icons/sl'
 import { GiBurningDot } from 'react-icons/gi'
-import UserDropdown from '../Dropdowns/UserDropdown'
+import UserDropdownDashboard from '../Dropdowns/UserDropdownDashboard'
 
 export default function Navbar (props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false)

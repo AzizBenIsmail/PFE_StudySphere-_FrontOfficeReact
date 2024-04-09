@@ -149,7 +149,7 @@ notus-react
 │   │   │   ├── NotificationDropdown.js
 │   │   │   ├── PagesDropdown.js
 │   │   │   ├── TableDropdown.js
-│   │   │   └── UserDropdown.js
+│   │   │   └── UserDropdownDashboard.js
 │   │   ├── Footers
 │   │   │   ├── Footer.js
 │   │   │   ├── FooterAdmin.js

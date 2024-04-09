@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
-import UserDropdown from "components/Dropdowns/UserDropdown.js";
+import UserDropdownDashboard from "../Dropdowns/UserDropdownDashboard.js";
 import { MdBadge } from "react-icons/md";
 import ListUsers from '../../views/admin/users/ListUsers'
 import ListeBadge from '../../views/admin/Badge/ListeBadge'
@@ -35,7 +35,7 @@ export default function Sidebar() {
             {/*  <NotificationDropdown />*/}
             {/*</li>*/}
             <li className="inline-block relative">
-              <UserDropdown />
+              <UserDropdownDashboard />
             </li>
           </ul>
           {/* Collapse */}
