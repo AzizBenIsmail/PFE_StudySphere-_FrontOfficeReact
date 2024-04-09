@@ -1,13 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Cookies from 'js-cookie'
 
-import { getUserAuth } from '../../../Services/Apiauth'
 import { useParams } from 'react-router-dom'
-  // import { FaUserCog } from 'react-icons/fa'
-  // import { getUserByID } from '../Services/ApiUser'
 import { MdMarkEmailRead } from 'react-icons/md'
 import { TbUserHexagon } from 'react-icons/tb'
 import { SiVerizon, SiVexxhost } from 'react-icons/si'
+import { getUserByID } from '../../../Services/ApiUser'
 
 export default function Profile() {
   const jwt_token = Cookies.get('jwt_token')
@@ -25,22 +23,21 @@ export default function Profile() {
   const [User, setUser] = useState({})
 
   useEffect(() => {
-
     const getUser = async (config) => {
-      await getUserAuth(config).then((res) => {
-        setUser(res.data.user)
-        console.log(res.data.user)
+      await getUserByID(param.id, config).then((res) => {
+        setUser(res.data.user);
+        console.log(res.data.user);
       }).catch((err) => {
-        console.log(err)
-      })
-    }
+        console.log(err);
+      });
+    };
 
-    getUser(config)
+    getUser(config);
 
-    const interval = setInterval(() => {}, 1000000)
+    const interval = setInterval(() => {}, 1000000);
 
-    return () => clearInterval(interval)
-  }, [config, param.id])
+    return () => clearInterval(interval);
+  }, [config,param.id ]);
 
   return (
     <>

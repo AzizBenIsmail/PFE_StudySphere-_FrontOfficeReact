@@ -53,10 +53,6 @@ export default function LandingLayout () {
         <section className="relative block h-350-px">
           <div
             className="absolute top-0 w-full h-full bg-center bg-cover"
-            // style={{
-            //   backgroundImage:
-            //     "url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80')",
-            // }}
           >
             <span
               id="blackOverlay"
@@ -78,8 +74,8 @@ export default function LandingLayout () {
         >
           <Switch>
           <Route path="/profile/Profile" exact component={Profile} />
-          <Route path="/profile/ProfileCenter" exact component={ProfileCenter} />
-          <Route path="/profile/ProfileFormateur" exact component={ProfileFormateur} />
+          <Route path="/profile/ProfileCenter/:id" exact component={ProfileCenter} />
+          <Route path="/profile/ProfileFormateur/:id" exact component={ProfileFormateur} />
             <Redirect from="/profile" to="/profile/Profile"/>
         </Switch>
       </Suspense>

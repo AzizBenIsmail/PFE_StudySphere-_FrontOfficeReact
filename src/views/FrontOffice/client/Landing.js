@@ -74,7 +74,17 @@ export default function Landing() {
                 <FaChevronLeft style={{ fontSize: '40px' }}/>
 
               </button>
-              {displayedFormations.map((formation) => (
+              {displayedFormations.length === 0 ? (
+                <tr>
+                  <td
+                    className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+                    colSpan="22"
+                  >
+                    Aucune formation trouvée.
+                  </td>
+                </tr>
+              ) : (
+              displayedFormations.map((formation) => (
                 <div
                   className="pt-6 w-full md:w-2/12 px-4 text-center"
                   key={formation._id}
@@ -89,6 +99,8 @@ export default function Landing() {
                             src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
                             // style={{ width: "350px", height: "350px" }}
                             style={{ width: "350px", height: "220px" }}
+                            onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                            onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                           />
                         </a>
                         <span
@@ -99,12 +111,14 @@ export default function Landing() {
                             transform: "translate(-50%, -50%) ",
                           }}
                         >
-                          <Link to="/landing">
+                          <Link to={`/profile/ProfileFormateur/${formation.formateur._id}`}>
                             <img
                               alt="..."
                               className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
                               src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
                               style={{ width: "70px" }}
+                              onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                             />
                           </Link>
                         </span>
@@ -116,12 +130,15 @@ export default function Landing() {
                             transform: "translate(-50%, -50%)",
                           }}
                         >
-                          <Link to="/landing">
+                          <Link to={`/profile/ProfileCenter/${formation.centre._id}`}
+                          >
                             <img
                               alt="..."
                               className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
                               src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
                               style={{ width: "70px" }}
+                              onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                             />
                           </Link>
                         </span>
@@ -155,7 +172,8 @@ export default function Landing() {
                     </div>
                   </div>
                 </div>
-              ))}
+              ))
+              )}
               <button
                 onClick={handleNextPage}
                 disabled={endIndex === formations.length - 1}
