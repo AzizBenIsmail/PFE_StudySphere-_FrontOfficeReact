@@ -173,9 +173,14 @@ const NotificationDropdown = () => {
           <MdNotificationAdd
             className={classname}
             style={{ fontSize: "35px", fontWeight: "bold", color: "#FF0000" }}
+            onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+            onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
           />
         ) : (
-          <MdNotifications className={classname} style={{ fontSize: "35px" }} />
+          <MdNotifications className={classname} style={{ fontSize: "35px" }}
+          onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+          onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+          />
         )}
       </div>
       <div
@@ -207,6 +212,8 @@ const NotificationDropdown = () => {
             className={`py-1 px-4 font-normal text-sm whitespace-normal bg-transparent text-blueGray-700 cursor-pointer hover:bg-blueGray-100 ${
               notification.read ? "opacity-50" : ""
             }`}
+            onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+            onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
             onClick={() => handleNotificationClick(notification)}
           >
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -232,6 +239,8 @@ const NotificationDropdown = () => {
             className={`py-1 px-4 font-normal text-sm whitespace-normal bg-transparent text-blueGray-700 cursor-pointer hover:bg-blueGray-100 ${
               notification.read ? "opacity-50" : ""
             }`}
+            onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+            onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
             onClick={() => handleNotificationClick(notification)}
           >
             <div className="mb-1">{notification.content}</div>
