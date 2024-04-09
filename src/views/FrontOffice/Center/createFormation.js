@@ -887,7 +887,7 @@ export default function ListeFormations({ color }) {
   return (
     <>
       <div className="flex py-30 flex-wrap">
-        <SiedBarSetting code="3" />
+        <SiedBarSetting code="4" />
         <div className="w-7/12 px-6">
           <div
             className={
