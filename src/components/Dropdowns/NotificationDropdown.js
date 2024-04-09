@@ -124,18 +124,18 @@ const NotificationDropdown = () => {
   }
 
   const closeDropdownPopover = async () => {
-    if (user && user._id) {
-      const response = await getNotificationByUser(user._id, { headers: { Authorization: `Bearer ${jwt_token}` } })
-      const allNotifications = response.data
-      const readNotifs = allNotifications.filter(notification => notification.read)
-      const unreadNotifs = allNotifications.filter(notification => !notification.read)
-      const vuNotifs = allNotifications.filter(notification => !notification.vu)
-      setReadNotifications(readNotifs)
-      setUnreadNotifications(unreadNotifs)
-      setVues(vuNotifs)
-    } else {
-      console.error('User is null or user._id is undefined')
-    }
+    // if (user && user._id) {
+    //   const response = await getNotificationByUser(user._id, { headers: { Authorization: `Bearer ${jwt_token}` } })
+    //   const allNotifications = response.data
+    //   const readNotifs = allNotifications.filter(notification => notification.read)
+    //   const unreadNotifs = allNotifications.filter(notification => !notification.read)
+    //   const vuNotifs = allNotifications.filter(notification => !notification.vu)
+    //   setReadNotifications(readNotifs)
+    //   setUnreadNotifications(unreadNotifs)
+    //   setVues(vuNotifs)
+    // } else {
+    //   console.error('User is null or user._id is undefined')
+    // }
     setClassname('mr-3 text-white ml-3')
     setDropdownPopoverShow(false)
   }
