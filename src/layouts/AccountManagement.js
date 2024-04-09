@@ -37,7 +37,6 @@ export default function AccountManagement () {
           };
           const res = await getUserAuth(config);
           const data = res.data.user
-          console.log(data)
           setUser(data)
           if (res.data.user.role === "admin") {
             history.replace("/admin/");
@@ -86,7 +85,7 @@ export default function AccountManagement () {
             </Switch>
           </Suspense>
         </section>
-        {/*<FooterSmall />*/}
+        <FooterSmall />
       </main>
     </>
   )
