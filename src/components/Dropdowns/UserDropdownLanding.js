@@ -72,6 +72,8 @@ const UserDropdown = ({user}) => {
                   className="w-full rounded-full align-middle border-none shadow-lg"
                 src={`http://localhost:5000/images/Users/${user.image_user}`}
                 style={{ width: "80px" }}
+                onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
               />
             ) : (
               <div>
@@ -79,6 +81,8 @@ const UserDropdown = ({user}) => {
                   alt="..."
                   src={require("assets/img/client.png").default}
                   style={{ maxWidth: '120%' }}
+                  onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                   // className="shadow-lg rounded-full mx-auto max-w-120-px"
                 />
               </div>
@@ -101,7 +105,10 @@ const UserDropdown = ({user}) => {
                     <Link
                       to="/AccountManagement/BadgesNiveauXp"
                     >
-                <div className="text-xs font-normal text-orange-500">
+                <div className="text-xs font-normal text-orange-500"
+                     onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                     onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                >
                   {user.xp.niveauAtteint.nom}
                   {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && ` Xp : ${user.xp.pointsGagnes}`}
                 </div>
