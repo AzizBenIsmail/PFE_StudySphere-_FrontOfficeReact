@@ -46,7 +46,7 @@ export default function Profile() {
   }, [config,param.id ]);
   const [formations, setFormations] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
-  const [endIndex, setEndIndex] = useState(2);
+  const [endIndex, setEndIndex] = useState(3);
 
   const loadFormations = useCallback(async () => {
     try {
