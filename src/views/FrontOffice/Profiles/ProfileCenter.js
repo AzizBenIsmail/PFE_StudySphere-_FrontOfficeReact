@@ -261,7 +261,7 @@ export default function Profile() {
                       </button>
                       {displayedFormations.map((formation) => (
                         <div
-                          className=" w-full md:w-1/12 px-4 text-center"
+                          className=" w-full md:w-0/12 px-4 text-center"
                           key={formation._id}
                         >
                           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
