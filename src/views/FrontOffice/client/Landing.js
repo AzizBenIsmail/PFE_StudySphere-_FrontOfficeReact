@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { TailSpin } from 'react-loader-spinner'
+
 // components
 import Cookies from "js-cookie";
 import { getAllFormations } from "../../../Services/ApiFormation";
@@ -66,25 +68,37 @@ export default function Landing() {
 
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap">
-              <button
-                onClick={handlePrevPage}
-                disabled={startIndex === 0}
-                className=" bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
-              >
-                <FaChevronLeft style={{ fontSize: '40px' }}/>
 
-              </button>
               {displayedFormations.length === 0 ? (
                 <tr>
                   <td
                     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
                     colSpan="22"
                   >
+                    <TailSpin
+                      visible={true}
+                      width="200" height="200" color="#4fa94d"
+                      ariaLabel="tail-spin-loading"
+                      radius="1"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
                     Aucune formation trouvée.
                   </td>
                 </tr>
               ) : (
-              displayedFormations.map((formation) => (
+                <>
+                  <button
+                    onClick={handlePrevPage}
+                    disabled={startIndex === 0}
+                    className=" bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                    onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                  >
+                    <FaChevronLeft style={{ fontSize: '40px' }}/>
+
+                  </button>
+                  {displayedFormations.map((formation) => (
                 <div
                   className="pt-6 w-full md:w-2/12 px-4 text-center"
                   key={formation._id}
@@ -172,15 +186,17 @@ export default function Landing() {
                     </div>
                   </div>
                 </div>
-              ))
+              ))}
+                  <button
+                    onClick={handleNextPage}
+                    disabled={endIndex === formations.length - 1}
+                    className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  >
+                    <FaChevronRight style={{ fontSize: '40px' }}/>
+                  </button>
+                </>
               )}
-              <button
-                onClick={handleNextPage}
-                disabled={endIndex === formations.length - 1}
-                className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
-              >
-                <FaChevronRight style={{ fontSize: '40px' }}/>
-              </button>
+
             </div>
             <div className="flex flex-wrap items-center mt-32">
               <div className="w-full md:w-5/12 px-4 mr-auto ml-auto">
