@@ -3138,6 +3138,11 @@ select {
     width: auto;
   }
 
+
+  .lg\:w-2\/12 {
+    width: 20%;
+  }
+
   .lg\:w-3\/12 {
     width: 25%;
   }
