@@ -8,11 +8,9 @@ import {
   markNotificationAsRead,
   markNotificationAsViewed,
 } from "../../Services/ApiNotification";
-import { useHistory } from "react-router-dom";
-import { getUserAuth } from "../../Services/Apiauth";
 import moment from "moment";
 
-const NotificationDropdown = () => {
+const NotificationDropdown = ({user}) => {
   if (!Cookies.get("jwt_token")) {
     window.location.replace("/login-page");
   }
@@ -26,38 +24,9 @@ const NotificationDropdown = () => {
     };
   }, [jwt_token]);
 
-  const [user, setUser] = useState(null);
-  const history = useHistory();
   const [readNotifications, setReadNotifications] = useState([]);
   const [vue, setVues] = useState([]);
   const [unreadNotifications, setUnreadNotifications] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (jwt_token) {
-          const config = {
-            headers: {
-              Authorization: `Bearer ${jwt_token}`,
-            },
-          };
-          const res = await getUserAuth(config);
-          setUser(() => {
-            if (res.data.user.role === "admin") {
-              history.replace("/admin/");
-            }
-            return res.data.user;
-          });
-        } else {
-          history.replace("/");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [history, jwt_token]);
 
   useEffect(() => {
     const fetchUserNotifications = async () => {

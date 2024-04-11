@@ -107,7 +107,7 @@ export default function Navbar ({ user }) {
 
               </div>
               <li className="flex items-center">
-                <NotificationDropdown/>
+                <NotificationDropdown user={user}/>
               </li>
               <li className="flex items-center">
                 <UserDropdown user={user}/>
