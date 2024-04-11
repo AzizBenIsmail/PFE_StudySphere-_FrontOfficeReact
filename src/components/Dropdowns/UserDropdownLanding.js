@@ -7,6 +7,7 @@ import { AiOutlineFieldNumber } from "react-icons/ai";
 import { CiUser } from "react-icons/ci";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { GrWorkshop } from "react-icons/gr";
 
 const UserDropdown = ({user}) => {
   const history = useHistory();
@@ -98,7 +99,11 @@ const UserDropdown = ({user}) => {
                     >
                       <div className="flex text-xs font-normal text-orange-500">
                         <AiOutlineFieldNumber style={{ fontSize: '18px' }}/>
-                        formation
+                        {user.Formations.length}
+
+                        <GrWorkshop   style={{ fontSize: '15px' , marginLeft: "3px" }}/>
+
+
                        </div>
                     </Link>
                   </> ) : ( <>
