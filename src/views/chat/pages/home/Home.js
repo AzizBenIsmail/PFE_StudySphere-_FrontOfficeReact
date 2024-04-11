@@ -16,10 +16,12 @@ const Home = () => {
           <MessageContainer />
         </div>
       </div>
-      <div className="bg-red-500 profile-sidebar">
-        {/* Render ProfileSidebar only when a conversation is selected */}
-        {selectedConversation && <ProfileSidebar />}
-      </div>
+      {/* Conditionally render the ProfileSidebar */}
+      {selectedConversation && (
+        <div className="bg-red-500 profile-sidebar">
+          <ProfileSidebar />
+        </div>
+      )}
     </div>
   );
 };
