@@ -226,7 +226,9 @@ export default function Landing() {
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-lightBlue-500">
                   <img
                     alt="..."
-                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80"
+                    src={
+                      require("../../../assets/img/team-4-470x470.png").default
+                    }
                     className="w-full align-middle rounded-t-lg"
                   />
                   <blockquote className="relative p-8 mb-4">
@@ -283,7 +285,9 @@ export default function Landing() {
                 <img
                   alt="..."
                   className="max-w-full rounded-lg shadow-lg"
-                  src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
+                  src={
+                    require("../../../assets/img/team-4-470x470.png").default
+                  }
                 />
               </div>
               <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
@@ -365,7 +369,7 @@ export default function Landing() {
                   <img
                     alt="..."
                     src={
-                      require("../../../assets/img/team-1-800x800.jpg").default
+                      require("../../../assets/img/team-4-470x470.png").default
                     }
                     className="shadow-lg rounded-full mx-auto max-w-120-px"
                   />
@@ -402,7 +406,7 @@ export default function Landing() {
                   <img
                     alt="..."
                     src={
-                      require("../../../assets/img/team-2-800x800.jpg").default
+                      require("../../../assets/img/team-4-470x470.png").default
                     }
                     className="shadow-lg rounded-full mx-auto max-w-120-px"
                   />
@@ -433,7 +437,7 @@ export default function Landing() {
                   <img
                     alt="..."
                     src={
-                      require("../../../assets/img/team-3-800x800.jpg").default
+                      require("../../../assets/img/team-4-470x470.png").default
                     }
                     className="shadow-lg rounded-full mx-auto max-w-120-px"
                   />
