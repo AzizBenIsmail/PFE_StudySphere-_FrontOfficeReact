@@ -640,7 +640,7 @@ export default function PreferenceCenter () {
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                               htmlFor="date-anniversaire"
                             >
-                              Date de naissance
+                              Date de creation
                             </label>
                             <input
                               type="date"
