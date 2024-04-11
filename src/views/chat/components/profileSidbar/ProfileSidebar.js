@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import { AiOutlinePhone, AiOutlineVideoCamera } from "react-icons/ai";
 import useConversation from "../../zustand/useConversation";
 import client from "../../../../assets/img/client.png";
@@ -6,7 +6,10 @@ import client from "../../../../assets/img/client.png";
 const ProfileSidebar = () => {
   const { selectedConversation, messages } = useConversation();
   const [activeSection, setActiveSection] = useState("profile");
-
+  useEffect(() => {
+    // Reset activeSection to "profile" when a new conversation is selected
+    setActiveSection("profile");
+  }, [selectedConversation]);
   const handleClick = (section) => {
     setActiveSection(section);
   };
@@ -145,7 +148,7 @@ const ProfileSidebar = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-8 p-4">
+    <div className="flex flex-col items-center justify-center w-full p-4">
       {selectedConversation && (
         <>
           {activeSection === "profile" && (
@@ -154,7 +157,7 @@ const ProfileSidebar = () => {
               <img
                 src={client}
                 alt="Profile"
-                className="w-24 h-24 rounded-full mb-2"
+                className="w-17 h-24 rounded-full mb-2"
               />
 
               {/* Profile Name */}

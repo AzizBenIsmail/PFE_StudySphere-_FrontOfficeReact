@@ -1249,7 +1249,6 @@ select {
   transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y));
 }
 
-
 /* Inset-y-0 */
 .inset-y-0 {
   --tw-inset-y: 0;
@@ -1265,7 +1264,6 @@ select {
     translateY(var(--tw-translate-y));
 }
 
-
 .end-2 {
   --tw-translate-x: 6rem;
   --tw-translate-y: 0;
@@ -1277,9 +1275,9 @@ select {
 .end-right {
   --tw-translate-x: 1.5rem; /* Adjust this value to set the desired space to the right */
   --tw-translate-y: 0;
-  transform: translateX(calc(100% - var(--tw-translate-x))) translateY(var(--tw-translate-y));
+  transform: translateX(calc(100% - var(--tw-translate-x)))
+    translateY(var(--tw-translate-y));
 }
-
 
 /* Flex */
 .flex {
@@ -1304,8 +1302,6 @@ select {
   font-weight: 600;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
-
-
 
 .bg-black {
   --tw-bg-opacity: 1;
@@ -3433,13 +3429,48 @@ select {
   background-color: #0056b3;
 }
 
-
 .w-8 {
   width: 8rem;
 }
 .w-60 {
-  width: 18rem; 
+  width: 18rem;
 }
-
-
-
+.w-64 {
+  width: 24rem;
+}
+.w-65 {
+  width: 40rem;
+}
+.w-66 {
+  width: 48rem;
+}
+.w-100 {
+  width: 100vw;
+}
+.w-17 {
+  width: 7rem;
+}
+.lg\:w-64 {
+  width: 23.5vw; /* Fixed width of 64px for large screens */
+}
+.lg\:w-2\/3 {
+  width: 55vw;
+}
+.lg\:w-63 {
+  width: 21.5vw; /* Fixed width of 64px for large screens */
+}
+.min-w-screen {
+  min-width: 100vw;
+}
+.lg\:w-4 {
+  width: 9.5vw; /* Fixed width of 64px for large screens */
+}
+.profile-sidebar {
+  width: 21.5vw; /* Adjust the width as needed */
+  right: 0;
+  max-width: 100%;
+  overflow-y: auto;
+  display: flex; /* Use flexbox */
+  flex-direction: column;
+  height: auto;
+}

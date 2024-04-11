@@ -6,7 +6,6 @@
 // // import Navbar from "components/Navbars/Navbar";
 // import Home from '../chat/pages/home/Home'
 
-
 // const Main = () => {
 //   return (
 //     <div className='p-4 h-screen flex items-center justify-center'>
@@ -17,24 +16,25 @@
 // };
 // export default Main;
 
-
 import "./indexChat.css";
-import Footer from '../../components/Footers/FooterSmall';
-import Home from '../chat/pages/home/Home';
-import Navbar from '../../components/Navbars/Navbar'
+import Footer from "../../components/Footers/FooterSmall";
+import Home from "../chat/pages/home/Home";
+import Navbar from "../../components/Navbars/Navbar";
 
 const Main = () => {
   return (
-    <div className='bg-lightBlue-300 flex flex-col min-h-screen'>
+    <div className="bg-lightBlue-300 flex flex-col min-h-screen min-w-screen">
       <Navbar />
-      <div className='flex-1 flex items-center justify-center mb-4  mt-16'> {/* Added mb-4 for margin-bottom */}
+      <div className="flex-1 flex  mb-4  mt-16   ">
+        {" "}
+        {/* Added mb-4 for margin-bottom */}
         <Home />
       </div>
-      <footer className="mt-auto"><Footer /></footer>
+      <footer className="mt-auto">
+        <Footer />
+      </footer>
     </div>
   );
 };
 
 export default Main;
-
-

@@ -49,12 +49,12 @@ const SearchInput = ({ onSearchChange, onConversationClick }) => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-2 ">
       <div className="flex items-center gap-2">
         <input
           type="text"
           placeholder="Search…"
-          className="input input-bordered rounded-full"
+          className="input lg:w-63 input-bordered rounded-full"
           value={search}
           onChange={handleChange}
         />
