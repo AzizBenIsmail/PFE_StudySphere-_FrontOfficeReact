@@ -1,13 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Cookies from 'js-cookie'
 
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getUserByID } from '../../../Services/ApiUser'
 import { MdShareLocation } from "react-icons/md";
 import { MdEmail } from "react-icons/md";
 import { HiLanguage } from "react-icons/hi2";
 import { GoGoal } from "react-icons/go";
 import { GiGiftOfKnowledge } from "react-icons/gi";
+import { TailSpin } from 'react-loader-spinner'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { getAllFormations, getFormationByIdCentre } from '../../../Services/ApiFormation'
 
 
 export default function Profile() {
@@ -41,6 +44,38 @@ export default function Profile() {
 
     return () => clearInterval(interval);
   }, [config,param.id ]);
+  const [formations, setFormations] = useState([]);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(2);
+
+  const loadFormations = useCallback(async () => {
+    try {
+      const res = await getFormationByIdCentre(param.id,config);
+      setFormations(res.data.formations);
+    } catch (error) {
+      console.error('Error loading formations:', error);
+    }
+  }, [config]);
+
+  useEffect(() => {
+    loadFormations();
+  }, [loadFormations]);
+
+  const handleNextPage = () => {
+    if (endIndex < formations.length - 1) {
+      setStartIndex((prevStartIndex) => prevStartIndex + 1);
+      setEndIndex((prevEndIndex) => prevEndIndex + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (startIndex > 0) {
+      setStartIndex((prevStartIndex) => prevStartIndex - 1);
+      setEndIndex((prevEndIndex) => prevEndIndex - 1);
+    }
+  };
+
+  const displayedFormations = formations.slice(startIndex, endIndex + 1);
 
   return (
     <>
@@ -184,49 +219,131 @@ export default function Profile() {
                       </p>
                     </div>
                   </div>
-                  {/*<div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">*/}
-                  {/*  <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>{" "}*/}
-                  {/*  {User.etat ? (*/}
-                  {/*    <div className="flex items-center"  >*/}
-                  {/*      <SiVerizon className="" style={{ fontSize: '18px' }} />*/}
-                  {/*      <div className=" leading-normal uppercase text-lg">Compte Active</div>*/}
-                  {/*    </div>*/}
-                  {/*  ) : (*/}
-                  {/*    <div className="flex items-center "  style={{ fontSize: '18px' }}>*/}
-                  {/*      <SiVexxhost className="" />*/}
-                  {/*      "<div className="leading-normal uppercase text-lg">"Compte Desactive</div>*/}
-                  {/*    </div>*/}
-                  {/*  )}*/}
-                  {/*</div>*/}
-                  {/*<div className="mb-2 text-blueGray-600 mt-10">*/}
-                  {/*  <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>*/}
-                  {/*  Solution Manager - Creative Tim Officer*/}
-                  {/*</div>*/}
-                  {/*<div className="mb-2 text-blueGray-600">*/}
-                  {/*  <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>*/}
-                  {/*  University of Computer Science*/}
-                  {/*</div>*/}
                 </div>
-                {/*<div className="mt-10 py-10 border-t border-blueGray-200 text-center">*/}
-                {/*  <div className="flex flex-wrap justify-center">*/}
-                {/*    <div className="w-full lg:w-9/12 px-4">*/}
-                {/*      <p className="mb-4 text-lg leading-relaxed text-blueGray-700">*/}
-                {/*        An artist of considerable range, Jenna the name taken by*/}
-                {/*        Melbourne-raised, Brooklyn-based Nick Murphy writes,*/}
-                {/*        performs and records all of his own music, giving it a*/}
-                {/*        warm, intimate feel with a solid groove structure. An*/}
-                {/*        artist of considerable range.*/}
-                {/*      </p>*/}
-                {/*      <a*/}
-                {/*        href="#pablo"*/}
-                {/*        className="font-normal text-lightBlue-500"*/}
-                {/*        onClick={(e) => e.preventDefault()}*/}
-                {/*      >*/}
-                {/*        Show more*/}
-                {/*      </a>*/}
-                {/*    </div>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
+                <div className="mt-10 py-3 border-t border-blueGray-200 ">
+                  <div className="flex flex-wrap justify-center">
+                    <div className="w-full lg\:w-auto px-4">
+                      <p className="text-lg leading-relaxed text-blueGray-700">
+                        Les Formations de {User.nom}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-wrap">
+                  {displayedFormations.length === 0 ? (
+                    <tr>
+                      <td
+                        className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+                        colSpan="22"
+                      >
+                        <TailSpin
+                          visible={true}
+                          width="200" height="200" color="#4fa94d"
+                          ariaLabel="tail-spin-loading"
+                          radius="1"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                        />
+                        Aucune formation trouvée.
+                      </td>
+                    </tr>
+                  ) : (
+                    <>
+                      <button
+                        onClick={handlePrevPage}
+                        disabled={startIndex === 0}
+                        className=" bg-blue-500  rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                        onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                      >
+                        <FaChevronLeft style={{ fontSize: '40px' }}/>
+
+                      </button>
+                      {displayedFormations.map((formation) => (
+                        <div
+                          className=" w-full md:w-1/12 px-4 text-center"
+                          key={formation._id}
+                        >
+                          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                            <div className="px-4 py-5 flex-auto">
+                              <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                                <a href={`/DetailsFormation/${formation._id}`}>
+                                  <img
+                                    alt="..."
+                                    className="align-middle border-none max-w-full h-auto rounded-lg"
+                                    src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                                    // style={{ width: "350px", height: "350px" }}
+                                    style={{ width: "250px", height: "120px" }}
+                                    onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                                    onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                                  />
+                                </a>
+                              </div>
+                              <div className="flex flex-wrap">
+                                {formation.competences
+                                .split(",")
+                                .slice(0, 2) // Récupère seulement les deux premières compétences
+                                .map((competence, index) => (
+                                  <span
+                                    key={index}
+                                    style={{
+                                      border: "2px solid rgba(186, 230, 253, 1)",
+                                      marginRight:
+                                        index === 1 ? "0" : "5px", // Ne pas ajouter de marge à droite pour la dernière compétence
+                                    }}
+                                    className="text-xs font-semibold mb-2 inline-block py-1 px-2 rounded-full text-blueGray-600  last:mr-0 mr-1"
+                                  >
+        {competence.trim()}
+      </span>
+                                ))}
+                                {formation.competences.split(",").length > 2 && (
+                                  <span className="text-xs font-semibold mb-2 inline-block py-1 px-2 rounded-full text-blueGray-600">
+      Autres compétences...
+    </span>
+                                )}
+                              </div>
+                              <h6 className="text-base font-semibold">
+                                {formation.titre}
+                              </h6>
+                              <p className="mt-2 mb-4 text-xs text-blueGray-500">
+                                {formation.description}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      <button
+                        onClick={handleNextPage}
+                        disabled={endIndex === formations.length - 1}
+                        className="bg-blue-500 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                      >
+                        <FaChevronRight style={{ fontSize: '40px' }} />
+                      </button>
+                    </>
+                  )}
+                  <div className="pb-6 border-blueGray-200 text-center">
+                    <div className="flex flex-wrap justify-center">
+                      <div className="w-full lg\:w-auto px-20">
+                        <a
+                          href="#pablo"
+                          className="font-normal text-lightBlue-500 text-center"
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          Show more
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-10 py-3 border-t border-blueGray-200 ">
+                    <div className="flex flex-wrap justify-center">
+                      <div className="w-full lg\:w-auto px-4">
+                        <p className="text-lg leading-relaxed text-blueGray-700">
+                          Autre Formations utiles
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
