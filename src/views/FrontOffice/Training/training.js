@@ -106,11 +106,17 @@ export default function Landing() {
                   className="pt-6 w-full px-4 "
                   key={formation._id}
                 >
-                  <div className="relative flex flex-row items-center justify-between min-w-0 break-words bg-centre w-full mb-8 shadow-lg rounded-lg">
+                  <div className="relative flex flex-row items-center justify-between min-w-0 break-words bg-centre w-full mb-8 shadow-lg rounded-lg"
+                       onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                       onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                  >
                     <div className="p-4">
-                      <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-centre w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                        <a href={`/DetailsFormation/${formation._id}`}>
+                      {/*<div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-centre w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">*/}
+                      <div className="">
+                      <a href={`/DetailsFormation/${formation._id}`}>
                           <img
+                            onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                            onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                             alt="..."
                             className="align-middle border-none max-w-full h-auto rounded-lg"
                             src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
@@ -147,19 +153,27 @@ export default function Landing() {
                         {splitDescription(formation.description,formation._id)}
                       </p>
                       <div className="flex items-center mb-4">
+                        <Link to={`/profile/ProfileCenter/${formation.centre._id}`}>
                         <img
+                          onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                          onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                           alt="..."
                           className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
                           src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
                           style={{ width: "25px" }}
                         />
+                        </Link>
                         <p className="text-xs text-blueGray-400 ml-2 ">posté par {formation.centre.nom}</p>
+                        <Link to={`/profile/ProfileFormateur/${formation.formateur._id}`}>
                         <img
+                          onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                          onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                           alt="..."
                           className="shadow ml-2 rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
                           src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
                           style={{ width: "25px" }}
                         />
+                        </Link>
                         <p className="text-xs text-blueGray-400 ml-2">posté par {formation.formateur.nom}</p>
                       </div>
 
