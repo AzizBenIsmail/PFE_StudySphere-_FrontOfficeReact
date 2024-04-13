@@ -42,6 +42,27 @@ export default function ListeFormations ({ color }) {
     centre: '', // Ici, vous pouvez stocker l'ID du centre sélectionné
     formateur: '', // Ici, vous pouvez stocker l'ID du formateur sélectionné
   })
+  const [errors, setErrors] = useState({
+    titre: false,
+    description: false,
+    niveauRequis: false,
+    niveauDengagementRequis: false,
+    competences: false,
+    niveauDeDifficulte: false,
+    styleEnseignement: false,
+    Prix: false,
+    jours: false,
+    typeContenu: false,
+    langue: false,
+    emplacement: false,
+    sujetInteret: false,
+    Tranches_Horaires: false,
+    duree: false,
+    dateDebut: new Date(),
+    dateFin: new Date(),
+    centre: false, // Ici, vous pouvez stocker l'ID du centre sélectionné
+    formateur: false, // Ici, vous pouvez stocker l'ID du formateur sélectionné  });
+  });
   const loadFormations = useCallback(async () => {
     try {
       const res = await getAllFormations(config)
@@ -87,6 +108,100 @@ export default function ListeFormations ({ color }) {
 // Fonction pour ajouter une nouvelle formation avec image
   const handleAddFormation = async () => {
     try {
+        const newErrors = {};
+        let hasErrors = false;
+
+        // Valider le titre
+        if (newFormation.titre.trim() === "") {
+          newErrors.titre = true;
+          hasErrors = true;
+        }
+
+        // Valider la description (exemple)
+        if (newFormation.description.trim() === "") {
+          newErrors.description = true;
+          hasErrors = true;
+        }
+
+        // // Valider le centre (exemple)
+        // if (newFormation.centre.trim() === "") {
+        //   newErrors.centre = true;
+        //   hasErrors = true;
+        // }
+
+        // Valider le formateur (exemple)
+        if (newFormation.formateur.trim() === "") {
+          newErrors.formateur = true;
+          hasErrors = true;
+        }
+
+        if (newFormation.styleEnseignement.trim() === "") {
+          newErrors.styleEnseignement = true;
+          hasErrors = true;
+        }
+
+        if (newFormation.Prix.trim() === "") {
+          newErrors.Prix = true;
+          hasErrors = true;
+        }
+
+        if (newFormation.jours.trim() === "") {
+          newErrors.jours = true;
+          hasErrors = true;
+        }
+
+        if (newFormation.typeContenu.trim() === "") {
+          newErrors.typeContenu = true;
+          hasErrors = true;
+        }
+
+        if (newFormation.langue.trim() === "") {
+          newErrors.langue = true;
+          hasErrors = true;
+        }
+
+        if (newFormation.emplacement.trim() === "") {
+          newErrors.emplacement = true;
+          hasErrors = true;
+        }
+        if (newFormation.sujetInteret.trim() === "") {
+          newErrors.sujetInteret = true;
+          hasErrors = true;
+        }
+
+        if (newFormation.Tranches_Horaires.trim() === "") {
+          newErrors.Tranches_Horaires = true;
+          hasErrors = true;
+        }
+        // if (newFormation.duree.trim() === '') {
+        //   newErrors.duree = true;
+        //   hasErrors = true;
+        // }
+        if (newFormation.niveauDengagementRequis.trim() === "") {
+          newErrors.niveauDengagementRequis = true;
+          hasErrors = true;
+        }
+        if (newFormation.niveauDeDifficulte.trim() === "") {
+          newErrors.niveauDeDifficulte = true;
+          hasErrors = true;
+        }
+        if (newFormation.niveauRequis.trim() === "") {
+          newErrors.niveauRequis = true;
+          hasErrors = true;
+        }
+        // if (newFormation.dateDebut.trim() === '') {
+        //   newErrors.dateDebut = true;
+        //   hasErrors = true;
+        // }
+        // if (newFormation.dateFin.trim() === '') {
+        //   newErrors.dateFin = true;
+        //   hasErrors = true;
+        // }
+        // Si des erreurs sont trouvées, les mettre à jour et arrêter le processus
+        if (hasErrors) {
+          setErrors(newErrors);
+          return;
+        }
       const formData = new FormData()
       formData.append('image_Formation', newFormation.image) // Ajoutez l'image à l'objet FormData
       formData.append('titre', newFormation.titre) // Ajoutez l'image à l'objet FormData
@@ -453,7 +568,8 @@ export default function ListeFormations ({ color }) {
             </tr>
             </thead>
             <tbody>
-            {formations.map((formation) => (
+            {formations.length > 0 ? (
+              formations.map((formation) => (
               <tr key={formation._id}>
                 <td
                   className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 font-bold">
@@ -516,18 +632,21 @@ export default function ListeFormations ({ color }) {
                   </button>
                 </td>
               </tr>
-            ))}
+            ))
+              ) : (
+              <tr>
+              <td colSpan="20" className="text-center">Aucune formation disponible</td>
+              </tr>
+              )}
             </tbody>
           </table>
         </div>
       </div>
-      {/* Popup d'ajout de formation */}
       {showAddForm && (
         <div
           className="absolute top-11 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
           <div className="bg-white p-8 rounded shadow lg:w-8/12">
             <h3>Ajouter une nouvelle formation</h3>
-            {/* Premier groupe de champs */}
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-4 flex items-center">
                 <div className="w-full">
@@ -536,6 +655,11 @@ export default function ListeFormations ({ color }) {
                          onChange={(e) => setNewFormation({ ...newFormation, titre: e.target.value })}
                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
+                  {errors.titre && (
+                    <span className="text-red-500">
+                          Veuillez saisir un titre pour la formation.
+                        </span>
+                  )}
                 </div>
                 <div className="px-4 w-full">
                   <label htmlFor="description">description</label>
@@ -543,6 +667,11 @@ export default function ListeFormations ({ color }) {
                          onChange={(e) => setNewFormation({ ...newFormation, description: e.target.value })}
                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
+                  {errors.description && (
+                    <span className="text-red-500">
+                          Veuillez saisir une description pour la formation.
+                        </span>
+                  )}
                 </div>
                 <div className=" w-full">
                   <label htmlFor="centre">Centre :</label>
@@ -556,6 +685,11 @@ export default function ListeFormations ({ color }) {
                       <option key={centre._id} value={centre._id}>{centre.nom}</option>
                     ))}
                   </select>
+                    {errors.centre && (
+                      <span className="text-red-500">
+                        Veuillez choisire un centre pour la formation.
+                      </span>
+                    )}
                 </div>
                 <div className="px-3 w-full">
                   <label htmlFor="formateur">Formateur :</label>
@@ -568,22 +702,30 @@ export default function ListeFormations ({ color }) {
                       <option key={user._id} value={user._id}>{user.nom}</option>
                     ))}
                   </select>
+                  {errors.formateur && (
+                    <span className="text-red-500">
+                          Veuillez choisire un formateur pour la formation.
+                        </span>
+                  )}
                 </div>
               </div>
             </div>
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-4 flex items-center">
-
                 <div className=" w-full">
                   <label htmlFor="Prix">Prix</label>
                   <input type="number" placeholder="Prix" value={newFormation.Prix}
                          onChange={(e) => setNewFormation({ ...newFormation, Prix: e.target.value })}
                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   />
+                  {errors.Prix && (
+                    <span className="text-red-500">
+                          Veuillez saisir un Prix pour la formation.
+                        </span>
+                  )}
                 </div>
                 <div className="px-4 w-full">
                   <label htmlFor="Style d'enseignement">styleEnseignement</label>
-                  {/*<input type="text" placeholder="Style d'enseignement" value={newFormation.styleEnseignement} onChange={(e) => setNewFormation({ ...newFormation, styleEnseignement: e.target.value })}/>*/}
                   <select
                     id="styleEnseignement"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -595,11 +737,16 @@ export default function ListeFormations ({ color }) {
                     <option value="hybride">Hybride</option>
                     <option value="presentiel">Présentiel</option>
                   </select>
+                  {errors.styleEnseignement && (
+                    <span className="text-red-500">
+                          Veuillez saisir un styleEnseignement pour la
+                          formation.
+                        </span>
+                  )}
                 </div>
 
                 <div className="w-full">
                   <label htmlFor="niveauRequis">niveauRequis</label>
-                  {/*<input type="text" placeholder="niveauRequis" value={newFormation.niveauRequis} onChange={(e) => setNewFormation({ ...newFormation, niveauRequis: e.target.value })}/>*/}
                   <select
                     id="niveauRequis"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -613,12 +760,15 @@ export default function ListeFormations ({ color }) {
                     <option value="Superieur">Superieur</option>
                     <option value="Maitrise">Maitrise</option>
                     <option value="Formations">Formations</option>
-                    {/* Ajoutez d'autres options selon vos besoins */}
                   </select>
+                  {errors.niveauRequis && (
+                    <span className="text-red-500">
+                          Veuillez saisir un niveauRequis pour la formation.
+                        </span>
+                  )}
                 </div>
                 <div className="px-4 w-full">
                   <label htmlFor="Type de contenu">typeContenu</label>
-                  {/*<input type="text" placeholder="Type de contenu" value={newFormation.typeContenu} onChange={(e) => setNewFormation({ ...newFormation, typeContenu: e.target.value })}/>*/}
                   <select
                     id="typeContenu"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -632,6 +782,11 @@ export default function ListeFormations ({ color }) {
                     <option value="engroupe">Travaille en groupe</option>
                     <option value="Sans">Sans contrainte</option>
                   </select>
+                  {errors.typeContenu && (
+                    <span className="text-red-500">
+                          Veuillez saisire un typeContenu pour la formation.
+                        </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -640,7 +795,6 @@ export default function ListeFormations ({ color }) {
               <div className="grid grid-cols-3 gap-4 flex items-center">
                 <div>
                   <label htmlFor="Langue">langue</label>
-                  {/*<input type="text" placeholder="Langue" value={newFormation.langue} onChange={(e) => setNewFormation({ ...newFormation, langue: e.target.value })}/>*/}
                   <select
                     id="langue"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -652,12 +806,14 @@ export default function ListeFormations ({ color }) {
                     <option value="Anglais">Anglais</option>
                     <option value="Langue_maternelle">Langue_maternelle</option>
                   </select>
+                  {errors.langue && (
+                    <span className="text-red-500">
+                          Veuillez saisire un langue pour la formation.
+                        </span>
+                  )}
                 </div>
                 <div className="px-4">
                   <label htmlFor="Durée">duree :</label>
-                  {/*<input type="number" placeholder="Durée" value={newFormation.duree} onChange={(e) => setNewFormation({ ...newFormation, duree: e.target.value })}*/}
-                  {/*       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                  {/*/>*/}
                   <select
                     id="duree"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -676,6 +832,11 @@ export default function ListeFormations ({ color }) {
                     <option value="300">5H00/300Min</option>
                     <option value="330">5H30/330Min</option>
                   </select>
+                  {errors.duree && (
+                    <span className="text-red-500">
+                          Veuillez saisire un duree pour la formation.
+                        </span>
+                  )}
                 </div>
                 <div>
                   <label htmlFor="Durée">Photo de couverture :</label>
@@ -684,61 +845,8 @@ export default function ListeFormations ({ color }) {
                   /></div>
               </div>
             </div>
-            {/*<div className="mb-4">*/}
-            {/*  <div className="grid grid-cols-3 gap-4 flex items-center">*/}
-            {/*    <input type="file" accept="image/*" onChange={(e) => handleImageChange(e)}*/}
-            {/*           className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-            {/*    />*/}
-            {/*  </div>*/}
-            {/*</div>*/}
-            {/* Troisième groupe de champs */}
             <div className="mb-4">
               <div className="grid grid-cols-3 gap-4 flex items-center">
-                {/*<div>*/}
-                {/*  <label htmlFor="Sujet d'intérêt">Domaine de Formation</label>*/}
-                {/*  /!*<input type="text" placeholder="Sujet d'intérêt" value={newFormation.sujetInteret} onChange={(e) => setNewFormation({ ...newFormation, sujetInteret: e.target.value })}/>*!/*/}
-                {/*  <div className="relative w-full mb-3">*/}
-                {/*    /!*<label*!/*/}
-                {/*    /!*  className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*!/*/}
-                {/*    /!*  htmlFor="sujetInteret"*!/*/}
-                {/*    /!*>*!/*/}
-                {/*    /!*  *!/*/}
-                {/*    /!*</label>*!/*/}
-                {/*    <select*/}
-                {/*      id="sujetInteret"*/}
-                {/*      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                {/*      onChange={handleChangedinteret}*/}
-                {/*      value={selectedDomainedinteret}*/}
-                {/*    >*/}
-                {/*      <option value="">Domaine de Formation</option>*/}
-                {/*      {Object.keys(sousListes).map((domaine) => (*/}
-                {/*        <option key={domaine} value={domaine}>{domaine}</option>*/}
-                {/*      ))}*/}
-                {/*    </select>*/}
-                {/*  </div>*/}
-                {/*  /!* Afficher la sous-liste si un domaine est sélectionné *!/*/}
-                {/*  {selectedDomainedinteret && (*/}
-                {/*    <div className="relative w-full mb-3">*/}
-                {/*      <label*/}
-                {/*        className="block uppercase text-blueGray-600 text-xs font-bold mb-2"*/}
-                {/*        htmlFor="sous-liste-select"*/}
-                {/*      >*/}
-                {/*        {selectedDomainedinteret}*/}
-                {/*      </label>*/}
-                {/*      <select*/}
-                {/*        id="sous-liste-select"*/}
-                {/*        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                {/*        name="sujetInteret"*/}
-                {/*        onChange={(e) => handleSelectChange(e)}*/}
-                {/*      >*/}
-                {/*        <option value="">Sélectionnez une spécialisation</option>*/}
-                {/*        {sousListes[selectedDomainedinteret].map((specialisation, index) => (*/}
-                {/*          <option key={index} value={specialisation}>{specialisation}</option>*/}
-                {/*        ))}*/}
-                {/*      </select>*/}
-                {/*    </div>*/}
-                {/*  )}*/}
-                {/*</div>*/}
                 <div>
                   <div className="grid grid-cols-3 gap-4 flex items-center">
                     <div>
@@ -751,6 +859,12 @@ export default function ListeFormations ({ color }) {
                           <option key={domaine} value={domaine}>{domaine}</option>
                         ))}
                       </select>
+                      {errors.sujetInteret && (
+                        <span className="text-red-500">
+                              Veuillez saisir votre sujet Interet pour la
+                              formation.
+                            </span>
+                      )}
                     </div>
                     <div>
                       {domaineSelectionne && (
@@ -768,6 +882,11 @@ export default function ListeFormations ({ color }) {
                             ))}
                           </select>
                         </div>
+                      )}
+                      {errors.competences && (
+                        <span className="text-red-500">
+                              Veuillez saisir une competence pour la formation.
+                            </span>
                       )}
                     </div>
                     <div className="px-4 w-full">
@@ -812,6 +931,12 @@ export default function ListeFormations ({ color }) {
                                 ))}
                               </select>
                             </div>
+                          )}
+                          {errors.emplacement && (
+                            <span className="text-red-500">
+                                  Veuillez saisir votre emplacement pour la
+                                  formation.
+                                </span>
                           )}
                         </div>
                       </div>
@@ -886,6 +1011,12 @@ export default function ListeFormations ({ color }) {
                       <option value="intermediaire">Intermédiaire</option>
                       <option value="avance">Avancé</option>
                     </select>
+                    {errors.niveauDeDifficulte && (
+                      <span className="text-red-500">
+                            Veuillez saisir un niveauDeDifficulte pour la
+                            formation.
+                          </span>
+                    )}
                   </div>
                   <div className="px-4 ">
                     <div className=" w-full">
@@ -902,6 +1033,12 @@ export default function ListeFormations ({ color }) {
                         <option value="2S">sessions d'apprentissage plus courtes 2 Seance</option>
                         <option value="1S">intermittentes 1 Seance</option>
                       </select>
+                      {errors.niveauDengagementRequis && (
+                        <span className="text-red-500">
+                              Veuillez saisir un niveauDengagementRequis pour la
+                              formation.
+                            </span>
+                      )}
                     </div>
                   </div>
                   <div className="w-full">
@@ -1007,6 +1144,11 @@ export default function ListeFormations ({ color }) {
                       </div>
                     </div>
                   </div>
+                  {errors.jours && (
+                    <span className="text-red-500">
+                          Veuillez saisir un jours pour la formation.
+                        </span>
+                  )}
                   <div className="times-section">
                     <h3 className="text-blueGray-400">Heures de la journée</h3>
                     <div className="time-checkboxes text-blueGray-400">
@@ -1023,6 +1165,12 @@ export default function ListeFormations ({ color }) {
                                  className="ml-2">{time.charAt(0).toUpperCase() + time.slice(1)}</label>
                         </div>
                       ))}
+                      {errors.Tranches_Horaires && (
+                        <span className="text-red-500">
+                              Veuillez saisir une Tranches_Horaires pour la
+                              formation.
+                            </span>
+                      )}
                     </div>
                   </div>
                 </div>
