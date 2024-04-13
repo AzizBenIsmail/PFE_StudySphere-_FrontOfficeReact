@@ -149,3 +149,7 @@ export async function UpdatePasswordByAdmin (id,user, config) {
 export async function UpdatePassword (user, config) {
   return await axios.put(`${apiURL}/UpdatePassword`, user, config )
 }
+
+export async function getCentersByDomain(domaine, config) {
+  return await axios.get(`${ apiURL }/Center/Developpement`, config);
+}

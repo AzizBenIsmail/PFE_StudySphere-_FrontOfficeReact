@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Cookies from "js-cookie";
 import { FaChevronRight , FaChevronLeft  } from "react-icons/fa";
 import { getCentre } from '../../../Services/ApiUser'
+import { Link } from "react-router-dom";
 
 export default function Landing() {
   const [centers, setCenters] = useState([]);
@@ -55,7 +56,7 @@ export default function Landing() {
                   <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                     <div className="px-4 py-5 flex-auto">
                       <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                        <a href={`/DetailsCenter/${center._id}`}>
+                        <Link to={`/profile/ProfileCenter/${center._id}`}>
                           <img
                             alt="..."
                             className="align-middle border-none max-w-full h-auto rounded-lg"
@@ -63,7 +64,7 @@ export default function Landing() {
                             // style={{ width: "350px", height: "350px" }}
                             style={{ width: "200px", height: "120px" }}
                           />
-                        </a>
+                        </Link>
                       </div>
                       <h6 className="text-xl font-semibold">
                         {center.nom}
