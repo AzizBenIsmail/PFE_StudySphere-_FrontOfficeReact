@@ -15,7 +15,7 @@ const Profiles = lazy(() => import("./layouts/Profiles.js"));
 const Setting = lazy(() => import("./views/FrontOffice/AccountManagement/Setting.js"));
 const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
 const Index = lazy(() => import("views/Index.js"));
-const createFormation = lazy(() => import("views/FrontOffice/Center/createFormation.js"));
+// const createFormation = lazy(() => import("views/FrontOffice/Center/createFormation.js"));
 
 function Routes() {
   return (
@@ -40,7 +40,7 @@ function Routes() {
           {/* add routes without layouts */}
           {/*<Route path="/profile" exact component={Profile} />*/}
           <Route path="/Setting" exact component={Setting} />
-          <Route path="/createFormation" exact component={createFormation} />
+          {/*<Route path="/createFormation" exact component={createFormation} />*/}
           <Route path="/DetailsFormation/:id" exact component={DetailsFormation} />
           <Route path="/" exact component={Index} />
           {/* add redirect for first page */}
