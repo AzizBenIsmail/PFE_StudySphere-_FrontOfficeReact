@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FaRegUserCircle } from 'react-icons/fa'
-import { MdOutlineClass, MdOutlineSecurity, MdRoomPreferences } from 'react-icons/md'
-import { IoMdNotificationsOutline } from 'react-icons/io'
+import { MdOutlineClass, MdFavoriteBorder, MdOutlineSecurity, MdRoomPreferences } from 'react-icons/md'
 import { SiOpslevel } from 'react-icons/si'
 import { BiSolidUserAccount } from 'react-icons/bi'
 import Cookies from 'js-cookie'
@@ -242,7 +241,8 @@ const Tabs = ({code}) => {
                     role="tablist"
                   >
                     <div className="px-6 flex py-1">
-                      <IoMdNotificationsOutline style={{ fontSize: '25px' }} className="mt-1"/>
+                      <MdFavoriteBorder style={{ fontSize: '25px' }} className="mt-1"/>
+
                       <div className="ml-2">
                         <h3 className="text-1xl mt-2">
                           Notifications par e-mail

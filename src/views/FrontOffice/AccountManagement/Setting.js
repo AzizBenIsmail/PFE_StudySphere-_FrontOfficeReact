@@ -7,7 +7,7 @@ import { getUserAuth } from '../../../Services/Apiauth'
 import {  useHistory, useParams } from 'react-router-dom'
 import { FaRegUserCircle } from 'react-icons/fa'
 import { MdOutlineSecurity, MdRoomPreferences } from 'react-icons/md'
-import { IoMdNotificationsOutline } from 'react-icons/io'
+import { MdFavoriteBorder } from "react-icons/md";
 import { SiOpslevel } from "react-icons/si";
 import { BiSolidUserAccount } from 'react-icons/bi'
 import { MdOutlineClass } from "react-icons/md";
@@ -204,13 +204,13 @@ export default function Profile () {
                 onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                 onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
                 <div className="px-6 flex py-6">
-                  <IoMdNotificationsOutline style={{ fontSize: '50px' }} className="mt-3"/>
+                  <MdFavoriteBorder style={{ fontSize: '50px' }} className="mt-3"/>
                   <div className="ml-4 leading-parametre mt-2 ">
                     <h3 className="text-2xl font-semibold text-blueGray-700 ">
-                      Notifications par e-mail
+                      Liste favoris
                     </h3>
                     <h3 className="text-1xl font-normal text-blueGray-600">
-                      Choisisser les notification que vous recevrez .
+                      Gere vos favoris ou personnaliser votre Liste .
                     </h3>
                   </div>
                 </div>
