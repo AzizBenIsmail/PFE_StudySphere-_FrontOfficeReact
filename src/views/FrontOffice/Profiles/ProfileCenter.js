@@ -123,7 +123,7 @@ export default function Profile() {
     } catch (error) {
       console.error("Error loading formations:", error);
     }
-  }, [config]);
+  }, [param.id,config]);
 
   useEffect(() => {
     loadFormateurs();
