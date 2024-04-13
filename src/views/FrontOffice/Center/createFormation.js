@@ -6,7 +6,7 @@ import {
   getFormationByCenter,
   updateFormation,
 } from "../../../Services/ApiFormation";
-import { getCentre, getFormateur } from "../../../Services/ApiUser";
+import { getFormateur } from "../../../Services/ApiUser";
 import { CiSquareRemove } from "react-icons/ci";
 import SiedBarSetting from "../AccountManagement/SiedBarSetting";
 
@@ -22,7 +22,7 @@ export default function ListeFormations({ color }) {
   }, [jwt_token]);
 
   const [users, setUsers] = useState([]);
-  const [centres, setCentres] = useState([]);
+  // const [centres, setCentres] = useState([]);
   const [formations, setFormations] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -86,20 +86,19 @@ export default function ListeFormations({ color }) {
     }
   }, [config]);
 
-  // Fonction pour charger la liste des centres
-  const loadCentres = useCallback(async () => {
-    try {
-      const res = await getCentre(config);
-      setCentres(res.data.users);
-    } catch (error) {
-      console.error("Error loading centres:", error);
-    }
-  }, [config]);
+  // // Fonction pour charger la liste des centres
+  // const loadCentres = useCallback(async () => {
+  //   try {
+  //     const res = await getCentre(config);
+  //     setCentres(res.data.users);
+  //   } catch (error) {
+  //     console.error("Error loading centres:", error);
+  //   }
+  // }, [config]);
 
   useEffect(() => {
     loadFormateurs();
-    loadCentres();
-  }, [loadFormateurs, loadCentres]);
+  }, [loadFormateurs]);
   // Fonction pour gérer le changement d'image
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
@@ -146,11 +145,11 @@ export default function ListeFormations({ color }) {
         hasErrors = true;
       }
 
-      // Valider le centre (exemple)
-      if (newFormation.centre.trim() === "") {
-        newErrors.centre = true;
-        hasErrors = true;
-      }
+      // // Valider le centre (exemple)
+      // if (newFormation.centre.trim() === "") {
+      //   newErrors.centre = true;
+      //   hasErrors = true;
+      // }
 
       // Valider le formateur (exemple)
       if (newFormation.formateur.trim() === "") {
@@ -248,7 +247,7 @@ export default function ListeFormations({ color }) {
       formData.append("niveauRequis", newFormation.niveauRequis); // Ajoutez l'image à l'objet FormData
       formData.append("dateDebut", newFormation.dateDebut); // Ajoutez l'image à l'objet FormData
       formData.append("dateFin", newFormation.dateFin); // Ajoutez l'image à l'objet FormData
-      formData.append("centre", newFormation.centre); // Ajoutez l'image à l'objet FormData
+      // formData.append("centre", newFormation.centre); // Ajoutez l'image à l'objet FormData
       formData.append("formateur", newFormation.formateur); // Ajoutez l'image à l'objet FormData
 
       // Ajoutez d'autres champs de formation à formData
@@ -1218,32 +1217,32 @@ export default function ListeFormations({ color }) {
                         </span>
                       )}
                     </div>
-                    <div className=" w-full">
-                      <label htmlFor="centre">Centre :</label>
-                      <select
-                        id="centre"
-                        value={newFormation.centre}
-                        onChange={(e) =>
-                          setNewFormation({
-                            ...newFormation,
-                            centre: e.target.value,
-                          })
-                        }
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      >
-                        <option value="">Sélectionner un</option>
-                        {centres.map((centre) => (
-                          <option key={centre._id} value={centre._id}>
-                            {centre.nom}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.centre && (
-                        <span className="text-red-500">
-                          Veuillez choisire un centre pour la formation.
-                        </span>
-                      )}
-                    </div>
+                    {/*<div className=" w-full">*/}
+                    {/*  <label htmlFor="centre">Centre :</label>*/}
+                    {/*  <select*/}
+                    {/*    id="centre"*/}
+                    {/*    value={newFormation.centre}*/}
+                    {/*    onChange={(e) =>*/}
+                    {/*      setNewFormation({*/}
+                    {/*        ...newFormation,*/}
+                    {/*        centre: e.target.value,*/}
+                    {/*      })*/}
+                    {/*    }*/}
+                    {/*    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
+                    {/*  >*/}
+                    {/*    <option value="">Sélectionner un</option>*/}
+                    {/*    {centres.map((centre) => (*/}
+                    {/*      <option key={centre._id} value={centre._id}>*/}
+                    {/*        {centre.nom}*/}
+                    {/*      </option>*/}
+                    {/*    ))}*/}
+                    {/*  </select>*/}
+                    {/*  {errors.centre && (*/}
+                    {/*    <span className="text-red-500">*/}
+                    {/*      Veuillez choisire un centre pour la formation.*/}
+                    {/*    </span>*/}
+                    {/*  )}*/}
+                    {/*</div>*/}
                     <div className="px-3 w-full">
                       <label htmlFor="formateur">Formateur :</label>
                       <select
