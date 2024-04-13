@@ -9,6 +9,7 @@ import NotificationDropdown from '../Dropdowns/NotificationDropdown'
 import { FaRegStar, FaSchool } from 'react-icons/fa'
 import { MdCastForEducation } from 'react-icons/md'
 import { BiSolidSchool  } from "react-icons/bi";
+import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 
 export default function Navbar ({ user }) {
   const history = useHistory()
@@ -67,7 +68,7 @@ export default function Navbar ({ user }) {
               {user && (user.role === "client" || user.role === "formateur")  ? (
                 <>
                   <Link
-                    className="lg:text-white lg:hover:text-indigo-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                    className="lg:text-white lg:hover:text-indigo-500 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs "
                     to="/landing/training"
                   >
                     <MdCastForEducation
@@ -77,11 +78,19 @@ export default function Navbar ({ user }) {
                     Formation
                   </Link>
                   <Link
-                    className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                  className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs "
+                  to="/landing/center"
+                >
+                  <BiSolidSchool  className="mr-2" style={{ fontSize: '24px' }}/>
+                  Centre
+                </Link>
+
+                  <Link
+                    className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs "
                     to="/landing/center"
                   >
-                    <BiSolidSchool  className="mr-2" style={{ fontSize: '24px' }}/>
-                    Centre de formation
+                    <LiaChalkboardTeacherSolid   className="mr-2" style={{ fontSize: '24px' }}/>
+                    Formateur
                   </Link>
                 </>
               ) : null }

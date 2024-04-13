@@ -193,7 +193,7 @@ export default function Profile() {
                         10
                       </span>
                       <span className="text-sm text-blueGray-400">
-                        feedbacks
+                        Feedbacks
                       </span>
                     </div>
                     <div className="lg:mr-4 p-3 text-center">
@@ -201,7 +201,7 @@ export default function Profile() {
                         89
                       </span>
                       <span className="text-sm text-blueGray-400">
-                        Comments
+                        Event
                       </span>
                     </div>
                   </div>
