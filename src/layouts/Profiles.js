@@ -29,14 +29,13 @@ export default function LandingLayout () {
             },
           };
           const res = await getUserAuth(config);
-          setUser(() => {
-            if (res.data.user.role === 'admin') {
-              history.replace('/admin/');
-            }
-            return res.data.user;
-          });
+          const data = res.data.user
+          setUser(data)
+          if (res.data.user.role === "admin") {
+            history.replace("/admin/");
+          }
         } else {
-          history.replace('/');
+          history.replace("/");
         }
 
       } catch (error) {
