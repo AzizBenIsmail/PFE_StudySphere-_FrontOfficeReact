@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Cookies from "js-cookie";
 
-import { useHistory, useParams } from 'react-router-dom'
-import { getCentersByDomain, getUserByID } from "../../../Services/ApiUser";
+import { useParams } from 'react-router-dom'
+import { getCentersByDomain, getInstructorsByCenter, getUserByID } from '../../../Services/ApiUser'
 import { MdShareLocation } from "react-icons/md";
 import { MdEmail } from "react-icons/md";
 import { HiLanguage } from "react-icons/hi2";
@@ -15,7 +15,6 @@ import { Link } from "react-router-dom";
 
 export default function Profile() {
   const jwt_token = Cookies.get("jwt_token");
-  const history = useHistory()
 
   const config = useMemo(() => {
     return {
@@ -57,7 +56,7 @@ export default function Profile() {
     } catch (error) {
       console.error("Error loading formations:", error);
     }
-  }, [config]);
+  }, [config,param.id,]);
 
   useEffect(() => {
     loadFormations();
@@ -85,7 +84,6 @@ export default function Profile() {
 
   const loadCenters = useCallback(async () => {
     try {
-      console.log("123");
       const res = await getCentersByDomain("Developpement", config);
       setCenters(res.data.centers);
     } catch (error) {
@@ -96,6 +94,7 @@ export default function Profile() {
   useEffect(() => {
     loadCenters();
   }, [loadCenters]);
+
 
   const handleNextPageCenter = () => {
     if (endIndexCenter < centers.length - 1) {
@@ -112,6 +111,40 @@ export default function Profile() {
   };
 
   const displayedCenter = centers.slice(startIndexCenter, endIndexCenter + 1);
+
+  const [formateurs, setFormateurs] = useState([]);
+  const [startIndexFormateurs, setStartIndexFormateurs] = useState(0);
+  const [endIndexFormateurs, setEndIndexFormateurs] = useState(3);
+
+  const loadFormateurs = useCallback(async () => {
+    try {
+      const res = await getInstructorsByCenter(param.id, config);
+      setFormateurs(res.data.instructors);
+    } catch (error) {
+      console.error("Error loading formations:", error);
+    }
+  }, [config]);
+
+  useEffect(() => {
+    loadFormateurs();
+  }, [loadFormateurs]);
+
+
+  const handleNextPageFormateurs = () => {
+    if (endIndexFormateurs < formateurs.length - 1) {
+      setStartIndexFormateurs((prevStartIndex) => prevStartIndex + 1);
+      setEndIndexFormateurs((prevEndIndex) => prevEndIndex + 1);
+    }
+  };
+
+  const handlePrevPageFormateurs = () => {
+    if (startIndexFormateurs > 0) {
+      setStartIndexFormateurs((prevStartIndex) => prevStartIndex - 1);
+      setEndIndexFormateurs((prevEndIndex) => prevEndIndex - 1);
+    }
+  };
+
+  const displayedFormateurs = formateurs.slice(startIndexFormateurs, endIndexFormateurs + 1);
   return (
     <>
       <section className="relative py-15 bg-blueGray-200">
@@ -439,6 +472,7 @@ export default function Profile() {
                             <div className="px-4 py-5 flex-auto">
                               <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                                 <Link
+                                  to=""
                                   // to={`/profile/ProfileCenter/${center._id}`}
                                   onClick={(e) => window.location.replace(`/profile/ProfileCenter/${center._id}`)}
                                 >
@@ -471,6 +505,112 @@ export default function Profile() {
                       <button
                         onClick={handleNextPageCenter}
                         disabled={endIndexCenter === centers.length - 1}
+                        className="bg-blue-500 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                      >
+                        <FaChevronRight style={{ fontSize: "40px" }} />
+                      </button>
+                    </>
+                  )}
+                  <div className="pb-6 border-blueGray-200 text-center">
+                    <div className="flex flex-wrap justify-center">
+                      <div className="w-full lg\:w-auto px-20">
+                        <a
+                          href="/landing/center"
+                          className="font-normal text-lightBlue-500 text-center"
+                        >
+                          Show more
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-10 py-3 border-t border-blueGray-200 ">
+                  <div className="flex flex-wrap justify-center">
+                    <div className="w-full lg\:w-auto px-4">
+                      <p className="text-lg leading-relaxed text-blueGray-700">
+                        Formateur Relier au Center {User.nom}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-wrap">
+                  {displayedFormateurs.length === 0 ? (
+                    <tr>
+                      <td
+                        className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+                        colSpan="22"
+                      >
+                        <TailSpin
+                          visible={true}
+                          width="200"
+                          height="200"
+                          color="#4fa94d"
+                          ariaLabel="tail-spin-loading"
+                          radius="1"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                        />
+                        Aucune formation trouvée.
+                      </td>
+                    </tr>
+                  ) : (
+                    <>
+                      <button
+                        onClick={handlePrevPageFormateurs}
+                        disabled={startIndexFormateurs === 0}
+                        className=" bg-blue-500  rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.boxShadow =
+                            "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                        }
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.boxShadow = "none")
+                        }
+                      >
+                        <FaChevronLeft style={{ fontSize: "40px" }} />
+                      </button>
+                      {displayedFormateurs.map((Formateur) => (
+                        <div
+                          className=" w-full md:w-0/12 px-4 text-center"
+                          key={Formateur._id}
+                        >
+                          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                            <div className="px-4 py-5 flex-auto">
+                              <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                                <Link
+                                  to=""
+                                  // to={`/profile/ProfileCenter/${center._id}`}
+                                  onClick={(e) => window.location.replace(`/profile/ProfileCenter/${Formateur._id}`)}
+                                >
+                                  <img
+                                    alt="..."
+                                    className="align-middle border-none max-w-full h-auto rounded-lg"
+                                    src={`http://localhost:5000/images/Users/${Formateur.image_user}`}
+                                    // style={{ width: "350px", height: "350px" }}
+                                    style={{ width: "250px", height: "120px" }}
+                                    onMouseEnter={(e) =>
+                                      (e.currentTarget.style.boxShadow =
+                                        "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.currentTarget.style.boxShadow = "none")
+                                    }
+                                  />
+                                </Link>
+                              </div>
+                              <h6 className="text-base font-semibold">
+                                {Formateur.nom}
+                              </h6>
+                              {/*<p className="mt-2 mb-4 text-xs text-blueGray-500">*/}
+                              {/*  {formation.description}*/}
+                              {/*</p>*/}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      <button
+                        onClick={handleNextPageFormateurs}
+                        disabled={endIndexFormateurs === formateurs.length - 1}
                         className="bg-blue-500 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                       >
                         <FaChevronRight style={{ fontSize: "40px" }} />
