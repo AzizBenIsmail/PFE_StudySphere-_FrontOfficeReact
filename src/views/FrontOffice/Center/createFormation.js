@@ -291,19 +291,6 @@ export default function ListeFormations({ color }) {
   };
 
   const sousListesCompetence = {
-    RH: [
-      "Recrutement",
-      "Selection",
-      "Gestion",
-      "Gestion de la paie",
-      "Formation",
-      "Formation des employes",
-      "Gestion des performances",
-      "Relations",
-      "Relations employes",
-      "Resolution",
-      "Resolution de conflits",
-    ],
     IT: [
       "Developpement de logiciels",
       "Administration systeme",
@@ -311,7 +298,7 @@ export default function ListeFormations({ color }) {
       "Analyse de donnees",
       "Architecture cloud",
     ],
-    Developpement_Web: [
+    Developpement_Web_Basique: [
       "HTML",
       "CSS",
       "JavaScript",
@@ -329,20 +316,13 @@ export default function ListeFormations({ color }) {
       "Swift",
       "Kotlin",
     ],
-    Developpement_frontend: ["React", "Angular", "Vue", "Svelte", "Ember"],
-    Developpement_backend: [
+    Developpement_Web_Frontend: ["React", "Angular", "Vue", "Svelte", "Ember"],
+    Developpement_Web_Backend: [
       "Node.js",
       "Express",
       "Django",
       "Ruby on Rails",
       "Spring Boot",
-    ],
-    Architecture: [
-      "Conception architecturale",
-      "Dessin technique",
-      "Modelisation 3D",
-      "Gestion de projet",
-      "Etude de faisabilite",
     ],
     Finance: [
       "Analyse financiere",
@@ -357,34 +337,6 @@ export default function ListeFormations({ color }) {
       "Marketing digital",
       "Gestion de la marque",
       "Communication publicitaire",
-    ],
-    Medical: [
-      "Diagnostic et traitement des patients",
-      "Soins infirmiers",
-      "Chirurgie",
-      "Pharmacologie",
-      "Interpretation des resultats d'examens",
-    ],
-    Juridique: [
-      "Recherche juridique",
-      "Plaidoyer",
-      "Redaction de contrats",
-      "Consultation juridique",
-      "Resolution de litiges",
-    ],
-    Education: [
-      "Planification de cours",
-      "Enseignement",
-      "Evaluation des eleves",
-      "Developpement de programmes scolaires",
-      "Conseil aux etudiants",
-    ],
-    Ingenierie: [
-      "Conception",
-      "Analyse des structures",
-      "Gestion de projets d'ingenierie",
-      "Resolution de problemes techniques",
-      "Maintenance preventive et corrective",
     ],
     Art_et_culture: [
       "Creation artistique",
@@ -407,13 +359,6 @@ export default function ListeFormations({ color }) {
       "Presentation orale",
       "Negociation",
     ],
-    Recherche: [
-      "Methodes de recherche",
-      "Analyse de donnees",
-      "Interpretation des resultats",
-      "Redaction scientifique",
-      "Utilisation d'outils de recherche",
-    ],
     Consultation: [
       "Analyse de processus",
       "Strategie d'entreprise",
@@ -428,13 +373,6 @@ export default function ListeFormations({ color }) {
       "Suivi des expeditions",
       "Gestion des retours",
     ],
-    Transport: [
-      "Conduite en toute securite",
-      "Maintenance des vehicules",
-      "Planification des itineraires",
-      "Service a la clientele",
-      "Respect des reglementations",
-    ],
     Tourisme: [
       "Planification de voyages",
       "Guidage touristique",
@@ -442,6 +380,7 @@ export default function ListeFormations({ color }) {
       "Service a la clientele dans le secteur du tourisme",
       "Organisation d'activites touristiques",
     ],
+    Langues_etrangeres:['Anglais','Espagnol','Chinois (Mandarin)','Français','Arabe','Russe','Portugais','Allemand','Japonais','Hindi','Bengali','Swahili','Italien','Coréen','Néerlandais','Turc','Polonais','Persan (Farsi)','Vietnamien','Suédois'],
   };
 
   const [inputValue, setInputValue] = useState("");
