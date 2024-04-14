@@ -84,12 +84,12 @@ export default function Profile() {
 
   const loadCenters = useCallback(async () => {
     try {
-      const res = await getCentersByDomain("Developpement", config);
+      const res = await getCentersByDomain(User.preferences.competences_dinteret, config);
       setCenters(res.data.centers);
     } catch (error) {
       console.error("Error loading formations:", error);
     }
-  }, [config]);
+  }, [User,config]);
 
   useEffect(() => {
     loadCenters();
@@ -211,21 +211,6 @@ export default function Profile() {
                 <h3 className="text-4xl  font-semibold leading-normal ml-2 text-blueGray-700 mb-2">
                   {User.nom}
                 </h3>
-                {/*<div className="flex items-center">*/}
-                {/*  <h3 className="text-1 xl font-bold leading-normal text-blueGray-700 mr-2">Email </h3>*/}
-                {/*  <MdMarkEmailRead className="mr-2 text-blueGray-400" style={{ fontSize: '25px' }}  />*/}
-                {/*  <div className="text-sm leading-normal  text-blueGray-400 font-bold uppercase">{User.email}</div>*/}
-
-                {/*<div className="text-sm leading-normal ml-4 text-blueGray-400 font-bold uppercase flex items-center">*/}
-                {/*  <h3 className="text-1 xl font-bold leading-normal text-blueGray-700 mr-2">Localisation :</h3>*/}
-                {/*  <MdEmail  className="mr-2" style={{ fontSize: '25px' }}  />*/}
-                {/*  {User && User.preferences && User.preferences.emplacement_actuelle ? (*/}
-                {/*      User.preferences.emplacement_actuelle*/}
-                {/*  ) : (*/}
-                {/*    "Non saisire"*/}
-                {/*  )}*/}
-                {/*</div>*/}
-                {/*</div>*/}
                 <div className="flex flex-wrap mt-12 justify-center">
                   <div className="w-full lg:w-2/12 px-4 text-center">
                     <h6 className="text-xl mt-5 font-semibold flex items-center ml-8 ">

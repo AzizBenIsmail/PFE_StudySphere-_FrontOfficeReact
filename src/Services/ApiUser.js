@@ -151,8 +151,12 @@ export async function UpdatePassword (user, config) {
 }
 
 export async function getCentersByDomain(domaine, config) {
-  return await axios.get(`${ apiURL }/Center/Developpement`, config);
+  return await axios.get(`${ apiURL }/Center/${ domaine }`, config);
 }
+
+// export async function getCentersByDomain(domaine, config) {
+//   return await axios.get(`${ apiURL }/Center/Developpement`, config);
+// }
 
 export async function getInstructorsByCenter(centerId, config) {
   return await axios.get(`${ apiURL }/Formateur/${ centerId }`, config);
