@@ -1,12 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Cookies from 'js-cookie'
 
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
-import { MdMarkEmailRead } from 'react-icons/md'
-import { TbUserHexagon } from 'react-icons/tb'
-import { SiVerizon, SiVexxhost } from 'react-icons/si'
-import { getUserByID } from '../../../Services/ApiUser'
+import { MdEmail, MdShareLocation } from 'react-icons/md'
+import { getCentersByDomain, getInstructorsByCenter, getUserByID } from '../../../Services/ApiUser'
+import { HiLanguage } from 'react-icons/hi2'
+import { GoGoal } from 'react-icons/go'
+import { GiGiftOfKnowledge } from 'react-icons/gi'
+import { TailSpin } from 'react-loader-spinner'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { getFormationByIdFormateur } from '../../../Services/ApiFormation'
 
 export default function ProfileFormateur() {
   const jwt_token = Cookies.get('jwt_token')
@@ -40,6 +44,108 @@ export default function ProfileFormateur() {
 
     return () => clearInterval(interval);
   }, [config,param.id ]);
+
+  const [formations, setFormations] = useState([]);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(3);
+
+  const loadFormations = useCallback(async () => {
+    try {
+      const res = await getFormationByIdFormateur(param.id, config);
+      setFormations(res.data.formations);
+    } catch (error) {
+      console.error("Error loading formations:", error);
+    }
+  }, [config,param.id,]);
+
+  useEffect(() => {
+    loadFormations();
+  }, [loadFormations]);
+
+  const handleNextPage = () => {
+    if (endIndex < formations.length - 1) {
+      setStartIndex((prevStartIndex) => prevStartIndex + 1);
+      setEndIndex((prevEndIndex) => prevEndIndex + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (startIndex > 0) {
+      setStartIndex((prevStartIndex) => prevStartIndex - 1);
+      setEndIndex((prevEndIndex) => prevEndIndex - 1);
+    }
+  };
+
+  const displayedFormations = formations.slice(startIndex, endIndex + 1);
+
+  const [centers, setCenters] = useState([]);
+  const [startIndexCenter, setStartIndexCenter] = useState(0);
+  const [endIndexCenter, setEndIndexCenter] = useState(3);
+
+  const loadCenters = useCallback(async () => {
+    try {
+      const res = await getCentersByDomain("Developpement", config);
+      setCenters(res.data.centers);
+    } catch (error) {
+      console.error("Error loading formations:", error);
+    }
+  }, [config]);
+
+  useEffect(() => {
+    loadCenters();
+  }, [loadCenters]);
+
+
+  const handleNextPageCenter = () => {
+    if (endIndexCenter < centers.length - 1) {
+      setStartIndexCenter((prevStartIndex) => prevStartIndex + 1);
+      setEndIndexCenter((prevEndIndex) => prevEndIndex + 1);
+    }
+  };
+
+  const handlePrevPageCenter = () => {
+    if (startIndexCenter > 0) {
+      setStartIndexCenter((prevStartIndex) => prevStartIndex - 1);
+      setEndIndexCenter((prevEndIndex) => prevEndIndex - 1);
+    }
+  };
+
+  const displayedCenter = centers.slice(startIndexCenter, endIndexCenter + 1);
+
+  const [formateurs, setFormateurs] = useState([]);
+  const [startIndexFormateurs, setStartIndexFormateurs] = useState(0);
+  const [endIndexFormateurs, setEndIndexFormateurs] = useState(3);
+
+  const loadFormateurs = useCallback(async () => {
+    try {
+      const res = await getInstructorsByCenter(param.id, config);
+      setFormateurs(res.data.instructors);
+    } catch (error) {
+      console.error("Error loading formations:", error);
+    }
+  }, [param.id,config]);
+
+  useEffect(() => {
+    loadFormateurs();
+  }, [loadFormateurs]);
+
+
+  const handleNextPageFormateurs = () => {
+    if (endIndexFormateurs < formateurs.length - 1) {
+      setStartIndexFormateurs((prevStartIndex) => prevStartIndex + 1);
+      setEndIndexFormateurs((prevEndIndex) => prevEndIndex + 1);
+    }
+  };
+
+  const handlePrevPageFormateurs = () => {
+    if (startIndexFormateurs > 0) {
+      setStartIndexFormateurs((prevStartIndex) => prevStartIndex - 1);
+      setEndIndexFormateurs((prevEndIndex) => prevEndIndex - 1);
+    }
+  };
+
+  const displayedFormateurs = formateurs.slice(startIndexFormateurs, endIndexFormateurs + 1);
+
   return (
     <>
         <section className="relative py-15 bg-blueGray-200">
@@ -47,27 +153,19 @@ export default function ProfileFormateur() {
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
               <div className="px-6">
                 <div className="flex flex-wrap justify-center">
-                  <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+                  <div className="w-full lg:w-3/12 px-4 lg:order-1 flex justify-center">
                     <div className="relative">
-                      {/*<img*/}
-                      {/*  alt="..."*/}
-                      {/*  src={require("assets/img/team-2-800x800.jpg").default}*/}
-                      {/*  className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"*/}
-                      {/*/>*/}
                       {User && User.image_user ? (
                         <img
-                          // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
                           alt="UserImage"
                           className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
                           src={`http://localhost:5000/images/Users/${User.image_user}`}
-                          // style={{ width: "80px", height: "80px" }}
                         />
                       ) : (
                         <div>
                           <img
                             alt="..."
                             src={require("../../../assets/img/client.png").default}
-                            // style={{ maxWidth: '120%' }}
                             className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
                           />
                         </div>
@@ -107,70 +205,415 @@ export default function ProfileFormateur() {
                     </div>
                   </div>
                 </div>
-                <div className="text-center">
-                  <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                    {User.nom} {User.prenom}
+                <div className="text-left">
+                  <h3 className="text-4xl  font-semibold leading-normal ml-2 text-blueGray-700 mb-2">
+                    {User.nom}
                   </h3>
-                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                    <MdMarkEmailRead className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"
-                                     style={{ fontSize: '25px' }}/>
-                    {User.email}
+                  <div className="flex flex-wrap mt-12 justify-center">
+                    <div className="w-full lg:w-2/12 px-4 text-center">
+                      <h6 className="text-xl mt-5 font-semibold flex items-center ml-8 ">
+                        <MdEmail className="mr-2" style={{ fontSize: "25px" }} />
+                        Email
+                      </h6>
+                      <p className="mt-2 mb-4 text-blueGray-400">{User.email}</p>
+                    </div>
+                    <div className="w-full lg:w-2/12 px-4 text-center">
+                      <h6 className="text-xl mt-5 font-semibold flex items-center ml-8">
+                        <MdShareLocation
+                          className="mr-2"
+                          style={{ fontSize: "25px" }}
+                        />
+                        Localisation
+                      </h6>
+                      <p className="mt-2 mb-4 text-blueGray-400">
+                        {User &&
+                        User.preferences &&
+                        User.preferences.emplacement_actuelle
+                          ? User.preferences.emplacement_actuelle
+                          : "Non saisire"}
+                      </p>
+                    </div>
+                    <div className="w-full lg:w-2/12 px-4 text-center">
+                      <h5 className="text-xl font-semibold flex items-center ml-8">
+                        <HiLanguage
+                          className="mr-2"
+                          style={{ fontSize: "50px" }}
+                        />
+                        préférences linguistiques
+                      </h5>
+                      <p className="mt-2 mb-4 text-blueGray-400">
+                        {User &&
+                        User.preferences &&
+                        User.preferences.preferences_linguistiques
+                          ? User.preferences.preferences_linguistiques
+                          : "Non saisire"}
+                      </p>
+                    </div>
+                    <div className="w-full lg:w-2/12 px-4 text-center">
+                      <h5 className="text-xl mt-5 font-semibold flex items-center ml-8">
+                        <GoGoal className="mr-2" style={{ fontSize: "25px" }} />
+                        Domaine
+                      </h5>
+                      <p className="mt-2 mb-4 text-blueGray-400">
+                        {User &&
+                        User.preferences &&
+                        User.preferences.domaine_actuelle
+                          ? User.preferences.domaine_actuelle
+                          : "Non saisire"}
+                      </p>
+                    </div>
+                    <div className="w-full lg:w-2/12 px-4 text-center">
+                      <h5 className="text-xl font-semibold flex items-center ">
+                        <GiGiftOfKnowledge style={{ fontSize: "50px" }} />
+                        compétences d'intérêt
+                      </h5>
+                      <p className="mt-2 mb-4 text-blueGray-400">
+                        {User &&
+                        User.preferences &&
+                        User.preferences.competences_dinteret
+                          ? User.preferences.competences_dinteret
+                          : "Non saisire"}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                    <TbUserHexagon className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"
-                                   style={{ fontSize: '25px' }}/>
-                    {User.role}
+                  <div className="mt-10 py-3 border-t border-blueGray-200 ">
+                    <div className="flex flex-wrap justify-center">
+                      <div className="w-full lg\:w-auto px-4">
+                        <p className="text-lg leading-relaxed text-blueGray-700">
+                          Les Formations de {User.nom}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                    <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>{" "}
-                    {User.emplacement_actuelle === undefined ? (
-                      "non saisire"
+                  <div className="flex flex-wrap">
+                    {displayedFormations.length === 0 ? (
+                      <tr>
+                        <td
+                          className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+                          colSpan="22"
+                        >
+                          <TailSpin
+                            visible={true}
+                            width="200"
+                            height="200"
+                            color="#4fa94d"
+                            ariaLabel="tail-spin-loading"
+                            radius="1"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                          />
+                          Aucune formation trouvée.
+                        </td>
+                      </tr>
                     ) : (
-                      User.emplacement_actuelle
-                    )}                  </div>
-                  <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                    <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>{" "}
-                    {User.etat ? (
-                      <div className="flex items-center"  style={{ fontSize: '18px' }}>
-                        <SiVerizon className=""  />
-                        <div className=" leading-normal uppercase text-lg">Compte Active</div>
-                      </div>
-                    ) : (
-                      <div className="flex items-center "  style={{ fontSize: '18px' }}>
-                        <SiVexxhost className="" />
-                        "<div className="leading-normal uppercase text-lg">"Compte Desactive</div>
-                      </div>
+                      <>
+                        <button
+                          onClick={handlePrevPage}
+                          disabled={startIndex === 0}
+                          className=" bg-blue-500  rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                          onMouseEnter={(e) =>
+                            (e.currentTarget.style.boxShadow =
+                              "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                          }
+                          onMouseLeave={(e) =>
+                            (e.currentTarget.style.boxShadow = "none")
+                          }
+                        >
+                          <FaChevronLeft style={{ fontSize: "40px" }} />
+                        </button>
+                        {displayedFormations.map((formation) => (
+                          <div
+                            className=" w-full md:w-0/12 px-4 text-center"
+                            key={formation._id}
+                          >
+                            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                              <div className="px-4 py-5 flex-auto">
+                                <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                                  <a href={`/DetailsFormation/${formation._id}`}>
+                                    <img
+                                      alt="..."
+                                      className="align-middle border-none max-w-full h-auto rounded-lg"
+                                      src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                                      // style={{ width: "350px", height: "350px" }}
+                                      style={{ width: "250px", height: "120px" }}
+                                      onMouseEnter={(e) =>
+                                        (e.currentTarget.style.boxShadow =
+                                          "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                      }
+                                      onMouseLeave={(e) =>
+                                        (e.currentTarget.style.boxShadow = "none")
+                                      }
+                                    />
+                                  </a>
+                                </div>
+                                <div className="flex flex-wrap">
+                                  {formation.competences
+                                  .split(",")
+                                  .slice(0, 2) // Récupère seulement les deux premières compétences
+                                  .map((competence, index) => (
+                                    <span
+                                      key={index}
+                                      style={{
+                                        border:
+                                          "2px solid rgba(186, 230, 253, 1)",
+                                        marginRight: index === 1 ? "0" : "5px", // Ne pas ajouter de marge à droite pour la dernière compétence
+                                      }}
+                                      className="text-xs font-semibold mb-2 inline-block py-1 px-2 rounded-full text-blueGray-600  last:mr-0 mr-1"
+                                    >
+                                    {competence.trim()}
+                                  </span>
+                                  ))}
+                                  {formation.competences.split(",").length > 2 && (
+                                    <span className="text-xs font-semibold mb-2 inline-block py-1 px-2 rounded-full text-blueGray-600">
+                                  Autres compétences...
+                                </span>
+                                  )}
+                                </div>
+                                <h6 className="text-base font-semibold">
+                                  {formation.titre}
+                                </h6>
+                                <p className="mt-2 mb-4 text-xs text-blueGray-500">
+                                  {formation.description}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        <button
+                          onClick={handleNextPage}
+                          disabled={endIndex === centers.length - 1}
+                          className="bg-blue-500 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        >
+                          <FaChevronRight style={{ fontSize: "40px" }} />
+                        </button>
+                      </>
                     )}
-                  </div>
-                  <div className="mb-2 text-blueGray-600 mt-10">
-                    <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                    Solution Manager - Creative Tim Officer
-                  </div>
-                  <div className="mb-2 text-blueGray-600">
-                    <i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-                    University of Computer Science
+                    <div className="pb-6 border-blueGray-200 text-center">
+                      <div className="flex flex-wrap justify-center">
+                        <div className="w-full lg\:w-auto px-20">
+                          <a
+                            href="/landing/training"
+                            className="font-normal text-lightBlue-500 text-center"
+                          >
+                            Show more
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-10 py-3 border-t border-blueGray-200 ">
+                      <div className="flex flex-wrap justify-center">
+                        <div className="w-full lg\:w-auto px-4">
+                          <p className="text-lg leading-relaxed text-blueGray-700">
+                            Autre Center utiles
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap">
+                      {displayedCenter.length === 0 ? (
+                        <tr>
+                          <td
+                            className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+                            colSpan="22"
+                          >
+                            <TailSpin
+                              visible={true}
+                              width="200"
+                              height="200"
+                              color="#4fa94d"
+                              ariaLabel="tail-spin-loading"
+                              radius="1"
+                              wrapperStyle={{}}
+                              wrapperClass=""
+                            />
+                            Aucune formation trouvée.
+                          </td>
+                        </tr>
+                      ) : (
+                        <>
+                          <button
+                            onClick={handlePrevPageCenter}
+                            disabled={startIndexCenter === 0}
+                            className=" bg-blue-500  rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                            onMouseEnter={(e) =>
+                              (e.currentTarget.style.boxShadow =
+                                "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                            }
+                            onMouseLeave={(e) =>
+                              (e.currentTarget.style.boxShadow = "none")
+                            }
+                          >
+                            <FaChevronLeft style={{ fontSize: "40px" }} />
+                          </button>
+                          {displayedCenter.map((center) => (
+                            <div
+                              className=" w-full md:w-0/12 px-4 text-center"
+                              key={center._id}
+                            >
+                              <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                                <div className="px-4 py-5 flex-auto">
+                                  <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                                    <Link
+                                      to=""
+                                      // to={`/profile/ProfileCenter/${center._id}`}
+                                      onClick={(e) => window.location.replace(`/profile/ProfileCenter/${center._id}`)}
+                                    >
+                                      <img
+                                        alt="..."
+                                        className="align-middle border-none max-w-full h-auto rounded-lg"
+                                        src={`http://localhost:5000/images/Users/${center.image_user}`}
+                                        // style={{ width: "350px", height: "350px" }}
+                                        style={{ width: "250px", height: "120px" }}
+                                        onMouseEnter={(e) =>
+                                          (e.currentTarget.style.boxShadow =
+                                            "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                        }
+                                        onMouseLeave={(e) =>
+                                          (e.currentTarget.style.boxShadow = "none")
+                                        }
+                                      />
+                                    </Link>
+                                  </div>
+                                  <h6 className="text-base font-semibold">
+                                    {center.nom}
+                                  </h6>
+                                  {/*<p className="mt-2 mb-4 text-xs text-blueGray-500">*/}
+                                  {/*  {formation.description}*/}
+                                  {/*</p>*/}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                          <button
+                            onClick={handleNextPageCenter}
+                            disabled={endIndexCenter === centers.length - 1}
+                            className="bg-blue-500 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                          >
+                            <FaChevronRight style={{ fontSize: "40px" }} />
+                          </button>
+                        </>
+                      )}
+                      <div className="pb-6 border-blueGray-200 text-center">
+                        <div className="flex flex-wrap justify-center">
+                          <div className="w-full lg\:w-auto px-20">
+                            <a
+                              href="/landing/center"
+                              className="font-normal text-lightBlue-500 text-center"
+                            >
+                              Show more
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-10 py-3 border-t border-blueGray-200 ">
+                      <div className="flex flex-wrap justify-center">
+                        <div className="w-full lg\:w-auto px-4">
+                          <p className="text-lg leading-relaxed text-blueGray-700">
+                            Formateur Relier au Center {User.nom}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap">
+                      {displayedFormateurs.length === 0 ? (
+                        <tr>
+                          <td
+                            className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+                            colSpan="22"
+                          >
+                            <TailSpin
+                              visible={true}
+                              width="200"
+                              height="200"
+                              color="#4fa94d"
+                              ariaLabel="tail-spin-loading"
+                              radius="1"
+                              wrapperStyle={{}}
+                              wrapperClass=""
+                            />
+                            Aucune formation trouvée.
+                          </td>
+                        </tr>
+                      ) : (
+                        <>
+                          <button
+                            onClick={handlePrevPageFormateurs}
+                            disabled={startIndexFormateurs === 0}
+                            className=" bg-blue-500  rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                            onMouseEnter={(e) =>
+                              (e.currentTarget.style.boxShadow =
+                                "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                            }
+                            onMouseLeave={(e) =>
+                              (e.currentTarget.style.boxShadow = "none")
+                            }
+                          >
+                            <FaChevronLeft style={{ fontSize: "40px" }} />
+                          </button>
+                          {displayedFormateurs.map((Formateur) => (
+                            <div
+                              className=" w-full md:w-0/12 px-4 text-center"
+                              key={Formateur._id}
+                            >
+                              <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                                <div className="px-4 py-5 flex-auto">
+                                  <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                                    <Link
+                                      to=""
+                                      // to={`/profile/ProfileCenter/${center._id}`}
+                                      onClick={(e) => window.location.replace(`/profile/ProfileFormateur/${Formateur._id}`)}
+                                    >
+                                      <img
+                                        alt="..."
+                                        className="align-middle border-none max-w-full h-auto rounded-lg"
+                                        src={`http://localhost:5000/images/Users/${Formateur.image_user}`}
+                                        // style={{ width: "350px", height: "350px" }}
+                                        style={{ width: "250px", height: "120px" }}
+                                        onMouseEnter={(e) =>
+                                          (e.currentTarget.style.boxShadow =
+                                            "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                        }
+                                        onMouseLeave={(e) =>
+                                          (e.currentTarget.style.boxShadow = "none")
+                                        }
+                                      />
+                                    </Link>
+                                  </div>
+                                  <h6 className="text-base font-semibold">
+                                    {Formateur.nom}
+                                  </h6>
+                                  {/*<p className="mt-2 mb-4 text-xs text-blueGray-500">*/}
+                                  {/*  {formation.description}*/}
+                                  {/*</p>*/}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                          <button
+                            onClick={handleNextPageFormateurs}
+                            disabled={endIndexFormateurs === formateurs.length - 1}
+                            className="bg-blue-500 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                          >
+                            <FaChevronRight style={{ fontSize: "40px" }} />
+                          </button>
+                        </>
+                      )}
+                      <div className="pb-6 border-blueGray-200 text-center">
+                        <div className="flex flex-wrap justify-center">
+                          <div className="w-full lg\:w-auto px-20">
+                            <a
+                              href="/landing/center"
+                              className="font-normal text-lightBlue-500 text-center"
+                            >
+                              Show more
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                {/*<div className="mt-10 py-10 border-t border-blueGray-200 text-center">*/}
-                {/*  <div className="flex flex-wrap justify-center">*/}
-                {/*    <div className="w-full lg:w-9/12 px-4">*/}
-                {/*      <p className="mb-4 text-lg leading-relaxed text-blueGray-700">*/}
-                {/*        An artist of considerable range, Jenna the name taken by*/}
-                {/*        Melbourne-raised, Brooklyn-based Nick Murphy writes,*/}
-                {/*        performs and records all of his own music, giving it a*/}
-                {/*        warm, intimate feel with a solid groove structure. An*/}
-                {/*        artist of considerable range.*/}
-                {/*      </p>*/}
-                {/*      <a*/}
-                {/*        href="#pablo"*/}
-                {/*        className="font-normal text-lightBlue-500"*/}
-                {/*        onClick={(e) => e.preventDefault()}*/}
-                {/*      >*/}
-                {/*        Show more*/}
-                {/*      </a>*/}
-                {/*    </div>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
               </div>
             </div>
           </div>
