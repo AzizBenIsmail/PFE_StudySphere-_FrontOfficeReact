@@ -580,7 +580,7 @@ export default function Profile() {
                                 <Link
                                   to=""
                                   // to={`/profile/ProfileCenter/${center._id}`}
-                                  onClick={(e) => window.location.replace(`/profile/ProfileCenter/${Formateur._id}`)}
+                                  onClick={(e) => window.location.replace(`/profile/ProfileFormateur/${Formateur._id}`)}
                                 >
                                   <img
                                     alt="..."
