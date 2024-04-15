@@ -55,7 +55,6 @@ export default function PreferenceFormateur () {
   // const location = useLocation()
   const [Step, setStep] = useState('1')
   const [selectedDomaineactuelle, setSelectedDomaineactuelle] = useState('')
-  const [selectedDomainedinteret, setSelectedDomainedinteret] = useState('')
   const [selectedLanguages, setSelectedLanguages] = useState(initialSelectedLanguages)
   const [inputValue, setInputValue] = useState('')
   const [suggestions, setSuggestions] = useState([])
@@ -169,10 +168,6 @@ export default function PreferenceFormateur () {
   const handleChangeactuelle = (event) => {
     // console.log(event.target.value)
     setSelectedDomaineactuelle(event.target.value)
-  }
-
-  const handleChangedinteret = (event) => {
-    setSelectedDomainedinteret(event.target.value)
   }
 
   const handleInputChange = (event) => {
