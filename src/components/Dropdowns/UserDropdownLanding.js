@@ -1,21 +1,21 @@
-import React, { useMemo } from "react";
-import { createPopper } from "@popperjs/core";
-import { logout } from "../../Services/Apiauth";
-import Cookies from "js-cookie";
+import React, { useMemo } from 'react'
+import { createPopper } from '@popperjs/core'
+import { logout } from '../../Services/Apiauth'
+import Cookies from 'js-cookie'
 import { Link, useHistory } from 'react-router-dom'
-import { AiOutlineFieldNumber } from "react-icons/ai";
-import { CiUser } from "react-icons/ci";
-import { RiLogoutCircleLine } from "react-icons/ri";
-import { IoIosNotificationsOutline } from "react-icons/io";
-import { GrWorkshop } from "react-icons/gr";
+import { AiOutlineFieldNumber } from 'react-icons/ai'
+import { CiUser } from 'react-icons/ci'
+import { RiLogoutCircleLine } from 'react-icons/ri'
+import { IoIosNotificationsOutline } from 'react-icons/io'
+import { GrWorkshop } from 'react-icons/gr'
 
-const UserDropdown = ({user}) => {
-  const history = useHistory();
+const UserDropdown = ({ user }) => {
+  const history = useHistory()
 
-  const jwt_token = Cookies.get("jwt_token");
+  const jwt_token = Cookies.get('jwt_token')
 
-  if (!Cookies.get("jwt_token")) {
-    window.location.replace("/login-page");
+  if (!Cookies.get('jwt_token')) {
+    window.location.replace('/login-page')
   }
 
   const config = useMemo(() => {
@@ -23,56 +23,57 @@ const UserDropdown = ({user}) => {
       headers: {
         Authorization: `Bearer ${jwt_token}`,
       },
-    };
-  }, [jwt_token]);
+    }
+  }, [jwt_token])
 
   const log = async (config, user) => {
     try {
       logout(config, user._id)
-        .then(() => {
-          // console.log(res.data.user);
-          window.location.replace(`/login/`);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .then(() => {
+        // console.log(res.data.user);
+        window.location.replace(`/login/`)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
-  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const btnDropdownRef = React.createRef();
-  const popoverDropdownRef = React.createRef();
+  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false)
+  const btnDropdownRef = React.createRef()
+  const popoverDropdownRef = React.createRef()
 
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
-      placement: "bottom-start",
-    });
-    setDropdownPopoverShow(true);
-  };
+      placement: 'bottom-start',
+    })
+    setDropdownPopoverShow(true)
+  }
   const closeDropdownPopover = () => {
-    setDropdownPopoverShow(false);
-  };
+    setDropdownPopoverShow(false)
+  }
   return (
     <>
       <div
         className="text-blueGray-500 block"
         ref={btnDropdownRef}
         onClick={(e) => {
-          e.preventDefault();
-          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
+          e.preventDefault()
+          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover()
         }}
       >
         <div className="items-center flex">
-          <span className="w-12 h-12 text-sm text-white bg-orange-100 inline-flex items-center justify-center rounded-full">
+          <span
+            className="w-12 h-12 text-sm text-white bg-orange-100 inline-flex items-center justify-center rounded-full">
             {user && user.image_user ? (
               <img
                 // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
                 alt="UserImage"
-                  className="w-full rounded-full align-middle border-none shadow-lg"
+                className="w-full rounded-full align-middle border-none shadow-lg"
                 src={`http://localhost:5000/images/Users/${user.image_user}`}
-                style={{ width: "80px" }}
+                style={{ width: '80px' }}
                 onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                 onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
               />
@@ -80,7 +81,7 @@ const UserDropdown = ({user}) => {
               <div>
                 <img
                   alt="..."
-                  src={require("assets/img/client.png").default}
+                  src={require('assets/img/client.png').default}
                   style={{ maxWidth: '120%' }}
                   onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                   onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
@@ -93,7 +94,21 @@ const UserDropdown = ({user}) => {
             {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && (
               <>
                 <div>{user.nom}</div>
-                  {user && user.role === "centre" ? ( <>
+                {user && user.role === 'centre' ? (<>
+                  <Link
+                    to="/AccountManagement/BadgesNiveauXp"
+                  >
+                    <div className="flex text-xs font-normal text-orange-500">
+                      <AiOutlineFieldNumber style={{ fontSize: '18px' }}/>
+                      {user.Formations.length}
+
+                      <GrWorkshop style={{ fontSize: '15px', marginLeft: '3px' }}/>
+
+
+                    </div>
+                  </Link>
+                </>) : user && user.role === 'formateur' ? (
+                  <>
                     <Link
                       to="/AccountManagement/BadgesNiveauXp"
                     >
@@ -101,25 +116,25 @@ const UserDropdown = ({user}) => {
                         <AiOutlineFieldNumber style={{ fontSize: '18px' }}/>
                         {user.Formations.length}
 
-                        <GrWorkshop   style={{ fontSize: '15px' , marginLeft: "3px" }}/>
+                        <GrWorkshop style={{ fontSize: '15px', marginLeft: '3px' }}/>
 
 
-                       </div>
+                      </div>
                     </Link>
-                  </> ) : ( <>
+                  </>) : (<>
                     <Link
                       to="/AccountManagement/BadgesNiveauXp"
                     >
-                <div className="text-xs font-normal text-orange-500"
-                     onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                     onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-                >
-                  {user.xp.niveauAtteint.nom}
-                  {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && ` Xp : ${user.xp.pointsGagnes}`}
-                </div>
+                      <div className="text-xs font-normal text-orange-500"
+                           onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                           onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                      >
+                        {user.xp.niveauAtteint.nom}
+                        {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && ` Xp : ${user.xp.pointsGagnes}`}
+                      </div>
                     </Link>
-                      </>
-                    )}
+                  </>
+                )}
               </>
             )}
           </div>
@@ -129,25 +144,25 @@ const UserDropdown = ({user}) => {
       <div
         ref={popoverDropdownRef}
         className={
-          (dropdownPopoverShow ? "block " : "hidden ") +
-          "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
+          (dropdownPopoverShow ? 'block ' : 'hidden ') +
+          'bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48'
         }
       >
         <button
           className={
-            "flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-            }
-          onClick={() => history.push("/profile")}
+            'flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
+          }
+          onClick={() => history.push('/profile')}
         >
           {user && user.image_user ? (
             <>
-            <img
-              // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
-              alt="UserImage"
-              className="shadow rounded-full max-w-full h-auto align-middle border-none"
-              src={`http://localhost:5000/images/Users/${user.image_user}`}
-              style={{ width: "40px" }}
-            />
+              <img
+                // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
+                alt="UserImage"
+                className="shadow rounded-full max-w-full h-auto align-middle border-none"
+                src={`http://localhost:5000/images/Users/${user.image_user}`}
+                style={{ width: '40px' }}
+              />
               <div className="ml-2 ">
                 {user.nom}
               </div>
@@ -156,18 +171,18 @@ const UserDropdown = ({user}) => {
             <>
               <img
                 alt="..."
-                src={require("assets/img/client.png").default}
+                src={require('assets/img/client.png').default}
                 style={{ maxWidth: '20%' }}
                 className="shadow rounded-full max-w-full h-auto align-middle border-none"
               />
               <div className="ml-2 ">
-               Profile
+                Profile
               </div>
             </>
           )}
 
         </button>
-        <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100" />
+        <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100"/>
 
         {/*<button*/}
         {/*  className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"*/}
@@ -193,36 +208,36 @@ const UserDropdown = ({user}) => {
 
         <button
           className={
-            "flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            'flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
           }
-          onClick={(e) => history.push("/Setting") }
+          onClick={(e) => history.push('/Setting')}
         >
           <IoIosNotificationsOutline style={{ fontSize: '20px' }} className="mr-1"/>
           Gerer mon compte
         </button>
         <button
           className={
-            "flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            'flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
           }
-          onClick={(e) => history.push("/landing/notification") }
+          onClick={(e) => history.push('/landing/notification')}
         >
           <CiUser style={{ fontSize: '20px' }} className="mr-1"/>
           Mes Notification
         </button>
-        <div className="h-0 my-2 border border-solid border-blueGray-100" />
+        <div className="h-0 my-2 border border-solid border-blueGray-100"/>
         <a
           href="#pablo"
           className={
-            "flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            'flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
           }
           onClick={() => log(config, user)}
         >
-          <RiLogoutCircleLine style={{ fontSize: '20px' }} className="mr-1" />
+          <RiLogoutCircleLine style={{ fontSize: '20px' }} className="mr-1"/>
           Se déconnecter
         </a>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default UserDropdown;
+export default UserDropdown
