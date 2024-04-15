@@ -20,6 +20,9 @@ const UpdatePreferenceCenter = lazy(() => import("../views/FrontOffice/FirstStep
 const announcement = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceClient/announcement.js"));
 const PreferenceCenter = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceCenter/PreferenceCenter.js"));
 const announcementCenter = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceCenter/announcementCenter.js"));
+const announcementFormateur = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceFormateur/announcementFormateur.js"));
+const PreferenceFormateur = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceFormateur/PreferenceFormateur.js"));
+const UpdatePreferenceFormateur = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceFormateur/UpdatePreferenceFormateur.js"));
 
 export default function First () {
   const jwt_token = Cookies.get('jwt_token')
@@ -80,6 +83,9 @@ export default function First () {
               <Route path="/First/announcement" exact component={announcement}/>
               <Route path="/First/StepCenter" exact component={PreferenceCenter}/>
               <Route path="/First/announcementCenter" exact component={announcementCenter}/>
+              <Route path="/First/announcementFormateur" exact component={announcementFormateur}/>
+              <Route path="/First/StepFormateur" exact component={PreferenceFormateur}/>
+              <Route path="/First/UpdatePreferenceFormateur" exact component={UpdatePreferenceFormateur}/>
               <Redirect from="/First" to="/First/announcement"/>
             </Switch>
           </Suspense>

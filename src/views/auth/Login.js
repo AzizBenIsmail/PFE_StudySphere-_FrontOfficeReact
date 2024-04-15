@@ -85,9 +85,12 @@ export default function Login () {
             } else if (res.data.user.visitsCount === 0 && res.data.user.role === 'centre' ) {
               window.location.replace(`/First/announcementCenter`)
             }
+            else if (res.data.user.visitsCount === 0 && res.data.user.role === 'formateur' ) {
+              window.location.replace(`/First/announcementFormateur`)
+            }
             else {
               window.location.replace(`/landing/`)
-            }
+            } 
           }
         } catch (error) {
           if (error.response.data.erreur === 'compte desactive') {

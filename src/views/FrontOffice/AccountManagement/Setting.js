@@ -119,6 +119,14 @@ export default function Profile () {
                   }
                 }
 
+                if (User.role === 'formateur') {
+                  if (User.preferences === undefined) {
+                    history.push("/First/announcementFormateur");
+                  } else {
+                    history.push("/First/UpdatePreferenceFormateur");
+                  }
+                }
+
                 if (User.role === 'centre') {
                   if (User.preferences === undefined) {
                     history.push("/First/announcementCenter");
