@@ -727,7 +727,7 @@ export default function PreferenceFormateur () {
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                               htmlFor="grid-password"
                             >
-                              Style d'apprentissage
+                              Style d'enseignement
                             </label>
                             {/*<input*/}
                             {/*  type="text"*/}
@@ -819,13 +819,13 @@ export default function PreferenceFormateur () {
                             </div>
                           )}
                         </div>
-                        <div className="w-full lg:w-4/12 px-4">
+                        <div className="w-full lg:w-8/12 px-4">
                           <div className="relative w-full mb-3">
                             <label
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                               htmlFor="grid-password"
                             >
-                              Type de contenu prefere
+                              Type de cours
                             </label>
                             {/*<input*/}
                             {/*  type="text"*/}
@@ -838,7 +838,7 @@ export default function PreferenceFormateur () {
                               name="type_de_contenu_prefere"
                               onChange={(e) => handleSelectChange(e)}
                             >
-                              <option value="">Sélectionnez votre Type de contenu préféré</option>
+                              <option value="">Sélectionnez votre Type de cours</option>
                               <option value="interactifs">Cours interactifs</option>
                               <option value="workshop">workshop</option>
                               <option value="projet">Projet</option>
