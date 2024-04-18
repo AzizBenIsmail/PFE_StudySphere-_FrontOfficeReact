@@ -4,7 +4,7 @@ import { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, } from 'react-icons/
 import { BiBeenHere, BiSolidBeenHere } from 'react-icons/bi'
 // import { useLocation } from 'react-router-dom'
 import { CiSquareRemove } from 'react-icons/ci'
-import {updatePrefClient , getPreferences  }from '../../../../Services/ApiPref'
+import { getPreferences, updatePreferencesFormateur } from '../../../../Services/ApiPref'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../../../../Services/Apiauth'
 import { useHistory } from 'react-router-dom'
@@ -65,7 +65,6 @@ export default function PreferenceClient () {
   // const location = useLocation()
   const [Step, setStep] = useState('1')
   const [selectedDomaineactuelle, setSelectedDomaineactuelle] = useState('')
-  const [selectedDomainedinteret, setSelectedDomainedinteret] = useState('')
   const [selectedLanguages, setSelectedLanguages] = useState(initialSelectedLanguages)
   const [inputValue, setInputValue] = useState('')
   const [suggestions, setSuggestions] = useState([])
@@ -170,10 +169,6 @@ export default function PreferenceClient () {
   const handleChangeactuelle = (event) => {
     // console.log(event.target.value)
     setSelectedDomaineactuelle(event.target.value)
-  }
-
-  const handleChangedinteret = (event) => {
-    setSelectedDomainedinteret(event.target.value)
   }
 
   const handleInputChange = (event) => {
@@ -394,7 +389,7 @@ export default function PreferenceClient () {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await updatePrefClient(user._id, preferences, config).then(
+      await updatePreferencesFormateur(user._id, preferences, config).then(
         history.push("/landing")
       );
 

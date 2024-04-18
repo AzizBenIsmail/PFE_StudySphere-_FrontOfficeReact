@@ -27,5 +27,5 @@ export async function addPreferencesFormateur(id,preferencesData,config) {
 }
 
 export async function updatePreferencesFormateur(id,preferencesData,config) {
-  return await axios.put(`${ apiURL }/addPrefFormateur/${id}`,preferencesData, config);
+  return await axios.put(`${ apiURL }/updatePreferencesFormateur/${id}`,preferencesData, config);
 }
