@@ -311,10 +311,11 @@ export default function ListeFormations({ color }) {
       dateDebut:  formation.dateDebut,
       dateFin:  formation.dateFin,
       formateur:  formation.formateur,
-      image_Formation: newFormation.image
+      image_Formation: formation.image_Formation
     });
     setSelectedCompetences(convertToFrameworkArray(formation.competences));
     setShowEditForm(true);
+    console.log(newFormation.image_Formation)
   };
 
   const sousListesCompetence = {
@@ -1061,6 +1062,7 @@ export default function ListeFormations({ color }) {
                     currentItems.map((formation) => (
                       <tr key={formation._id}>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 font-bold">
+                          <a href={`/DetailsFormation/${formation._id}`}>
                           <img
                             onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                             onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
@@ -1069,6 +1071,7 @@ export default function ListeFormations({ color }) {
                             src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
                             // style={{ width: "350px", height: "220px" }}
                           />
+                          </a>
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 font-bold">
                           {formation.titre}
