@@ -256,7 +256,7 @@ export default function ListeFormations ({ color }) {
       formData.append("niveauRequis", newFormation.niveauRequis); // Ajoutez l'image à l'objet FormData
       formData.append("dateDebut", newFormation.dateDebut); // Ajoutez l'image à l'objet FormData
       formData.append("dateFin", newFormation.dateFin); // Ajoutez l'image à l'objet FormData
-      // formData.append("centre", newFormation.centre); // Ajoutez l'image à l'objet FormData
+      formData.append("centre", newFormation.centre); // Ajoutez l'image à l'objet FormData
       formData.append("formateur", newFormation.formateur); // Ajoutez l'image à l'objet FormData      // Ajoutez d'autres champs de formation à formData
       await updateFormation(formationToEdit._id, formData, config);
       // Reste du code pour modifier la formation sans image
@@ -296,6 +296,7 @@ export default function ListeFormations ({ color }) {
       dateDebut:  formation.dateDebut,
       dateFin:  formation.dateFin,
       formateur:  formation.formateur,
+      centre:  formation.centre,
       image_Formation: formation.image_Formation
     });
     setSelectedCompetences(convertToFrameworkArray(formation.competences));
@@ -1365,11 +1366,29 @@ export default function ListeFormations ({ color }) {
                         </span>
                       )}
                     </div>
+                    <div className=" w-full">
+                      <label htmlFor="centre">Centre :</label>
+                      <select id="centre" value={newFormation.centre._id}
+                              onChange={(e) => setNewFormation({ ...newFormation, centre: e.target.value })}
+                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+
+                      >
+                        <option value="">{newFormation.centre.nom}</option>
+                        {centres.map((centre) => (
+                          <option key={centre._id} value={centre._id}>{centre.nom}</option>
+                        ))}
+                      </select>
+                      {errors.centre && (
+                        <span className="text-red-500">
+                        Veuillez choisire un centre pour la formation.
+                      </span>
+                      )}
+                    </div>
                     <div className="px-3 w-full">
                       <label htmlFor="formateur">Formateur :</label>
                       <select
                         id="formateur"
-                        value={newFormation.formateur}
+                        value={newFormation.formateur._id}
                         onChange={(e) =>
                           setNewFormation({
                             ...newFormation,
