@@ -21,3 +21,11 @@ export async function updatePrefClient(id,preferencesData,config) {
 export async function updatePrefCenter(id,preferencesData,config) {
   return await axios.put(`${ apiURL }/UpdatePreferencesCentre/${id}`,preferencesData, config);
 }
+
+export async function addPreferencesFormateur(id,preferencesData,config) {
+  return await axios.put(`${ apiURL }/addPrefFormateur/${id}`,preferencesData, config);
+}
+
+export async function updatePreferencesFormateur(id,preferencesData,config) {
+  return await axios.put(`${ apiURL }/addPrefFormateur/${id}`,preferencesData, config);
+}

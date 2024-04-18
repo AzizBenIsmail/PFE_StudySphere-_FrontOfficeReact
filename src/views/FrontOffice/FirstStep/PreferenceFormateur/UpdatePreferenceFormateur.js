@@ -603,84 +603,6 @@ export default function PreferenceClient () {
                         </div>
                         <div className="w-full lg:w-4/12 px-4">
                           <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="domaine-select"
-                            >
-                              Objectifs De Carrière
-                            </label>
-                            <select
-                              id="domaine-select"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="objectifs_de_carriere"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">{preferences.objectifs_de_carriere}</option>
-                              <option value="Changer_de_carriere">Changer de carrière</option>
-                              <option value="Devenir_un_leader_dans_mon_domaine">Devenir un leader dans mon domaine
-                              </option>
-                              <option
-                                value="Explorer_de_nouvelles_opportunites_professionnelles">Explorer de nouvelles
-                                opportunites professionnelles
-                              </option>
-                              <option
-                                value="Diversifier_mes_competences_pour_rester_competitif_sur_le_marche_du_travail">Diversifier
-                                mes competences pour rester competitif sur le marche du travail
-                              </option>
-                              <option value="Demarrer_ma_propre_entreprise">Demarrer ma propre entreprise</option>
-                              <option
-                                value="Augmenter_mon_revenu_grace_a_des_competences_specialisees">Augmenter mon revenu
-                                grace a des competences specialisees
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="domaine-select"
-                            >
-                              Domaine D'intérêt
-                            </label>
-                            <select
-                              id="domaine-select"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              onChange={handleChangedinteret}
-                              value={selectedDomainedinteret}
-                            >
-                              <option value="">{preferences.Domaine_dinteret}</option>
-                              {Object.keys(sousListes).map((domaine) => (
-                                <option key={domaine} value={domaine}>{domaine}</option>
-                              ))}
-                            </select>
-                          </div>
-                          {/* Afficher la sous-liste si un domaine est sélectionné */}
-                          {selectedDomainedinteret && (
-                            <div className="relative w-full mb-3">
-                              <label
-                                className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                htmlFor="sous-liste-select"
-                              >
-                                {selectedDomainedinteret}
-                              </label>
-                              <select
-                                id="sous-liste-select"
-                                className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                name="Domaine_dinteret"
-                                onChange={(e) => handleSelectChange(e)}
-                              >
-                                <option value="">{preferences.Domaine_dinteret}</option>
-                                {sousListes[selectedDomainedinteret].map((specialisation, index) => (
-                                  <option key={index} value={specialisation}>{specialisation}</option>
-                                ))}
-                              </select>
-                            </div>
-                          )}
-                        </div>
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
                             <div>
                               <label
                                 className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -784,50 +706,6 @@ export default function PreferenceClient () {
                           </div>
                         </div>
 
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="interests"
-                            >
-                              Intérêts personnels
-                            </label>
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="interets_personnels"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">{preferences.interets_personnels}</option>
-                              <option value="musique">Musique</option>
-                              <option value="sports">Sports</option>
-                              <option value="arts">Arts</option>
-                              <option value="voyages">Voyages</option>
-                              <option value="lecture">Lecture</option>
-                              {/* Ajoutez d'autres options selon vos besoins */}
-                            </select>
-                          </div>
-                        </div>
-
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="date-anniversaire"
-                            >
-                              Date de naissance
-                            </label>
-                            <input
-                              type="date"
-                              id="date-anniversaire"
-                              name="date_anniversaire"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              onChange={handleSelectChange}
-                              defaultValue={preferences.date_anniversaire}
-                              max={new Date().toISOString().split('T')[0]} // Définit la date maximale sur aujourd'hui
-                            />
-                          </div>
-                        </div>
 
                       </div>
 
@@ -879,80 +757,6 @@ export default function PreferenceClient () {
                             </select>
                           </div>
                         </div>
-                        <div className="w-full lg:w-6/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Votre Niveau D'engagement
-                            </label>
-                            {/*<input*/}
-                            {/*  type="email"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="votre Niveau D'engagement : 4S ,2S ,1S"*/}
-                            {/*/>*/}
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="niveau_dengagement"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">{preferences.niveau_dengagement}</option>
-                              <option value="4S">consacrer du temps régulier à la formation 4 Seance</option>
-                              <option value="2S">sessions d'apprentissage plus courtes 2 Seance</option>
-                              <option value="1S">intermittentes 1 Seance</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Votre Besoin
-                            </label>
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="besoin"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">{preferences.besoin}</option>
-                              <option value="certification">Certification</option>
-                              <option value="competences">Acquisition de nouvelles compétences</option>
-                              <option value="Experience">Experience Realisation projet</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Niveau Difficulte
-                            </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="Niveau Difficulte : débutant ,intermédiaire ,avancé "*/}
-                            {/*/>*/}
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="niveau_de_difficulte"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">{preferences.niveau_de_difficulte}</option>
-                              <option value="debutant">Débutant</option>
-                              <option value="intermediaire">Intermédiaire</option>
-                              <option value="avance">Avancé</option>
-                            </select>
-                          </div>
-                        </div>
                         <div className="w-full lg:w-4/12 px-4">
                           <div className="relative w-full mb-3">
                             <label
@@ -977,6 +781,25 @@ export default function PreferenceClient () {
                               <option value="hybride">Hybride</option>
                               <option value="presentiel">Présentiel</option>
                             </select>
+                          </div>
+                        </div>
+                        <div className="w-full lg:w-4/12 px-4">
+                          <div className="relative w-full mb-3">
+                            <label
+                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                              htmlFor="date-anniversaire"
+                            >
+                              Date de naissance
+                            </label>
+                            <input
+                              type="date"
+                              id="date-anniversaire"
+                              name="date_anniversaire"
+                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                              onChange={handleSelectChange}
+                              defaultValue={preferences.date_anniversaire}
+                              max={new Date().toISOString().split('T')[0]} // Définit la date maximale sur aujourd'hui
+                            />
                           </div>
                         </div>
                       </div>
@@ -1050,35 +873,7 @@ export default function PreferenceClient () {
                             </div>
                           )}
                         </div>
-                        <div className="w-full lg:w-4/12 px-4">
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Votre Budget
-                            </label>
-                            {/*<input*/}
-                            {/*  type="email"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="votre Objectifs De Carrière"*/}
-                            {/*/>*/}
-                            <select
-                              id="interests"
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              name="budget"
-                              onChange={(e) => handleSelectChange(e)}
-                            >
-                              <option value="">{preferences.budget}</option>
-                              <option value="gratuit">Gratuit 0$</option>
-                              <option value="limite">Budget limité 0$-100$</option>
-                              <option value="modere">Budget modéré 100$-500$</option>
-                              <option value="eleve">Budget élevé 500$-1000$</option>
-                              <option value="Sans">Sans contrainte budgétaire</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="w-full lg:w-4/12 px-4">
+                        <div className="w-full lg:w-6/12 px-4">
                           <div className="relative w-full mb-3">
                             <label
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -1086,11 +881,6 @@ export default function PreferenceClient () {
                             >
                               Type de contenu prefere
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="cours interactifs, workshop, projet , Travaille en groupe etc."*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
