@@ -86,16 +86,6 @@ export default function ListeFormations({ color }) {
     }
   }, [config]);
 
-  // // Fonction pour charger la liste des centres
-  // const loadCentres = useCallback(async () => {
-  //   try {
-  //     const res = await getCentre(config);
-  //     setCentres(res.data.users);
-  //   } catch (error) {
-  //     console.error("Error loading centres:", error);
-  //   }
-  // }, [config]);
-
   useEffect(() => {
     loadFormateurs();
   }, [loadFormateurs]);
@@ -410,11 +400,15 @@ export default function ListeFormations({ color }) {
     setSuggestions((prevSuggestions) =>
       prevSuggestions.filter((s) => s !== competence)
     );
-    setNewFormation((prevPreferences) => ({
-      ...prevPreferences,
-      competences: selectedCompetences.join(", "),
-    }));
+    setNewFormation((prevPreferences) => {
+      const updatedCompetences = [...prevPreferences.competences.split(', '), competence];
+      return {
+        ...prevPreferences,
+        competences: updatedCompetences.join(", "),
+      };
+    });
   };
+
 
   const handleRemoveCompetence = (competenceToRemove, event) => {
     event.preventDefault();
@@ -463,6 +457,7 @@ export default function ListeFormations({ color }) {
   };
 
   const handleChangeCompetence = (event) => {
+    console.log(event.target.value)
     setCompetenceSelectionnee(event.target.value);
     handleAddCompetence(event.target.value, event);
   };
@@ -478,32 +473,8 @@ export default function ListeFormations({ color }) {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
 
-  const states = [
-    "Ariana",
-    "Béja",
-    "Ben Arous",
-    "Bizerte",
-    "Gabès",
-    "Gafsa",
-    "Jendouba",
-    "Kairouan",
-    "Kasserine",
-    "Kébili",
-    "Le Kef",
-    "Mahdia",
-    "La Manouba",
-    "Médenine",
-    "Monastir",
-    "Nabeul",
-    "Sfax",
-    "Sidi Bouzid",
-    "Siliana",
-    "Sousse",
-    "Tataouine",
-    "Tozeur",
-    "Tunis",
-    "Zaghouan",
-  ];
+  const states = ["Ariana","Béja","Ben Arous","Bizerte","Gabès","Gafsa","Jendouba","Kairouan","Kasserine","Kébili","Le Kef","Mahdia","La Manouba",
+    "Médenine","Monastir","Nabeul","Sfax","Sidi Bouzid","Siliana","Sousse","Tataouine","Tozeur","Tunis","Zaghouan",];
 
   const citiesByState = {
     Ariana: [
@@ -1156,32 +1127,6 @@ export default function ListeFormations({ color }) {
                         </span>
                       )}
                     </div>
-                    {/*<div className=" w-full">*/}
-                    {/*  <label htmlFor="centre">Centre :</label>*/}
-                    {/*  <select*/}
-                    {/*    id="centre"*/}
-                    {/*    value={newFormation.centre}*/}
-                    {/*    onChange={(e) =>*/}
-                    {/*      setNewFormation({*/}
-                    {/*        ...newFormation,*/}
-                    {/*        centre: e.target.value,*/}
-                    {/*      })*/}
-                    {/*    }*/}
-                    {/*    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                    {/*  >*/}
-                    {/*    <option value="">Sélectionner un</option>*/}
-                    {/*    {centres.map((centre) => (*/}
-                    {/*      <option key={centre._id} value={centre._id}>*/}
-                    {/*        {centre.nom}*/}
-                    {/*      </option>*/}
-                    {/*    ))}*/}
-                    {/*  </select>*/}
-                    {/*  {errors.centre && (*/}
-                    {/*    <span className="text-red-500">*/}
-                    {/*      Veuillez choisire un centre pour la formation.*/}
-                    {/*    </span>*/}
-                    {/*  )}*/}
-                    {/*</div>*/}
                     <div className="px-3 w-full">
                       <label htmlFor="formateur">Formateur :</label>
                       <select
