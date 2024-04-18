@@ -4,7 +4,7 @@ import { TbCircleNumber1, TbCircleNumber2, TbCircleNumber3, } from 'react-icons/
 import { BiBeenHere, BiSolidBeenHere } from 'react-icons/bi'
 // import { useLocation } from 'react-router-dom'
 import { CiSquareRemove } from 'react-icons/ci'
-import {updatePrefClient , getPreferences  }from '../../../../Services/ApiPref'
+import { getPreferences, updatePrefCenter } from '../../../../Services/ApiPref'
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../../../../Services/Apiauth'
 import { useHistory } from 'react-router-dom'
@@ -373,7 +373,7 @@ export default function PreferenceCenter () {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await updatePrefClient(user._id, preferences, config).then(
+      await updatePrefCenter(user._id, preferences, config).then(
         history.push("/landing")
       );
 
