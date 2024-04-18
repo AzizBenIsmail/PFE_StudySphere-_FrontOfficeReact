@@ -43,8 +43,8 @@ export default function ListeFormations({ color }) {
     sujetInteret: "",
     Tranches_Horaires: "",
     duree: 0,
-    dateDebut: new Date(),
-    dateFin: new Date(),
+    dateDebut: "",
+    dateFin: "",
     centre: "", // Ici, vous pouvez stocker l'ID du centre sélectionné
     formateur: "", // Ici, vous pouvez stocker l'ID du formateur sélectionné
   });
@@ -253,8 +253,26 @@ export default function ListeFormations({ color }) {
   const handleEditFormation = async () => {
     try {
       const formData = new FormData();
-      formData.append("image", newFormation.image); // Ajoutez l'image à l'objet FormData
-      // Ajoutez d'autres champs de formation à formData
+      formData.append("image_Formation", newFormation.image); // Ajoutez l'image à l'objet FormData
+      formData.append("titre", newFormation.titre); // Ajoutez l'image à l'objet FormData
+      formData.append("description", newFormation.description); // Ajoutez l'image à l'objet FormData
+      formData.append("competences", newFormation.competences); // Ajoutez l'image à l'objet FormData
+      formData.append("styleEnseignement", newFormation.styleEnseignement); // Ajoutez l'image à l'objet FormData
+      formData.append("Prix", newFormation.Prix); // Ajoutez l'image à l'objet FormData
+      formData.append("jours", newFormation.jours); // Ajoutez l'image à l'objet FormData
+      formData.append("typeContenu", newFormation.typeContenu); // Ajoutez l'image à l'objet FormData
+      formData.append("langue", newFormation.langue); // Ajoutez l'image à l'objet FormData
+      formData.append("emplacement", newFormation.emplacement); // Ajoutez l'image à l'objet FormData
+      formData.append("sujetInteret", newFormation.sujetInteret); // Ajoutez l'image à l'objet FormData
+      formData.append("Tranches_Horaires", newFormation.Tranches_Horaires); // Ajoutez l'image à l'objet FormData
+      formData.append("duree", newFormation.duree); // Ajoutez l'image à l'objet FormData
+      formData.append("niveauDengagementRequis",newFormation.niveauDengagementRequis); // Ajoutez l'image à l'objet FormData
+      formData.append("niveauDeDifficulte", newFormation.niveauDeDifficulte); // Ajoutez l'image à l'objet FormData
+      formData.append("niveauRequis", newFormation.niveauRequis); // Ajoutez l'image à l'objet FormData
+      formData.append("dateDebut", newFormation.dateDebut); // Ajoutez l'image à l'objet FormData
+      formData.append("dateFin", newFormation.dateFin); // Ajoutez l'image à l'objet FormData
+      // formData.append("centre", newFormation.centre); // Ajoutez l'image à l'objet FormData
+      formData.append("formateur", newFormation.formateur); // Ajoutez l'image à l'objet FormData      // Ajoutez d'autres champs de formation à formData
       await updateFormation(formationToEdit._id, formData, config);
       // Reste du code pour modifier la formation sans image
     } catch (error) {
@@ -272,11 +290,30 @@ export default function ListeFormations({ color }) {
   };
 
   const showEditFormPopup = (formation) => {
+    setStep("1")
     setFormationToEdit(formation);
     setNewFormation({
       titre: formation.titre,
       description: formation.description,
+      niveauRequis:  formation.niveauRequis,
+      niveauDengagementRequis:  formation.niveauDengagementRequis,
+      competences:  formation.competences,
+      niveauDeDifficulte:  formation.niveauDeDifficulte,
+      styleEnseignement:  formation.styleEnseignement,
+      Prix:  formation.Prix,
+      jours: formation.jours,
+      typeContenu:  formation.typeContenu,
+      langue:  formation.langue,
+      emplacement:  formation.emplacement,
+      sujetInteret: formation.sujetInteret,
+      Tranches_Horaires:  formation.Tranches_Horaires,
+      duree:  formation.duree,
+      dateDebut:  formation.dateDebut,
+      dateFin:  formation.dateFin,
+      formateur:  formation.formateur,
+      image_Formation: newFormation.image
     });
+    setSelectedCompetences(convertToFrameworkArray(formation.competences));
     setShowEditForm(true);
   };
 
@@ -793,6 +830,58 @@ export default function ListeFormations({ color }) {
     );
   }
 
+  const formattedDate = (date) => {
+    const isoDate = new Date(date).toISOString(); // Convertit la date en format ISO
+    return isoDate.slice(0, 16); // Récupère les 16 premiers caractères, qui représentent la date et l'heure au format YYYY-MM-DDTHH:MM
+  };
+
+  function DayCheckboxUpdate ({ day, checked, onChange, disponibilite }) {
+    return (
+      <div>
+        <input
+          type="checkbox"
+          id={`${day}-checkbox`}
+          name={day}
+          checked={checked || disponibilite.includes(day.trim())} // Vérifie si le jour est inclus dans la disponibilité
+          onChange={onChange}
+        />
+        <label htmlFor={`${day}-checkbox`}>{day.charAt(0).toUpperCase() + day.slice(1)}</label>
+      </div>
+    )
+  }
+
+  function TimeCheckbox({ time, checked, onChange, dureePreferee }) {
+    return (
+      <div>
+        <input
+          type="checkbox"
+          id={`${time}-checkbox`}
+          name={time}
+          checked={checked || dureePreferee.includes(time.trim())} // Vérifie si le temps est inclus dans les plages horaires préférées
+          onChange={onChange}
+        />
+        <label htmlFor={`${time}-checkbox`}>{time.charAt(0).toUpperCase() + time.slice(1)}</label>
+      </div>
+    );
+  }
+
+  function convertToFrameworkArray(string) {
+    // Supprime les espaces en début et fin de chaîne
+    string = string.trim();
+
+    // Vérifie si la chaîne est vide
+    if (!string) {
+      return [];
+    }
+
+    // Divise la chaîne en un tableau en utilisant la virgule comme délimiteur
+    const frameworks = string.split(',');
+
+    // Supprime les espaces en début et fin de chaque élément du tableau
+    const trimmedFrameworks = frameworks.map(framework => framework.trim());
+
+    return trimmedFrameworks;
+  }
   return (
     <>
       <div className="flex py-30 flex-wrap">
@@ -829,6 +918,13 @@ export default function ListeFormations({ color }) {
                       }
                     >
                       Titre
+                    </th>
+                    <th
+                      className={
+                        "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700"
+                      }
+                    >
+                      Formation
                     </th>
                     <th
                       className={
@@ -964,6 +1060,16 @@ export default function ListeFormations({ color }) {
                   ) : (
                     currentItems.map((formation) => (
                       <tr key={formation._id}>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 font-bold">
+                          <img
+                            onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                            onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                            alt="..."
+                            className="align-middle border-none max-w-full h-auto rounded-lg"
+                            src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                            // style={{ width: "350px", height: "220px" }}
+                          />
+                        </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 font-bold">
                           {formation.titre}
                         </td>
@@ -1708,6 +1814,12 @@ export default function ListeFormations({ color }) {
                 >
                   Suivant
                 </button>
+                <button
+                  className="bg-gray-300 px-4 py-2 rounded"
+                  onClick={() => setShowAddForm(false)}
+                >
+                  Annuler
+                </button>
               </div>
             ) : Step === "2" ? (
 
@@ -1723,6 +1835,12 @@ export default function ListeFormations({ color }) {
                   onClick={() => setStep("3")}
                 >
                   Suivant
+                </button>
+                <button
+                  className="bg-gray-300 px-4 py-2 rounded"
+                  onClick={() => setShowAddForm(false)}
+                >
+                  Annuler
                 </button>
               </div>            ) : (
               <>
@@ -1753,44 +1871,642 @@ export default function ListeFormations({ color }) {
         </div>
       )}
       {showEditForm && (
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-8 rounded shadow">
+        <div className="absolute top-8 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white p-8 bg-centre rounded shadow lg:w-8/12">
             <h3>Modifier la formation</h3>
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="Titre"
-                value={newFormation.titre}
-                onChange={(e) =>
-                  setNewFormation({ ...newFormation, titre: e.target.value })
-                }
-              />
-            </div>
-            <div className="mb-4">
-              <textarea
-                placeholder="Description"
-                value={newFormation.description}
-                onChange={(e) =>
-                  setNewFormation({
-                    ...newFormation,
-                    description: e.target.value,
-                  })
-                }
-              ></textarea>
-            </div>
+            {Step === "1" ? (
+              <>
+                <div className="mb-4">
+                  <div className="grid grid-cols-3 gap-4 flex items-center">
+                    <div className="w-full">
+                      <label htmlFor="titre">titre</label>
+                      <input
+                        type="text"
+                        placeholder="titre"
+                        value={newFormation.titre}
+                        onChange={(e) =>
+                          setNewFormation({
+                            ...newFormation,
+                            titre: e.target.value,
+                          })
+                        }
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      />
+                      {errors.titre && (
+                        <span className="text-red-500">
+                          Veuillez saisir un titre pour la formation.
+                        </span>
+                      )}
+                    </div>
+                    <div className="px-4 w-full">
+                      <label htmlFor="description">description</label>
+                      <input
+                        type="text"
+                        placeholder="description"
+                        value={newFormation.description}
+                        onChange={(e) =>
+                          setNewFormation({
+                            ...newFormation,
+                            description: e.target.value,
+                          })
+                        }
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      />
+                      {errors.description && (
+                        <span className="text-red-500">
+                          Veuillez saisir une description pour la formation.
+                        </span>
+                      )}
+                    </div>
+                    <div className="px-3 w-full">
+                      <label htmlFor="formateur">Formateur :</label>
+                      <select
+                        id="formateur"
+                          value={newFormation.formateur}
+                        onChange={(e) =>
+                          setNewFormation({
+                            ...newFormation,
+                            formateur: e.target.value,
+                          })
+                        }
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      >
+                        <option value="">Sélectionner un</option>
+                        {users.map((user) => (
+                          <option key={user._id} value={user._id}>
+                            {user.nom}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.formateur && (
+                        <span className="text-red-500">
+                          Veuillez choisire un formateur pour la formation.
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <div className="grid grid-cols-3 gap-4 flex items-center">
+                    <div className=" w-full">
+                      <label htmlFor="Prix">Prix</label>
+                      <input
+                        type="number"
+                        placeholder="Prix"
+                        value={newFormation.Prix}
+                        onChange={(e) =>
+                          setNewFormation({
+                            ...newFormation,
+                            Prix: e.target.value,
+                          })
+                        }
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      />
+                      {errors.Prix && (
+                        <span className="text-red-500">
+                          Veuillez saisir un Prix pour la formation.
+                        </span>
+                      )}
+                    </div>
+                    <div className="px-4 w-full">
+                      <label htmlFor="Style d'enseignement">
+                        styleEnseignement
+                      </label>
+                      <select
+                        id="styleEnseignement"
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        name="styleEnseignement"
+                        onChange={(e) => handleSelectChange(e)}
+                      >
+                        <option value="">{newFormation.styleEnseignement}</option>
+                        <option value="enligne">Enligne</option>
+                        <option value="hybride">Hybride</option>
+                        <option value="presentiel">Présentiel</option>
+                      </select>
+                      {errors.styleEnseignement && (
+                        <span className="text-red-500">
+                          Veuillez saisir un styleEnseignement pour la
+                          formation.
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="w-full">
+                      <label htmlFor="niveauRequis">niveauRequis</label>
+                      <select
+                        id="niveauRequis"
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        name="niveauRequis"
+                        onChange={(e) => handleSelectChange(e)}
+                      >
+                        <option value="">{newFormation.niveauRequis}</option>
+                        <option value="Primaire">Primaire</option>
+                        <option value="Secondaire">Secondaire</option>
+                        <option value="Baccalaureat">Baccalaureat</option>
+                        <option value="Superieur">Superieur</option>
+                        <option value="Maitrise">Maitrise</option>
+                        <option value="Formations">Formations</option>
+                      </select>
+                      {errors.niveauRequis && (
+                        <span className="text-red-500">
+                          Veuillez saisir un niveauRequis pour la formation.
+                        </span>
+                      )}
+                    </div>
+                    <div className="px-4 w-full">
+                      <label htmlFor="Type de contenu">typeContenu</label>
+                      <select
+                        id="typeContenu"
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        name="typeContenu"
+                        onChange={(e) => handleSelectChange(e)}
+                      >
+                        <option value="">{newFormation.typeContenu}</option>
+                        <option value="interactifs">Cours interactifs</option>
+                        <option value="workshop">workshop</option>
+                        <option value="projet">Projet</option>
+                        <option value="engroupe">Travaille en groupe</option>
+                        <option value="Sans">Sans contrainte</option>
+                      </select>
+                      {errors.typeContenu && (
+                        <span className="text-red-500">
+                          Veuillez saisire un typeContenu pour la formation.
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <div className="grid grid-cols-3 gap-4 flex items-center">
+                    <div>
+                      <label htmlFor="Langue">langue</label>
+                      <select
+                        id="langue"
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        name="langue"
+                        onChange={(e) => handleSelectChange(e)}
+                      >
+                        <option value="">{newFormation.langue}</option>
+                        <option value="Francais">Francais</option>
+                        <option value="Anglais">Anglais</option>
+                        <option value="Langue_maternelle">
+                          Langue_maternelle
+                        </option>
+                      </select>
+                      {errors.langue && (
+                        <span className="text-red-500">
+                          Veuillez saisire un langue pour la formation.
+                        </span>
+                      )}
+                    </div>
+                    <div className="px-4">
+                      <label htmlFor="Durée">duree :</label>
+                      <select
+                        id="duree"
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                        name="duree"
+                        onChange={(e) => handleSelectChange(e)}
+                      >
+                        <option value="">{newFormation.duree} Min</option>
+                        <option value="60">1H00/60Min</option>
+                        <option value="90">1H30/90Min</option>
+                        <option value="120">2H00/120Min</option>
+                        <option value="150">2H30/150Min</option>
+                        <option value="180">3H00/180Min</option>
+                        <option value="210">3H30/210Min</option>
+                        <option value="240">4H00/240Min</option>
+                        <option value="270">4H30/270Min</option>
+                        <option value="300">5H00/300Min</option>
+                        <option value="330">5H30/330Min</option>
+                      </select>
+                      {errors.duree && (
+                        <span className="text-red-500">
+                          Veuillez saisire un duree pour la formation.
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <label htmlFor="Durée">Photo de couverture :</label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        // value={newFormation.image}
+                        onChange={(e) => handleImageChange(e)}
+                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : Step === "2" ? (
+              <>
+                <div className="mb-4">
+                  <div className="grid grid-cols-3 gap-4 flex items-center">
+                    <div>
+                      <div className="grid grid-cols-3 gap-4 flex items-center">
+                        <div>
+                          <label htmlFor="Sujet d'intérêt">
+                            Domaine de Formation
+                          </label>
+                          <select
+                            id="domaine"
+                            value={newFormation.sujetInteret}
+                            name="sujetInteret"
+                            onChange={handleChangeDomaine}
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                          >
+                            {Object.keys(sousListesCompetence).map(
+                              (domaine) => (
+                                <option key={domaine} value={domaine}>
+                                  {domaine}
+                                </option>
+                              )
+                            )}
+                          </select>
+                          {errors.sujetInteret && (
+                            <span className="text-red-500">
+                              Veuillez saisir votre sujet Interet pour la
+                              formation.
+                            </span>
+                          )}
+                        </div>
+                        <div>
+                          {domaineSelectionne && (
+                            <div className="px-4 w-full">
+                              <label htmlFor="competence">
+                                Sélectionnez compétence{" "}
+                              </label>
+                              <select
+                                id="competence"
+                                value={competenceSelectionnee}
+                                name="competences_dinteret"
+                                onChange={handleChangeCompetence}
+                                className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                              >
+                                <option value="">
+                                  Choisissez une compétence
+                                </option>
+                                {sousListesCompetence[domaineSelectionne] &&
+                                  sousListesCompetence[domaineSelectionne].map(
+                                    (competence, index) => (
+                                      <option key={index} value={competence}>
+                                        {competence}
+                                      </option>
+                                    )
+                                  )}
+                              </select>
+                            </div>
+                          )}
+                          {errors.competences && (
+                            <span className="text-red-500">
+                              Veuillez saisir une competence pour la formation.
+                            </span>
+                          )}
+                        </div>
+                        <div className="px-4 w-full">
+                          <div className="grid grid-cols-3 gap-4 flex items-center">
+                            <div className="w-full">
+                              <label htmlFor="Emplacement"> Emplacement </label>
+                              <div>
+                                <select
+                                  id="state-select"
+                                  value={selectedState}
+                                  onChange={handleStateChange}
+                                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                >
+                                  <option value="">{newFormation.emplacement}</option>
+                                  {states.map((state, index) => (
+                                    <option key={index} value={state}>
+                                      {state}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            </div>
+                            <div className="px-4 w-full">
+                              {selectedState && (
+                                <div>
+                                  <label htmlFor="city-select">Ville</label>
+                                  <select
+                                    id="city-select"
+                                    value={selectedCity}
+                                    onChange={handleCityChange}
+                                    className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                  >
+                                    <option value="">
+                                      Sélectionner une ville
+                                    </option>
+                                    {citiesByState[selectedState].map(
+                                      (city, index) => (
+                                        <option key={index} value={city}>
+                                          {city}
+                                        </option>
+                                      )
+                                    )}
+                                  </select>
+                                </div>
+                              )}
+                              {errors.emplacement && (
+                                <span className="text-red-500">
+                                  Veuillez saisir votre emplacement pour la
+                                  formation.
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-4">
+                    <div className="grid grid-cols-3 gap-4 flex items-center">
+                      <div className="w-full ">
+                        <div className="relative w-full ">
+                          <label htmlFor="Sujet d'intérêt">
+                            Compétence Formation
+                          </label>
+                          <input
+                            type="text"
+                            id="competence-input"
+                            value={inputValue}
+                            onChange={handleInputChange}
+                            placeholder="Saisissez une compétence"
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                          />
+                        </div>
+                        {errors.competence && (
+                          <span className="text-red-500">
+                            Veuillez saisir votre competence pour la formation.
+                          </span>
+                        )}
+                        <div className="flex flex-wrap">
+                          {selectedCompetences.map((competence, index) => (
+                            <div
+                              key={index}
+                              className="inline-block bg-gray-200 rounded-full px-2 py-1 text-sm font-semibold text-gray-700"
+                            >
+                              <div className="text-blueGray-400 text-center font-bold">
+                                <small>{competence}</small>
+                                <button
+                                  onClick={(event) =>
+                                    handleRemoveCompetence(competence, event)
+                                  }
+                                  className="ml-2 focus:outline-none"
+                                >
+                                  <CiSquareRemove />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div>
+                          {suggestions && suggestions.length > 0 && (
+                            <p>Compétences recommandées :</p>
+                          )}
+                          <div className="flex flex-wrap">
+                            {suggestions.map((suggestion, index) => (
+                              <button
+                                key={index}
+                                onClick={(event) =>
+                                  handleAddCompetence(suggestion, event)
+                                }
+                                className="inline-block bg-blue-500 text-dark rounded-full font-bold px-2 py-1 rounded"
+                                disabled={selectedCompetences.includes(
+                                  suggestion
+                                )}
+                              >
+                                {suggestion}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-4">
+                    <div className="grid grid-cols-3 gap-4 flex items-center">
+                      <div className="w-full">
+                        <label htmlFor="niveauDeDifficulte">
+                          niveauDeDifficulte
+                        </label>
+                        <select
+                          id="niveauDeDifficulte"
+                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                          name="niveauDeDifficulte"
+                          onChange={(e) => handleSelectChange(e)}
+                        >
+                          <option value="">{newFormation.niveauDeDifficulte}</option>
+                          <option value="debutant">Débutant</option>
+                          <option value="intermediaire">Intermédiaire</option>
+                          <option value="avance">Avancé</option>
+                        </select>
+                        {errors.niveauDeDifficulte && (
+                          <span className="text-red-500">
+                            Veuillez saisir un niveauDeDifficulte pour la
+                            formation.
+                          </span>
+                        )}
+                      </div>
+                      <div className="px-4 ">
+                        <div className=" w-full">
+                          <label htmlFor="niveauDengagementRequis">
+                            niveauDengagementRequis
+                          </label>
+                          <select
+                            id="niveauDengagementRequis"
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            name="niveauDengagementRequis"
+                            onChange={(e) => handleSelectChange(e)}
+                          >
+                            <option value="">{newFormation.niveauDengagementRequis}</option>
+                            <option value="4S">
+                              consacrer du temps régulier à la formation 4
+                              Seance
+                            </option>
+                            <option value="2S">
+                              sessions d'apprentissage plus courtes 2 Seance
+                            </option>
+                            <option value="1S">intermittentes 1 Seance</option>
+                          </select>
+                          {errors.niveauDengagementRequis && (
+                            <span className="text-red-500">
+                              Veuillez saisir un niveauDengagementRequis pour la
+                              formation.
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="w-full">
+                        <label htmlFor="dateDebut">Date Debut </label>
+                        <input
+                          type="datetime-local"
+                          id="dateDebut"
+                          name="dateDebut"
+                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                          onChange={handleSelectChange}
+                          defaultValue={formattedDate(newFormation.dateDebut)}
+                          max={new Date().toISOString().split("T")[0]} // Définit la date maximale sur aujourd'hui
+                        />
+                      </div>
+                      <div className="px-4 w-full">
+                        <label htmlFor="dateFin w-full">Date Fin</label>
+                        <input
+                          type="datetime-local"
+                          id="dateFin"
+                          name="dateFin"
+                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                          onChange={handleSelectChange}
+                          defaultValue={formattedDate(newFormation.dateFin)}
+                          max={new Date().toISOString().split("T")[0]} // Définit la date maximale sur aujourd'hui
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-4">
+                    <div className="grid grid-cols-3 gap-4 flex items-center"></div>
+                  </div>
+                </div>
+              </>
+            ) : Step === "3" ? (
+              <>
+                {/* Quatrième groupe de champs */}
+                <div className="mb-4">
+                  <div>
+                    <div className="availability-container">
+                      <h2 className="availability-heading text-blueGray-300">Disponibilité</h2>
+                      <div className="days-section text-blueGray-400">
+                        <h3 className="text-blueGray-400">Jours de la semaine</h3>
+                        <div className="day-checkboxes">
+                          <div className="day-column">
+                            {[' lundi', ' jeudi', ' samedi'].map((day) => (
+                              <DayCheckboxUpdate
+                                key={day}
+                                day={day}
+                                checked={availability.days.includes(day)}
+                                onChange={handleDayChange}
+                                disponibilite={newFormation.jours} // Passer la disponibilité comme prop
+                              />
+                            ))}
+                          </div>
+                          <div className="day-column">
+                            {[' mardi', ' vendredi', ' dimanche'].map((day) => (
+                              <DayCheckboxUpdate
+                                key={day}
+                                day={day}
+                                checked={availability.days.includes(day)}
+                                onChange={handleDayChange}
+                                disponibilite={newFormation.jours} // Passer la disponibilité comme prop
+                              />
+                            ))}
+                          </div>
+                          <div className="day-column">
+                            {[' mercredi'].map((day) => (
+                              <DayCheckboxUpdate
+                                key={day}
+                                day={day}
+                                checked={availability.days.includes(day)}
+                                onChange={handleDayChange}
+                                disponibilite={newFormation.jours} // Passer la disponibilité comme prop
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      {errors.jours && (
+                        <span className="text-red-500">
+                          Veuillez saisir un jours pour la formation.
+                        </span>
+                      )}
+
+                      <div className="times-section">
+                        <h3 className="text-blueGray-400">
+                          Heures de la journée
+                        </h3>
+                        <div className="time-checkboxes text-blueGray-400">
+                          {['matin', 'après-midi', 'soir'].map((time) => (
+                            <TimeCheckbox
+                              key={time}
+                              time={time}
+                              checked={availability.times.includes(time)}
+                              onChange={handleTimeChange}
+                              dureePreferee={newFormation.Tranches_Horaires} // Passer les plages horaires préférées comme prop
+                            />
+                          ))}
+                          {errors.Tranches_Horaires && (
+                            <span className="text-red-500">
+                              Veuillez saisir une Tranches_Horaires pour la
+                              formation.
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ):(null)}
             <div className="flex justify-end">
-              <button
-                className="bg-emerald-500 text-white px-4 py-2 rounded mr-4"
-                onClick={handleEditFormation}
-              >
-                Enregistrer
-              </button>
-              <button
-                className="bg-gray-300 px-4 py-2 rounded"
-                onClick={() => setShowEditForm(false)}
-              >
-                Annuler
-              </button>
+              {Step === "1" ? (
+                <div className="flex justify-end">
+                  <button
+                    className="bg-gray-300 px-4 py-2 rounded"
+                    onClick={() => setStep("2")}
+                  >
+                    Suivant
+                  </button>
+                  <button
+                    className="bg-gray-300 px-4 py-2 rounded"
+                    onClick={() => setShowEditForm(false)}
+                  >
+                    Annuler
+                  </button>
+                </div>
+              ) : Step === "2" ? (
+
+                <div className="flex justify-end">
+                  <button
+                    className="bg-gray-300 px-4 py-2 rounded"
+                    onClick={() => setStep("1")}
+                  >
+                    Precedent
+                  </button>
+                  <button
+                    className="bg-gray-300 px-4 py-2 rounded"
+                    onClick={() => setStep("3")}
+                  >
+                    Suivant
+                  </button>
+                  <button
+                    className="bg-gray-300 px-4 py-2 rounded"
+                    onClick={() => setShowEditForm(false)}
+                  >
+                    Annuler
+                  </button>
+                </div>            ) : (
+                <>
+                  {" "}
+                  <div className="flex justify-end">
+                    <button
+                      className="bg-gray-300 px-4 py-2 rounded"
+                      onClick={() => setStep("2")}
+                    >
+                      Precedent
+                    </button>
+                    <button
+                      className="bg-emerald-500 text-white px-4 py-2 rounded mr-4"
+                      onClick={handleEditFormation}
+                    >
+                      modifier
+                    </button>
+                    <button
+                      className="bg-gray-300 px-4 py-2 rounded"
+                      onClick={() => setShowEditForm(false)}
+                    >
+                      Annuler
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
