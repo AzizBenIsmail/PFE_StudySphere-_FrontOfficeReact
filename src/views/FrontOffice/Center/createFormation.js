@@ -274,6 +274,8 @@ export default function ListeFormations({ color }) {
       // formData.append("centre", newFormation.centre); // Ajoutez l'image à l'objet FormData
       formData.append("formateur", newFormation.formateur); // Ajoutez l'image à l'objet FormData      // Ajoutez d'autres champs de formation à formData
       await updateFormation(formationToEdit._id, formData, config);
+      loadFormations()
+      setShowEditForm(false);
       // Reste du code pour modifier la formation sans image
     } catch (error) {
       console.error("Error updating formation:", error);
@@ -455,7 +457,17 @@ export default function ListeFormations({ color }) {
         (competence) => competence !== competenceToRemove
       );
     });
+    setNewFormation((prevPreferences) => {
+      const updatedCompetences = prevPreferences.competences
+      .split(", ")
+      .filter((c) => c !== competenceToRemove);
+      return {
+        ...prevPreferences,
+        competences: updatedCompetences.join(", "),
+      };
+    });
   };
+
 
   const suggestCompetences = (inputValue, selectedCompetences) => {
     const input = inputValue.toLowerCase();

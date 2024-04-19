@@ -227,8 +227,11 @@ export default function ListeFormations ({ color }) {
       formData.append('formateur', newFormation.formateur) // Ajoutez l'image à l'objet FormData
 
       // Ajoutez d'autres champs de formation à formData
-      await createFormation(formData, config).then(showAddForm(false))
-      // Reste du code pour ajouter la formation sans image
+      await createFormation(formData, config);
+
+      loadFormations()
+      setShowAddForm(false);
+
     } catch (error) {
       console.error('Error adding formation:', error)
     }
@@ -238,28 +241,30 @@ export default function ListeFormations ({ color }) {
   const handleEditFormation = async () => {
     try {
       const formData = new FormData();
-      formData.append("image_Formation", newFormation.image); // Ajoutez l'image à l'objet FormData
-      formData.append("titre", newFormation.titre); // Ajoutez l'image à l'objet FormData
-      formData.append("description", newFormation.description); // Ajoutez l'image à l'objet FormData
-      formData.append("competences", newFormation.competences); // Ajoutez l'image à l'objet FormData
-      formData.append("styleEnseignement", newFormation.styleEnseignement); // Ajoutez l'image à l'objet FormData
-      formData.append("Prix", newFormation.Prix); // Ajoutez l'image à l'objet FormData
-      formData.append("jours", newFormation.jours); // Ajoutez l'image à l'objet FormData
-      formData.append("typeContenu", newFormation.typeContenu); // Ajoutez l'image à l'objet FormData
-      formData.append("langue", newFormation.langue); // Ajoutez l'image à l'objet FormData
-      formData.append("emplacement", newFormation.emplacement); // Ajoutez l'image à l'objet FormData
-      formData.append("sujetInteret", newFormation.sujetInteret); // Ajoutez l'image à l'objet FormData
-      formData.append("Tranches_Horaires", newFormation.Tranches_Horaires); // Ajoutez l'image à l'objet FormData
-      formData.append("duree", newFormation.duree); // Ajoutez l'image à l'objet FormData
-      formData.append("niveauDengagementRequis",newFormation.niveauDengagementRequis); // Ajoutez l'image à l'objet FormData
-      formData.append("niveauDeDifficulte", newFormation.niveauDeDifficulte); // Ajoutez l'image à l'objet FormData
-      formData.append("niveauRequis", newFormation.niveauRequis); // Ajoutez l'image à l'objet FormData
-      formData.append("dateDebut", newFormation.dateDebut); // Ajoutez l'image à l'objet FormData
-      formData.append("dateFin", newFormation.dateFin); // Ajoutez l'image à l'objet FormData
-      formData.append("centre", newFormation.centre); // Ajoutez l'image à l'objet FormData
-      formData.append("formateur", newFormation.formateur); // Ajoutez l'image à l'objet FormData      // Ajoutez d'autres champs de formation à formData
+      console.log(newFormation)
+      formData.append("image_Formation", newFormation.image);
+      formData.append("titre", newFormation.titre);
+      formData.append("description", newFormation.description);
+      formData.append("competences", newFormation.competences);
+      formData.append("styleEnseignement", newFormation.styleEnseignement);
+      formData.append("Prix", newFormation.Prix);
+      formData.append("jours", newFormation.jours);
+      formData.append("typeContenu", newFormation.typeContenu);
+      formData.append("langue", newFormation.langue);
+      formData.append("emplacement", newFormation.emplacement);
+      formData.append("sujetInteret", newFormation.sujetInteret);
+      formData.append("Tranches_Horaires", newFormation.Tranches_Horaires);
+      formData.append("duree", newFormation.duree);
+      formData.append("niveauDengagementRequis",newFormation.niveauDengagementRequis);
+      formData.append("niveauDeDifficulte", newFormation.niveauDeDifficulte);
+      formData.append("niveauRequis", newFormation.niveauRequis);
+      formData.append("dateDebut", newFormation.dateDebut);
+      formData.append("dateFin", newFormation.dateFin);
+      formData.append("centre", newFormation.centre);
+      formData.append("formateur", newFormation.formateur._id);
       await updateFormation(formationToEdit._id, formData, config);
-      // Reste du code pour modifier la formation sans image
+      loadFormations()
+      setShowEditForm(false);
     } catch (error) {
       console.error("Error updating formation:", error);
     }
@@ -273,6 +278,9 @@ export default function ListeFormations ({ color }) {
       console.error("Error deleting formation:", error);
     }
   };
+
+  const [nomcenter, setNomcenter] = useState("");
+
 
   const showEditFormPopup = (formation) => {
     setStep("1")
@@ -296,9 +304,10 @@ export default function ListeFormations ({ color }) {
       dateDebut:  formation.dateDebut,
       dateFin:  formation.dateFin,
       formateur:  formation.formateur,
-      centre:  formation.centre,
-      image_Formation: formation.image_Formation
+      centre:  formation.centre._id,
+      image_Formation: formation.image_Formation._id
     });
+    setNomcenter(formation.centre.nom);
     setSelectedCompetences(convertToFrameworkArray(formation.competences));
     setShowEditForm(true);
     console.log(newFormation)
@@ -343,28 +352,46 @@ export default function ListeFormations ({ color }) {
   }
 
   const handleAddCompetence = (competence, event) => {
-    event.preventDefault()
-    setSelectedCompetences(prevCompetences => {
+    event.preventDefault();
+    setSelectedCompetences((prevCompetences) => {
       if (!prevCompetences.includes(competence)) {
-        return [...prevCompetences, competence]
+        return [...prevCompetences, competence];
       }
-      return prevCompetences
-    })
-    setInputValue(prevValue => prevValue ? `${prevValue}, ${competence}` : competence)
-    setSuggestions(prevSuggestions => prevSuggestions.filter(s => s !== competence))
-    setNewFormation(prevPreferences => ({
-      ...prevPreferences,
-      competences: selectedCompetences.join(', ')
-    }))
-
-  }
+      return prevCompetences;
+    });
+    setInputValue((prevValue) =>
+      prevValue ? `${prevValue}, ${competence}` : competence
+    );
+    setSuggestions((prevSuggestions) =>
+      prevSuggestions.filter((s) => s !== competence)
+    );
+    setNewFormation((prevPreferences) => {
+      const updatedCompetences = [...prevPreferences.competences.split(', '), competence];
+      return {
+        ...prevPreferences,
+        competences: updatedCompetences.join(", "),
+      };
+    });
+  };
 
   const handleRemoveCompetence = (competenceToRemove, event) => {
-    event.preventDefault()
-    setSelectedCompetences(prevCompetences => {
-      return prevCompetences.filter((competence) => competence !== competenceToRemove)
-    })
-  }
+    event.preventDefault();
+    setSelectedCompetences((prevCompetences) => {
+      return prevCompetences.filter(
+        (competence) => competence !== competenceToRemove
+      );
+    });
+    setNewFormation((prevPreferences) => {
+      const updatedCompetences = prevPreferences.competences
+      .split(", ")
+      .filter((c) => c !== competenceToRemove);
+      return {
+        ...prevPreferences,
+        competences: updatedCompetences.join(", "),
+      };
+    });
+  };
+
 
   const suggestCompetences = (inputValue, selectedCompetences) => {
     const input = inputValue.toLowerCase()
@@ -673,7 +700,8 @@ export default function ListeFormations ({ color }) {
               formations.map((formation) => (
               <tr key={formation._id}>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 font-bold">
-                    <img
+                  <a href={`/admin/DetailsFormation/${formation._id}`}>
+                  <img
                       onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                       onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                       alt="..."
@@ -681,6 +709,7 @@ export default function ListeFormations ({ color }) {
                       src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
                       // style={{ width: "350px", height: "220px" }}
                     />
+                  </a>
                 </td>
                 <td
                   className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 font-bold">
@@ -1373,7 +1402,7 @@ export default function ListeFormations ({ color }) {
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
 
                       >
-                        <option value="">{newFormation.centre.nom}</option>
+                        <option value="">{nomcenter}</option>
                         {centres.map((centre) => (
                           <option key={centre._id} value={centre._id}>{centre.nom}</option>
                         ))}
