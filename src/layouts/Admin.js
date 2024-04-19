@@ -23,6 +23,7 @@ import UpdatePassword from "../views/admin/users/UpdatePassword.js";
 import ListeNiveau from "../views/admin/Niveau/ListeNiveau.js";
 import ListeBadge from "../views/admin/Badge/ListeBadge.js";
 import LitseXp from "../views/admin/xp/LitseXp.js";
+import DetailsFormation from "../views/admin/Formation/DetailsFormation.js";
 import Notification from "../views/admin/Notification/Notification";
 import Formation from "../views/admin/Formation/Formation";
 import Cookies from 'js-cookie'
@@ -83,6 +84,7 @@ export default function Admin() {
             <Route path="/admin/settings" exact component={Settings} />
             <Route path="/admin/Profile/:id" exact component={Profile} />
             <Route path="/admin/tables" exact component={ListUsers} />
+            <Route path="/admin/DetailsFormation/:id" exact component={DetailsFormation} />
             <Route path="/admin/Ajouterutilisateur" exact component={AddUser} />
             <Route path="/admin/Modifierutilisateur/:id" exact component={UpdateUser} />
             <Route path="/admin/UpdatePassword/:id" exact component={UpdatePassword} />
