@@ -1,6 +1,4 @@
-
-
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { BsSend, BsFileEarmarkArrowUp } from "react-icons/bs";
 import { MdMic, MdStop } from "react-icons/md";
 import EmojiPicker from "emoji-picker-react";
@@ -19,8 +17,8 @@ const MessageInput = () => {
   const audioRecorder = useRef(null);
   // eslint-disable-next-line
   const progressBarRef = useRef(null); // Reference for the progress bar
-
   const fileInputRef = useRef(null);
+  const emojiPickerRef = useRef(null);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -106,16 +104,33 @@ const MessageInput = () => {
     setShowEmojiPicker(false);
     fileInputRef.current.style.display = "none"; // Hide the file input after sending the file
   };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target)
+      ) {
+        setShowEmojiPicker(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+ 
   return (
     <form className="px-4 my-3 mb-5" onSubmit={handleSubmit}>
-      <div className="w-full relative">
+      <div className="w-full relative flex items-center">
         <input
           type="text"
-          className="border text-sm rounded-lg block w-3-4 p-2-5 bg-gray-700 border-gray-600 text-white ml-auto"
+          className="border text-sm rounded-lg p-2.5 bg-gray-700 border-gray-600 text-white"
           placeholder="Send a message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          style={{ flex: "1" }}
         />
         <input
           type="file"
@@ -125,29 +140,32 @@ const MessageInput = () => {
         />
         <button
           type="button"
-          className="absolute inset-y-0 left-0 flex items-center  text-white text-xl"
+          className="ml-2 text-lightBlue-600  text-xl"
           onClick={handleFileUploadClick}
         >
           <BsFileEarmarkArrowUp />
         </button>
         <button
           type="button"
-          className="absolute inset-y-0 left-10 flex items-center pr-1 text-white text-xl"
+          className="ml-2 text-lightBlue-600 text-xl"
           onClick={() => setShowEmojiPicker(!showEmojiPicker)}
         >
           😊
         </button>
         {showEmojiPicker && (
-          <EmojiPicker
-            onEmojiClick={handleEmojiClick}
-            disableSearchBar
-            disableSkinTonePicker
-            style={{ position: "absolute", top: "-1100%", right: 0 }}
-          />
+          <div ref={emojiPickerRef}>
+            <EmojiPicker
+              onEmojiClick={handleEmojiClick}
+              disableSearchBar
+              disableSkinTonePicker
+              style={{ position: "absolute", top: "-1200%", right: 0 }}
+            />
+          </div>
         )}
+
         <button
           type="button"
-          className={`absolute inset-y-0 end-0 flex items-center pr-1 text-white text-xl ${
+          className={`ml-2 text-lightBlue-600 text-xl ${
             isRecording ? "text-red-500" : ""
           }`}
           onClick={isRecording ? handleStopRecording : handleStartRecording}
@@ -163,10 +181,7 @@ const MessageInput = () => {
             <MdMic />
           )}
         </button>
-        <button
-          type="submit"
-          className="absolute inset-y-0 left-21 flex items-center  text-white text-xl"
-        >
+        <button type="submit" className="ml-2 text-lightBlue-600 text-xl">
           {loading ? (
             <div className="loading loading-spinner"></div>
           ) : (
@@ -179,3 +194,4 @@ const MessageInput = () => {
 };
 
 export default MessageInput;
+

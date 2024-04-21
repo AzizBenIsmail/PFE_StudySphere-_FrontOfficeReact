@@ -1,3 +1,4 @@
+// Home.js
 import React from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import MessageContainer from "../../components/messages/MessageContainer";
@@ -8,7 +9,7 @@ const Home = () => {
   const { selectedConversation } = useConversation();
 
   return (
-    <div className="flex">
+    <div className="flex ">
       <div className="flex rounded-lg overflow-hidden bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
         <Sidebar />
         <div className={`flex ${selectedConversation ? "" : "w-100"}`}>
@@ -18,7 +19,7 @@ const Home = () => {
       </div>
       {/* Conditionally render the ProfileSidebar */}
       {selectedConversation && (
-        <div className="bg-red-500 profile-sidebar">
+        <div className="bg-gray-500  profile-sidebar  overflow-y-auto">
           <ProfileSidebar />
         </div>
       )}
@@ -27,6 +28,7 @@ const Home = () => {
 };
 
 export default Home;
+
 
 
 // import React from "react";

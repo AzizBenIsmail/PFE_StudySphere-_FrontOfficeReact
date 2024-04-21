@@ -11,7 +11,7 @@ const Message = ({ message }) => {
     : selectedConversation?.image_user;
 
   const chatClassName = fromMe ? "chat-end" : "chat-start";
-  const bubbleBgColor = fromMe ? "bg-blue-500" : "bg-gray-200"; // Adjusted background color
+  const bubbleBgColor = fromMe ? "bg-indigo-500" : "bg-gray-300"; // Adjusted background color
   const bubbleTextColor = fromMe ? "text-white" : "text-gray-800"; // Adjusted text color
   const shakeClass = message.shouldShake ? "shake" : "";
 
@@ -90,7 +90,10 @@ const Message = ({ message }) => {
               >
                 <source
                   src={`http://localhost:5000/${message.file.originalname}`}
-                  type={`audio/${message.file.originalname.split(".").pop().toLowerCase()}`}
+                  type={`audio/${message.file.originalname
+                    .split(".")
+                    .pop()
+                    .toLowerCase()}`}
                 />
                 Your browser does not support the audio element.
               </audio>

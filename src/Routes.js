@@ -22,6 +22,7 @@ const Index = lazy(() => import("views/Index.js"));
 
 const Chat = lazy(() => import("./views/chat/Main.js"));
 
+
 function Routes() {
   return (
     <>
@@ -47,6 +48,7 @@ function Routes() {
 
           {/* New route for the chat page */}
           <Route path="/chat" exact component={Chat} />
+          
 
           {/* add redirect for first page */}
           <Redirect from="*" to="/" />

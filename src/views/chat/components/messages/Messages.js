@@ -17,7 +17,7 @@ const Messages = () => {
   }, [messages]);
 
   return (
-    <div className="px-4 flex-1 messages-container  ">
+    <div className="px-4 flex-1   ">
       {!loading &&
         messages.length > 0 &&
         messages.map((message) => (

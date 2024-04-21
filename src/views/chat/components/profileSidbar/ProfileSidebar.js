@@ -1,26 +1,35 @@
-import React, { useState ,useEffect } from "react";
-import { AiOutlinePhone, AiOutlineVideoCamera } from "react-icons/ai";
+import React, { useState, useEffect } from "react";
 import useConversation from "../../zustand/useConversation";
 import client from "../../../../assets/img/client.png";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+
+//import { Link } from "react-router-dom";
 
 const ProfileSidebar = () => {
   const { selectedConversation, messages } = useConversation();
   const [activeSection, setActiveSection] = useState("profile");
+  // eslint-disable-next-line
+ 
+
   useEffect(() => {
     // Reset activeSection to "profile" when a new conversation is selected
     setActiveSection("profile");
   }, [selectedConversation]);
+  // eslint-disable-next-line
   const handleClick = (section) => {
     setActiveSection(section);
   };
 
   const handleBackToProfile = () => {
     setActiveSection("profile");
+  
   };
 
   const handleMediaClick = () => {
     setActiveSection("profile");
   };
+
+  
 
   const renderMedia = () => {
     console.log("Selected Conversationssssss:", selectedConversation);
@@ -52,6 +61,7 @@ const ProfileSidebar = () => {
                     className=" rounded-lg"
                   />
                 </a>
+                <br />
               </div>
             );
           } else if (["mp4", "mov", "avi"].includes(fileExtension)) {
@@ -68,6 +78,7 @@ const ProfileSidebar = () => {
                     controls
                   />
                 </a>
+                <br />
               </div>
             );
           }
@@ -106,6 +117,8 @@ const ProfileSidebar = () => {
                   >
                     {message.file.originalname}
                   </a>
+                  <br />
+                  <br />
                 </div>
               );
             }
@@ -140,6 +153,8 @@ const ProfileSidebar = () => {
             >
               {url}
             </a>
+            <br />
+            <br />
           </div>
         ));
       });
@@ -165,20 +180,6 @@ const ProfileSidebar = () => {
                 {selectedConversation.nom}
               </h3>
 
-              {/* Container for icons */}
-              <div className="flex space-x-4">
-                {/* Audio Call Icon */}
-                <AiOutlinePhone
-                  className="text-gray-800 text-lg"
-                  onClick={() => handleClick("audio")}
-                />
-
-                {/* Video Call Icon */}
-                <AiOutlineVideoCamera
-                  className="text-gray-800 text-lg"
-                  onClick={() => handleClick("video")}
-                />
-              </div>
 
               {/* Clickable div for Media, Files & Links */}
               <div
@@ -202,19 +203,21 @@ const ProfileSidebar = () => {
             </>
           )}
 
-          {(activeSection === "media" ||
-            activeSection === "files" ||
-            activeSection === "links") && (
-            <div>
-              {/* Back to Profile Button */}
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+          {activeSection !== "profile" && (
+            <div className="flex items-center mb-4">
+              {/* Back icon */}
+              <AiOutlineArrowLeft
+                className="h-6 w-6 mr-2 cursor-pointer text-blue-500"
                 onClick={handleBackToProfile}
-              >
-                Back to Profile
-              </button>
+              />
+              {/* Title of the active section */}
+              <h2 className="text-gray-800 font-bold text-lg capitalize">
+                {activeSection}
+              </h2>
             </div>
           )}
+
+         
 
           {activeSection === "media" && (
             <div>

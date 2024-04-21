@@ -70,3 +70,11 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+self.addEventListener('fetch', event => {
+  if (event.request.url.startsWith('http://localhost:5000/socket.io/')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
+  // rest of your fetch event handler...
+});
