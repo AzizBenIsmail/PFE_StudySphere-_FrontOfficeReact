@@ -76,63 +76,37 @@ export default function PreferenceClient () {
   const [selectedCity, setSelectedCity] = useState('')
   const [preferences, setPreferences] = useState({})
 
-
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     console.log(selectedCompetences);
-  //   }, 90000)
-  //
-  //   return () => clearInterval(timer) // Nettoyer l'intervalle lors du démontage du composant
-  // }, [preferences.competences_dinteret, selectedCompetences]);
-
-
   const handleSelectChange = (event) => {
     setPreferences({ ...preferences, [event.target.name]: event.target.value })
   }
 
   const sousListes = {
-    Etudiant: ['Étudiant', 'Lycéen', 'Apprenti', 'Stagiaire'],
-    RH: ['Recruteur', 'Gestionnaire de la paie', 'Responsable des ressources humaines', 'Analyste des avantages sociaux', 'Spécialiste de la formation et du développement'],
-    IT: ['Developpeur logiciel', 'Administrateur système', 'Ingenieur en sécurité informatique', 'Analyste en assurance qualité', 'Architecte cloud'],
-    Developpeur: ['Developpeur FullStack', 'Developpeur front-end', 'Developpeur back-end', 'Concepteur UX/UI', 'Integrateur web', 'Developpeur mobile', 'Specialiste en SEO'],
-    Architecture: ['Architecte', 'Urbaniste', 'Technicien en batiment', 'Designer d\'interieur', 'Ingenieur structure'],
-    Finance: ['Analyste financier', 'Comptable', 'Controleur financier', 'Conseiller en investissement', 'Trader'],
-    Marketing: ['Chef de produit', 'Responsable marketing digital', 'Analyste de marche', 'Charge de communication', 'Gestionnaire de marque'],
-    Medical: ['Medecin generaliste', 'Infirmier', 'Chirurgien', 'Pharmacien', 'Radiologue'],
-    Juridique: ['Avocat', 'Juge', 'Notaire', 'Huissier de justice', 'Conseiller juridique'],
-    Education: ['Enseignant', 'Professeur d\'universite', 'Formateur', 'Conseiller pedagogique', 'Directeur d\'ecole'],
-    Ingenierie: ['Ingenieur civil', 'Ingenieur mecanique', 'Ingenieur electrique', 'Ingenieur en aerospatiale', 'Ingenieur logiciel'],
-    Art_et_culture: ['Artiste', 'Ecrivain', 'Musicien', 'Acteur', 'Historien d\'art'],
-    Vente: ['Commercial', 'Vendeur', 'Chef de secteur', 'Conseiller de vente', 'Representant commercial'],
-    Communication: ['Responsable communication', 'Charge de relations publiques', 'Community manager', 'Attache de presse', 'Responsable des evenements'],
-    Recherche: ['Chercheur', 'Assistant de recherche', 'Technicien de laboratoire', 'Ingenieur de recherche', 'Analyste de donnees'],
-    Consultation: ['Consultant en gestion', 'Consultant en strategie', 'Consultant financier', 'Consultant en informatique', 'Consultant RH'],
-    Logistique: ['Responsable logistique', 'Gestionnaire des stocks', 'Planificateur de production', 'Coordinateur de transport', 'Agent de fret'],
-    Transport: ['Chauffeur de camion', 'Pilote d\'avion', 'Mecanicien d\'avion', 'Agent de service a la clientele', 'Agent de bord'],
-    Tourisme: ['Agent de voyage', 'Guide touristique', 'Directeur d\'hotel', 'Responsable des reservations', 'Animateur touristique']
+    Informatique: ['Developpement', 'Securite informatique', 'Business Intelligence', 'Reseaux'],
+    Arts: ['Arts visuels', 'Musique', 'Cinema', 'Theatre'],
+    Design: ['Design graphique', 'Design industriel', 'Design d\'interieur'],
+    Lettres: ['Litterature', 'Langues etrangeres', 'Histoire' ,'Geologie'],
+    Economie: ['Economie generale', 'Gestion', 'Comptabilite', 'Finance'],
+    Commerce: ['Marketing', 'Vente', 'Distribution', 'Commerce international', 'Publicite', 'Relations publiques'],
+    Tourisme: ['Gestion hoteliere', 'Tourisme culturel', 'Tourisme de loisirs', 'Agence de voyages'],
+    Sport: ['Education physique', 'Entrainement sportif', 'Kinesthesie', 'Nutrition sportive'],
+    Gestion_de_projet: ['Planification', 'Suivi et controle', 'Gestion des risques', 'Evaluation'],
+    Entrepreneuriat: ['Creation d\'entreprise', 'Management', 'Strategie d\'entreprise', 'Innovation'],
   }
 
   const sousListesCompetence = {
-    RH: ['Recrutement', 'Selection', 'Gestion', 'Gestion de la paie', 'Formation', 'Formation des employes', 'Gestion des performances', 'Relations', 'Relations employes', 'Resolution', 'Resolution de conflits'],
-    IT: ['Developpement de logiciels', 'Administration systeme', 'Securite informatique', 'Analyse de donnees', 'Architecture cloud'],
-    Developpement_Web: ['HTML', 'CSS', 'JavaScript', 'Python', 'PHP', 'Java', 'C#', 'TypeScript', 'SQL'],
+    Informatique: ['Developpement de logiciels', 'Administration systeme', 'Securite informatique', 'Analyse de donnees', 'Architecture cloud'],
+    Developpement_Web_Basique: ['HTML', 'CSS', 'JavaScript', 'Python', 'PHP', 'Java', 'C#', 'TypeScript', 'SQL'],
     Developpement_mobile: ['Flutter', 'React Native', 'Ionic', 'Swift', 'Kotlin'],
-    Developpement_frontend: ['React', 'Angular', 'Vue', 'Svelte', 'Ember'],
-    Developpement_backend: ['Node.js', 'Express', 'Django', 'Ruby on Rails', 'Spring Boot'],
-    Architecture: ['Conception architecturale', 'Dessin technique', 'Modelisation 3D', 'Gestion de projet', 'Etude de faisabilite'],
-    Finance: ['Analyse financiere', 'Comptabilite', 'Gestion des investissements', 'Evaluation des risques', 'Planification financiere'],
-    Marketing: ['Strategie marketing', 'Analyse de marche', 'Marketing digital', 'Gestion de la marque', 'Communication publicitaire'],
-    Medical: ['Diagnostic et traitement des patients', 'Soins infirmiers', 'Chirurgie', 'Pharmacologie', 'Interpretation des resultats d\'examens'],
-    Juridique: ['Recherche juridique', 'Plaidoyer', 'Redaction de contrats', 'Consultation juridique', 'Resolution de litiges'],
-    Education: ['Planification de cours', 'Enseignement', 'Evaluation des eleves', 'Developpement de programmes scolaires', 'Conseil aux etudiants'],
-    Ingenierie: ['Conception', 'Analyse des structures', 'Gestion de projets d\'ingenierie', 'Resolution de problemes techniques', 'Maintenance preventive et corrective'],
+    Developpement_Web_Frontend: ['React', 'Angular', 'Vue', 'Svelte', 'Ember'],
+    Developpement_Web_Backend: ['Node.js', 'Express', 'Django', 'Ruby on Rails', 'Spring Boot'],
     Art_et_culture: ['Creation artistique', 'Ecriture creative', 'Performance musicale', 'Interpretation artistique', 'Gestion d\'evenements culturels'],
+    Lettres: ['Analyse de texte','Communication ecrite et verbale', 'Competences interpersonnelles', 'Redaction et edition', 'Presentation orale','Recherche historique', 'Comprehension des evenements passes et de leur impact sur le present', 'Connaissance des differents contextes culturels',"Comprehension des processus geologiques","Capacite a interpreter les roches"],
+    Langues_etrangeres: ['Anglais','Espagnol','Chinois (Mandarin)','Français','Arabe','Russe','Portugais','Allemand','Japonais','Hindi','Bengali','Swahili','Italien','Coréen','Néerlandais','Turc','Polonais','Persan (Farsi)','Vietnamien','Suédois'],
+    Economie: ['Analyse financiere', 'Comptabilite', 'Gestion des investissements', 'Evaluation des risques', 'Planification financiere'],
+    Commerce: ['Strategie marketing', 'Analyse de marche', 'Marketing digital', 'Gestion de la marque', 'Communication publicitaire'],
+    Ingenierie: ['Conception', 'Analyse des structures', 'Gestion de projets d\'ingenierie', 'Resolution de problemes techniques', 'Maintenance preventive et corrective'],
     Vente: ['Negociation', 'Prospection commerciale', 'Gestion de la relation client', 'Closing de ventes', 'Elaboration de propositions commerciales'],
-    Communication: ['Communication ecrite et verbale', 'Competences interpersonnelles', 'Redaction et edition', 'Presentation orale', 'Negociation'],
-    Recherche: ['Methodes de recherche', 'Analyse de donnees', 'Interpretation des resultats', 'Redaction scientifique', 'Utilisation d\'outils de recherche'],
-    Consultation: ['Analyse de processus', 'Strategie d\'entreprise', 'Conseil en gestion', 'Evaluation des besoins des clients', 'Implementation de solutions'],
     Logistique: ['Gestion des stocks', 'Planification de la chaine logistique', 'Optimisation des processus logistiques', 'Suivi des expeditions', 'Gestion des retours'],
-    Transport: ['Conduite en toute securite', 'Maintenance des vehicules', 'Planification des itineraires', 'Service a la clientele', 'Respect des reglementations'],
     Tourisme: ['Planification de voyages', 'Guidage touristique', 'Gestion hotelliere', 'Service a la clientele dans le secteur du tourisme', 'Organisation d\'activites touristiques']
   }
 
@@ -393,8 +367,9 @@ export default function PreferenceClient () {
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(preferences)
     try {
-      await updatePrefClient(user._id, preferences, config).then(
+      await updatePrefClient(preferences, config).then(
         history.push("/landing")
       );
 
@@ -776,10 +751,10 @@ export default function PreferenceClient () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">{preferences.niveau_dexperience_professionnelle}</option>
-                              <option value="debutant">Débutant (0-2 ans)</option>
-                              <option value="intermediaire">Intermédiaire (3-5 ans)</option>
-                              <option value="expert">Expert (5-10 ans)</option>
-                              <option value="senior">Senior (10+ ans)</option>
+                              <option value="Debutant">Débutant (0-2 ans)</option>
+                              <option value="Intermediaire">Intermédiaire (3-5 ans)</option>
+                              <option value="Expert">Expert (5-10 ans)</option>
+                              <option value="Senior">Senior (10+ ans)</option>
                             </select>
                           </div>
                         </div>
@@ -799,12 +774,11 @@ export default function PreferenceClient () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">{preferences.interets_personnels}</option>
-                              <option value="musique">Musique</option>
-                              <option value="sports">Sports</option>
-                              <option value="arts">Arts</option>
-                              <option value="voyages">Voyages</option>
-                              <option value="lecture">Lecture</option>
-                              {/* Ajoutez d'autres options selon vos besoins */}
+                              <option value="Musique">Musique</option>
+                              <option value="Sports">Sports</option>
+                              <option value="Arts">Arts</option>
+                              <option value="Voyages">Voyages</option>
+                              <option value="Lecture">Lecture</option>
                             </select>
                           </div>
                         </div>
@@ -857,11 +831,6 @@ export default function PreferenceClient () {
                             >
                               votre Niveau Etude
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="votre Niveau Etude Primaire, Secondaire , Baccalauréat , Supérieur , Maîtrise , Formations"*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -875,7 +844,6 @@ export default function PreferenceClient () {
                               <option value="Superieur">Superieur</option>
                               <option value="Maitrise">Maitrise</option>
                               <option value="Formations">Formations</option>
-                              {/* Ajoutez d'autres options selon vos besoins */}
                             </select>
                           </div>
                         </div>
@@ -887,11 +855,6 @@ export default function PreferenceClient () {
                             >
                               Votre Niveau D'engagement
                             </label>
-                            {/*<input*/}
-                            {/*  type="email"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="votre Niveau D'engagement : 4S ,2S ,1S"*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -920,8 +883,8 @@ export default function PreferenceClient () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">{preferences.besoin}</option>
-                              <option value="certification">Certification</option>
-                              <option value="competences">Acquisition de nouvelles compétences</option>
+                              <option value="Certification">Certification</option>
+                              <option value="Competences">Acquisition de nouvelles compétences</option>
                               <option value="Experience">Experience Realisation projet</option>
                             </select>
                           </div>
@@ -935,11 +898,6 @@ export default function PreferenceClient () {
                             >
                               Niveau Difficulte
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="Niveau Difficulte : débutant ,intermédiaire ,avancé "*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -947,9 +905,9 @@ export default function PreferenceClient () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">{preferences.niveau_de_difficulte}</option>
-                              <option value="debutant">Débutant</option>
-                              <option value="intermediaire">Intermédiaire</option>
-                              <option value="avance">Avancé</option>
+                              <option value="Debutant">Débutant</option>
+                              <option value="Intermediaire">Intermédiaire</option>
+                              <option value="Avance">Avancé</option>
                             </select>
                           </div>
                         </div>
@@ -961,11 +919,6 @@ export default function PreferenceClient () {
                             >
                               Style d'apprentissage
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="  Style d'apprentissage : enligne, hybride,presentiel"*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -973,9 +926,9 @@ export default function PreferenceClient () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">{preferences.style_dapprentissage}</option>
-                              <option value="enligne">Enligne</option>
-                              <option value="hybride">Hybride</option>
-                              <option value="presentiel">Présentiel</option>
+                              <option value="Enligne">Enligne</option>
+                              <option value="Hybride">Hybride</option>
+                              <option value="Presentiel">Présentiel</option>
                             </select>
                           </div>
                         </div>
@@ -1058,11 +1011,7 @@ export default function PreferenceClient () {
                             >
                               Votre Budget
                             </label>
-                            {/*<input*/}
-                            {/*  type="email"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="votre Objectifs De Carrière"*/}
-                            {/*/>*/}
+
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -1070,10 +1019,10 @@ export default function PreferenceClient () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">{preferences.budget}</option>
-                              <option value="gratuit">Gratuit 0$</option>
-                              <option value="limite">Budget limité 0$-100$</option>
-                              <option value="modere">Budget modéré 100$-500$</option>
-                              <option value="eleve">Budget élevé 500$-1000$</option>
+                              <option value="Gratuit">Gratuit 0$</option>
+                              <option value="Limite">Budget limité 0$-100$</option>
+                              <option value="Modere">Budget modéré 100$-500$</option>
+                              <option value="Eleve">Budget élevé 500$-1000$</option>
                               <option value="Sans">Sans contrainte budgétaire</option>
                             </select>
                           </div>
@@ -1086,11 +1035,6 @@ export default function PreferenceClient () {
                             >
                               Type de contenu prefere
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="cours interactifs, workshop, projet , Travaille en groupe etc."*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -1098,10 +1042,10 @@ export default function PreferenceClient () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">{preferences.type_de_contenu_prefere}</option>
-                              <option value="interactifs">Cours interactifs</option>
-                              <option value="workshop">workshop</option>
-                              <option value="projet">Projet</option>
-                              <option value="engroupe">Travaille en groupe</option>
+                              <option value="Interactifs">Cours interactifs</option>
+                              <option value="Workshop">workshop</option>
+                              <option value="Projet">Projet</option>
+                              <option value="Engroupe">Travaille en groupe</option>
                               <option value="Sans">Sans contrainte</option>
                             </select>
                           </div>
@@ -1114,7 +1058,7 @@ export default function PreferenceClient () {
                                 <h3 className="text-blueGray-400">Jours de la semaine</h3>
                                 <div className="day-checkboxes">
                                   <div className="day-column">
-                                    {[' lundi', ' jeudi', ' samedi'].map((day) => (
+                                    {[' Lundi', ' Jeudi', ' Samedi'].map((day) => (
                                       <DayCheckbox
                                         key={day}
                                         day={day}
@@ -1125,7 +1069,7 @@ export default function PreferenceClient () {
                                     ))}
                                   </div>
                                   <div className="day-column">
-                                    {[' mardi', ' vendredi', ' dimanche'].map((day) => (
+                                    {[' Mardi', ' Vendredi', ' Dimanche'].map((day) => (
                                       <DayCheckbox
                                         key={day}
                                         day={day}
@@ -1136,7 +1080,7 @@ export default function PreferenceClient () {
                                     ))}
                                   </div>
                                   <div className="day-column">
-                                    {[' mercredi'].map((day) => (
+                                    {[' Mercredi'].map((day) => (
                                       <DayCheckbox
                                         key={day}
                                         day={day}
@@ -1151,7 +1095,7 @@ export default function PreferenceClient () {
                               <div className="times-section">
                                 <h3 className="text-blueGray-400">Heures de la journée</h3>
                                 <div className="time-checkboxes text-blueGray-400">
-                                  {['matin', 'après-midi', 'soir'].map((time) => (
+                                  {['Matin', 'Après-midi', 'Soir'].map((time) => (
                                     <TimeCheckbox
                                       key={time}
                                       time={time}
