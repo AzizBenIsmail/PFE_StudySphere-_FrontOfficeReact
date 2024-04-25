@@ -129,24 +129,19 @@ export default function Register () {
                     className="text-white text-sm font-bold leading-relaxed inline-flex items-center mr-4 py-2 whitespace-nowrap uppercase"
                     to="/"
                   >
-                    {/*<img*/}
-                    {/*  src={require('assets/img/LogoDark.png').default}*/}
-                    {/*  alt="..."*/}
-                    {/*  className="mr-4"*/}
-                    {/*  style={{ maxWidth: '40%', height: '20%' }}*/}
-                    {/*/>*/}
-                    {/*<GiBurningDot size={45} className="mr-4" style={{ color: 'red' }}/>*/}
-                    {/*<img*/}
-                    {/*  src={require('assets/img/LogoBridge.png').default}*/}
-                    {/*  alt="..."*/}
-                    {/*  className="mr-4"*/}
-                    {/*  style={{ maxWidth: '40%', height: '20%' }}*/}
-                    {/*/>*/}
                   </Link>
-                  <h6 className="text-3xl font-semibold leading-normal mt-0 mb-2 text-lightBlue-800">
-                    <MdMarkEmailUnread />
-                    Se connecter ou créer un compte
-                  </h6>
+                  {message === '1' ? (
+                    <h6 className="text-3xl font-semibold leading-normal mt-0 mb-2 text-lightBlue-800">
+                      <MdMarkEmailUnread />
+                      Réinitialiser Votre mot de passe
+                    </h6>
+                  ) : (
+                    <h6 className="text-3xl font-semibold leading-normal mt-0 mb-2 text-lightBlue-800">
+                      <MdMarkEmailUnread />
+                      Se connecter ou créer un compte
+                    </h6>
+                  )}
+
                 </div>
                 {/*<div className="btn-wrapper text-center">*/}
                 {/*  <button*/}
