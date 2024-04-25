@@ -558,10 +558,10 @@ export default function PreferenceFormateur () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">Sélectionnez votre Niveau d'expérience professionnelle</option>
-                              <option value="debutant">Débutant (0-2 ans)</option>
-                              <option value="intermediaire">Intermédiaire (3-5 ans)</option>
-                              <option value="expert">Expert (5-10 ans)</option>
-                              <option value="senior">Senior (10+ ans)</option>
+                              <option value="Debutant">Débutant (0-2 ans)</option>
+                              <option value="Intermediaire">Intermédiaire (3-5 ans)</option>
+                              <option value="Expert">Expert (5-10 ans)</option>
+                              <option value="Senior">Senior (10+ ans)</option>
                             </select>
                           </div>
                         </div>
@@ -649,8 +649,6 @@ export default function PreferenceFormateur () {
                           </div>
                         </div>
                       </div>
-
-
                       <div className="text-center mt-4">
                         {/* <Link to="/landing"> */}
                         <button
@@ -676,11 +674,6 @@ export default function PreferenceFormateur () {
                             >
                               votre Niveau Etude
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="votre Niveau Etude Primaire, Secondaire , Baccalauréat , Supérieur , Maîtrise , Formations"*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -694,7 +687,6 @@ export default function PreferenceFormateur () {
                               <option value="Superieur">Superieur</option>
                               <option value="Maitrise">Maitrise</option>
                               <option value="Formations">Formations</option>
-                              {/* Ajoutez d'autres options selon vos besoins */}
                             </select>
                           </div>
                         </div>
@@ -724,11 +716,6 @@ export default function PreferenceFormateur () {
                             >
                               Style d'enseignement
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="  Style d'apprentissage : enligne, hybride,presentiel"*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -736,15 +723,13 @@ export default function PreferenceFormateur () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">Sélectionnez votre Style d'apprentissage</option>
-                              <option value="enligne">Enligne</option>
-                              <option value="hybride">Hybride</option>
-                              <option value="presentiel">Présentiel</option>
+                              <option value="Enligne">Enligne</option>
+                              <option value="Hybride">Hybride</option>
+                              <option value="Presentiel">Présentiel</option>
                             </select>
                           </div>
                         </div>
                       </div>
-
-
                       <div className="text-center mt-4">
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                           <button
@@ -822,11 +807,6 @@ export default function PreferenceFormateur () {
                             >
                               Type de cours
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="cours interactifs, workshop, projet , Travaille en groupe etc."*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -834,10 +814,10 @@ export default function PreferenceFormateur () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">Sélectionnez votre Type de cours</option>
-                              <option value="interactifs">Cours interactifs</option>
-                              <option value="workshop">workshop</option>
-                              <option value="projet">Projet</option>
-                              <option value="engroupe">Travaille en groupe</option>
+                              <option value="Interactifs">Cours interactifs</option>
+                              <option value="Workshop">workshop</option>
+                              <option value="Projet">Projet</option>
+                              <option value="Engroupe">Travaille en groupe</option>
                               <option value="Sans">Sans contrainte</option>
                             </select>
                           </div>
@@ -850,19 +830,19 @@ export default function PreferenceFormateur () {
                                 <h3 className="text-blueGray-400">Jours de la semaine</h3>
                                 <div className="day-checkboxes">
                                   <div className="day-column">
-                                    {[' lundi', ' jeudi', ' samedi'].map((day) => (
+                                    {[' Lundi', ' Jeudi', ' Samedi'].map((day) => (
                                       <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
                                                    onChange={handleDayChange}/>
                                     ))}
                                   </div>
                                   <div className="day-column">
-                                    {[' mardi', ' vendredi', ' dimanche'].map((day) => (
+                                    {[' Mardi', ' Vendredi', ' Dimanche'].map((day) => (
                                       <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
                                                    onChange={handleDayChange}/>
                                     ))}
                                   </div>
                                   <div className="day-column">
-                                    {[' mercredi'].map((day) => (
+                                    {[' Mercredi'].map((day) => (
                                       <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
                                                    onChange={handleDayChange}/>
                                     ))}
@@ -940,26 +920,6 @@ export default function PreferenceFormateur () {
                           </div>
                         </div>
                       </>) : (<>
-                        {/*<div className="text-center mt-4">*/}
-                        {/*  /!* <Link to="/landing"> *!/*/}
-                        {/*  <div style={{ display: 'flex', justifyContent: 'space-between' }}>*/}
-                        {/*    <button*/}
-                        {/*      className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"*/}
-                        {/*      type="button"*/}
-                        {/*      onClick={(e) => setStep('2')}*/}
-                        {/*    >*/}
-                        {/*      précédent*/}
-                        {/*    </button>*/}
-                        {/*    <button*/}
-                        {/*      className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"*/}
-                        {/*      type="button"*/}
-                        {/*      onClick={(e) => setStep('3')}*/}
-                        {/*    >*/}
-                        {/*      Suivant*/}
-                        {/*    </button>*/}
-                        {/*  </div>*/}
-                        {/*  /!* </Link> *!/*/}
-                        {/*</div>*/}
                       </>)}
 
                     </form>

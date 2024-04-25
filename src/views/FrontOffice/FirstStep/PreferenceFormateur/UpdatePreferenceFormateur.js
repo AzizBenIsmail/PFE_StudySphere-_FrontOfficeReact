@@ -693,10 +693,10 @@ export default function PreferenceClient () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">{preferences.niveau_dexperience_professionnelle}</option>
-                              <option value="debutant">Débutant (0-2 ans)</option>
-                              <option value="intermediaire">Intermédiaire (3-5 ans)</option>
-                              <option value="expert">Expert (5-10 ans)</option>
-                              <option value="senior">Senior (10+ ans)</option>
+                              <option value="Debutant">Débutant (0-2 ans)</option>
+                              <option value="Intermediaire">Intermédiaire (3-5 ans)</option>
+                              <option value="Expert">Expert (5-10 ans)</option>
+                              <option value="Senior">Senior (10+ ans)</option>
                             </select>
                           </div>
                         </div>
@@ -730,11 +730,6 @@ export default function PreferenceClient () {
                             >
                               votre Niveau Etude
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="votre Niveau Etude Primaire, Secondaire , Baccalauréat , Supérieur , Maîtrise , Formations"*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -760,11 +755,6 @@ export default function PreferenceClient () {
                             >
                               Style d'apprentissage
                             </label>
-                            {/*<input*/}
-                            {/*  type="text"*/}
-                            {/*  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"*/}
-                            {/*  placeholder="  Style d'apprentissage : enligne, hybride,presentiel"*/}
-                            {/*/>*/}
                             <select
                               id="interests"
                               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -772,9 +762,9 @@ export default function PreferenceClient () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">{preferences.style_dapprentissage}</option>
-                              <option value="enligne">Enligne</option>
-                              <option value="hybride">Hybride</option>
-                              <option value="presentiel">Présentiel</option>
+                              <option value="Enligne">Enligne</option>
+                              <option value="Hybride">Hybride</option>
+                              <option value="Presentiel">Présentiel</option>
                             </select>
                           </div>
                         </div>
@@ -883,10 +873,10 @@ export default function PreferenceClient () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">{preferences.type_de_contenu_prefere}</option>
-                              <option value="interactifs">Cours interactifs</option>
-                              <option value="workshop">workshop</option>
-                              <option value="projet">Projet</option>
-                              <option value="engroupe">Travaille en groupe</option>
+                              <option value="Interactifs">Cours interactifs</option>
+                              <option value="Workshop">workshop</option>
+                              <option value="Projet">Projet</option>
+                              <option value="Engroupe">Travaille en groupe</option>
                               <option value="Sans">Sans contrainte</option>
                             </select>
                           </div>
@@ -899,7 +889,7 @@ export default function PreferenceClient () {
                                 <h3 className="text-blueGray-400">Jours de la semaine</h3>
                                 <div className="day-checkboxes">
                                   <div className="day-column">
-                                    {[' lundi', ' jeudi', ' samedi'].map((day) => (
+                                    {[' Lundi', ' Jeudi', ' Samedi'].map((day) => (
                                       <DayCheckbox
                                         key={day}
                                         day={day}
@@ -910,7 +900,7 @@ export default function PreferenceClient () {
                                     ))}
                                   </div>
                                   <div className="day-column">
-                                    {[' mardi', ' vendredi', ' dimanche'].map((day) => (
+                                    {[' Mardi', 'Vendredi', ' Dimanche'].map((day) => (
                                       <DayCheckbox
                                         key={day}
                                         day={day}
@@ -921,7 +911,7 @@ export default function PreferenceClient () {
                                     ))}
                                   </div>
                                   <div className="day-column">
-                                    {[' mercredi'].map((day) => (
+                                    {[' Mercredi'].map((day) => (
                                       <DayCheckbox
                                         key={day}
                                         day={day}
@@ -936,7 +926,7 @@ export default function PreferenceClient () {
                               <div className="times-section">
                                 <h3 className="text-blueGray-400">Heures de la journée</h3>
                                 <div className="time-checkboxes text-blueGray-400">
-                                  {['matin', 'après-midi', 'soir'].map((time) => (
+                                  {['Matin', 'Après-midi', 'Soir'].map((time) => (
                                     <TimeCheckbox
                                       key={time}
                                       time={time}
