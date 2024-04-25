@@ -6,7 +6,6 @@ import { BiBeenHere, BiSolidBeenHere } from 'react-icons/bi'
 import { CiSquareRemove } from 'react-icons/ci'
 import {addPreferencesCentre }from '../../../../Services/ApiPref'
 import Cookies from 'js-cookie'
-import { getUserAuth } from '../../../../Services/Apiauth'
 import { useHistory } from 'react-router-dom'
 
 export default function PreferenceCenter () {
@@ -25,25 +24,6 @@ export default function PreferenceCenter () {
     };
   }, [jwt_token]);
 
-  ////////
-  useEffect(() => {
-    const getAuthUser = async (config) => {
-      await getUserAuth(config)
-      .then((res) => {
-        setUser(res.data.user);
-        // console.log(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    };
-    getAuthUser(config);
-    const interval = setInterval(() => {
-      getAuthUser(config); // appel répété toutes les 10 secondes
-    }, 300000);
-    return () => clearInterval(interval); // nettoyage à la fin du cycle de vie du composant
-  }, [config]);
-
   const initialSelectedLanguages = {
     Francais: false,
     Anglais: false,
@@ -51,7 +31,6 @@ export default function PreferenceCenter () {
   };
 
   const history = useHistory()
-  const [user, setUser] = useState([]);
   // const location = useLocation()
   const [Step, setStep] = useState('1')
   const [selectedDomaineactuelle, setSelectedDomaineactuelle] = useState('')
@@ -310,7 +289,7 @@ export default function PreferenceCenter () {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await addPreferencesCentre(user._id, preferences, config).then(history.push("/landing"));
+      await addPreferencesCentre(preferences, config).then(history.push("/landing"));
 
     } catch (error) {
       console.error('Error submitting preferences:', error);

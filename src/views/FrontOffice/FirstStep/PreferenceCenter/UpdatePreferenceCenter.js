@@ -31,8 +31,6 @@ export default function PreferenceCenter () {
     const fetchData = async () => {
       try {
         const userResponse = await getUserAuth(config);
-        setUser(userResponse.data.user);
-
         const prefResponse = await getPreferences(userResponse.data.user._id, config);
         setPreferences(prefResponse.data); // Remplir le state preferences avec les données de préférences
         setSelectedCompetences(convertToFrameworkArray(prefResponse.data.competences_dinteret));
@@ -61,7 +59,6 @@ export default function PreferenceCenter () {
 
 
   const history = useHistory()
-  const [user, setUser] = useState([]);
   // const location = useLocation()
   const [Step, setStep] = useState('1')
   const [selectedDomaineactuelle, setSelectedDomaineactuelle] = useState('')
@@ -373,7 +370,7 @@ export default function PreferenceCenter () {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await updatePrefCenter(user._id, preferences, config).then(
+      await updatePrefCenter(preferences, config).then(
         history.push("/landing")
       );
 
