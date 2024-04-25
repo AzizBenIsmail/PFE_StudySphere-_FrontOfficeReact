@@ -77,7 +77,7 @@ export default function PreferenceCenter () {
   }
 
   const sousListes = {
-    Informatique: ['Developpement', 'Securite informatique', 'Base de donnees', 'Reseaux'],
+    Informatique: ['Developpement', 'Securite informatique', 'Business Intelligence', 'Reseaux'],
     Arts: ['Arts visuels', 'Musique', 'Cinema', 'Theatre'],
     Design: ['Design graphique', 'Design industriel', 'Design d\'interieur'],
     Lettres: ['Litterature', 'Langues etrangeres', 'Histoire' ,'Geologie'],
@@ -706,19 +706,19 @@ export default function PreferenceCenter () {
                                 <h3 className="text-blueGray-400">Jours de la semaine</h3>
                                 <div className="day-checkboxes">
                                   <div className="day-column">
-                                    {[' lundi', ' jeudi', ' samedi'].map((day) => (
+                                    {[' Lundi', ' Jeudi', ' Samedi'].map((day) => (
                                       <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
                                                    onChange={handleDayChange}/>
                                     ))}
                                   </div>
                                   <div className="day-column">
-                                    {[' mardi', ' vendredi', ' dimanche'].map((day) => (
+                                    {[' Mardi', ' Vendredi', ' Dimanche'].map((day) => (
                                       <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
                                                    onChange={handleDayChange}/>
                                     ))}
                                   </div>
                                   <div className="day-column">
-                                    {[' mercredi'].map((day) => (
+                                    {[' Mercredi'].map((day) => (
                                       <DayCheckbox key={day} day={day} checked={availability.days.includes(day)}
                                                    onChange={handleDayChange}/>
                                     ))}
@@ -728,7 +728,7 @@ export default function PreferenceCenter () {
                               <div className="times-section">
                                 <h3 className="text-blueGray-400">Heures de la journée</h3>
                                 <div className="time-checkboxes text-blueGray-400">
-                                  {['matin', 'après-midi', 'soir'].map((time) => (
+                                  {['Matin', 'Après-midi', 'Soir'].map((time) => (
                                     <div key={time}>
                                       <input
                                         type="checkbox"

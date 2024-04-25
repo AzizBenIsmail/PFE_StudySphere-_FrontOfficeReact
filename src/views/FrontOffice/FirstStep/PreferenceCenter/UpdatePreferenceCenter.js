@@ -580,9 +580,6 @@ export default function PreferenceCenter () {
                             </div>
                           )}
                         </div>
-
-
-
                         <div className="w-full lg:w-4/12 px-4">
                           <div className="relative w-full mb-3">
                             <div>
@@ -665,12 +662,7 @@ export default function PreferenceCenter () {
                             </div>
                           </div>
                         </div>
-
-
-
                       </div>
-
-
                       <div className="text-center mt-4">
                         {/* <Link to="/landing"> */}
                         <button
@@ -708,7 +700,6 @@ export default function PreferenceCenter () {
                           </div>
                         </div>
                       </div>
-
                       <div className="text-center mt-4">
                         <button
                           className="bg-indigo-500 text-white active:bg-indigo-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
@@ -777,7 +768,7 @@ export default function PreferenceCenter () {
                                 <h3 className="text-blueGray-400">Jours de la semaine</h3>
                                 <div className="day-checkboxes">
                                   <div className="day-column">
-                                    {[' lundi', ' jeudi', ' samedi'].map((day) => (
+                                    {[' Lundi', ' Jeudi', ' Samedi'].map((day) => (
                                       <DayCheckbox
                                         key={day}
                                         day={day}
@@ -788,7 +779,7 @@ export default function PreferenceCenter () {
                                     ))}
                                   </div>
                                   <div className="day-column">
-                                    {[' mardi', ' vendredi', ' dimanche'].map((day) => (
+                                    {[' Mardi', ' Vendredi', ' Dimanche'].map((day) => (
                                       <DayCheckbox
                                         key={day}
                                         day={day}
@@ -799,7 +790,7 @@ export default function PreferenceCenter () {
                                     ))}
                                   </div>
                                   <div className="day-column">
-                                    {[' mercredi'].map((day) => (
+                                    {[' Mercredi'].map((day) => (
                                       <DayCheckbox
                                         key={day}
                                         day={day}
@@ -814,7 +805,7 @@ export default function PreferenceCenter () {
                               <div className="times-section">
                                 <h3 className="text-blueGray-400">Heures de la journée</h3>
                                 <div className="time-checkboxes text-blueGray-400">
-                                  {['matin', 'après-midi', 'soir'].map((time) => (
+                                  {['Matin', 'Après-midi', 'Soir'].map((time) => (
                                     <TimeCheckbox
                                       key={time}
                                       time={time}
@@ -828,7 +819,6 @@ export default function PreferenceCenter () {
                             </div>
                           </div>
                         </div>
-
                         <div className="w-full lg:w-4/12 px-4">
                           <div className="relative w-full mb-3">
                             <div className="availability-container">
@@ -838,7 +828,6 @@ export default function PreferenceCenter () {
                               >
                                 Preferences linguistiques
                               </label>
-
                               <div className="flex flex-col">
                                 {Object.keys(selectedLanguages).map((language) => (
                                   <div key={language} className="flex items-center mb-2">
@@ -856,7 +845,6 @@ export default function PreferenceCenter () {
                             </div>
                           </div>
                         </div>
-
                       </div>
                       {Step === '3' ? (<>
                         <div className="text-center mt-4">
@@ -883,7 +871,6 @@ export default function PreferenceCenter () {
                           {/* </Link> */}
                         </div>
                       </>)}
-
                     </form>
                   </>
                 )}
