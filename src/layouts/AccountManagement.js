@@ -17,6 +17,7 @@ import { getUserAuth } from '../Services/Apiauth'
 const updatePassword = lazy(() => import("../views/FrontOffice/AccountManagement/updatePassword.js"));
 const createFormation = lazy(() => import("../views/FrontOffice/Center/createFormation"));
 const updateProfile = lazy(() => import("../views/FrontOffice/AccountManagement/updateProfile.js"));
+const updateStuff = lazy(() => import("../views/FrontOffice/AccountManagement/updateStuff.js"));
 const BadgesNiveauXp = lazy(() =>
   import("../views/FrontOffice/AccountManagement/BadgesNiveauXp.js")
 );
@@ -80,6 +81,7 @@ export default function AccountManagement () {
               <Route path="/AccountManagement/createFormation" exact component={createFormation} />
                 <Route path="/AccountManagement/updatePassword" exact component={updatePassword} />
                 <Route path="/AccountManagement/edit/:id" exact component={updateProfile} />
+                <Route path="/AccountManagement/stuff" exact component={updateStuff} />
               <Route path="/AccountManagement/BadgesNiveauXp" exact component={BadgesNiveauXp} />
               <Redirect from="/AccountManagement" to="Setting"/>
             </Switch>
