@@ -9,6 +9,7 @@ import {
 import { getFormateur } from "../../../Services/ApiUser";
 import { CiSquareRemove } from "react-icons/ci";
 import SiedBarSetting from "../AccountManagement/SiedBarSetting";
+import { getUserAuth } from '../../../Services/Apiauth'
 
 export default function ListeFormations({ color }) {
   const jwt_token = Cookies.get("jwt_token");
@@ -79,8 +80,8 @@ export default function ListeFormations({ color }) {
 
   const loadFormateurs = useCallback(async () => {
     try {
-      const res = await getFormateur(config);
-      setUsers(res.data.users);
+      const res = await getUserAuth(config);
+      setUsers(res.data.user.staff_enseignant);
     } catch (error) {
       console.error("Error loading formateurs:", error);
     }
