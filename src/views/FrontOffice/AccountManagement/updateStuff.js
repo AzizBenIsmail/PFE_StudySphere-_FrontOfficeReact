@@ -334,6 +334,12 @@ export default function ListeFormations({ color }) {
                           </button>
                         </li>
                       </ul>
+                      <button
+                        className="bg-gray-300 px-4 py-2 rounded"
+                        onClick={() => setShowAddForm(false)}
+                      >
+                        Annuler
+                      </button>
                     </div>
                   </div>
                 </div>
