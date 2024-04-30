@@ -161,3 +161,11 @@ export async function getCentersByDomain(domaine, config) {
 export async function getInstructorsByCenter(centerId, config) {
   return await axios.get(`${ apiURL }/Formateur/${ centerId }`, config);
 }
+
+export async function affecterEnseignant(enseignantId, config) {
+  return await axios.put(`${apiURL}/affecterEnseignant/${enseignantId}`, null, config);
+}
+
+export async function desinfecterFormateur(enseignantId, config) {
+  return await axios.put(`${apiURL}/desinfecterFormateur/${enseignantId}`, null, config);
+}
