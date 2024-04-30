@@ -1774,6 +1774,14 @@ select {
   margin-right: 1rem;
 }
 
+.mr-28 {
+  margin-right: 28rem;
+}
+
+.mr-18 {
+  margin-right: 18rem;
+}
+
 .mb-4 {
   margin-bottom: 1rem;
 }
