@@ -33,3 +33,7 @@ export async function deleteFormation(id, config) {
 export async function getAllFormations(config) {
   return await axios.get(apiURL, config);
 }
+
+export async function getFormationsByLocation(emplacement, config) {
+  return await axios.get(`${apiURL}/searchemplacement?emplacements=${emplacement}`, config);
+}
