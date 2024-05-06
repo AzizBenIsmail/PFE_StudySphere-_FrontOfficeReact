@@ -85,7 +85,7 @@ export default function LandingLayout () {
           <Switch>
           <Route path="/landing/center" exact component={center} />
           <Route path="/landing/training" exact component={training} />
-          <Route path="/landing/landing" exact component={Landing} />
+            <Route path="/landing/landing" exact render={(props) => <Landing {...props} user={user} />} />
           <Route path="/landing/notification" exact component={notification} />
             <Redirect from="/landing" to="/landing/landing"/>
         </Switch>
