@@ -1,15 +1,21 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { TailSpin } from 'react-loader-spinner'
 
 // components
 import Cookies from "js-cookie";
-import { getAllFormations, getFormationsByLocation } from "../../../Services/ApiFormation";
+import {
+  getAllFormations,
+  getFormationsByLocation,
+  getFormationsRecommanderByLocation
+} from '../../../Services/ApiFormation'
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 
-export default function Landing() {
+export default function Landing({user}) {
   const [formations, setFormations] = useState([]);
+  const [formationsByLocation, setFormationsByLocation] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
+  const [endIndexFormationsByLocation, setEndIndexFormationsByLocation] = useState(2);
+  const [startIndexFormationsByLocation, setStartIndexFormationsByLocation] = useState(0);
   const [endIndex, setEndIndex] = useState(2);
   const jwt_token = Cookies.get("jwt_token");
   const [selectedState, setSelectedState] = useState('');
@@ -64,9 +70,19 @@ export default function Landing() {
     }
   }, [config]);
 
+  const loadFormationsRecommanderByLocation = useCallback(async () => {
+    try {
+      const res = await getFormationsRecommanderByLocation(config);
+      setFormationsByLocation(res.data.formations);
+    } catch (error) {
+      console.error('Error loading formations:', error);
+    }
+  }, [config]);
+
   useEffect(() => {
     loadFormations();
-  }, [loadFormations]);
+    loadFormationsRecommanderByLocation();
+  }, [loadFormations,loadFormationsRecommanderByLocation]);
 
   const handleNextPage = () => {
     if (endIndex < formations.length - 1) {
@@ -75,6 +91,12 @@ export default function Landing() {
     }
   };
 
+  const handleNextPageRecommanderByLocation = () => {
+    if (endIndexFormationsByLocation < formationsByLocation.length - 1) {
+      setStartIndexFormationsByLocation((prevStartIndexFormationsByLocation) => prevStartIndexFormationsByLocation + 1);
+      setEndIndexFormationsByLocation((prevEndIndexFormationsByLocation) => prevEndIndexFormationsByLocation + 1);
+    }
+  };
   const handlePrevPage = () => {
     if (startIndex > 0) {
       setStartIndex((prevStartIndex) => prevStartIndex - 1);
@@ -82,18 +104,17 @@ export default function Landing() {
     }
   };
 
-  const displayedFormations = formations && formations.length > 0 ? formations.slice(startIndex, endIndex + 1) : [];
-
-  const handleSearch = async () => {
-    try {
-      const location = `${selectedState},${selectedCity}`; // Assemble city and state
-      const res = await getFormationsByLocation(location, config);
-      setFormations(res.data.formations);
-    } catch (error) {
-      console.error('Error searching formations by location:', error);
+  const handlePrevPageRecommanderByLocation = () => {
+    if (startIndexFormationsByLocation > 0) {
+      setStartIndexFormationsByLocation((prevStartIndexFormationsByLocation) => prevStartIndexFormationsByLocation - 1);
+      setEndIndexFormationsByLocation((prevEndIndexFormationsByLocation) => prevEndIndexFormationsByLocation - 1);
     }
   };
 
+
+  const displayedFormations = formations && formations.length > 0 ? formations.slice(startIndex, endIndex + 1) : [];
+
+  const displayedFormationsFormationsByLocation = formationsByLocation && formationsByLocation.length > 0 ? formationsByLocation.slice(startIndexFormationsByLocation, endIndexFormationsByLocation + 1) : [];
 
 
   const handleStateChange = (event) => {
@@ -101,9 +122,17 @@ export default function Landing() {
     setSelectedCity(''); // Clear city selection when state changes
   };
 
-  const handleCityChange = (event) => {
+  const handleCityChange = async (event) => {
     setSelectedCity(event.target.value);
+    const location = `${selectedState},${event.target.value}`; // Assemble city and state
+    try {
+      const res = await getFormationsByLocation(location, config);
+      setFormationsByLocation(res.data.formations);
+    } catch (error) {
+      console.error('Error searching formations by location:', error);
+    }
   };
+
   return (
     <>
       <section className="pb-20 bg-blueGray-200 -mt-24">
@@ -111,7 +140,7 @@ export default function Landing() {
           <div className="pt-6 w-full md:w-2/12 px-4 text-center">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
               <div className="px-4 py-5 flex-auto">
-                Trouvez des avantages Genius exclusifs aux quatre coins du monde !
+                Trouvez des Formation Base sur la localisation Géographique !
                 <select
                   value={selectedState}
                   onChange={handleStateChange}
@@ -123,6 +152,7 @@ export default function Landing() {
                   ))}
                 </select>
                 {selectedState && (
+                  <>
                   <select
                     value={selectedCity}
                     onChange={handleCityChange}
@@ -133,35 +163,181 @@ export default function Landing() {
                       <option key={index} value={city}>{city}</option>
                     ))}
                   </select>
+                  </>
                 )}
-                <button
-                  onClick={handleSearch}
-                  disabled={!selectedCity}
-                  className={`absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded-lg ${!selectedCity ? 'bg-gray-300 cursor-not-allowed' : ''}`}
-                >
-                  Search
-                </button>
               </div>
             </div>
           </div>
+
+          <div className="pt-6 w-full md:w-2/12 px-4 text-center">
+            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+              <div className="px-4 py-5 flex-auto">
+                Trouvez des Formation par un formateur !
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-6 w-full md:w-2/12 px-4 text-center">
+            <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+              <div className="px-4 py-5 flex-auto">
+                Trouvez des Formation par un center !
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap">
+          {user && user.preferences && user.preferences.emplacement_actuelle ? (
+            <>
+              <div className="container relative mx-auto">
+                <div className="items-center flex flex-wrap">
+                  <div className="pr-12 pt-12 ">
+                    <h1 className="text-black font-semibold text-2xl">
+                      Explorez les formations {selectedState ? `dans ${selectedState}` : `dans ${user.preferences.emplacement_actuelle}`}
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              <hr className="my-4 md:min-w-full" />
+              <div className="flex flex-wrap">
+                {displayedFormationsFormationsByLocation.length === 0 ? (
+                  <tr>
+                    <td
+                      className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+                      colSpan="22"
+                    >
+                      Aucune formation trouvée a {user.preferences.emplacement_actuelle}
+                    </td>
+                  </tr>
+                ) : (
+                  <>
+                    <button
+                      onClick={handlePrevPageRecommanderByLocation}
+                      disabled={startIndexFormationsByLocation === 0}
+                      className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                      onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                      onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                    >
+                      <FaChevronLeft style={{ fontSize: '40px' }}/>
+                    </button>
+                    {displayedFormationsFormationsByLocation.map((formation) => (
+                      <div
+                        className="pt-6 w-full md:w-2/12 px-4 text-center"
+                        key={formation._id}
+                      >
+                        <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                          <div className="px-4 py-5 flex-auto">
+                            <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                              <Link to={`/DetailsFormation/${formation._id}`}>
+                                <img
+                                  alt="..."
+                                  className="align-middle border-none max-w-full h-auto rounded-lg"
+                                  src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                                  style={{ width: "350px", height: "220px" }}
+                                  onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                                />
+                              </Link>
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  top: "5%",
+                                  left: "82%",
+                                  transform: "translate(-50%, -50%) ",
+                                }}
+                              >
+                        <Link to={`/profile/ProfileFormateur/${formation.formateur._id}`}>
+                          <img
+                            alt="..."
+                            className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                            src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                            style={{ width: "70px" }}
+                            onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                            onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                          />
+                        </Link>
+                      </span>
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  top: "94%",
+                                  left: "50%",
+                                  transform: "translate(-50%, -50%)",
+                                }}
+                              >
+                        <Link to={`/profile/ProfileCenter/${formation.centre._id}`}>
+                          <img
+                            alt="..."
+                            className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                            src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                            style={{ width: "70px" }}
+                            onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                            onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                          />
+                        </Link>
+                      </span>
+                            </div>
+                            <div className="flex flex-wrap">
+                              {formation.competences
+                              .split(",")
+                              .map((competence, index) => (
+                                <span
+                                  key={index}
+                                  style={{
+                                    border: "2px solid rgba(186, 230, 253, 1)",
+                                    marginRight:
+                                      index ===
+                                      formation.competences.split(",").length - 1
+                                        ? "0"
+                                        : "5px",
+                                  }}
+                                  className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                                >
+                            {competence.trim()}
+                          </span>
+                              ))}
+                            </div>
+                            <h6 className="text-xl font-semibold">
+                              {formation.titre}
+                            </h6>
+                            <p className="mt-2 mb-4 text-blueGray-500">
+                              {formation.description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <button
+                      onClick={handleNextPageRecommanderByLocation}
+                      disabled={endIndexFormationsByLocation === formationsByLocation.length - 1}
+                      className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    >
+                      <FaChevronRight style={{ fontSize: '40px' }}/>
+                    </button>
+                  </>
+                )}
+              </div>
+            </>
+          ) : null}
+        <div className="flex flex-wrap">
+            <div className="container relative mx-auto">
+              <div className="items-center flex flex-wrap">
+                <div className="pr-12 pt-12 ">
+                  <h1 className="text-black font-semibold text-2xl">
+                    Explorez Tous les formations disponibles
+                  </h1>
+                </div>
+              </div>
+            </div>
+            <hr className="my-4 md:min-w-full" />
+
             {displayedFormations.length === 0 ? (
               <tr>
                 <td
                   className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
                   colSpan="22"
                 >
-                  <TailSpin
-                    visible={true}
-                    width="200" height="200" color="#4fa94d"
-                    ariaLabel="tail-spin-loading"
-                    radius="1"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                  />
                   Aucune formation trouvée.
                 </td>
               </tr>

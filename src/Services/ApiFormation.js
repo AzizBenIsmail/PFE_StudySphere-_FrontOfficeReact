@@ -37,3 +37,7 @@ export async function getAllFormations(config) {
 export async function getFormationsByLocation(emplacement, config) {
   return await axios.get(`${apiURL}/searchemplacement?emplacements=${emplacement}`, config);
 }
+
+export async function getFormationsRecommanderByLocation( config) {
+  return await axios.get(`${apiURL}/RecommandationParLocation`, config);
+}
