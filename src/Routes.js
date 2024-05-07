@@ -15,7 +15,7 @@ const Profiles = lazy(() => import("./layouts/Profiles.js"));
 const Setting = lazy(() => import("./views/FrontOffice/AccountManagement/Setting.js"));
 const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
 const Index = lazy(() => import("views/Index.js"));
-// const createFormation = lazy(() => import("views/FrontOffice/Center/createFormation.js"));
+// const createFormation = lazy(() => import("views/FrontOffice/Center/GestionFormation.js"));
 
 function Routes() {
   return (

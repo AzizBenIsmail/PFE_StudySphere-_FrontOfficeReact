@@ -322,6 +322,7 @@ export default function ListeFormations({ color }) {
     console.log(newFormation.image_Formation)
   };
   const sousListes = {
+    Sélectionner_Domaine_de_formation: [''],
     Informatique: ['Developpement', 'Securite informatique', 'Business Intelligence', 'Reseaux'],
     Arts: ['Arts visuels', 'Musique', 'Cinema', 'Theatre'],
     Design: ['Design graphique', 'Design industriel', 'Design d\'interieur'],
@@ -1245,8 +1246,8 @@ export default function ListeFormations({ color }) {
                   <div className="grid grid-cols-3 gap-4 flex items-center">
                     <div>
                       <div className="grid grid-cols-3 gap-4 flex items-center">
-                        <div>
-                          <label htmlFor="Sujet d'intérêt">
+                        <div className="w-full">
+                        <label htmlFor="Sujet d'intérêt">
                             Domaine de Formation
                           </label>
                           <select
@@ -1272,7 +1273,7 @@ export default function ListeFormations({ color }) {
                           )}
                         </div>
                         {selectedDomainedinteret && (
-                          <div className="relative w-full mb-3">
+                          <div className="w-full ml-3">
                             <label
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                               htmlFor="sous-liste-select"
@@ -1292,9 +1293,9 @@ export default function ListeFormations({ color }) {
                             </select>
                           </div>
                         )}
-                        <div className="ml-2">
-                          <label htmlFor="Sujet d'intérêt">
-                           Liste des Competances par domaine
+                        <div className="w-full ml-3">
+                        <label htmlFor="Sujet d'intérêt">
+                           Liste des Competances
                           </label>
                           <select
                             id="domaine"
@@ -1318,9 +1319,9 @@ export default function ListeFormations({ color }) {
                             </span>
                           )}
                         </div>
-                        <div>
-                          {domaineCompetanceSelectionne && (
-                            <div className="px-4 w-full">
+                        <div className="w-full ml-3">
+                        {domaineCompetanceSelectionne && (
+                            <div className="">
                               <label htmlFor="competence">
                                 Sélectionnez compétence{" "}
                               </label>
@@ -1332,7 +1333,7 @@ export default function ListeFormations({ color }) {
                                 className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                               >
                                 <option value="">
-                                  Choisissez une compétence
+                                  Sélectionner une compétence
                                 </option>
                                 {sousListesCompetence[domaineCompetanceSelectionne] &&
                                   sousListesCompetence[domaineCompetanceSelectionne].map(
@@ -1351,9 +1352,12 @@ export default function ListeFormations({ color }) {
                             </span>
                           )}
                         </div>
-                        <div className="px-4 w-full">
-                          <div className="grid grid-cols-3 gap-4 flex items-center">
-                            <div className="w-full">
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-4">
+                    <div className="grid grid-cols-3 gap-4 flex items-center">
+                      <div className="w-full ">
                               <label htmlFor="Emplacement"> Emplacement </label>
                               <div>
                                 <select
@@ -1401,10 +1405,7 @@ export default function ListeFormations({ color }) {
                                 </span>
                               )}
                             </div>
-                          </div>
-                        </div>
                       </div>
-                    </div>
                   </div>
                   <div className="mb-4">
                     <div className="grid grid-cols-3 gap-4 flex items-center">
@@ -1547,9 +1548,6 @@ export default function ListeFormations({ color }) {
                         />
                       </div>
                     </div>
-                  </div>
-                  <div className="mb-4">
-                    <div className="grid grid-cols-3 gap-4 flex items-center"></div>
                   </div>
                 </div>
               </>
@@ -1978,15 +1976,62 @@ export default function ListeFormations({ color }) {
                   <div className="grid grid-cols-3 gap-4 flex items-center">
                     <div>
                       <div className="grid grid-cols-3 gap-4 flex items-center">
-                        <div>
+                        <div className="w-full">
                           <label htmlFor="Sujet d'intérêt">
                             Domaine de Formation
                           </label>
                           <select
                             id="domaine"
-                            value={newFormation.sujetInteret}
+                            value={selectedDomainedinteret}
                             name="sujetInteret"
-                            onChange={handleChangeDomaine}
+                            onChange={handleChangedinteret}
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                          >
+                            {Object.keys(sousListes).map(
+                              (domaine) => (
+                                <option key={domaine} value={domaine}>
+                                  {domaine}
+                                </option>
+                              )
+                            )}
+                          </select>
+                          {errors.sujetInteret && (
+                            <span className="text-red-500">
+                              Veuillez saisir votre sujet Interet pour la
+                              formation.
+                            </span>
+                          )}
+                        </div>
+                        {selectedDomainedinteret && (
+                          <div className="w-full ml-3">
+                            <label
+                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                              htmlFor="sous-liste-select"
+                            >
+                              {selectedDomainedinteret}
+                            </label>
+                            <select
+                              id="sous-liste-select"
+                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                              name="sujetInteret"
+                              onChange={(e) => handleChangeDomaine(e)}
+                            >
+                              <option value="">{newFormation.sujetInteret}</option>
+                              {sousListes[selectedDomainedinteret].map((specialisation, index) => (
+                                <option key={index} value={specialisation}>{specialisation}</option>
+                              ))}
+                            </select>
+                          </div>
+                        )}
+                        <div className="w-full ml-3">
+                          <label htmlFor="Sujet d'intérêt">
+                            Liste des Competances
+                          </label>
+                          <select
+                            id="domaine"
+                            value={domaineCompetanceSelectionne}
+                            name="sujetInteret"
+                            onChange={handleChangeDomaineCompetance}
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                           >
                             {Object.keys(sousListesCompetence).map(
@@ -2004,9 +2049,9 @@ export default function ListeFormations({ color }) {
                             </span>
                           )}
                         </div>
-                        <div>
-                          {domaineSelectionne && (
-                            <div className="px-4 w-full">
+                        <div className="w-full ml-3">
+                          {domaineCompetanceSelectionne && (
+                            <div className="">
                               <label htmlFor="competence">
                                 Sélectionnez compétence{" "}
                               </label>
@@ -2018,10 +2063,10 @@ export default function ListeFormations({ color }) {
                                 className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                               >
                                 <option value="">
-                                  Choisissez une compétence
+                                  Sélectionner une compétence
                                 </option>
-                                {sousListesCompetence[domaineSelectionne] &&
-                                  sousListesCompetence[domaineSelectionne].map(
+                                {sousListesCompetence[domaineCompetanceSelectionne] &&
+                                  sousListesCompetence[domaineCompetanceSelectionne].map(
                                     (competence, index) => (
                                       <option key={index} value={competence}>
                                         {competence}
@@ -2037,55 +2082,64 @@ export default function ListeFormations({ color }) {
                             </span>
                           )}
                         </div>
-                        <div className="px-4 w-full">
-                          <div className="grid grid-cols-3 gap-4 flex items-center">
-                            <div className="w-full">
-                              <label htmlFor="Emplacement"> Emplacement </label>
-                              <div>
-                                <select
-                                  id="state-select"
-                                  value={selectedState}
-                                  onChange={handleStateChange}
-                                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                >
-                                  <option value="">{newFormation.emplacement}</option>
-                                  {states.map((state, index) => (
-                                    <option key={index} value={state}>
-                                      {state}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                            </div>
-                            <div className="px-4 w-full">
-                              {selectedState && (
+
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-4">
+                    <div className="grid grid-cols-3 gap-4 flex items-center">
+                      <div className="w-full ">
+                        <div className="relative w-full ">
+                          <div className="w-full">
+                            <div className="grid grid-cols-3 gap-4 flex items-center">
+                              <div className="w-full">
+                                <label htmlFor="Emplacement"> Emplacement </label>
                                 <div>
-                                  <label htmlFor="city-select">Ville</label>
                                   <select
-                                    id="city-select"
-                                    value={selectedCity}
-                                    onChange={handleCityChange}
+                                    id="state-select"
+                                    value={selectedState}
+                                    onChange={handleStateChange}
                                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                   >
-                                    <option value="">
-                                      Sélectionner une ville
-                                    </option>
-                                    {citiesByState[selectedState].map(
-                                      (city, index) => (
-                                        <option key={index} value={city}>
-                                          {city}
-                                        </option>
-                                      )
-                                    )}
+                                    <option value="">{newFormation.emplacement}</option>
+                                    {states.map((state, index) => (
+                                      <option key={index} value={state}>
+                                        {state}
+                                      </option>
+                                    ))}
                                   </select>
                                 </div>
-                              )}
-                              {errors.emplacement && (
-                                <span className="text-red-500">
+                              </div>
+                              <div className="w-full ml-2">
+                                {selectedState && (
+                                  <div>
+                                    <label htmlFor="city-select">Ville</label>
+                                    <select
+                                      id="city-select"
+                                      value={selectedCity}
+                                      onChange={handleCityChange}
+                                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                    >
+                                      <option value="">
+                                        Sélectionner une ville
+                                      </option>
+                                      {citiesByState[selectedState].map(
+                                        (city, index) => (
+                                          <option key={index} value={city}>
+                                            {city}
+                                          </option>
+                                        )
+                                      )}
+                                    </select>
+                                  </div>
+                                )}
+                                {errors.emplacement && (
+                                  <span className="text-red-500">
                                   Veuillez saisir votre emplacement pour la
                                   formation.
                                 </span>
-                              )}
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>

@@ -15,7 +15,7 @@ import { getUserAuth } from '../Services/Apiauth'
 // import Cookies from 'js-cookie'
 // import { getUserAuth } from '../Services/Apiauth'
 const updatePassword = lazy(() => import("../views/FrontOffice/AccountManagement/updatePassword.js"));
-const createFormation = lazy(() => import("../views/FrontOffice/Center/createFormation"));
+const createFormation = lazy(() => import("../views/FrontOffice/Center/GestionFormation"));
 const updateProfile = lazy(() => import("../views/FrontOffice/AccountManagement/updateProfile.js"));
 const updateStuff = lazy(() => import("../views/FrontOffice/AccountManagement/updateStuff.js"));
 const BadgesNiveauXp = lazy(() =>
