@@ -184,7 +184,6 @@ export default function Landing({user}) {
               </div>
             </div>
           </div>
-
         </div>
 
         <div className="container mx-auto px-4">
@@ -194,7 +193,7 @@ export default function Landing({user}) {
                 <div className="items-center flex flex-wrap">
                   <div className="pr-12 pt-12 ">
                     <h1 className="text-black font-semibold text-2xl">
-                      Explorez les formations {selectedState ? `dans ${selectedState}` : `dans ${user.preferences.emplacement_actuelle}`}
+                      Explorez les formations {selectedState ? `dans ${selectedState}` : `dans ${user.preferences.emplacement_actuelle} , domaine : ${user.preferences.Domaine_dinteret} `}
                     </h1>
                   </div>
                 </div>
