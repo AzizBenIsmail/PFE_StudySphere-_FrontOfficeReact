@@ -1,6 +1,13 @@
 const plugin = require("tailwindcss/plugin");
 const colors = require("tailwindcss/colors");
-
+const labelsClasses = [
+  "indigo",
+  "gray",
+  "green",
+  "blue",
+  "red",
+  "purple",
+];
 module.exports = {
   purge: {
     enabled: true,
@@ -17,6 +24,9 @@ module.exports = {
     ],
     options: {
       safelist: [
+        ...labelsClasses.map((lbl) => `bg-${lbl}-500`),
+        ...labelsClasses.map((lbl) => `bg-${lbl}-200`),
+        ...labelsClasses.map((lbl) => `text-${lbl}-400`)
        
       ],
     },
@@ -26,6 +36,10 @@ module.exports = {
       ...colors,
     },
     extend: {
+      gridTemplateColumns: {
+        "1/5": "1fr 5fr"
+      },
+  
       minHeight: {
         "screen-75": "75vh",
       },

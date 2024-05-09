@@ -23,7 +23,7 @@ import Navbar from "../../components/Navbars/Navbar";
 
 const Main = () => {
   return (
-    <div className="bg-gray-600  flex flex-col min-h-screen min-w-screen">
+    <div className=" bg-indigo-500  flex flex-col min-h-screen min-w-screen">
        <Navbar className="fixed top-0 left-0 w-full z-50" />
       <div className="flex-1 flex  mb-4  mt-16   ">
         {" "}

@@ -25,7 +25,7 @@ import Routes from './Routes';
 import { AuthContextProvider } from './views/chat/context/AuthContext'; 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import {SocketContextProvider} from './views/chat/context/SocketContext'
-
+import ContextWrapper from './views/calender/src/context/ContextWrapper';
 
 
 
@@ -36,7 +36,9 @@ ReactDOM.render(
   <BrowserRouter>
     <AuthContextProvider> {/* Wrap Routes with AuthContextProvider */}
     <SocketContextProvider>
+    <ContextWrapper>
       <Routes />
+    </ContextWrapper>
       </SocketContextProvider>
     </AuthContextProvider>
   </BrowserRouter>,
