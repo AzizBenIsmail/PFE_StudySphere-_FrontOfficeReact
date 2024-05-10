@@ -521,6 +521,7 @@ export default function ListeFormations({ color }) {
     });
     console.log(newFormation);
     setDomaineSelectionne(event.target.value);
+    console.log(domaineSelectionne)
     setCompetenceSelectionnee(""); // Réinitialiser la compétence sélectionnée lorsque le domaine change
   };
 
@@ -694,7 +695,6 @@ export default function ListeFormations({ color }) {
   function convertToFrameworkArray(string) {
     // Supprime les espaces en début et fin de chaîne
     string = string.trim();
-
     // Vérifie si la chaîne est vide
     if (!string) {
       return [];
