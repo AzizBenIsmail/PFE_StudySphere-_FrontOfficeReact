@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo } from 'react'
+import React, { Suspense, useMemo, useState , useEffect} from 'react'
 
 import { Switch, Route, Redirect } from "react-router-dom";
 
@@ -31,8 +31,8 @@ import { getUserAuth } from '../Services/Apiauth'
 
 
 export default function Admin() {
-  //cookies
-  const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = Cookies.get('jwt_token');
+  const [user, setUser] = useState(null);
 
   const config = useMemo(() => {
     return {
@@ -40,28 +40,38 @@ export default function Admin() {
         Authorization: `Bearer ${jwt_token}`,
       },
     }
-  }, [jwt_token])
+  }, [jwt_token]);
 
-  //session
-  if (Cookies.get('jwt_token')) {
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
-            window.location.replace(`/landing/`)
-          }
-        })
+        const res = await getUserAuth(config);
+        if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
+          window.location.replace(`/landing/`)
+        }
+        setUser(res.data.user);
       } catch (error) {
         console.log(error)
       }
+    };
+
+    if (jwt_token) {
+      fetchData();
+    } else {
+      window.location.replace(`/`);
     }
-    fetchData()
-  } else {
-    window.location.replace(`/`)
-  }
+  }, [jwt_token, config]);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+
   return (
     <>
-      <Sidebar />
+    {user !== null && (
+      <>
+        <Sidebar user={user}/>
       <div className="relative md:ml-60 bg-blueGray-100">
         <AdminNavbar />
         {/* Header */}
@@ -95,6 +105,8 @@ export default function Admin() {
           <FooterAdmin />
         </div>
       </div>
+      </>
+    )}
     </>
   );
 }
