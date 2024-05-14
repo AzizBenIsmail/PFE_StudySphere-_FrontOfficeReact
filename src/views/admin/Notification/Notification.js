@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import PropTypes from "prop-types";
 import { getAllNotifications, deleteNotification, createNotification, updateNotification } from "../../../Services/ApiNotification";
 import { FaAngleDown } from 'react-icons/fa';
 import Cookies from 'js-cookie';
+import { getUsers } from '../../../Services/ApiUser';
 
 export default function Notification() {
   const jwt_token = Cookies.get('jwt_token');
@@ -16,12 +16,14 @@ export default function Notification() {
   }, [jwt_token]);
 
   const [notifications, setNotifications] = useState([]);
+  const [users, setUsers] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const [showAddNotification, setShowAddNotification] = useState(false);
   const [showEditNotification, setShowEditNotification] = useState(false);
   const [notificationToDelete, setNotificationToDelete] = useState(null);
   const [notificationToEdit, setNotificationToEdit] = useState(null);
   const [newNotification, setNewNotification] = useState({
+    recipient: "", // Ajout du destinataire de la notification
     content: "",
     type: "",
     read: false,
@@ -29,14 +31,30 @@ export default function Notification() {
   });
 
   const [errors, setErrors] = useState({
+    recipient: "", // Ajout des erreurs pour le destinataire de la notification
     content: "",
     type: "",
     // Ajoutez d'autres champs d'erreurs selon votre modèle
   });
 
+  // Fonction pour charger la liste des utilisateurs
+  const loadUsers = useCallback(async () => {
+    try {
+      const res = await getUsers(config)
+      setUsers(res.data.users)
+    } catch (error) {
+      console.error('Error loading users:', error)
+    }
+  }, [config])
+
   const validateForm = () => {
     let valid = true;
     const newErrors = {};
+
+    if (!newNotification.recipient) {
+      newErrors.recipient = "Le destinataire est requis";
+      valid = false;
+    }
 
     if (!newNotification.content.trim()) {
       newErrors.content = "Le contenu de la notification est requis";
@@ -67,7 +85,8 @@ export default function Notification() {
 
   useEffect(() => {
     loadNotifications();
-  }, [loadNotifications]);
+    loadUsers()
+  }, [loadNotifications,    loadUsers]);
 
 
   const handleDeleteNotification = async (id) => {
@@ -85,16 +104,18 @@ export default function Notification() {
     if (validateForm()) {
       try {
         // Créez une nouvelle notification
-        await createNotification(newNotification,config);
+        await createNotification(newNotification, config);
         loadNotifications();
         setShowAddNotification(false);
         setNewNotification({
+          recipient: "", // Réinitialisez le destinataire
           content: "",
           type: "",
           read: false,
           // Réinitialisez d'autres champs de notification selon votre modèle
         });
         setErrors({
+          recipient: "",
           content: "",
           type: "",
           // Réinitialisez d'autres champs d'erreurs selon votre modèle
@@ -114,6 +135,7 @@ export default function Notification() {
     setShowConfirm(false); // Mettre à jour showConfirm lors de l'annulation
     setNotificationToDelete(null);
   };
+
   const showAddNotificationPopup = () => {
     setShowAddNotification(true);
   };
@@ -121,6 +143,7 @@ export default function Notification() {
   const cancelAddNotification = () => {
     setShowAddNotification(false);
     setNewNotification({
+      recipient: "", // Réinitialisez le destinataire
       content: "",
       type: "",
       read: false,
@@ -132,17 +155,19 @@ export default function Notification() {
     if (validateForm()) {
       try {
         // Mettez à jour la notification
-        await updateNotification(notificationToEdit._id, newNotification ,config);
+        await updateNotification(notificationToEdit._id, newNotification, config);
         loadNotifications();
         setShowEditNotification(false);
         setNotificationToEdit(null);
         setNewNotification({
+          recipient: "", // Réinitialisez le destinataire
           content: "",
           type: "",
           read: false,
           // Réinitialisez d'autres champs de notification selon votre modèle
         });
         setErrors({
+          recipient: "",
           content: "",
           type: "",
           // Réinitialisez d'autres champs d'erreurs selon votre modèle
@@ -226,14 +251,14 @@ export default function Notification() {
                   ) : (
                     <div>
                       <div className="flex items-center">
-                      <img
-                        alt="..."
-                        src={require("assets/img/client.png").default}
-                        style={{ maxWidth: '120%' }}
-                        className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
-                      />
-                      <span className="ml-2">{notification.recipient.nom}</span>
-                    </div>
+                        <img
+                          alt="..."
+                          src={require("assets/img/client.png").default}
+                          style={{ maxWidth: '120%' }}
+                          className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
+                        />
+                        <span className="ml-2">{notification.recipient.nom}</span>
+                      </div>
                     </div>
                   )}
 
@@ -277,6 +302,15 @@ export default function Notification() {
           <div className="bg-white p-8 rounded shadow">
             <h3>Ajouter une nouvelle notification</h3>
             <div className="mb-4">
+              <select value={newNotification.recipient} onChange={(e) => setNewNotification({...newNotification, recipient: e.target.value})}>
+                <option value="">Sélectionner un destinataire</option>
+                {users.map(user => (
+                  <option key={user._id} value={user._id}>{user.nom}</option>
+                ))}
+              </select>
+              {errors.recipient && <p className="text-red-500 text-xs">{errors.recipient}</p>}
+            </div>
+            <div className="mb-4">
               <input type="text" placeholder="Contenu de la notification" value={newNotification.content} onChange={(e) => setNewNotification({...newNotification, content: e.target.value})} />
               {errors.content && <p className="text-red-500 text-xs">{errors.content}</p>}
             </div>
@@ -306,7 +340,7 @@ export default function Notification() {
               {errors.type && <p className="text-red-500 text-xs">{errors.type}</p>}
             </div>
             <div className="flex justify-end">
-              <button className="bg-emerald-500 text-white px-4 py-2 rounded mr-4" onClick={handleEditNotification}>Enregistrer</button>
+              <button className="bg-emerald-500 text-white px-4 py-2 rounded mr-4" onClick={handleEditNotification}>Modifier</button>
               <button className="bg-gray-300 px-4 py-2 rounded" onClick={() => setShowEditNotification(false)}>Annuler</button>
             </div>
           </div>
@@ -315,11 +349,3 @@ export default function Notification() {
     </>
   );
 }
-
-Notification.defaultProps = {
-  color: "light",
-};
-
-Notification.propTypes = {
-  color: PropTypes.oneOf(["light", "dark"]),
-};
