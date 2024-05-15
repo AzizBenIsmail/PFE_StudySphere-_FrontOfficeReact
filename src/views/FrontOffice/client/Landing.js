@@ -9,17 +9,22 @@ import {
   getFormationsRecommanderByLocation
 } from '../../../Services/ApiFormation'
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { getFormationsByDomaine } from '../../../Services/ApiFormation';
 
 export default function Landing({user}) {
   const [formations, setFormations] = useState([]);
   const [formationsByLocation, setFormationsByLocation] = useState([]);
+  const [formationsByDomaine, setFormationsByDomaine] = useState([]);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndexFormationsByLocation, setEndIndexFormationsByLocation] = useState(2);
   const [startIndexFormationsByLocation, setStartIndexFormationsByLocation] = useState(0);
+  const [endIndexFormationsByDomaine, setEndIndexFormationsByDomaine] = useState(2);
+  const [startIndexFormationsByDomaine, setStartIndexFormationsByDomaine] = useState(0);
   const [endIndex, setEndIndex] = useState(2);
   const jwt_token = Cookies.get("jwt_token");
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+  const [selectedDomaine, setSelectedDomaine] = useState("");
 
   const states = ['Ariana', 'Beja', 'Ben_Arous', 'Bizerte', 'Gabes', 'Gafsa', 'Jendouba', 'Kairouan', 'Kasserine',
     'Kebili', 'Le_Kef', 'Mahdia', 'La_Manouba', 'Medenine', 'Monastir', 'Nabeul', 'Sfax', 'Sidi_Bouzid',
@@ -52,7 +57,18 @@ export default function Landing({user}) {
     Zaghouan: ['Zaghouan', 'Bir_Mcherga', 'Djebel_Oust', 'El_Fahs', 'Nadhour'],
   };
 
-
+  const ListeDomaine = {
+    Informatique: ["Developpement", "Securite informatique", "Business Intelligence", "Reseaux"],
+    Arts: ["Arts visuels", "Musique", "Cinema", "Theatre"],
+    Design: ["Design graphique", "Design industriel", "Design d'interieur"],
+    Lettres: ["Litterature", "Langues etrangeres", "Histoire", "Geologie"],
+    Economie: ["Economie generale", "Gestion", "Comptabilite", "Finance"],
+    Commerce: ["Marketing", "Vente", "Distribution", "Commerce international", "Publicite", "Relations publiques"],
+    Tourisme: ["Gestion hoteliere", "Tourisme culturel", "Tourisme de loisirs", "Agence de voyages"],
+    Sport: ["Education physique", "Entrainement sportif", "Kinesthesie", "Nutrition sportive"],
+    Gestion_de_projet: ["Planification", "Suivi et controle", "Gestion des risques", "Evaluation"],
+    Entrepreneuriat: ["Creation d'entreprise", "Management", "Strategie d'entreprise", "Innovation"],
+  };
   const config = useMemo(() => {
     return {
       headers: {
@@ -116,6 +132,8 @@ export default function Landing({user}) {
 
   const displayedFormationsFormationsByLocation = formationsByLocation && formationsByLocation.length > 0 ? formationsByLocation.slice(startIndexFormationsByLocation, endIndexFormationsByLocation + 1) : [];
 
+  const displayedFormationsFormationsByDomaine = formationsByDomaine && formationsByDomaine.length > 0 ? formationsByDomaine.slice(startIndexFormationsByDomaine, endIndexFormationsByDomaine + 1) : [];
+
 
   const handleStateChange = (event) => {
     setSelectedState(event.target.value);
@@ -130,6 +148,31 @@ export default function Landing({user}) {
       setFormationsByLocation(res.data.formations);
     } catch (error) {
       console.error('Error searching formations by location:', error);
+    }
+  };
+
+// Ajoutez un nouvel état pour gérer le sous-domaine sélectionné
+  const [selectedSousDomaine, setSelectedSousDomaine] = useState("");
+
+// Définissez une fonction pour gérer le changement de sous-domaine
+  const handleSousDomaineChange = (event) => {
+    setSelectedSousDomaine(event.target.value);
+    fetchFormations(event.target.value);
+
+  };
+
+// Modifiez la fonction handleDomaineChange pour inclure la réinitialisation du sous-domaine sélectionné
+  const handleDomaineChange = (event) => {
+    setSelectedDomaine(event.target.value);
+    setSelectedSousDomaine(""); // Réinitialiser le sous-domaine sélectionné
+  };
+
+  const fetchFormations = async (domaine) => {
+    try {
+      const response = await getFormationsByDomaine(domaine, config);
+      setFormationsByLocation(response.data.formations);
+    } catch (error) {
+      console.error("Error fetching formations by domaine:", error);
     }
   };
 
@@ -172,7 +215,35 @@ export default function Landing({user}) {
           <div className="pt-6 w-full md:w-2/12 px-4 text-center">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
               <div className="px-4 py-5 flex-auto">
-                Trouvez des Formation par un formateur !
+                Recherche par Domaine :
+                <select
+                  value={selectedDomaine}
+                  onChange={handleDomaineChange}
+                  className="border border-gray-300 rounded-lg px-4 py-2 w-full mt-2"
+                >
+                  <option value="">Choisir un domaine</option>
+                  {Object.keys(ListeDomaine).map((domaine) => (
+                    <option key={domaine} value={domaine}>
+                      {domaine}
+                    </option>
+                  ))}
+                </select>
+              {selectedDomaine && (
+                <div className="pr-12">
+                  <select
+                    value={selectedSousDomaine}
+                    onChange={handleSousDomaineChange}
+                    className="border border-gray-300 rounded-lg px-4 py-2 w-full mt-2"
+                  >
+                    <option value="">Choisir un sous-domaine</option>
+                    {ListeDomaine[selectedDomaine].map((sousDomaine) => (
+                      <option key={sousDomaine} value={sousDomaine}>
+                        {sousDomaine}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               </div>
             </div>
           </div>
@@ -193,7 +264,8 @@ export default function Landing({user}) {
                 <div className="items-center flex flex-wrap">
                   <div className="pr-12 pt-12 ">
                     <h1 className="text-black font-semibold text-2xl">
-                      Explorez les formations {selectedState ? `dans ${selectedState}` : `dans ${user.preferences.emplacement_actuelle} , domaine : ${user.preferences.Domaine_dinteret} `}
+                      {/*Explorez les formations {selectedState ? `dans ${selectedState}` : `dans ${user.preferences.emplacement_actuelle} , domaine : ${user.preferences.Domaine_dinteret} `}*/}
+                      Formations recommandées selon tes préférences
                     </h1>
                   </div>
                 </div>
@@ -319,6 +391,141 @@ export default function Landing({user}) {
               </div>
             </>
           ) : null}
+
+          {/*{user && user.preferences && user.preferences.Domaine_dinteret ? (*/}
+          {/*  <>*/}
+          {/*    <div className="container relative mx-auto">*/}
+          {/*      <div className="items-center flex flex-wrap">*/}
+          {/*        <div className="pr-12 pt-12 ">*/}
+          {/*          <h1 className="text-black font-semibold text-2xl">*/}
+          {/*            /!*Explorez les formations {selectedState ? `dans ${selectedState}` : `dans ${user.preferences.emplacement_actuelle} , domaine : ${user.preferences.Domaine_dinteret} `}*!/*/}
+          {/*            Formations recommandées selon les préférence*/}
+          {/*          </h1>*/}
+          {/*        </div>*/}
+          {/*      </div>*/}
+          {/*    </div>*/}
+          {/*    <hr className="my-4 md:min-w-full" />*/}
+          {/*    <div className="flex flex-wrap">*/}
+          {/*      {displayedFormationsFormationsByDomaine.length === 0 ? (*/}
+          {/*        <tr>*/}
+          {/*          <td*/}
+          {/*            className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"*/}
+          {/*            colSpan="22"*/}
+          {/*          >*/}
+          {/*            Aucune formation trouvée a {user.preferences.Domaine_dinteret}*/}
+          {/*          </td>*/}
+          {/*        </tr>*/}
+          {/*      ) : (*/}
+          {/*        <>*/}
+          {/*          <button*/}
+          {/*            onClick={handlePrevPageRecommanderByLocation}*/}
+          {/*            disabled={startIndexFormationsByLocation === 0}*/}
+          {/*            className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"*/}
+          {/*            onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}*/}
+          {/*            onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}*/}
+          {/*          >*/}
+          {/*            <FaChevronLeft style={{ fontSize: '40px' }}/>*/}
+          {/*          </button>*/}
+          {/*          {displayedFormationsFormationsByLocation.map((formation) => (*/}
+          {/*            <div*/}
+          {/*              className="pt-6 w-full md:w-2/12 px-4 text-center"*/}
+          {/*              key={formation._id}*/}
+          {/*            >*/}
+          {/*              <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">*/}
+          {/*                <div className="px-4 py-5 flex-auto">*/}
+          {/*                  <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">*/}
+          {/*                    <Link to={`/DetailsFormation/${formation._id}`}>*/}
+          {/*                      <img*/}
+          {/*                        alt="..."*/}
+          {/*                        className="align-middle border-none max-w-full h-auto rounded-lg"*/}
+          {/*                        src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}*/}
+          {/*                        style={{ width: "350px", height: "220px" }}*/}
+          {/*                        onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}*/}
+          {/*                        onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}*/}
+          {/*                      />*/}
+          {/*                    </Link>*/}
+          {/*                    <span*/}
+          {/*                      style={{*/}
+          {/*                        position: "absolute",*/}
+          {/*                        top: "5%",*/}
+          {/*                        left: "82%",*/}
+          {/*                        transform: "translate(-50%, -50%) ",*/}
+          {/*                      }}*/}
+          {/*                    >*/}
+          {/*              <Link to={`/profile/ProfileFormateur/${formation.formateur._id}`}>*/}
+          {/*                <img*/}
+          {/*                  alt="..."*/}
+          {/*                  className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"*/}
+          {/*                  src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}*/}
+          {/*                  style={{ width: "70px" }}*/}
+          {/*                  onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}*/}
+          {/*                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}*/}
+          {/*                />*/}
+          {/*              </Link>*/}
+          {/*            </span>*/}
+          {/*                    <span*/}
+          {/*                      style={{*/}
+          {/*                        position: "absolute",*/}
+          {/*                        top: "94%",*/}
+          {/*                        left: "50%",*/}
+          {/*                        transform: "translate(-50%, -50%)",*/}
+          {/*                      }}*/}
+          {/*                    >*/}
+          {/*              <Link to={`/profile/ProfileCenter/${formation.centre._id}`}>*/}
+          {/*                <img*/}
+          {/*                  alt="..."*/}
+          {/*                  className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"*/}
+          {/*                  src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}*/}
+          {/*                  style={{ width: "70px" }}*/}
+          {/*                  onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}*/}
+          {/*                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}*/}
+          {/*                />*/}
+          {/*              </Link>*/}
+          {/*            </span>*/}
+          {/*                  </div>*/}
+          {/*                  <div className="flex flex-wrap">*/}
+          {/*                    {formation.competences*/}
+          {/*                    .split(",")*/}
+          {/*                    .map((competence, index) => (*/}
+          {/*                      <span*/}
+          {/*                        key={index}*/}
+          {/*                        style={{*/}
+          {/*                          border: "2px solid rgba(186, 230, 253, 1)",*/}
+          {/*                          marginRight:*/}
+          {/*                            index ===*/}
+          {/*                            formation.competences.split(",").length - 1*/}
+          {/*                              ? "0"*/}
+          {/*                              : "5px",*/}
+          {/*                        }}*/}
+          {/*                        className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"*/}
+          {/*                      >*/}
+          {/*                  {competence.trim()}*/}
+          {/*                </span>*/}
+          {/*                    ))}*/}
+          {/*                  </div>*/}
+          {/*                  <h6 className="text-xl font-semibold">*/}
+          {/*                    {formation.titre}*/}
+          {/*                  </h6>*/}
+          {/*                  <p className="mt-2 mb-4 text-blueGray-500">*/}
+          {/*                    {formation.description}*/}
+          {/*                  </p>*/}
+          {/*                </div>*/}
+          {/*              </div>*/}
+          {/*            </div>*/}
+          {/*          ))}*/}
+          {/*          <button*/}
+          {/*            onClick={handleNextPageRecommanderByLocation}*/}
+          {/*            disabled={endIndexFormationsByLocation === formationsByLocation.length - 1}*/}
+          {/*            className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"*/}
+          {/*          >*/}
+          {/*            <FaChevronRight style={{ fontSize: '40px' }}/>*/}
+          {/*          </button>*/}
+          {/*        </>*/}
+          {/*      )}*/}
+          {/*    </div>*/}
+          {/*  </>*/}
+          {/*) : null}*/}
+
         <div className="flex flex-wrap">
             <div className="container relative mx-auto">
               <div className="items-center flex flex-wrap">
@@ -507,263 +714,6 @@ export default function Landing({user}) {
         </div>
       </section>
 
-      <section className="relative py-20">
-        <div
-          className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
-          style={{ transform: "translateZ(0)" }}
-        >
-          <svg
-            className="absolute bottom-0 overflow-hidden"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-            version="1.1"
-            viewBox="0 0 2560 100"
-            x="0"
-            y="0"
-          >
-            <polygon
-              className="text-white fill-current"
-              points="2560 0 2560 100 0 100"
-            ></polygon>
-          </svg>
-        </div>
-
-        <div className="container mx-auto px-4">
-          <div className="items-center flex flex-wrap">
-            <div className="w-full md:w-4/12 ml-auto mr-auto px-4">
-              <img
-                alt="..."
-                className="max-w-full rounded-lg shadow-lg"
-                src={
-                  require("../../../assets/img/team-4-470x470.png").default
-                }
-              />
-            </div>
-            <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
-              <div className="md:pr-12">
-                <div className="text-lightBlue-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-lightBlue-300">
-                  <i className="fas fa-rocket text-xl"></i>
-                </div>
-                <h3 className="text-3xl font-semibold">A growing company</h3>
-                <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
-                  The extension comes with three pre-built pages to help you
-                  get started faster. You can change the text and images and
-                  you're good to go.
-                </p>
-                <ul className="list-none mt-6">
-                  <li className="py-2">
-                    <div className="flex items-center">
-                      <div>
-                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-lightBlue-600 bg-lightBlue-200 mr-3">
-                          <i className="fas fa-fingerprint"></i>
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="text-blueGray-500">
-                          Carefully crafted components
-                        </h4>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="py-2">
-                    <div className="flex items-center">
-                      <div>
-                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-lightBlue-600 bg-lightBlue-200 mr-3">
-                          <i className="fab fa-html5"></i>
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="text-blueGray-500">
-                          Amazing page examples
-                        </h4>
-                      </div>
-                    </div>
-                  </li>
-                  <li className="py-2">
-                    <div className="flex items-center">
-                      <div>
-                        <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-lightBlue-600 bg-lightBlue-200 mr-3">
-                          <i className="far fa-paper-plane"></i>
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="text-blueGray-500">
-                          Dynamic components
-                        </h4>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="pt-20 pb-48">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center text-center mb-24">
-            <div className="w-full lg:w-6/12 px-4">
-              <h2 className="text-4xl font-semibold">Here are our heroes</h2>
-              <p className="text-lg leading-relaxed m-4 text-blueGray-500">
-                According to the National Oceanic and Atmospheric
-                Administration, Ted, Scambos, NSIDClead scentist, puts the
-                potentially record maximum.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap">
-            <div className="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4">
-              <div className="px-6">
-                <img
-                  alt="..."
-                  src={
-                    require("../../../assets/img/team-4-470x470.png").default
-                  }
-                  className="shadow-lg rounded-full mx-auto max-w-120-px"
-                />
-                <div className="pt-6 text-center">
-                  <h5 className="text-xl font-bold">Ryan Tompson</h5>
-                  <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
-                    Web Developer
-                  </p>
-                  <div className="mt-6">
-                    <button
-                      className="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-twitter"></i>
-                    </button>
-                    <button
-                      className="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-facebook-f"></i>
-                    </button>
-                    <button
-                      className="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-dribbble"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4">
-              <div className="px-6">
-                <img
-                  alt="..."
-                  src={
-                    require("../../../assets/img/team-4-470x470.png").default
-                  }
-                  className="shadow-lg rounded-full mx-auto max-w-120-px"
-                />
-                <div className="pt-6 text-center">
-                  <h5 className="text-xl font-bold">Romina Hadid</h5>
-                  <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
-                    Marketing Specialist
-                  </p>
-                  <div className="mt-6">
-                    <button
-                      className="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-google"></i>
-                    </button>
-                    <button
-                      className="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-facebook-f"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4">
-              <div className="px-6">
-                <img
-                  alt="..."
-                  src={
-                    require("../../../assets/img/team-4-470x470.png").default
-                  }
-                  className="shadow-lg rounded-full mx-auto max-w-120-px"
-                />
-                <div className="pt-6 text-center">
-                  <h5 className="text-xl font-bold">Alexa Smith</h5>
-                  <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
-                    UI/UX Designer
-                  </p>
-                  <div className="mt-6">
-                    <button
-                      className="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-google"></i>
-                    </button>
-                    <button
-                      className="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-twitter"></i>
-                    </button>
-                    <button
-                      className="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-instagram"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4">
-              <div className="px-6">
-                <img
-                  alt="..."
-                  src={
-                    require("../../../assets/img/team-4-470x470.png").default
-                  }
-                  className="shadow-lg rounded-full mx-auto max-w-120-px"
-                />
-                <div className="pt-6 text-center">
-                  <h5 className="text-xl font-bold">Jenna Kardi</h5>
-                  <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
-                    Founder and CEO
-                  </p>
-                  <div className="mt-6">
-                    <button
-                      className="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-dribbble"></i>
-                    </button>
-                    <button
-                      className="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-google"></i>
-                    </button>
-                    <button
-                      className="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-twitter"></i>
-                    </button>
-                    <button
-                      className="bg-blueGray-700 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                      type="button"
-                    >
-                      <i className="fab fa-instagram"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
