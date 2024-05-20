@@ -38,11 +38,16 @@ export default function Navbar (props) {
             }
             id="example-navbar-warning"
           >
+            <a
+              href="/auth"
+            >
             <img
               src={require('assets/img/LogoDark.png').default}
               alt="..."
               className="w-1/8 sm:w-4/12 "
             />
+            </a>
+
             <ul className="flex flex-col lg:flex-row list-none mr-auto">
               <li className="flex items-center">
                 <a
