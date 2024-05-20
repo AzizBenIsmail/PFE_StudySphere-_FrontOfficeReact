@@ -1,34 +1,31 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 // components
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie'
 import {
   getAllFormations,
+  getFormationsByDomaine,
   getFormationsByLocation,
   getFormationsRecommanderByLocation
 } from '../../../Services/ApiFormation'
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
-import { getFormationsByDomaine } from '../../../Services/ApiFormation';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
-export default function Landing({user}) {
-  const [formations, setFormations] = useState([]);
-  const [formationsByLocation, setFormationsByLocation] = useState([]);
-  const [formationsByDomaine, setFormationsByDomaine] = useState([]);
-  const [startIndex, setStartIndex] = useState(0);
-  const [endIndexFormationsByLocation, setEndIndexFormationsByLocation] = useState(2);
-  const [startIndexFormationsByLocation, setStartIndexFormationsByLocation] = useState(0);
-  const [endIndexFormationsByDomaine, setEndIndexFormationsByDomaine] = useState(2);
-  const [startIndexFormationsByDomaine, setStartIndexFormationsByDomaine] = useState(0);
-  const [endIndex, setEndIndex] = useState(2);
-  const jwt_token = Cookies.get("jwt_token");
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
-  const [selectedDomaine, setSelectedDomaine] = useState("");
+export default function Landing ({ user }) {
+  const [formations, setFormations] = useState([])
+  const [formationsByLocation, setFormationsByLocation] = useState([])
+  const [startIndex, setStartIndex] = useState(0)
+  const [endIndexFormationsByLocation, setEndIndexFormationsByLocation] = useState(2)
+  const [startIndexFormationsByLocation, setStartIndexFormationsByLocation] = useState(0)
+  const [endIndex, setEndIndex] = useState(2)
+  const jwt_token = Cookies.get('jwt_token')
+  const [selectedState, setSelectedState] = useState('')
+  const [selectedCity, setSelectedCity] = useState('')
+  const [selectedDomaine, setSelectedDomaine] = useState('')
 
   const states = ['Ariana', 'Beja', 'Ben_Arous', 'Bizerte', 'Gabes', 'Gafsa', 'Jendouba', 'Kairouan', 'Kasserine',
     'Kebili', 'Le_Kef', 'Mahdia', 'La_Manouba', 'Medenine', 'Monastir', 'Nabeul', 'Sfax', 'Sidi_Bouzid',
-    'Siliana', 'Sousse', 'Tataouine', 'Tozeur', 'Tunis', 'Zaghouan'];
+    'Siliana', 'Sousse', 'Tataouine', 'Tozeur', 'Tunis', 'Zaghouan']
 
   const citiesByState = {
     Ariana: ['Ariana', 'Ettadhamen', 'Kalaat_el-Andalous', 'La_Soukra', 'Sidi_Thabet'],
@@ -55,128 +52,124 @@ export default function Landing({user}) {
     Tozeur: ['Tozeur', 'Degache', 'Hamet_Jerid', 'Nafta', 'Tamerza', 'Nefta'],
     Tunis: ['Tunis', 'Carthage', 'La_Marsa', 'Le_Bardo', 'Sidi_Bou_Said'],
     Zaghouan: ['Zaghouan', 'Bir_Mcherga', 'Djebel_Oust', 'El_Fahs', 'Nadhour'],
-  };
+  }
 
   const ListeDomaine = {
-    Informatique: ["Developpement", "Securite informatique", "Business Intelligence", "Reseaux"],
-    Arts: ["Arts visuels", "Musique", "Cinema", "Theatre"],
-    Design: ["Design graphique", "Design industriel", "Design d'interieur"],
-    Lettres: ["Litterature", "Langues etrangeres", "Histoire", "Geologie"],
-    Economie: ["Economie generale", "Gestion", "Comptabilite", "Finance"],
-    Commerce: ["Marketing", "Vente", "Distribution", "Commerce international", "Publicite", "Relations publiques"],
-    Tourisme: ["Gestion hoteliere", "Tourisme culturel", "Tourisme de loisirs", "Agence de voyages"],
-    Sport: ["Education physique", "Entrainement sportif", "Kinesthesie", "Nutrition sportive"],
-    Gestion_de_projet: ["Planification", "Suivi et controle", "Gestion des risques", "Evaluation"],
-    Entrepreneuriat: ["Creation d'entreprise", "Management", "Strategie d'entreprise", "Innovation"],
-  };
+    Informatique: ['Developpement', 'Securite informatique', 'Business Intelligence', 'Reseaux'],
+    Arts: ['Arts visuels', 'Musique', 'Cinema', 'Theatre'],
+    Design: ['Design graphique', 'Design industriel', 'Design d\'interieur'],
+    Lettres: ['Litterature', 'Langues etrangeres', 'Histoire', 'Geologie'],
+    Economie: ['Economie generale', 'Gestion', 'Comptabilite', 'Finance'],
+    Commerce: ['Marketing', 'Vente', 'Distribution', 'Commerce international', 'Publicite', 'Relations publiques'],
+    Tourisme: ['Gestion hoteliere', 'Tourisme culturel', 'Tourisme de loisirs', 'Agence de voyages'],
+    Sport: ['Education physique', 'Entrainement sportif', 'Kinesthesie', 'Nutrition sportive'],
+    Gestion_de_projet: ['Planification', 'Suivi et controle', 'Gestion des risques', 'Evaluation'],
+    Entrepreneuriat: ['Creation d\'entreprise', 'Management', 'Strategie d\'entreprise', 'Innovation'],
+  }
   const config = useMemo(() => {
     return {
       headers: {
         Authorization: `Bearer ${jwt_token}`,
       },
-    };
-  }, [jwt_token]);
+    }
+  }, [jwt_token])
 
   const loadFormations = useCallback(async () => {
     try {
-      const res = await getAllFormations(config);
-      setFormations(res.data.formations);
+      const res = await getAllFormations(config)
+      setFormations(res.data.formations)
     } catch (error) {
-      console.error('Error loading formations:', error);
+      console.error('Error loading formations:', error)
     }
-  }, [config]);
+  }, [config])
 
   const loadFormationsRecommanderByLocation = useCallback(async () => {
     try {
-      const res = await getFormationsRecommanderByLocation(config);
-      setFormationsByLocation(res.data.formations);
+      const res = await getFormationsRecommanderByLocation(config)
+      setFormationsByLocation(res.data.formations)
     } catch (error) {
-      console.error('Error loading formations:', error);
+      console.error('Error loading formations:', error)
     }
-  }, [config]);
+  }, [config])
 
   useEffect(() => {
-    loadFormations();
-    loadFormationsRecommanderByLocation();
-  }, [loadFormations,loadFormationsRecommanderByLocation]);
+    loadFormations()
+    loadFormationsRecommanderByLocation()
+  }, [loadFormations, loadFormationsRecommanderByLocation])
 
   const handleNextPage = () => {
     if (endIndex < formations.length - 1) {
-      setStartIndex((prevStartIndex) => prevStartIndex + 1);
-      setEndIndex((prevEndIndex) => prevEndIndex + 1);
+      setStartIndex((prevStartIndex) => prevStartIndex + 1)
+      setEndIndex((prevEndIndex) => prevEndIndex + 1)
     }
-  };
+  }
 
   const handleNextPageRecommanderByLocation = () => {
     if (endIndexFormationsByLocation < formationsByLocation.length - 1) {
-      setStartIndexFormationsByLocation((prevStartIndexFormationsByLocation) => prevStartIndexFormationsByLocation + 1);
-      setEndIndexFormationsByLocation((prevEndIndexFormationsByLocation) => prevEndIndexFormationsByLocation + 1);
+      setStartIndexFormationsByLocation((prevStartIndexFormationsByLocation) => prevStartIndexFormationsByLocation + 1)
+      setEndIndexFormationsByLocation((prevEndIndexFormationsByLocation) => prevEndIndexFormationsByLocation + 1)
     }
-  };
+  }
   const handlePrevPage = () => {
     if (startIndex > 0) {
-      setStartIndex((prevStartIndex) => prevStartIndex - 1);
-      setEndIndex((prevEndIndex) => prevEndIndex - 1);
+      setStartIndex((prevStartIndex) => prevStartIndex - 1)
+      setEndIndex((prevEndIndex) => prevEndIndex - 1)
     }
-  };
+  }
 
   const handlePrevPageRecommanderByLocation = () => {
     if (startIndexFormationsByLocation > 0) {
-      setStartIndexFormationsByLocation((prevStartIndexFormationsByLocation) => prevStartIndexFormationsByLocation - 1);
-      setEndIndexFormationsByLocation((prevEndIndexFormationsByLocation) => prevEndIndexFormationsByLocation - 1);
+      setStartIndexFormationsByLocation((prevStartIndexFormationsByLocation) => prevStartIndexFormationsByLocation - 1)
+      setEndIndexFormationsByLocation((prevEndIndexFormationsByLocation) => prevEndIndexFormationsByLocation - 1)
     }
-  };
+  }
 
+  const displayedFormations = formations && formations.length > 0 ? formations.slice(startIndex, endIndex + 1) : []
 
-  const displayedFormations = formations && formations.length > 0 ? formations.slice(startIndex, endIndex + 1) : [];
-
-  const displayedFormationsFormationsByLocation = formationsByLocation && formationsByLocation.length > 0 ? formationsByLocation.slice(startIndexFormationsByLocation, endIndexFormationsByLocation + 1) : [];
-
-  const displayedFormationsFormationsByDomaine = formationsByDomaine && formationsByDomaine.length > 0 ? formationsByDomaine.slice(startIndexFormationsByDomaine, endIndexFormationsByDomaine + 1) : [];
-
+  const displayedFormationsFormationsByLocation = formationsByLocation && formationsByLocation.length > 0 ? formationsByLocation.slice(startIndexFormationsByLocation, endIndexFormationsByLocation + 1) : []
 
   const handleStateChange = (event) => {
-    setSelectedState(event.target.value);
-    setSelectedCity(''); // Clear city selection when state changes
-  };
+    setSelectedState(event.target.value)
+    setSelectedCity('') // Clear city selection when state changes
+  }
 
   const handleCityChange = async (event) => {
-    setSelectedCity(event.target.value);
-    setSelectedSousDomaine("")
-    const location = `${selectedState},${event.target.value}`; // Assemble city and state
+    setSelectedCity(event.target.value)
+    setSelectedSousDomaine('')
+    const location = `${selectedState},${event.target.value}` // Assemble city and state
     try {
-      const res = await getFormationsByLocation(location, config);
-      setFormationsByLocation(res.data.formations);
+      const res = await getFormationsByLocation(location, config)
+      setFormationsByLocation(res.data.formations)
     } catch (error) {
-      console.error('Error searching formations by location:', error);
+      console.error('Error searching formations by location:', error)
     }
-  };
+  }
 
 // Ajoutez un nouvel état pour gérer le sous-domaine sélectionné
-  const [selectedSousDomaine, setSelectedSousDomaine] = useState("");
+  const [selectedSousDomaine, setSelectedSousDomaine] = useState('')
 
 // Définissez une fonction pour gérer le changement de sous-domaine
   const handleSousDomaineChange = (event) => {
-    setSelectedSousDomaine(event.target.value);
-    fetchFormations(event.target.value);
-    setSelectedState("");
-    setSelectedCity("");
-  };
+    setSelectedSousDomaine(event.target.value)
+    fetchFormations(event.target.value)
+    setSelectedState('')
+    setSelectedCity('')
+  }
 
 // Modifiez la fonction handleDomaineChange pour inclure la réinitialisation du sous-domaine sélectionné
   const handleDomaineChange = (event) => {
-    setSelectedDomaine(event.target.value);
-    setSelectedSousDomaine(""); // Réinitialiser le sous-domaine sélectionné
-  };
+    setSelectedDomaine(event.target.value)
+    setSelectedSousDomaine('') // Réinitialiser le sous-domaine sélectionné
+  }
 
   const fetchFormations = async (domaine) => {
     try {
-      const response = await getFormationsByDomaine(domaine, config);
-      setFormationsByLocation(response.data.formations);
+      const response = await getFormationsByDomaine(domaine, config)
+      setFormationsByLocation(response.data.formations)
     } catch (error) {
-      console.error("Error fetching formations by domaine:", error);
+      console.error('Error fetching formations by domaine:', error)
     }
-  };
+  }
 
   return (
     <>
@@ -198,16 +191,16 @@ export default function Landing({user}) {
                 </select>
                 {selectedState && (
                   <>
-                  <select
-                    value={selectedCity}
-                    onChange={handleCityChange}
-                    className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
-                  >
-                    <option value="">Choisir la ville</option>
-                    {citiesByState[selectedState].map((city, index) => (
-                      <option key={index} value={city}>{city}</option>
-                    ))}
-                  </select>
+                    <select
+                      value={selectedCity}
+                      onChange={handleCityChange}
+                      className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
+                    >
+                      <option value="">Choisir la ville</option>
+                      {citiesByState[selectedState].map((city, index) => (
+                        <option key={index} value={city}>{city}</option>
+                      ))}
+                    </select>
                   </>
                 )}
               </div>
@@ -230,22 +223,22 @@ export default function Landing({user}) {
                     </option>
                   ))}
                 </select>
-              {selectedDomaine && (
-                <div className="pr-12">
-                  <select
-                    value={selectedSousDomaine}
-                    onChange={handleSousDomaineChange}
-                    className="border border-gray-300 rounded-lg px-4 py-2 w-full mt-2"
-                  >
-                    <option value="">Choisir un sous-domaine</option>
-                    {ListeDomaine[selectedDomaine].map((sousDomaine) => (
-                      <option key={sousDomaine} value={sousDomaine}>
-                        {sousDomaine}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
+                {selectedDomaine && (
+                  <div className="pr-12">
+                    <select
+                      value={selectedSousDomaine}
+                      onChange={handleSousDomaineChange}
+                      className="border border-gray-300 rounded-lg px-4 py-2 w-full mt-2"
+                    >
+                      <option value="">Choisir un sous-domaine</option>
+                      {ListeDomaine[selectedDomaine].map((sousDomaine) => (
+                        <option key={sousDomaine} value={sousDomaine}>
+                          {sousDomaine}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -277,7 +270,7 @@ export default function Landing({user}) {
                   </div>
                 </div>
               </div>
-              <hr className="my-4 md:min-w-full" />
+              <hr className="my-4 md:min-w-full"/>
               <div className="flex flex-wrap">
                 {displayedFormationsFormationsByLocation.length === 0 ? (
                   <tr>
@@ -304,88 +297,112 @@ export default function Landing({user}) {
                         className="pt-6 w-full md:w-2/12 px-4 text-center"
                         key={formation._id}
                       >
-                        <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                        <div
+                          className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                           <div className="px-4 py-5 flex-auto">
-                            <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                            <div
+                              className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                               <Link to={`/DetailsFormation/${formation._id}`}>
                                 <img
                                   alt="..."
                                   className="align-middle border-none max-w-full h-auto rounded-lg"
                                   src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
-                                  style={{ width: "350px", height: "220px" }}
+                                  style={{ width: '350px', height: '220px' }}
                                   onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                                   onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                                 />
                               </Link>
                               <span
                                 style={{
-                                  position: "absolute",
-                                  top: "5%",
-                                  left: "82%",
-                                  transform: "translate(-50%, -50%) ",
+                                  position: 'absolute',
+                                  top: '5%',
+                                  left: '82%',
+                                  transform: 'translate(-50%, -50%) ',
                                 }}
                               >
-                        <Link to={`/profile/ProfileFormateur/${formation.formateur._id}`}>
-                          <img
-                            alt="..."
-                            className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                            src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                            style={{ width: "70px" }}
-                            onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                            onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-                          />
-                        </Link>
-                      </span>
+            <Link to={`/profile/ProfileFormateur/${formation.formateur._id}`}>
+              <img
+                alt="..."
+                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                style={{ width: '70px' }}
+                onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+              />
+            </Link>
+          </span>
                               <span
                                 style={{
-                                  position: "absolute",
-                                  top: "94%",
-                                  left: "50%",
-                                  transform: "translate(-50%, -50%)",
+                                  position: 'absolute',
+                                  top: '94%',
+                                  left: '50%',
+                                  transform: 'translate(-50%, -50%)',
                                 }}
                               >
-                        <Link to={`/profile/ProfileCenter/${formation.centre._id}`}>
-                          <img
-                            alt="..."
-                            className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                            src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
-                            style={{ width: "70px" }}
-                            onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                            onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-                          />
-                        </Link>
-                      </span>
+            <Link to={`/profile/ProfileCenter/${formation.centre._id}`}>
+              <img
+                alt="..."
+                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                style={{ width: '70px' }}
+                onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+              />
+            </Link>
+          </span>
                             </div>
                             <div className="flex flex-wrap">
                               {formation.competences
-                              .split(",")
+                              .split(',')
+                              .slice(0, 3)
                               .map((competence, index) => (
                                 <span
                                   key={index}
                                   style={{
-                                    border: "2px solid rgba(186, 230, 253, 1)",
+                                    border: '2px solid rgba(186, 230, 253, 1)',
                                     marginRight:
                                       index ===
-                                      formation.competences.split(",").length - 1
-                                        ? "0"
-                                        : "5px",
+                                      Math.min(2, formation.competences.split(',').length - 1)
+                                        ? '0'
+                                        : '5px',
                                   }}
                                   className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
                                 >
-                            {competence.trim()}
-                          </span>
+                {competence.trim()}
+              </span>
                               ))}
+                              {formation.competences.split(',').length > 3 && (
+                                <span
+                                  style={{
+                                    border: '2px solid rgba(186, 230, 253, 1)',
+                                    marginRight: '5px',
+                                  }}
+                                  className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                                >
+              ...
+            </span>
+                              )}
                             </div>
                             <h6 className="text-xl font-semibold">
                               {formation.titre}
                             </h6>
                             <p className="mt-2 mb-4 text-blueGray-500">
-                              {formation.description}
+                              {formation.description.split(' ').slice(0, 10).join(' ')}
+                              {formation.description.split(' ').length > 10 && ' ...'}
                             </p>
+                            <div className="mt-auto">
+                              <button
+                                className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                                type="button">
+                                Inscrivez-vous maintenant
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     ))}
+
+
                     <button
                       onClick={handleNextPageRecommanderByLocation}
                       disabled={endIndexFormationsByLocation === formationsByLocation.length - 1}
@@ -409,7 +426,7 @@ export default function Landing({user}) {
                 </div>
               </div>
             </div>
-            <hr className="my-4 md:min-w-full" />
+            <hr className="my-4 md:min-w-full"/>
 
             {displayedFormations.length === 0 ? (
               <tr>
@@ -444,80 +461,102 @@ export default function Landing({user}) {
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
                               src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
-                              style={{ width: "350px", height: "220px" }}
+                              style={{ width: '350px', height: '220px' }}
                               onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                               onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                             />
                           </Link>
                           <span
                             style={{
-                              position: "absolute",
-                              top: "5%",
-                              left: "82%",
-                              transform: "translate(-50%, -50%) ",
+                              position: 'absolute',
+                              top: '5%',
+                              left: '82%',
+                              transform: 'translate(-50%, -50%) ',
                             }}
                           >
-                            <Link to={`/profile/ProfileFormateur/${formation.formateur._id}`}>
-                              <img
-                                alt="..."
-                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                                style={{ width: "70px" }}
-                                onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-                              />
-                            </Link>
-                          </span>
+            <Link to={`/profile/ProfileFormateur/${formation.formateur._id}`}>
+              <img
+                alt="..."
+                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                style={{ width: '70px' }}
+                onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+              />
+            </Link>
+          </span>
                           <span
                             style={{
-                              position: "absolute",
-                              top: "94%",
-                              left: "50%",
-                              transform: "translate(-50%, -50%)",
+                              position: 'absolute',
+                              top: '94%',
+                              left: '50%',
+                              transform: 'translate(-50%, -50%)',
                             }}
                           >
-                            <Link to={`/profile/ProfileCenter/${formation.centre._id}`}>
-                              <img
-                                alt="..."
-                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
-                                style={{ width: "70px" }}
-                                onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-                              />
-                            </Link>
-                          </span>
+            <Link to={`/profile/ProfileCenter/${formation.centre._id}`}>
+              <img
+                alt="..."
+                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                style={{ width: '70px' }}
+                onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
+                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+              />
+            </Link>
+          </span>
                         </div>
                         <div className="flex flex-wrap">
                           {formation.competences
-                          .split(",")
+                          .split(',')
+                          .slice(0, 3)
                           .map((competence, index) => (
                             <span
                               key={index}
                               style={{
-                                border: "2px solid rgba(186, 230, 253, 1)",
+                                border: '2px solid rgba(186, 230, 253, 1)',
                                 marginRight:
                                   index ===
-                                  formation.competences.split(",").length - 1
-                                    ? "0"
-                                    : "5px",
+                                  Math.min(2, formation.competences.split(',').length - 1)
+                                    ? '0'
+                                    : '5px',
                               }}
                               className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
                             >
-                                {competence.trim()}
-                              </span>
+                {competence.trim()}
+              </span>
                           ))}
+                          {formation.competences.split(',').length > 3 && (
+                            <span
+                              style={{
+                                border: '2px solid rgba(186, 230, 253, 1)',
+                                marginRight: '5px',
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+              ...
+            </span>
+                          )}
                         </div>
                         <h6 className="text-xl font-semibold">
                           {formation.titre}
                         </h6>
                         <p className="mt-2 mb-4 text-blueGray-500">
-                          {formation.description}
+                          {formation.description.split(' ').slice(0, 10).join(' ')}
+                          {formation.description.split(' ').length > 10 && ' ...'}
                         </p>
+
+                      <div className="mt-auto">
+                        <button
+                          className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                          type="button">
+                          Inscrivez-vous maintenant
+                        </button>
+                      </div>
                       </div>
                     </div>
                   </div>
                 ))}
+
                 <button
                   onClick={handleNextPage}
                   disabled={endIndex === formations.length - 1}
@@ -530,7 +569,8 @@ export default function Landing({user}) {
           </div>
           <div className="flex flex-wrap items-center mt-32">
             <div className="w-full md:w-5/12 px-4 mr-auto ml-auto">
-              <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
+              <div
+                className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
                 <i className="fas fa-user-friends text-xl"></i>
               </div>
               <h3 className="text-3xl mb-2 font-semibold leading-normal">
@@ -552,11 +592,12 @@ export default function Landing({user}) {
               </Link>
             </div>
             <div className="w-full md:w-4/12 px-4 mr-auto ml-auto">
-              <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-lightBlue-500">
+              <div
+                className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-lightBlue-500">
                 <img
                   alt="..."
                   src={
-                    require("../../../assets/img/team-4-470x470.png").default
+                    require('../../../assets/img/team-4-470x470.png').default
                   }
                   className="w-full align-middle rounded-t-lg"
                 />
@@ -588,5 +629,5 @@ export default function Landing({user}) {
       </section>
 
     </>
-  );
+  )
 }
