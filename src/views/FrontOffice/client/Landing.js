@@ -1,29 +1,32 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 // components
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 import {
+  FormationByDayAndTime,
   getAllFormations,
   getFormationsByDomaine,
   getFormationsByLocation,
-  getFormationsRecommanderByLocation,FormationByDayAndTime
-} from '../../../Services/ApiFormation'
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+  getFormationsRecommanderByLocation,
+} from "../../../Services/ApiFormation";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-export default function Landing ({ user }) {
-  const [formations, setFormations] = useState([])
-  const [formationsByLocation, setFormationsByLocation] = useState([])
-  const [startIndex, setStartIndex] = useState(0)
-  const [endIndexFormationsByLocation, setEndIndexFormationsByLocation] = useState(2)
-  const [startIndexFormationsByLocation, setStartIndexFormationsByLocation] = useState(0)
-  const [endIndex, setEndIndex] = useState(2)
-  const jwt_token = Cookies.get('jwt_token')
-  const [selectedState, setSelectedState] = useState('')
-  const [selectedCity, setSelectedCity] = useState('')
-  const [selectedDomaine, setSelectedDomaine] = useState('')
-  const [jours, setJours] = useState('');
-  const [tranchesHoraires, setTranchesHoraires] = useState('');
+export default function Landing({ user }) {
+  const [formations, setFormations] = useState([]);
+  const [formationsByLocation, setFormationsByLocation] = useState([]);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndexFormationsByLocation, setEndIndexFormationsByLocation] =
+    useState(2);
+  const [startIndexFormationsByLocation, setStartIndexFormationsByLocation] =
+    useState(0);
+  const [endIndex, setEndIndex] = useState(2);
+  const jwt_token = Cookies.get("jwt_token");
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedDomaine, setSelectedDomaine] = useState("");
+  const [jours, setJours] = useState("");
+  const [tranchesHoraires, setTranchesHoraires] = useState("");
 
   const states = ['Ariana', 'Beja', 'Ben_Arous', 'Bizerte', 'Gabes', 'Gafsa', 'Jendouba', 'Kairouan', 'Kasserine',
     'Kebili', 'Le_Kef', 'Mahdia', 'La_Manouba', 'Medenine', 'Monastir', 'Nabeul', 'Sfax', 'Sidi_Bouzid',
@@ -68,117 +71,139 @@ export default function Landing ({ user }) {
     Gestion_de_projet: ['Planification', 'Suivi et controle', 'Gestion des risques', 'Evaluation'],
     Entrepreneuriat: ['Creation d\'entreprise', 'Management', 'Strategie d\'entreprise', 'Innovation'],
   }
+
   const config = useMemo(() => {
     return {
       headers: {
         Authorization: `Bearer ${jwt_token}`,
       },
-    }
-  }, [jwt_token])
+    };
+  }, [jwt_token]);
 
   const loadFormations = useCallback(async () => {
     try {
-      const res = await getAllFormations(config)
-      setFormations(res.data.formations)
+      const res = await getAllFormations(config);
+      setFormations(res.data.formations);
     } catch (error) {
-      console.error('Error loading formations:', error)
+      console.error("Error loading formations:", error);
     }
-  }, [config])
+  }, [config]);
 
   const loadFormationsRecommanderByLocation = useCallback(async () => {
     try {
-      const res = await getFormationsRecommanderByLocation(config)
-      setFormationsByLocation(res.data.formations)
+      const res = await getFormationsRecommanderByLocation(config);
+      setFormationsByLocation(res.data.formations);
     } catch (error) {
-      console.error('Error loading formations:', error)
+      console.error("Error loading formations:", error);
     }
-  }, [config])
+  }, [config]);
 
   useEffect(() => {
-    loadFormations()
-    loadFormationsRecommanderByLocation()
-  }, [loadFormations, loadFormationsRecommanderByLocation])
+    loadFormations();
+    loadFormationsRecommanderByLocation();
+  }, [loadFormations, loadFormationsRecommanderByLocation]);
 
   const handleNextPage = () => {
     if (endIndex < formations.length - 1) {
-      setStartIndex((prevStartIndex) => prevStartIndex + 1)
-      setEndIndex((prevEndIndex) => prevEndIndex + 1)
+      setStartIndex((prevStartIndex) => prevStartIndex + 1);
+      setEndIndex((prevEndIndex) => prevEndIndex + 1);
     }
-  }
+  };
 
   const handleNextPageRecommanderByLocation = () => {
     if (endIndexFormationsByLocation < formationsByLocation.length - 1) {
-      setStartIndexFormationsByLocation((prevStartIndexFormationsByLocation) => prevStartIndexFormationsByLocation + 1)
-      setEndIndexFormationsByLocation((prevEndIndexFormationsByLocation) => prevEndIndexFormationsByLocation + 1)
+      setStartIndexFormationsByLocation(
+        (prevStartIndexFormationsByLocation) =>
+          prevStartIndexFormationsByLocation + 1
+      );
+      setEndIndexFormationsByLocation(
+        (prevEndIndexFormationsByLocation) =>
+          prevEndIndexFormationsByLocation + 1
+      );
     }
-  }
+  };
   const handlePrevPage = () => {
     if (startIndex > 0) {
-      setStartIndex((prevStartIndex) => prevStartIndex - 1)
-      setEndIndex((prevEndIndex) => prevEndIndex - 1)
+      setStartIndex((prevStartIndex) => prevStartIndex - 1);
+      setEndIndex((prevEndIndex) => prevEndIndex - 1);
     }
-  }
+  };
 
   const handlePrevPageRecommanderByLocation = () => {
     if (startIndexFormationsByLocation > 0) {
-      setStartIndexFormationsByLocation((prevStartIndexFormationsByLocation) => prevStartIndexFormationsByLocation - 1)
-      setEndIndexFormationsByLocation((prevEndIndexFormationsByLocation) => prevEndIndexFormationsByLocation - 1)
+      setStartIndexFormationsByLocation(
+        (prevStartIndexFormationsByLocation) =>
+          prevStartIndexFormationsByLocation - 1
+      );
+      setEndIndexFormationsByLocation(
+        (prevEndIndexFormationsByLocation) =>
+          prevEndIndexFormationsByLocation - 1
+      );
     }
-  }
+  };
 
-  const displayedFormations = formations && formations.length > 0 ? formations.slice(startIndex, endIndex + 1) : []
+  const displayedFormations =
+    formations && formations.length > 0
+      ? formations.slice(startIndex, endIndex + 1)
+      : [];
 
-  const displayedFormationsFormationsByLocation = formationsByLocation && formationsByLocation.length > 0 ? formationsByLocation.slice(startIndexFormationsByLocation, endIndexFormationsByLocation + 1) : []
+  const displayedFormationsFormationsByLocation =
+    formationsByLocation && formationsByLocation.length > 0
+      ? formationsByLocation.slice(
+          startIndexFormationsByLocation,
+          endIndexFormationsByLocation + 1
+        )
+      : [];
 
   const handleStateChange = (event) => {
-    setSelectedState(event.target.value)
-    setSelectedCity('') // Clear city selection when state changes
-  }
+    setSelectedState(event.target.value);
+    setSelectedCity(""); // Clear city selection when state changes
+  };
 
   const handleCityChange = async (event) => {
-    setSelectedCity(event.target.value)
-    setSelectedSousDomaine('')
-    const location = `${selectedState},${event.target.value}` // Assemble city and state
+    setSelectedCity(event.target.value);
+    setSelectedSousDomaine("");
+    const location = `${selectedState},${event.target.value}`; // Assemble city and state
     try {
-      const res = await getFormationsByLocation(location, config)
-      setFormationsByLocation(res.data.formations)
+      const res = await getFormationsByLocation(location, config);
+      setFormationsByLocation(res.data.formations);
     } catch (error) {
-      console.error('Error searching formations by location:', error)
+      console.error("Error searching formations by location:", error);
     }
-  }
+  };
 
-// Ajoutez un nouvel état pour gérer le sous-domaine sélectionné
-  const [selectedSousDomaine, setSelectedSousDomaine] = useState('')
+  // Ajoutez un nouvel état pour gérer le sous-domaine sélectionné
+  const [selectedSousDomaine, setSelectedSousDomaine] = useState("");
 
-// Définissez une fonction pour gérer le changement de sous-domaine
+  // Définissez une fonction pour gérer le changement de sous-domaine
   const handleSousDomaineChange = (event) => {
-    setSelectedSousDomaine(event.target.value)
-    fetchFormations(event.target.value)
-    setSelectedState('')
-    setSelectedCity('')
-  }
+    setSelectedSousDomaine(event.target.value);
+    fetchFormations(event.target.value);
+    setSelectedState("");
+    setSelectedCity("");
+  };
 
-// Modifiez la fonction handleDomaineChange pour inclure la réinitialisation du sous-domaine sélectionné
+  // Modifiez la fonction handleDomaineChange pour inclure la réinitialisation du sous-domaine sélectionné
   const handleDomaineChange = (event) => {
-    setSelectedDomaine(event.target.value)
-    setSelectedSousDomaine('') // Réinitialiser le sous-domaine sélectionné
-  }
+    setSelectedDomaine(event.target.value);
+    setSelectedSousDomaine(""); // Réinitialiser le sous-domaine sélectionné
+  };
 
   const fetchFormations = async (domaine) => {
     try {
-      const response = await getFormationsByDomaine(domaine, config)
-      setFormationsByLocation(response.data.formations)
+      const response = await getFormationsByDomaine(domaine, config);
+      setFormationsByLocation(response.data.formations);
     } catch (error) {
-      console.error('Error fetching formations by domaine:', error)
+      console.error("Error fetching formations by domaine:", error);
     }
-  }
+  };
 
   const loadFormationsByDayAndTime = useCallback(async () => {
     try {
       const res = await FormationByDayAndTime(jours, tranchesHoraires, config);
       setFormationsByLocation(res.data.formations);
     } catch (error) {
-      console.error('Error loading formations by day and time:', error);
+      console.error("Error loading formations by day and time:", error);
     }
   }, [jours, tranchesHoraires, config]);
 
@@ -203,7 +228,8 @@ export default function Landing ({ user }) {
           <div className="pt-6 w-full md:w-2/12 px-4 text-center">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
               <div className="px-4 py-5 flex-auto">
-                Trouver des formations en fonction de la localisation géographique!
+                Trouver des formations en fonction de la localisation
+                géographique!
                 <select
                   value={selectedState}
                   onChange={handleStateChange}
@@ -211,7 +237,9 @@ export default function Landing ({ user }) {
                 >
                   <option value="">Choisir l'état</option>
                   {states.map((state, index) => (
-                    <option key={index} value={state}>{state}</option>
+                    <option key={index} value={state}>
+                      {state}
+                    </option>
                   ))}
                 </select>
                 {selectedState && (
@@ -223,7 +251,9 @@ export default function Landing ({ user }) {
                     >
                       <option value="">Choisir la ville</option>
                       {citiesByState[selectedState].map((city, index) => (
-                        <option key={index} value={city}>{city}</option>
+                        <option key={index} value={city}>
+                          {city}
+                        </option>
                       ))}
                     </select>
                   </>
@@ -287,16 +317,16 @@ export default function Landing ({ user }) {
                   <option value="Dimanche">Dimanche</option>
                 </select>
                 {jours && (
-                <select
-                  value={tranchesHoraires}
-                  onChange={handleTranchesHorairesChange}
-                  className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
-                >
-                  <option value="">Choisir une tranche horaire</option>
-                  <option value="Matin">Matin</option>
-                  <option value="Après-midi">Après-midi</option>
-                  <option value="Soir">Soir</option>
-                </select>
+                  <select
+                    value={tranchesHoraires}
+                    onChange={handleTranchesHorairesChange}
+                    className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
+                  >
+                    <option value="">Choisir une tranche horaire</option>
+                    <option value="Matin">Matin</option>
+                    <option value="Après-midi">Après-midi</option>
+                    <option value="Soir">Soir</option>
+                  </select>
                 )}
               </div>
             </div>
@@ -310,22 +340,28 @@ export default function Landing ({ user }) {
                 <div className="items-center flex flex-wrap">
                   <div className="pr-12 pt-12 ">
                     <h1 className="text-black font-semibold text-2xl">
-                      {!selectedCity && !selectedDomaine && !selectedSousDomaine && !jours && !tranchesHoraires ?
-                        `Formations recommandées selon tes préférences` :
-                        jours && !tranchesHoraires ?
-                          `Explorez les formations dans le jour ${jours}` :
-                          jours && tranchesHoraires ?
-                            `Explorez les formations dans le jour ${jours} et tranche horaire ${tranchesHoraires}` :
-                        selectedSousDomaine ?
-                          `Explorez les formations de domaine ${selectedSousDomaine}` :
-                          `Explorez les formations ${selectedState ? `dans ${selectedState}` : `dans ${user.preferences.emplacement_actuelle}, domaine : ${user.preferences.Domaine_dinteret}`}`
-                      }
-
+                      {!selectedCity &&
+                      !selectedDomaine &&
+                      !selectedSousDomaine &&
+                      !jours &&
+                      !tranchesHoraires
+                        ? `Formations recommandées selon tes préférences`
+                        : jours && !tranchesHoraires
+                        ? `Explorez les formations dans le jour ${jours}`
+                        : jours && tranchesHoraires
+                        ? `Explorez les formations dans le jour ${jours} et tranche horaire ${tranchesHoraires}`
+                        : selectedSousDomaine
+                        ? `Explorez les formations de domaine ${selectedSousDomaine}`
+                        : `Explorez les formations ${
+                            selectedState
+                              ? `dans ${selectedState}`
+                              : `dans ${user.preferences.emplacement_actuelle}, domaine : ${user.preferences.Domaine_dinteret}`
+                          }`}
                     </h1>
                   </div>
                 </div>
               </div>
-              <hr className="my-4 md:min-w-full"/>
+              <hr className="my-4 md:min-w-full" />
               <div className="flex flex-wrap">
                 {displayedFormationsFormationsByLocation.length === 0 ? (
                   <tr>
@@ -333,7 +369,8 @@ export default function Landing ({ user }) {
                       className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
                       colSpan="22"
                     >
-                      Aucune formation trouvée a {user.preferences.emplacement_actuelle}
+                      Aucune formation trouvée a{" "}
+                      {user.preferences.emplacement_actuelle}
                     </td>
                   </tr>
                 ) : (
@@ -342,128 +379,168 @@ export default function Landing ({ user }) {
                       onClick={handlePrevPageRecommanderByLocation}
                       disabled={startIndexFormationsByLocation === 0}
                       className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
-                      onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                      onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.boxShadow =
+                          "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.boxShadow = "none")
+                      }
                     >
-                      <FaChevronLeft style={{ fontSize: '40px' }}/>
+                      <FaChevronLeft style={{ fontSize: "40px" }} />
                     </button>
-                    {displayedFormationsFormationsByLocation.map((formation) => (
-                      <div
-                        className="pt-6 w-full md:w-2/12 px-4 text-center"
-                        key={formation._id}
-                      >
+                    {displayedFormationsFormationsByLocation.map(
+                      (formation) => (
                         <div
-                          className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                          <div className="px-4 py-5 flex-auto">
-                            <div
-                              className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                              <Link to={`/DetailsFormation/${formation._id}`}>
-                                <img
-                                  alt="..."
-                                  className="align-middle border-none max-w-full h-auto rounded-lg"
-                                  src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
-                                  style={{ width: '350px', height: '220px' }}
-                                  onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-                                />
-                              </Link>
-                              <span
-                                style={{
-                                  position: 'absolute',
-                                  top: '5%',
-                                  left: '82%',
-                                  transform: 'translate(-50%, -50%) ',
-                                }}
-                              >
-            <Link to={`/profile/ProfileFormateur/${formation.formateur._id}`}>
-              <img
-                alt="..."
-                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                style={{ width: '70px' }}
-                onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-              />
-            </Link>
-          </span>
-                              <span
-                                style={{
-                                  position: 'absolute',
-                                  top: '94%',
-                                  left: '50%',
-                                  transform: 'translate(-50%, -50%)',
-                                }}
-                              >
-            <Link to={`/profile/ProfileCenter/${formation.centre._id}`}>
-              <img
-                alt="..."
-                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
-                style={{ width: '70px' }}
-                onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-              />
-            </Link>
-          </span>
-                            </div>
-                            <div className="flex flex-wrap">
-                              {formation.competences
-                              .split(',')
-                              .slice(0, 3)
-                              .map((competence, index) => (
-                                <span
-                                  key={index}
-                                  style={{
-                                    border: '2px solid rgba(186, 230, 253, 1)',
-                                    marginRight:
-                                      index ===
-                                      Math.min(2, formation.competences.split(',').length - 1)
-                                        ? '0'
-                                        : '5px',
-                                  }}
-                                  className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
-                                >
-                {competence.trim()}
-              </span>
-                              ))}
-                              {formation.competences.split(',').length > 3 && (
+                          className="pt-6 w-full md:w-2/12 px-4 text-center"
+                          key={formation._id}
+                        >
+                          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                            <div className="px-4 py-5 flex-auto">
+                              <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                                <Link to={`/DetailsFormation/${formation._id}`}>
+                                  <img
+                                    alt="..."
+                                    className="align-middle border-none max-w-full h-auto rounded-lg"
+                                    src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                                    style={{ width: "350px", height: "220px" }}
+                                    onMouseEnter={(e) =>
+                                      (e.currentTarget.style.boxShadow =
+                                        "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.currentTarget.style.boxShadow = "none")
+                                    }
+                                  />
+                                </Link>
                                 <span
                                   style={{
-                                    border: '2px solid rgba(186, 230, 253, 1)',
-                                    marginRight: '5px',
+                                    position: "absolute",
+                                    top: "5%",
+                                    left: "82%",
+                                    transform: "translate(-50%, -50%) ",
                                   }}
-                                  className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
                                 >
-              ...
-            </span>
-                              )}
-                            </div>
-                            <h6 className="text-xl font-semibold">
-                              {formation.titre}
-                            </h6>
-                            <p className="mt-2 mb-4 text-blueGray-500">
-                              {formation.description.split(' ').slice(0, 10).join(' ')}
-                              {formation.description.split(' ').length > 10 && ' ...'}
-                            </p>
-                            <div className="mt-auto">
-                              <button
-                                className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
-                                type="button">
-                                Inscrivez-vous maintenant
-                              </button>
+                                  <Link
+                                    to={`/profile/ProfileFormateur/${formation.formateur._id}`}
+                                  >
+                                    <img
+                                      alt="..."
+                                      className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                      src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                      style={{ width: "70px" }}
+                                      onMouseEnter={(e) =>
+                                        (e.currentTarget.style.boxShadow =
+                                          "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                      }
+                                      onMouseLeave={(e) =>
+                                        (e.currentTarget.style.boxShadow =
+                                          "none")
+                                      }
+                                    />
+                                  </Link>
+                                </span>
+                                <span
+                                  style={{
+                                    position: "absolute",
+                                    top: "94%",
+                                    left: "50%",
+                                    transform: "translate(-50%, -50%)",
+                                  }}
+                                >
+                                  <Link
+                                    to={`/profile/ProfileCenter/${formation.centre._id}`}
+                                  >
+                                    <img
+                                      alt="..."
+                                      className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                      src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                      style={{ width: "70px" }}
+                                      onMouseEnter={(e) =>
+                                        (e.currentTarget.style.boxShadow =
+                                          "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                      }
+                                      onMouseLeave={(e) =>
+                                        (e.currentTarget.style.boxShadow =
+                                          "none")
+                                      }
+                                    />
+                                  </Link>
+                                </span>
+                              </div>
+                              <div className="flex flex-wrap">
+                                {formation.competences
+                                  .split(",")
+                                  .slice(0, 3)
+                                  .map((competence, index) => (
+                                    <span
+                                      key={index}
+                                      style={{
+                                        border:
+                                          "2px solid rgba(186, 230, 253, 1)",
+                                        marginRight:
+                                          index ===
+                                          Math.min(
+                                            2,
+                                            formation.competences.split(",")
+                                              .length - 1
+                                          )
+                                            ? "0"
+                                            : "5px",
+                                      }}
+                                      className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                                    >
+                                      {competence.trim()}
+                                    </span>
+                                  ))}
+                                {formation.competences.split(",").length >
+                                  3 && (
+                                  <span
+                                    style={{
+                                      border:
+                                        "2px solid rgba(186, 230, 253, 1)",
+                                      marginRight: "5px",
+                                    }}
+                                    className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                                  >
+                                    ...
+                                  </span>
+                                )}
+                              </div>
+                              <h6 className="text-xl font-semibold">
+                                {formation.titre}
+                              </h6>
+                              <p className="mt-2 mb-4 text-blueGray-500">
+                                {formation.description
+                                  .split(" ")
+                                  .slice(0, 10)
+                                  .join(" ")}
+                                {formation.description.split(" ").length > 10 &&
+                                  " ..."}
+                              </p>
+                              <div className="mt-auto">
+                                <button
+                                  className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                                  type="button"
+                                >
+                                  Inscrivez-vous maintenant
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
-
+                      )
+                    )}
 
                     <button
                       onClick={handleNextPageRecommanderByLocation}
-                      disabled={endIndexFormationsByLocation === formationsByLocation.length - 1}
+                      disabled={
+                        endIndexFormationsByLocation ===
+                        formationsByLocation.length - 1
+                      }
                       className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                     >
-                      <FaChevronRight style={{ fontSize: '40px' }}/>
+                      <FaChevronRight style={{ fontSize: "40px" }} />
                     </button>
                   </>
                 )}
@@ -481,7 +558,7 @@ export default function Landing ({ user }) {
                 </div>
               </div>
             </div>
-            <hr className="my-4 md:min-w-full"/>
+            <hr className="my-4 md:min-w-full" />
 
             {displayedFormations.length === 0 ? (
               <tr>
@@ -498,10 +575,15 @@ export default function Landing ({ user }) {
                   onClick={handlePrevPage}
                   disabled={startIndex === 0}
                   className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
-                  onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                  onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.boxShadow =
+                      "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.boxShadow = "none")
+                  }
                 >
-                  <FaChevronLeft style={{ fontSize: '40px' }}/>
+                  <FaChevronLeft style={{ fontSize: "40px" }} />
                 </button>
                 {displayedFormations.map((formation) => (
                   <div
@@ -516,97 +598,125 @@ export default function Landing ({ user }) {
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
                               src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
-                              style={{ width: '350px', height: '220px' }}
-                              onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+                              style={{ width: "350px", height: "220px" }}
+                              onMouseEnter={(e) =>
+                                (e.currentTarget.style.boxShadow =
+                                  "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.boxShadow = "none")
+                              }
                             />
                           </Link>
                           <span
                             style={{
-                              position: 'absolute',
-                              top: '5%',
-                              left: '82%',
-                              transform: 'translate(-50%, -50%) ',
+                              position: "absolute",
+                              top: "5%",
+                              left: "82%",
+                              transform: "translate(-50%, -50%) ",
                             }}
                           >
-            <Link to={`/profile/ProfileFormateur/${formation.formateur._id}`}>
-              <img
-                alt="..."
-                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                style={{ width: '70px' }}
-                onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-              />
-            </Link>
-          </span>
+                            <Link
+                              to={`/profile/ProfileFormateur/${formation.formateur._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
                           <span
                             style={{
-                              position: 'absolute',
-                              top: '94%',
-                              left: '50%',
-                              transform: 'translate(-50%, -50%)',
+                              position: "absolute",
+                              top: "94%",
+                              left: "50%",
+                              transform: "translate(-50%, -50%)",
                             }}
                           >
-            <Link to={`/profile/ProfileCenter/${formation.centre._id}`}>
-              <img
-                alt="..."
-                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
-                style={{ width: '70px' }}
-                onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
-                onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
-              />
-            </Link>
-          </span>
+                            <Link
+                              to={`/profile/ProfileCenter/${formation.centre._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
                         </div>
                         <div className="flex flex-wrap">
                           {formation.competences
-                          .split(',')
-                          .slice(0, 3)
-                          .map((competence, index) => (
+                            .split(",")
+                            .slice(0, 3)
+                            .map((competence, index) => (
+                              <span
+                                key={index}
+                                style={{
+                                  border: "2px solid rgba(186, 230, 253, 1)",
+                                  marginRight:
+                                    index ===
+                                    Math.min(
+                                      2,
+                                      formation.competences.split(",").length -
+                                        1
+                                    )
+                                      ? "0"
+                                      : "5px",
+                                }}
+                                className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                              >
+                                {competence.trim()}
+                              </span>
+                            ))}
+                          {formation.competences.split(",").length > 3 && (
                             <span
-                              key={index}
                               style={{
-                                border: '2px solid rgba(186, 230, 253, 1)',
-                                marginRight:
-                                  index ===
-                                  Math.min(2, formation.competences.split(',').length - 1)
-                                    ? '0'
-                                    : '5px',
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight: "5px",
                               }}
                               className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
                             >
-                {competence.trim()}
-              </span>
-                          ))}
-                          {formation.competences.split(',').length > 3 && (
-                            <span
-                              style={{
-                                border: '2px solid rgba(186, 230, 253, 1)',
-                                marginRight: '5px',
-                              }}
-                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
-                            >
-              ...
-            </span>
+                              ...
+                            </span>
                           )}
                         </div>
                         <h6 className="text-xl font-semibold">
                           {formation.titre}
                         </h6>
                         <p className="mt-2 mb-4 text-blueGray-500">
-                          {formation.description.split(' ').slice(0, 10).join(' ')}
-                          {formation.description.split(' ').length > 10 && ' ...'}
+                          {formation.description
+                            .split(" ")
+                            .slice(0, 10)
+                            .join(" ")}
+                          {formation.description.split(" ").length > 10 &&
+                            " ..."}
                         </p>
 
-                      <div className="mt-auto">
-                        <button
-                          className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
-                          type="button">
-                          Inscrivez-vous maintenant
-                        </button>
-                      </div>
+                        <div className="mt-auto">
+                          <button
+                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                          >
+                            Inscrivez-vous maintenant
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -617,15 +727,14 @@ export default function Landing ({ user }) {
                   disabled={endIndex === formations.length - 1}
                   className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                 >
-                  <FaChevronRight style={{ fontSize: '40px' }}/>
+                  <FaChevronRight style={{ fontSize: "40px" }} />
                 </button>
               </>
             )}
           </div>
           <div className="flex flex-wrap items-center mt-32">
             <div className="w-full md:w-5/12 px-4 mr-auto ml-auto">
-              <div
-                className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
+              <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-white">
                 <i className="fas fa-user-friends text-xl"></i>
               </div>
               <h3 className="text-3xl mb-2 font-semibold leading-normal">
@@ -637,22 +746,20 @@ export default function Landing ({ user }) {
                 JavaScript.
               </p>
               <p className="text-lg font-light leading-relaxed mt-0 mb-4 text-blueGray-600">
-                The kit comes with three pre-built pages to help you get
-                started faster. You can change the text and images and you're
-                good to go. Just make sure you enable them first via
-                JavaScript.
+                The kit comes with three pre-built pages to help you get started
+                faster. You can change the text and images and you're good to
+                go. Just make sure you enable them first via JavaScript.
               </p>
               <Link to="/" className="font-bold text-blueGray-700 mt-8">
                 Check Notus React!
               </Link>
             </div>
             <div className="w-full md:w-4/12 px-4 mr-auto ml-auto">
-              <div
-                className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-lightBlue-500">
+              <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-lightBlue-500">
                 <img
                   alt="..."
                   src={
-                    require('../../../assets/img/team-4-470x470.png').default
+                    require("../../../assets/img/team-4-470x470.png").default
                   }
                   className="w-full align-middle rounded-t-lg"
                 />
@@ -682,7 +789,6 @@ export default function Landing ({ user }) {
           </div>
         </div>
       </section>
-
     </>
-  )
+  );
 }
