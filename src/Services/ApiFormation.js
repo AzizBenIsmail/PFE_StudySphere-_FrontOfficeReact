@@ -45,3 +45,7 @@ export async function getFormationsRecommanderByLocation( config) {
 export async function getFormationsByDomaine(sujetInteret, config) {
   return await axios.get(`${apiURL}/FormationByDomaine?sujetInteret=${sujetInteret}`, config);
 }
+
+export async function FormationByDayAndTime(jours, tranchesHoraires, config) {
+  return await axios.get(`${apiURL}/FormationByDayAndTime?jours=${jours}&tranchesHoraires=${tranchesHoraires}`, config);
+}

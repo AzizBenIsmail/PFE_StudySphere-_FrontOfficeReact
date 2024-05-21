@@ -7,7 +7,7 @@ import {
   getAllFormations,
   getFormationsByDomaine,
   getFormationsByLocation,
-  getFormationsRecommanderByLocation
+  getFormationsRecommanderByLocation,FormationByDayAndTime
 } from '../../../Services/ApiFormation'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
@@ -22,6 +22,8 @@ export default function Landing ({ user }) {
   const [selectedState, setSelectedState] = useState('')
   const [selectedCity, setSelectedCity] = useState('')
   const [selectedDomaine, setSelectedDomaine] = useState('')
+  const [jours, setJours] = useState('');
+  const [tranchesHoraires, setTranchesHoraires] = useState('');
 
   const states = ['Ariana', 'Beja', 'Ben_Arous', 'Bizerte', 'Gabes', 'Gafsa', 'Jendouba', 'Kairouan', 'Kasserine',
     'Kebili', 'Le_Kef', 'Mahdia', 'La_Manouba', 'Medenine', 'Monastir', 'Nabeul', 'Sfax', 'Sidi_Bouzid',
@@ -171,6 +173,29 @@ export default function Landing ({ user }) {
     }
   }
 
+  const loadFormationsByDayAndTime = useCallback(async () => {
+    try {
+      const res = await FormationByDayAndTime(jours, tranchesHoraires, config);
+      setFormationsByLocation(res.data.formations);
+    } catch (error) {
+      console.error('Error loading formations by day and time:', error);
+    }
+  }, [jours, tranchesHoraires, config]);
+
+  useEffect(() => {
+    if (jours || tranchesHoraires) {
+      loadFormationsByDayAndTime();
+    }
+  }, [jours, tranchesHoraires, loadFormationsByDayAndTime]);
+
+  const handleJoursChange = (event) => {
+    setJours(event.target.value);
+  };
+
+  const handleTranchesHorairesChange = (event) => {
+    setTranchesHoraires(event.target.value);
+  };
+
   return (
     <>
       <section className="pb-20 bg-blueGray-200 -mt-24">
@@ -178,7 +203,7 @@ export default function Landing ({ user }) {
           <div className="pt-6 w-full md:w-2/12 px-4 text-center">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
               <div className="px-4 py-5 flex-auto">
-                Trouvez des Formation Base sur la localisation Géographique !
+                Trouver des formations en fonction de la localisation géographique!
                 <select
                   value={selectedState}
                   onChange={handleStateChange}
@@ -210,7 +235,7 @@ export default function Landing ({ user }) {
           <div className="pt-6 w-full md:w-2/12 px-4 text-center">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
               <div className="px-4 py-5 flex-auto">
-                Trouvez des formations de base dans le domaine choisi !
+                Trouver des formations dans les domaines énumérés ci-dessous!
                 <select
                   value={selectedDomaine}
                   onChange={handleDomaineChange}
@@ -246,7 +271,33 @@ export default function Landing ({ user }) {
           <div className="pt-6 w-full md:w-2/12 px-4 text-center">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
               <div className="px-4 py-5 flex-auto">
-                Trouvez des Formation par un center !
+                Trouvez des formations par jour et par une plage horaire !
+                <select
+                  value={jours}
+                  onChange={handleJoursChange}
+                  className="border border-gray-300 rounded-lg px-4 py-2 w-full"
+                >
+                  <option value="">Choisir un jour</option>
+                  <option value="Lundi">Lundi</option>
+                  <option value="Mardi">Mardi</option>
+                  <option value="Mercredi">Mercredi</option>
+                  <option value="Jeudi">Jeudi</option>
+                  <option value="Vendredi">Vendredi</option>
+                  <option value="Samedi">Samedi</option>
+                  <option value="Dimanche">Dimanche</option>
+                </select>
+                {jours && (
+                <select
+                  value={tranchesHoraires}
+                  onChange={handleTranchesHorairesChange}
+                  className="border border-gray-300 rounded-lg px-4 py-2 mt-2 w-full"
+                >
+                  <option value="">Choisir une tranche horaire</option>
+                  <option value="Matin">Matin</option>
+                  <option value="Après-midi">Après-midi</option>
+                  <option value="Soir">Soir</option>
+                </select>
+                )}
               </div>
             </div>
           </div>
@@ -259,8 +310,12 @@ export default function Landing ({ user }) {
                 <div className="items-center flex flex-wrap">
                   <div className="pr-12 pt-12 ">
                     <h1 className="text-black font-semibold text-2xl">
-                      {!selectedCity && !selectedDomaine && !selectedSousDomaine ?
+                      {!selectedCity && !selectedDomaine && !selectedSousDomaine && !jours && !tranchesHoraires ?
                         `Formations recommandées selon tes préférences` :
+                        jours && !tranchesHoraires ?
+                          `Explorez les formations dans le jour ${jours}` :
+                          jours && tranchesHoraires ?
+                            `Explorez les formations dans le jour ${jours} et tranche horaire ${tranchesHoraires}` :
                         selectedSousDomaine ?
                           `Explorez les formations de domaine ${selectedSousDomaine}` :
                           `Explorez les formations ${selectedState ? `dans ${selectedState}` : `dans ${user.preferences.emplacement_actuelle}, domaine : ${user.preferences.Domaine_dinteret}`}`
