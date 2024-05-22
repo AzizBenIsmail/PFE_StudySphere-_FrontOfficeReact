@@ -84,6 +84,7 @@ export default function Index () {
                 <img
                   alt="..."
                   src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                  style={{ width: "450px", height: "320px" }}
                   className="w-full align-middle rounded-t-lg"
                 />
               ) : (
@@ -97,17 +98,6 @@ export default function Index () {
               )}
 
               <blockquote className="relative p-4 mb-6">
-                {/*<svg*/}
-                {/*  preserveAspectRatio="none"*/}
-                {/*  xmlns="http://www.w3.org/2000/svg"*/}
-                {/*  viewBox="0 0 583 95"*/}
-                {/*  className="absolute left-0 w-full block h-95-px -top-94-px"*/}
-                {/*>*/}
-                {/*  <polygon*/}
-                {/*    points="-30,95 583,95 583,65"*/}
-                {/*    className=" text-emerald-500 fill-current"*/}
-                {/*  ></polygon>*/}
-                {/*</svg>*/}
                 <h4 className="text-xl font-bold text-white">
                   <span
                     className="inline-block text-center w-full">{formation.titre}</span> {/* Ajoutez une classe pour augmenter la largeur */}
