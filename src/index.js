@@ -26,7 +26,7 @@ import { AuthContextProvider } from './views/chat/context/AuthContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import {SocketContextProvider} from './views/chat/context/SocketContext'
 import ContextWrapper from './views/calender/src/context/ContextWrapper';
-
+import ContextWrapperCalendar  from "views/admin/calendar/context/ContextWrapper";
 
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -37,7 +37,9 @@ ReactDOM.render(
     <AuthContextProvider> {/* Wrap Routes with AuthContextProvider */}
     <SocketContextProvider>
     <ContextWrapper>
+      <ContextWrapperCalendar>
       <Routes />
+      </ContextWrapperCalendar>
     </ContextWrapper>
       </SocketContextProvider>
     </AuthContextProvider>

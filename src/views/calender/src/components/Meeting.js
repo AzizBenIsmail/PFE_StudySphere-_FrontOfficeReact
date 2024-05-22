@@ -1,5 +1,5 @@
 
-import react from 'react';
+
 import {JitsiMeeting} from '@jitsi/react-sdk';
 
 

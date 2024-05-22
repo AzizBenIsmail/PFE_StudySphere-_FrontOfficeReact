@@ -23,6 +23,7 @@ import ListeNiveau from "../views/admin/Niveau/ListeNiveau.js";
 import ListeBadge from "../views/admin/Badge/ListeBadge.js";
 import LitseXp from "../views/admin/xp/LitseXp.js";
 import Notification from "../views/admin/Notification/Notification";
+import Calendar from "../views/admin/calendar/App.js"
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
@@ -76,7 +77,7 @@ export default function Admin() {
             <Route path="/admin/tables" exact component={ListUsers} />
             <Route path="/admin/Ajouterutilisateur" exact component={AddUser} />
             <Route path="/admin/Modifierutilisateur/:id" exact component={UpdateUser} />
-
+            <Route path="/admin/calender" exact component={Calendar} />
             <Redirect from="/admin" to="/admin/dashboard" />
           </Switch>
           </Suspense>

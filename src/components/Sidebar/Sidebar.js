@@ -7,6 +7,7 @@ import UserDropdown from "components/Dropdowns/UserDropdown.js";
 import { MdBadge } from "react-icons/md";
 import ListUsers from '../../views/admin/users/ListUsers'
 import ListeBadge from '../../views/admin/Badge/ListeBadge'
+import { Calendar } from "../../views/admin/calendar/App";
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
@@ -257,6 +258,27 @@ export default function Sidebar() {
                     }
                   ></i>{" "}
                   Notification
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block " +
+                    (window.location.href.indexOf("/admin/calender") !== -1
+                      ? "text-lightBlue-500 hover:text-lightBlue-600"
+                      : "text-blueGray-700 hover:text-blueGray-500")
+                  }
+                  to="/admin/calender"
+                >
+                  <i
+                    className={
+                      "fas fa-map-marked mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/calender") !== -1
+                        ? "opacity-75"
+                        : "text-blueGray-300")
+                    }
+                  ></i>{" "}
+                  Calendar
                 </Link>
               </li>
 
