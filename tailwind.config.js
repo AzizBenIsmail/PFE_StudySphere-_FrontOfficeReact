@@ -1,5 +1,5 @@
 const plugin = require("tailwindcss/plugin");
-const colors = require("tailwindcss/colors");
+
 const labelsClasses = [
   "indigo",
   "gray",
@@ -20,6 +20,7 @@ module.exports = {
       "./src/*.html",
       "./public/**/*.js",
       "./public/*.js",
+      "./public/index.html"
       
     ],
     options: {

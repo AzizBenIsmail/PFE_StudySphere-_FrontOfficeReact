@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
-import { createEvent, updateEvent, deleteEvent } from "../../../../Services/ApiEvents";
+import { createEvent, updateEvent, deleteEvent } from "../service/ApiEvents.js";
 import Draggable from "react-draggable";
 
 const labelsClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
@@ -38,7 +38,7 @@ export default function EventModal() {
       day: daySelected.valueOf(), // Include the selected date here
       startTime,
       endTime,
-      id: selectedEvent ? selectedEvent.id : Date.now(),
+      _id: selectedEvent ? selectedEvent._id : undefined,
     };
     try {
       if (selectedEvent) {
@@ -96,7 +96,7 @@ export default function EventModal() {
   return (
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">
        <Draggable handle=".drag-handle">
-      <form className="bg-white rounded-lg shadow-2xl w-full md:w-1/2 lg:w-1/4">
+      <form className="bg-white rounded-lg shadow-2xl w-64 md:w-1/2 lg:w-1/4">
         <header className="bg-gray-100 px-4 py-2 flex justify-between items-center">
         <span className="material-icons-outlined text-gray-400 drag-handle">
               drag_handle
@@ -126,7 +126,7 @@ export default function EventModal() {
               placeholder="Add title"
               value={title}
               required
-              className="pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
+              className="pt-3 border-0 text-black text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
               onChange={(e) => setTitle(e.target.value)}
             />
 
@@ -162,7 +162,11 @@ export default function EventModal() {
                 className=" ml-40"
               />
             </div>
+<div>  
 
+
+
+</div>
             <span className="material-icons-outlined text-gray-400">
               bookmark_border
             </span>
@@ -175,7 +179,7 @@ export default function EventModal() {
                   className={`bg-${lblClass}-500 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer`}
                 >
                   {selectedLabel === lblClass && (
-                    <span className="material-icons-outlined text-white text-sm">
+                    <span className="material-icons-outlined text-black text-sm">
                       check
                     </span>
                   )}

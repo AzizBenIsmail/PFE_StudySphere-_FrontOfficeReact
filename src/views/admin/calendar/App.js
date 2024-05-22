@@ -7,7 +7,6 @@ import Month from "./components/Month";
 import GlobalContext from "./context/GlobalContext";
 import EventModal from "./components/EventModal";
 
-
 function App() {
   const [currentMonth, setCurrentMonth] = useState(getMonth());
   const { monthIndex, showEventModal } = useContext(GlobalContext);
@@ -18,20 +17,13 @@ function App() {
 
   return (
     <React.Fragment>
-      {showEventModal && <EventModal />}
-
       <div className="h-screen flex flex-col">
         <CalendarHeader />
-
-        <div
-          className={
-            "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-white text-black"
-          }
-        >
+        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-white text-black">
           <div className="rounded-t mb-0 px-4 py-3 border-0">
             <div className="flex flex-wrap items-center">
               <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-                <h3 className={"font-semibold text-lg text-white"}>
+                <h3 className="font-semibold text-lg text-white">
                   Calendar App
                 </h3>
               </div>
@@ -44,8 +36,9 @@ function App() {
           </div>
         </div>
       </div>
+
+      {showEventModal && <EventModal />}
     </React.Fragment>
-   
   );
 }
 
