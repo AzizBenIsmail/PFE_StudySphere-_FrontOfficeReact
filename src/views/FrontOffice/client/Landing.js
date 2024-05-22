@@ -369,8 +369,8 @@ export default function Landing({ user }) {
                       className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
                       colSpan="22"
                     >
-                      Aucune formation trouvée a{" "}
-                      {user.preferences.emplacement_actuelle}
+                      Aucune formation trouvée a
+                      {user.preferences.emplacement_actuelle} et {user.preferences.Domaine_dinteret} {user.preferences.domaine_actuelle}
                     </td>
                   </tr>
                 ) : (
