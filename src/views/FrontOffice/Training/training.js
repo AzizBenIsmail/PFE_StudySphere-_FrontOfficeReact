@@ -40,7 +40,11 @@ export default function Landing () {
     const sortedFormations = formations
     .filter((formation) =>
       formation.titre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      formation.competences.toLowerCase().includes(searchTerm.toLowerCase())
+      formation.competences.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      formation.typeContenu.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      formation.styleEnseignement.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      formation.sujetInteret.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      formation.description.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .sort((a, b) => {
       if (sortOrder === 'asc') {
@@ -136,11 +140,11 @@ export default function Landing () {
             </div>
             <div className="pt-6 w-full md:w-2/12 px-4 text-center">
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                <div className="px-4 py-5 flex-auto">
+                <div className="px-4 py-5 mt-1 flex-auto">
                   Trier les formations par !
                   <br></br>
                   <button
-                    className="bg-bleu-500 hover:bg-blue-700 text-orange-500 font-bold py-2 px-4 rounded transition duration-300 mr-2"
+                    className="bg-bleu-500 hover:bg-blue-700 text-orange-500 font-bold py-2 px-4 mt-5 rounded transition duration-300 mr-2"
                     onClick={() => setSortOrder('asc')}>
                      Prix croissant
                   </button>
@@ -153,7 +157,7 @@ export default function Landing () {
                 </div>
               </div>
             </div>
-            <div className="pt-6 w-full md:w-1/12 px-4 text-center">
+            <div className="pt-6 w-full md:w-2/12 px-4 text-center">
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                 <div className="px-4 py-5 flex-auto">
                   Trouvez des Formation par un center !
