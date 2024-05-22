@@ -1,9 +1,8 @@
 const plugin = require("tailwindcss/plugin");
 
 const labelsClasses = [
-  "indigo",
+  
   "gray",
-  "green",
   "blue",
   "red",
   "purple",
@@ -26,7 +25,7 @@ module.exports = {
     options: {
       safelist: [
         ...labelsClasses.map((lbl) => `bg-${lbl}-500`),
-        ...labelsClasses.map((lbl) => `bg-${lbl}-500`),
+        ...labelsClasses.map((lbl) => `bg-${lbl}-400`),
         ...labelsClasses.map((lbl) => `text-${lbl}-500`)
        
       ],
