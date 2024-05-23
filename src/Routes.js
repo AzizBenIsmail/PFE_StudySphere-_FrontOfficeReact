@@ -21,11 +21,7 @@ const listeNotifcation = lazy(() =>
 const Index = lazy(() => import("views/Index.js"));
 
 const Chat = lazy(() => import("./views/chat/Main.js"));
-
-
-
-
-
+const Calendar = lazy(() => import("./views/calendar/App.js"));
 
 function Routes() {
   return (
@@ -52,7 +48,7 @@ function Routes() {
 
           {/* New route for the chat page */}
           <Route path="/chat" exact component={Chat} />
-          
+          <Route path="/userCalendar" exact component={Calendar} />
           {/* add redirect for first page */}
           <Redirect from="*" to="/" />
         </Switch>

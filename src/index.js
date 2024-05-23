@@ -27,7 +27,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import {SocketContextProvider} from './views/chat/context/SocketContext'
 
 import ContextWrapperCalendar  from "views/admin/calendar/context/ContextWrapper";
-
+import ContextWrapper from "views/calendar/context/ContextWrapper";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/styles/tailwind.css";
@@ -38,7 +38,9 @@ ReactDOM.render(
     <SocketContextProvider>
   
       <ContextWrapperCalendar>
+        <ContextWrapper>
       <Routes />
+      </ContextWrapper>
       </ContextWrapperCalendar>
   
       </SocketContextProvider>

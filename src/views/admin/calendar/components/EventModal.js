@@ -1,12 +1,27 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useContext, useEffect, useMemo ,useRef} from "react";
 import GlobalContext from "../context/GlobalContext";
 import { createEvent, updateEvent, deleteEvent } from "../service/ApiEvents.js";
 import Draggable from "react-draggable";
-import Meeting from '../meeting/Meeting';
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const labelsClasses = ["gray", "blue", "red", "purple"];
 
 export default function EventModal() {
+  const jwt_token = Cookies.get("jwt_token");
+
+  if (!jwt_token) {
+    window.location.replace("/login-page");
+  }
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+  }, [jwt_token]);
+
   const { setShowEventModal, daySelected, dispatchCalEvent, selectedEvent } =
     useContext(GlobalContext);
 
@@ -26,7 +41,35 @@ export default function EventModal() {
     selectedEvent ? selectedEvent.endTime : ""
   );
   const [meetingUrl, setMeetingUrl] = useState(null);
+  const [guests, setGuests] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [filteredGuests, setFilteredGuests] = useState([]);
+  const [selectedGuests, setSelectedGuests] = useState([]);
 
+  // Use a ref to track whether local storage has been initialized
+  const localStorageInitialized = useRef(false);
+
+  useEffect(() => {
+    // Initialize selected guests from local storage on component mount
+    if (!localStorageInitialized.current) {
+      const storedSelectedGuests = localStorage.getItem("selectedGuests");
+      if (storedSelectedGuests) {
+        setSelectedGuests(JSON.parse(storedSelectedGuests));
+      }
+      localStorageInitialized.current = true;
+    }
+  }, []);
+
+  
+
+  useEffect(() => {
+    // Reset selected guests when modal is opened for creating a new event
+    if (!selectedEvent) {
+      setSelectedGuests([]);
+    }
+  }, [selectedEvent]);
+
+  
   async function handleSubmit(e) {
     e.preventDefault();
     const calendarEvent = {
@@ -37,8 +80,10 @@ export default function EventModal() {
       startTime,
       endTime,
       meetingUrl,
+      guests: selectedGuests.map(guest => guest._id),
       _id: selectedEvent ? selectedEvent._id : undefined,
     };
+    console.log("Calendar Event:", calendarEvent);
     try {
       if (selectedEvent) {
         await updateEvent(selectedEvent._id, calendarEvent);
@@ -71,8 +116,70 @@ export default function EventModal() {
 
   function handleAddMeeting() {
     const uniqueRoom = generateUniqueMeetingRoom();
-    setMeetingUrl(`https://meet.jit.si/${uniqueRoom}`);
+    const newMeetingUrl = `https://meet.jit.si/${uniqueRoom}`;
+    console.log("New Meeting URL:", newMeetingUrl);
+    setMeetingUrl(newMeetingUrl);
   }
+  
+  useEffect(() => {
+    // Fetch guests from the backend
+    fetchGuests();
+  }, []);
+
+  const fetchGuests = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/user/AllUsers",
+        config
+      );
+      const fetchedGuests = response.data.users; // Extracting the 'users' array
+      console.table("Fetched guests:", fetchedGuests); // Log the fetched guests
+      setGuests(fetchedGuests);
+    } catch (error) {
+      console.error("Error fetching guests:", error);
+    }
+  };
+
+
+
+  console.log("Guests:", guests);
+  console.log("Filtered_Guests:", filteredGuests);
+
+  const handleSearchInput = (e) => {
+    setSearchInput(e.target.value.toLowerCase());
+    // Check if guests is not empty and defined before filtering
+    if (guests && guests.length > 0) {
+      const filtered = guests.filter(
+        (guest) =>
+          guest.nom.toLowerCase().includes(searchInput) || // Change 'name' to 'nom' based on your data
+          guest.prenom.toLowerCase().includes(searchInput) || // Add this line for filtering by 'prenom' if applicable
+          guest.email.toLowerCase().includes(searchInput) // Add this line for filtering by 'email'
+      );
+      setFilteredGuests(filtered);
+    } else {
+      console.error("Guests is empty or undefined:", guests);
+    }
+  };
+
+  console.log("Guests:", guests);
+  console.log("FilteredGuests:", filteredGuests);
+
+  const handleAddGuest = (guest) => {
+    // Check if the guest is already selected
+    const isGuestSelected = selectedGuests.some(
+      (selectedGuest) => selectedGuest._id === guest._id
+    );
+
+    // If the guest is not already selected, add them to the list of selected guests
+    if (!isGuestSelected) {
+      setSelectedGuests([...selectedGuests, guest]);
+    } else {
+      // If the guest is already selected, you may want to handle this scenario
+      // For example, you can remove the guest from the list of selected guests
+      // setSelectedGuests(selectedGuests.filter((selectedGuest) => selectedGuest._id !== guest._id));
+      console.log("Guest is already selected.");
+    }
+  };
 
   return (
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">
@@ -172,11 +279,50 @@ export default function EventModal() {
 
               {meetingUrl && (
                 <div>
-                  <a href={meetingUrl} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={meetingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {meetingUrl}
                   </a>
                 </div>
               )}
+              <span>Add Guests:</span>
+              <input
+                type="text"
+                name="guests"
+                placeholder="Search for guests..."
+                value={searchInput}
+                onChange={handleSearchInput}
+                className="text-black "
+              />
+
+              {/* Render filtered guest suggestions */}
+              {searchInput.length > 0 && (
+                <ul>
+                  {filteredGuests.map((guest) => (
+                    <li
+                      key={guest._id}
+                      onClick={() => handleAddGuest(guest)}
+                      style={{ color: "black", cursor: "pointer" }}
+                    >
+                      {guest.nom}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {/* Render selected guests */}
+              <div>
+                <h3>Selected Guests:</h3>
+                <ul>
+                  {selectedGuests.map((guest) => (
+                    <li key={guest._id}>
+                      {guest.nom} {/* Render the guest's name */}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
           <footer className="flex justify-end border-t p-3 mt-5">

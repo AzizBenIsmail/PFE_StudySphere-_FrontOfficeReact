@@ -17,6 +17,8 @@ const GlobalContext = React.createContext({
   labels: [],
   updateLabel: () => {},
   filteredEvents: [],
+  authUser: null, // Replaced currentUser with authUser
+  setAuthUser: () => {}, // Replaced setCurrentUser with setAuthUser
 });
 
 export default GlobalContext;

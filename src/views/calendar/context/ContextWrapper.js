@@ -54,6 +54,8 @@ export default function ContextWrapper(props) {
     initEvents
   );
 
+  const [authUser, setAuthUser] = useState(null);
+
   const filteredEvents = useMemo(() => {
     return savedEvents.filter((evt) =>
       labels
@@ -123,6 +125,8 @@ export default function ContextWrapper(props) {
         labels,
         updateLabel,
         filteredEvents,
+        authUser, // Replaced currentUser with authUser
+        setAuthUser, // Replaced setCurrentUser with setAuthUser
       }}
     >
       {props.children}
