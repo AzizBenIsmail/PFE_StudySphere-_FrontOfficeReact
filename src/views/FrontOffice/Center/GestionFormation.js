@@ -362,6 +362,7 @@ export default function ListeFormations({ color }) {
       "Kotlin",
     ],
     Developpement_Web_Frontend: ["React", "Angular", "Vue", "Svelte", "Ember"],
+    intelligence_artificielle: ["Machine Learning", "Deep Learning", "Chatbots", "Data Mining"],
     Developpement_Web_Backend: [
       "Node.js",
       "Express",
@@ -902,7 +903,12 @@ export default function ListeFormations({ color }) {
                           {formation.titre}
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
-                          {formation.description}
+                          {formation.description
+                          .split(" ")
+                          .slice(0, 5)
+                          .join(" ")}
+                          {formation.description.split(" ").length > 10 &&
+                            " ..."}
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                           {formation.niveauRequis}

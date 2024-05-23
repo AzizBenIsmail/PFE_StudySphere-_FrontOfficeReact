@@ -716,7 +716,12 @@ export default function ListeFormations ({ color }) {
                   {formation.titre}
                 </td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
-                  {formation.description}
+                  {formation.description
+                  .split(" ")
+                  .slice(0, 10)
+                  .join(" ")}
+                  {formation.description.split(" ").length > 10 &&
+                    " ..."}
                 </td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                   {formation.niveauRequis}
