@@ -35,11 +35,12 @@ export default function EventModal() {
       : labelsClasses[0]
   );
   const [startTime, setStartTime] = useState(
-    selectedEvent ? selectedEvent.startTime : ""
+    selectedEvent ? selectedEvent.startTime : null
   );
   const [endTime, setEndTime] = useState(
-    selectedEvent ? selectedEvent.endTime : ""
+    selectedEvent ? selectedEvent.endTime : null
   );
+  
   const [meetingUrl, setMeetingUrl] = useState(null);
   const [guests, setGuests] = useState([]);
   const [searchInput, setSearchInput] = useState("");

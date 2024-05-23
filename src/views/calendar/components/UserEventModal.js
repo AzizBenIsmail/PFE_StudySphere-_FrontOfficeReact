@@ -4,24 +4,29 @@ import Draggable from "react-draggable";
 import { useAuthContext } from "../../chat/context/AuthContext";
 
 export default function UserEventModal() {
-  const { setShowEventModal, selectedEvent,   } = useContext(GlobalContext);
+  const { setShowEventModal, selectedEvent } = useContext(GlobalContext);
 
   const { authUser } = useAuthContext();
   // Check if selectedEvent and guests are defined
   // Check if selectedEvent and guests are defined
-  const isUserSelected = selectedEvent && selectedEvent.guests && 
-  authUser && selectedEvent.guests.some(guestId => guestId === authUser._id);
+  const isUserSelected =
+    selectedEvent &&
+    selectedEvent.guests &&
+    authUser &&
+    selectedEvent.guests.some((guestId) => guestId === authUser._id);
 
-
-   console.log("selectedEvent:", selectedEvent);
+  console.log("selectedEvent:", selectedEvent);
   console.log("selectedEvent.guests:", selectedEvent && selectedEvent.guests);
   console.log("currentUser:", authUser);
   console.log("isUserSelected:", isUserSelected);
-  console.log("selectedEvent.meetingUrl:", selectedEvent && selectedEvent.meetingUrl);
+  console.log(
+    "selectedEvent.meetingUrl:",
+    selectedEvent && selectedEvent.meetingUrl
+  );
 
   console.log("authUser ID:", authUser && authUser._id);
   console.log("Selected Event:", selectedEvent);
- 
+
   return (
     <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center">
       <Draggable handle=".drag-handle">
@@ -40,9 +45,16 @@ export default function UserEventModal() {
             <h2 className="text-2xl font-bold">{selectedEvent.title}</h2>
             <p>{selectedEvent.description}</p>
             <p>
-              {new Date(selectedEvent.startTime).toLocaleTimeString()} -{" "}
-              {new Date(selectedEvent.endTime).toLocaleTimeString()}
+              Start Time:{" "}
+              {selectedEvent.startTime &&
+                new Date(selectedEvent.startTime).toLocaleTimeString()}
             </p>
+            <p>
+              End Time:{" "}
+              {selectedEvent.endTime &&
+                new Date(selectedEvent.endTime).toLocaleTimeString()}
+            </p>
+
             {/* Ensure isUserSelected is defined before rendering */}
             {isUserSelected && selectedEvent.meetingUrl && (
               <div>
