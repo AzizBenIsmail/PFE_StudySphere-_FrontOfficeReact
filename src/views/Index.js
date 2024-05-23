@@ -401,6 +401,13 @@ export default function Index() {
               <hr className="my-4 md:min-w-full" />
               <div className="flex flex-wrap">
                 {displayedFormationsFormationsByLocation.length === 0  ? (
+                !selectedCity &&
+                !selectedDomaine &&
+                !selectedSousDomaine &&
+                !jours &&
+                !tranchesHoraires
+                  ? null
+                  :
                   <tr>
                     <td
                       className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
