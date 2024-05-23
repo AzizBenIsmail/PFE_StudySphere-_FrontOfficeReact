@@ -103,6 +103,7 @@ export default function PreferenceCenter () {
     Informatique: ['Developpement de logiciels', 'Administration systeme', 'Securite informatique', 'Analyse de donnees', 'Architecture cloud'],
     Developpement_Web_Basique: ['HTML', 'CSS', 'JavaScript', 'Python', 'PHP', 'Java', 'C#', 'TypeScript', 'SQL'],
     Developpement_mobile: ['Flutter', 'React Native', 'Ionic', 'Swift', 'Kotlin'],
+    intelligence_artificielle: ["Machine Learning", "Deep Learning", "Chatbots", "Data Mining"],
     Developpement_Web_Frontend: ['React', 'Angular', 'Vue', 'Svelte', 'Ember'],
     Developpement_Web_Backend: ['Node.js', 'Express', 'Django', 'Ruby on Rails', 'Spring Boot'],
     Art_et_culture: ['Creation artistique', 'Ecriture creative', 'Performance musicale', 'Interpretation artistique', 'Gestion d\'evenements culturels'],
