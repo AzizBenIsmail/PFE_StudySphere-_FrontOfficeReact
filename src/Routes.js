@@ -16,6 +16,7 @@ const Setting = lazy(() => import("./views/FrontOffice/AccountManagement/Setting
 const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
 const Index = lazy(() => import("views/Index.js"));
 // const createFormation = lazy(() => import("views/FrontOffice/Center/GestionFormation.js"));
+const Forum = lazy(() => import("views/forum/App.js"));
 
 function Routes() {
   return (
@@ -43,6 +44,7 @@ function Routes() {
           {/*<Route path="/createFormation" exact component={createFormation} />*/}
           <Route path="/DetailsFormation/:id" exact component={DetailsFormation} />
           <Route path="/" exact component={Index} />
+          <Route path="/forum" exact component={Forum} />
           {/* add redirect for first page */}
           <Redirect from="*" to="/" />
         </Switch>

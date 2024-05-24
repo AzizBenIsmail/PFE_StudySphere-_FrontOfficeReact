@@ -1,0 +1,36 @@
+import { createSlice } from "@reduxjs/toolkit";
+import * as  userService from "../../../Services/ApiUser";
+import * as authService from "../../../Services/Apiauth";
+import { initializeUsers } from "./userReducer";
+
+const usersSlice = createSlice({
+  name: "allUsers",
+  initialState: [],
+  reducers: {
+    setUsers(state, action) {
+      return action.payload;
+    },
+    create(state, action) {
+      const user = action.payload;
+      state.push(user);
+    },
+  },
+});
+
+export const { setUsers, create } = usersSlice.actions;
+
+export const initializeAllUsers = () => {
+  return async (dispatch) => {
+    const users = await userService.getUsers();
+    dispatch(setUsers(users));
+  };
+};
+
+export const registerUser = (user) => {
+  return async (dispatch) => {
+    const user1 = await authService.register(user);
+    dispatch(create(user1));
+  };
+};
+
+export default usersSlice.reducer;
