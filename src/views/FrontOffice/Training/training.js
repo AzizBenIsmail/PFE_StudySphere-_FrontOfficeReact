@@ -48,11 +48,13 @@ export default function Landing () {
     )
     .sort((a, b) => {
       if (sortOrder === 'asc') {
-        return a.Prix - b.Prix
+        return a.Prix - b.Prix;
       } else if (sortOrder === 'desc') {
-        return b.Prix - a.Prix
+        return b.Prix - a.Prix;
       }
+      return 0; // Valeur de retour par défaut
     })
+
 
     setFilteredFormations(sortedFormations)
   }, [formations, searchTerm, sortOrder])
