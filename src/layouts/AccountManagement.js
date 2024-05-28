@@ -87,7 +87,9 @@ export default function AccountManagement () {
             </Switch>
           </Suspense>
         </section>
-        <FooterSmall />
+          <div className="pt-28">
+            <FooterSmall />
+          </div>
       </main>
     </>
   )
