@@ -756,28 +756,28 @@ export default function Landing({ user }) {
             )}
           </div>
           <div className="flex flex-wrap">
-            <div className="container relative mx-auto">
-              <div className="items-center flex flex-wrap">
-                <div className="pr-12 pt-12 ">
-                  <h1 className="text-black font-semibold text-2xl">
-                    Explorez Tous les formations en Arts Visuels
-                  </h1>
-                </div>
-              </div>
-            </div>
-            <hr className="my-4 md:min-w-full" />
-
             {displayedFormations.length === 0 ? (
-              <tr>
-                <td
-                  className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
-                  colSpan="22"
-                >
-                  Aucune formation trouvée.
-                </td>
-              </tr>
+              // <tr>
+              //   <td
+              //     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+              //     colSpan="22"
+              //   >
+              //     Aucune formation trouvée.
+              //   </td>
+              // </tr>
+              <></>
             ) : (
               <>
+                <div className="container relative mx-auto">
+                  <div className="items-center flex flex-wrap">
+                    <div className="pr-12 pt-12 ">
+                      <h1 className="text-black font-semibold text-2xl">
+                        Explorez Tous les formations en Arts Visuels
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+                <hr className="my-4 md:min-w-full" />
                 <button
                   onClick={handlePrevPageFormationsArtsVisuels}
                   disabled={startIndexFormationsArtsVisuels === 0}
