@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
-import { Spinner } from "flowbite-react";
+import { CircularProgress } from "@mui/material";
 
 const Comment = ({ comment }) => {
   const allUsers = useSelector((state) => state.allUsers);
   const user = allUsers.find((user) => user.id === comment.user);
   if (user === undefined) {
-    return <Spinner aria-label="Default status example" />;
+    return <CircularProgress />;
   }
 
   return (

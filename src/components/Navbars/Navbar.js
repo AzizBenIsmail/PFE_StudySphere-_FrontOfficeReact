@@ -8,8 +8,10 @@ import UserDropdown from '../Dropdowns/UserDropdownLanding'
 import NotificationDropdown from '../Dropdowns/NotificationDropdown'
 import { FaRegStar, FaSchool } from 'react-icons/fa'
 import { MdCastForEducation } from 'react-icons/md'
-import { BiSolidSchool  } from "react-icons/bi";
-import { LiaChalkboardTeacherSolid } from "react-icons/lia";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons';
+
+
 
 export default function Navbar ({ user }) {
   const history = useHistory()
@@ -81,7 +83,7 @@ export default function Navbar ({ user }) {
                   className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs "
                   to="/landing/center"
                 >
-                  <BiSolidSchool  className="mr-2" style={{ fontSize: '24px' }}/>
+                  <FaSchool  className="mr-2" style={{ fontSize: '24px' }}/>
                   Centre
                 </Link>
 
@@ -89,7 +91,7 @@ export default function Navbar ({ user }) {
                     className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs "
                     to="/landing/center"
                   >
-                    <LiaChalkboardTeacherSolid   className="mr-2" style={{ fontSize: '24px' }}/>
+                   <FontAwesomeIcon icon={faChalkboardTeacher} className="mr-2" style={{ fontSize: '24px' }} />
                     Formateur
                   </Link>
                 </>

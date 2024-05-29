@@ -1,20 +1,24 @@
 import { useState } from "react";
 import { updateBlog } from "../reducers/blogReducer";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom"; // Import useHistory instead of useNavigate
+import { useHistory } from "react-router-dom";
 import { setNotification } from "../reducers/notificationReducer";
-import { TextInput, Label, Button, Textarea, Spinner } from "flowbite-react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
+import CircularProgress from "@mui/material/CircularProgress";
 import BlogFooter from "./BlogFooter";
 
 const BlogEdit = ({ blog }) => {
   const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const history = useHistory(); // Use useHistory instead of useNavigate
+  const history = useHistory();
 
   if (blog === undefined) {
-    return <Spinner />;
+    return <CircularProgress />;
   }
   if (blog && newTitle === "") {
     setNewTitle(blog.title);
@@ -35,14 +39,14 @@ const BlogEdit = ({ blog }) => {
   };
 
   const editNewBlog = async (blogObject) => {
+    setLoading(true);
     try {
       const notif1 = {
         message: `Post was successfully edited`,
         type: "success",
       };
       await dispatch(updateBlog(blogObject));
-      history.push(`/posts/${blog.id}`); // Use history.push for navigation
-
+      history.push(`/posts/${blog.id}`);
       dispatch(setNotification(notif1, 2500));
     } catch (exception) {
       const notif2 = {
@@ -51,6 +55,7 @@ const BlogEdit = ({ blog }) => {
       };
       dispatch(setNotification(notif2, 2500));
     }
+    setLoading(false);
   };
 
   return (
@@ -67,33 +72,32 @@ const BlogEdit = ({ blog }) => {
               </header>
               <form onSubmit={editBlog} className="flex flex-col gap-4">
                 <div>
-                  <div className="mb-2 block">
-                    <Label htmlFor="post-title" value="Title of Post" />
-                  </div>
-                  <TextInput
+                  <TextField
                     id="post-title"
-                    type="text"
-                    placeholder="An Amazing Post"
+                    label="Title of Post"
+                    variant="outlined"
                     required={true}
                     value={newTitle}
-                    onChange={({ target }) => setNewTitle(target.value)}
+                    onChange={(event) => setNewTitle(event.target.value)}
                   />
                 </div>
                 <div>
-                  <div className="mb-2 block">
-                    <Label htmlFor="post-content" value="Content of Post" />
-                  </div>
-                  <Textarea
-                    required={true}
+                  <TextareaAutosize
+                    id="post-content"
+                    aria-label="minimum height"
+                    minRows={10}
+                    placeholder="Content of Post"
                     value={newContent}
-                    placeholder="Text"
-                    onChange={({ target }) => setNewContent(target.value)}
-                    rows={10}
+                    onChange={(event) => setNewContent(event.target.value)}
                   />
                 </div>
-
-                <Button className="mt-4 w-24" type="submit">
-                  Submit
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={loading}
+                >
+                  {loading ? <CircularProgress size={24} /> : "Submit"}
                 </Button>
               </form>
             </article>

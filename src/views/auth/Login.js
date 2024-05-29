@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { LoginUser } from '../../Services/Apiauth'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
+import { useAuthContext } from '../chat/context/AuthContext';
 
 export default function Login () {
   const [User, setUser] = useState({
@@ -13,6 +14,7 @@ export default function Login () {
   const [n, setN] = useState(0) // Ajout de la variable n
   const [emailError, setEmailError] = useState('')
   const [loading, setLoading] = useState(false);
+  const { setAuthUser } = useAuthContext(); // Get setAuthUser from useAuthContext
 
   const handlechange = (e) => {
     setUser({ ...User, [e.target.name]: e.target.value })
@@ -76,6 +78,10 @@ export default function Login () {
       } else {
         try {
           const res = await LoginUser(user)
+          // Save authenticated user data to local storage and set it using setAuthUser
+          localStorage.setItem("chat-user", JSON.stringify(res.data.user));
+          setAuthUser(res.data.user);
+
           if (res.data.user.role === 'admin' || res.data.user.role === 'moderateur' ) {
             window.location.replace(`/admin`)
           } else if (res.data.user.role === 'client' || res.data.user.role === 'formateur' || res.data.user.role === 'centre' ) {

@@ -1,38 +1,54 @@
 import * as React from "react";
-import { Toast } from "flowbite-react";
-import DoneIcon from "@mui/icons-material/Done";
-import ClearIcon from "@mui/icons-material/Clear";
 import { useSelector } from "react-redux";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const Notif = () => {
   const notification = useSelector((state) => state.notifications);
+
+  const handleClose = () => {
+    // You can dispatch an action to clear the notification here if needed
+  };
+
   if (notification === null) {
     return null;
   } else if (notification.type === "success") {
     return (
-      <Toast className=" fixed  bottom-5 left-5">
-        <div
-          className="inline-flex 
-h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200 
-"
-        >
-          <DoneIcon />
+      <Snackbar
+        open={true} // Set open to true to display the Snackbar
+        autoHideDuration={6000} // Adjust the duration as needed
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <div className="flex items-center">
+          <CheckCircleOutlineIcon />
+          <span className="ml-2">{notification.message}</span>
         </div>
-        <div className="ml-3 text-sm font-normal">{notification.message}</div>
-        <Toast.Toggle />
-      </Toast>
+      </Snackbar>
+    );
+  } else {
+    return (
+      <Snackbar
+        open={true} // Set open to true to display the Snackbar
+        autoHideDuration={6000} // Adjust the duration as needed
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <div className="flex items-center">
+          <CancelIcon />
+          <span className="ml-2">{notification.message}</span>
+        </div>
+      </Snackbar>
     );
   }
-
-  return (
-    <Toast className="fixed bottom-5 left-5">
-      <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
-        <ClearIcon />
-      </div>
-      <div className="ml-3 text-sm font-normal">{notification.message}</div>
-      <Toast.Toggle />
-    </Toast>
-  );
 };
 
 export default Notif;

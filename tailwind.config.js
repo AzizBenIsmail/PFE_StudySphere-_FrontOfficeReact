@@ -1,6 +1,14 @@
 const plugin = require("tailwindcss/plugin");
 const colors = require("tailwindcss/colors");
 
+const labelsClasses = [
+  
+  "gray",
+  "blue",
+  "red",
+  "purple",
+];
+
 module.exports = {
   purge: {
     enabled: true,
@@ -13,6 +21,7 @@ module.exports = {
       "./src/*.html",
       "./public/**/*.js",
       "./public/*.js",
+      "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}"
     ],
     options: {
       safelist: [],
@@ -97,6 +106,7 @@ module.exports = {
   ],
   plugins: [
     require("@tailwindcss/forms"),
+    require("flowbite/plugin"),
     plugin(function ({ addComponents, theme }) {
       const screens = theme("screens", {});
       addComponents([

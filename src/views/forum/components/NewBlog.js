@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { createBlog } from "../reducers/blogReducer";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom"; // Import useHistory
+import { createBlog } from "../reducers/blogReducer";
+import { useHistory } from "react-router-dom";
 import { setNotification } from "../reducers/notificationReducer";
-import { TextInput, Label, Button, Textarea } from "flowbite-react";
+import { TextField, Button, TextareaAutosize } from "@mui/material"; // Import TextareaAutosize from Material-UI
 import BlogFooter from "./BlogFooter";
 
 const NewBlog = () => {
   const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
-  const history = useHistory(); // Initialize useHistory
-  
+  const history = useHistory();
+
   const addBlog = async (event) => {
     event.preventDefault();
     const blogObject = {
@@ -25,7 +25,7 @@ const NewBlog = () => {
         type: "success",
       };
       await dispatch(createBlog(blogObject));
-      history.push("/"); // Navigate to the home page after adding the blog
+      history.push("/");
       dispatch(setNotification(notif1, 2500));
     } catch (exception) {
       const notif2 = {
@@ -53,31 +53,33 @@ const NewBlog = () => {
               <form onSubmit={addBlog} className="flex flex-col gap-4">
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="post-title" value="Title of Post" />
+                    <label htmlFor="post-title" className="block text-sm font-medium text-gray-700 dark:text-gray-400">Title of Post</label>
                   </div>
-                  <TextInput
+                  <TextField
                     id="post-title"
                     type="text"
                     placeholder="An Amazing Post"
                     required={true}
                     value={newTitle}
-                    onChange={({ target }) => setNewTitle(target.value)}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    variant="outlined"
                   />
                 </div>
                 <div>
                   <div className="mb-2 block">
-                    <Label htmlFor="post-content" value="Content of Post" />
+                    <label htmlFor="post-content" className="block text-sm font-medium text-gray-700 dark:text-gray-400">Content of Post</label>
                   </div>
-                  <Textarea
+                  <TextareaAutosize
+                    id="post-content"
                     required={true}
                     value={newContent}
                     placeholder="Text"
-                    onChange={({ target }) => setNewContent(target.value)}
+                    onChange={(e) => setNewContent(e.target.value)}
                     rows={10}
                   />
                 </div>
 
-                <Button className="mt-4 w-24" type="submit">
+                <Button className="mt-4 w-24" type="submit" variant="contained" color="primary">
                   Submit
                 </Button>
               </form>

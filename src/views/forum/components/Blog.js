@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 import { updateBlog, deleteBlog } from "../reducers/blogReducer";
 import { Link } from "react-router-dom";
-import { Card } from "flowbite-react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
+import TextareaAutosize from "@mui/material/TextareaAutosize"; // Import TextareaAutosize from Material-UI
 
 const Blog = ({ blog }) => {
   const user = useSelector((state) => state.users);
@@ -55,22 +57,25 @@ const Blog = ({ blog }) => {
       : summary;
 
   return (
-    <Card className="mb-4" href={`/posts/${blog.id}`}>
-      <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {blog.title}
-      </h5>
-      <p className="font-normal text-gray-700 dark:text-gray-400">{summary}</p>
-      <div className="items-center justify-left space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
-        <div className="text-gray-900 dark:text-white">
-          <FavoriteIcon className="mr-2 fill-red-500" />
-          {blog.likes}
+    <Card className="mb-4">
+      <CardContent>
+        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          {blog.title}
+        </h5>
+        <p className="font-normal text-gray-700 dark:text-gray-400">{summary}</p>
+        <div className="items-center justify-left space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
+          <div className="text-gray-900 dark:text-white">
+            <FavoriteIcon className="mr-2 fill-red-500" />
+            {blog.likes}
+          </div>
+          <div className="text-gray-900 dark:text-white">
+            <CommentIcon className="mr-2" />
+            {comments.length}
+          </div>
         </div>
-        <div className="text-gray-900 dark:text-white">
-          <CommentIcon className="mr-2" />
-          {comments.length}
-        </div>
-      </div>
+      </CardContent>
     </Card>
   );
 };
+
 export default Blog;

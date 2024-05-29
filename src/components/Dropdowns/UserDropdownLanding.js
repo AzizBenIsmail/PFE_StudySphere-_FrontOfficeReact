@@ -9,6 +9,7 @@ import { RiLogoutCircleLine } from 'react-icons/ri'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { GrWorkshop } from 'react-icons/gr'
 
+
 const UserDropdown = ({ user }) => {
   const history = useHistory()
 
@@ -223,6 +224,22 @@ const UserDropdown = ({ user }) => {
         >
           <CiUser style={{ fontSize: '20px' }} className="mr-1"/>
           Mes Notification
+        </button>
+        <button
+          className={
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          }
+          onClick={() => history.push("/chat")}
+        >
+          Chat
+        </button>
+        <button
+          className={
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          }
+          onClick={() => history.push("/userCalendar")}
+        >
+          Calendar
         </button>
         <div className="h-0 my-2 border border-solid border-blueGray-100"/>
         <a

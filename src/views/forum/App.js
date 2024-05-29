@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Notif from "./components/Notif";
 import { useSelector, useDispatch } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
@@ -21,8 +21,68 @@ import RegisterUser from "./components/RegisterUser";
 import About from "./components/About";
 import ErrorPage from "./components/ErrorPage";
 import BlogEdit from "./components/BlogEdit";
+import Cookies from 'js-cookie'
+import {
+  active,
+  archiver,
+  deleteUser,
+  desactive,
+  desarchiver,
+  downgrade,
+  getAdmin,
+  getCentre,
+  getFormateur,
+  getModerateur,
+  getSimpleUser,
+  getUserActive,
+  getUserConnecter,
+  getUserDeConnecter,
+  getUserDesactive,
+  getUsers,
+  getUsersarchive,
+  upgrade,
+  upgradeFormateur,
+  upgradeModerateur,
+} from '../../Services/ApiUser'
 
 const App = () => {
+
+  const jwt_token = Cookies.get('jwt_token')
+  const [users, setUsers] = useState([])
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    }
+  }, [jwt_token])
+
+  
+
+  const getAllUsers = useCallback(async (config) => {
+
+    console.log(config);
+    await getUsers(config)
+    .then((res) => {
+      setUsers(res.data.users)
+      console.log(res.data.users)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [])
+useEffect(() => {
+    getAllUsers(config)
+   // console.log(users)
+
+    const interval = setInterval(() => {
+      getAllUsers(config)
+    }, 1000000)
+
+    return () => clearInterval(interval)
+  }, [getAllUsers, config])
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users);
   const blogs = useSelector((state) => state.blogs);
@@ -51,6 +111,11 @@ const App = () => {
     setTheme(!theme);
     localStorage.setItem("color-theme", JSON.stringify(!theme));
   };
+
+
+   // Log allUsers state
+   console.log("allUsers state:", users);
+
 
   return (
     <div className={theme ? "dark" : ""}>
