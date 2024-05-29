@@ -15,7 +15,10 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 export default function Landing({ user }) {
   const [formations, setFormations] = useState([]);
   const [formationsByLocation, setFormationsByLocation] = useState([]);
-  const [startIndex, setStartIndex] = useState(0);
+  const [startIndexDev, setStartIndexDev] = useState(0);
+  const [endIndexDev, setEndIndexDev] = useState(2);
+  const [startIndexBI, setStartIndexBI] = useState(0);
+  const [endIndexBI, setEndIndexBI] = useState(2);
   const [endIndexFormationsArtsVisuels, setEndIndexFormationsArtsVisuels] =
     useState(2);
   const [startIndexFormationsArtsVisuels, setStartIndexFormationsArtsVisuels] =
@@ -28,6 +31,7 @@ export default function Landing({ user }) {
     useState(2);
   const [startIndexFormationsByLocation, setStartIndexFormationsByLocation] =
     useState(0);
+  const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(2);
   const jwt_token = Cookies.get("jwt_token");
   const [selectedState, setSelectedState] = useState("");
@@ -37,6 +41,8 @@ export default function Landing({ user }) {
   const [tranchesHoraires, setTranchesHoraires] = useState("");
   const [formationsArtsVisuels, setFormationsArtsVisuels] = useState([]);
   const [formationsLangues_etrangeres, setFormationsLangues_etrangeres] = useState([]);
+  const [formationsBI, setFormationsBI] = useState([]);
+  const [formationsDev, setFormationsDev] = useState([]);
 
   const states = ['Ariana', 'Beja', 'Ben_Arous', 'Bizerte', 'Gabes', 'Gafsa', 'Jendouba', 'Kairouan', 'Kasserine',
     'Kebili', 'Le_Kef', 'Mahdia', 'La_Manouba', 'Medenine', 'Monastir', 'Nabeul', 'Sfax', 'Sidi_Bouzid',
@@ -96,6 +102,10 @@ export default function Landing({ user }) {
       setFormations(res.data.formations);
       const artsVisuels = res.data.formations.filter(formation => formation.sujetInteret === 'Arts visuels');
       const Langues_etrangeres = res.data.formations.filter(formation => formation.sujetInteret === 'Langues etrangeres');
+      const Dev = res.data.formations.filter(formation => formation.sujetInteret === 'Developpement');
+      const BI = res.data.formations.filter(formation => formation.sujetInteret === 'Business Intelligence');
+      setFormationsBI(BI);
+      setFormationsDev(Dev);
       setFormationsArtsVisuels(artsVisuels);
       setFormationsLangues_etrangeres(Langues_etrangeres);
     } catch (error) {
@@ -124,6 +134,12 @@ export default function Landing({ user }) {
     }
   };
 
+  const handlePrevPage = () => {
+    if (startIndex > 0) {
+      setStartIndex((prevStartIndex) => prevStartIndex - 1);
+      setEndIndex((prevEndIndex) => prevEndIndex - 1);
+    }
+  };
   const handleNextPageFormationsArtsVisuels = () => {
     if (endIndexFormationsArtsVisuels < formationsArtsVisuels.length - 1) {
       setStartIndexFormationsArtsVisuels((prevStartIndex) => prevStartIndex + 1);
@@ -164,10 +180,31 @@ export default function Landing({ user }) {
     }
   };
 
-  const handlePrevPage = () => {
-    if (startIndex > 0) {
-      setStartIndex((prevStartIndex) => prevStartIndex - 1);
-      setEndIndex((prevEndIndex) => prevEndIndex - 1);
+  const handleNextPageDev = () => {
+    if (endIndexDev < formationsDev.length - 1) {
+      setStartIndexDev((prevStartIndex) => prevStartIndex + 1);
+      setEndIndexDev((prevEndIndex) => prevEndIndex + 1);
+    }
+  };
+
+  const handlePrevPageDev = () => {
+    if (startIndexDev > 0) {
+      setStartIndexDev((prevStartIndex) => prevStartIndex - 1);
+      setEndIndexDev((prevEndIndex) => prevEndIndex - 1);
+    }
+  };
+
+  const handleNextPageBI = () => {
+    if (endIndexBI < formationsBI.length - 1) {
+      setStartIndexBI((prevStartIndex) => prevStartIndex + 1);
+      setEndIndexBI((prevEndIndex) => prevEndIndex + 1);
+    }
+  };
+
+  const handlePrevPageBI = () => {
+    if (startIndexBI > 0) {
+      setStartIndexBI((prevStartIndex) => prevStartIndex - 1);
+      setEndIndexBI((prevEndIndex) => prevEndIndex - 1);
     }
   };
 
@@ -209,6 +246,16 @@ export default function Landing({ user }) {
         startIndexFormationsLangues_etrangeres,
         endIndexFormationsLangues_etrangeres + 1
       )
+      : [];
+
+  const displayedFormationsDev =
+    formationsDev && formationsDev.length > 0
+      ? formationsDev.slice(startIndexDev, endIndexDev + 1)
+      : [];
+
+  const displayedFormationsBI =
+    formationsBI && formationsBI.length > 0
+      ? formationsBI.slice(startIndexBI, endIndexBI + 1)
       : [];
 
   const handleStateChange = (event) => {
@@ -778,6 +825,374 @@ export default function Landing({ user }) {
                 <button
                   onClick={handleNextPage}
                   disabled={endIndex === formations.length - 1}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  <FaChevronRight style={{ fontSize: "40px" }} />
+                </button>
+              </>
+            )}
+          </div>
+          <div className="flex flex-wrap">
+            {displayedFormations.length === 0 ? (
+              // <tr>
+              //   <td
+              //     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+              //     colSpan="22"
+              //   >
+              //     Aucune formation trouvée.
+              //   </td>
+              // </tr>
+              <></>
+            ) : (
+              <>
+                <div className="container relative mx-auto">
+                  <div className="items-center flex flex-wrap">
+                    <div className="pr-12 pt-12 ">
+                      <h1 className="text-black font-semibold text-2xl">
+                        Explorez Tous les formations en Developpement
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+                <hr className="my-4 md:min-w-full" />
+                <button
+                  onClick={handlePrevPageDev}
+                  disabled={startIndexDev === 0}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.boxShadow =
+                      "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.boxShadow = "none")
+                  }
+                >
+                  <FaChevronLeft style={{ fontSize: "40px" }} />
+                </button>
+                {displayedFormationsDev.map((formation) => (
+                  <div
+                    className="pt-6 w-full md:w-2/12 px-4 text-center"
+                    key={formation._id}
+                  >
+                    <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                      <div className="px-4 py-5 flex-auto">
+                        <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                          <Link to={`/DetailsFormation/${formation._id}`}>
+                            <img
+                              alt="..."
+                              className="align-middle border-none max-w-full h-auto rounded-lg"
+                              src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                              style={{ width: "350px", height: "220px" }}
+                              onMouseEnter={(e) =>
+                                (e.currentTarget.style.boxShadow =
+                                  "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.boxShadow = "none")
+                              }
+                            />
+                          </Link>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "5%",
+                              left: "82%",
+                              transform: "translate(-50%, -50%) ",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileFormateur/${formation.formateur._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "94%",
+                              left: "50%",
+                              transform: "translate(-50%, -50%)",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileCenter/${formation.centre._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap">
+                          {formation.competences
+                          .split(",")
+                          .slice(0, 3)
+                          .map((competence, index) => (
+                            <span
+                              key={index}
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight:
+                                  index ===
+                                  Math.min(
+                                    2,
+                                    formation.competences.split(",").length -
+                                    1
+                                  )
+                                    ? "0"
+                                    : "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                                {competence.trim()}
+                              </span>
+                          ))}
+                          {formation.competences.split(",").length > 3 && (
+                            <span
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight: "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                              ...
+                            </span>
+                          )}
+                        </div>
+                        <h6 className="text-xl font-semibold">
+                          {formation.titre}
+                        </h6>
+                        <p className="mt-2 mb-4 text-blueGray-500">
+                          {formation.description
+                          .split(" ")
+                          .slice(0, 15)
+                          .join(" ")}
+                          {formation.description.split(" ").length > 15 &&
+                            " ..."}
+                        </p>
+
+                        <div className="mt-auto">
+                          <button
+                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                          >
+                            Inscrivez-vous maintenant
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  onClick={handleNextPageDev}
+                  disabled={endIndexDev === formationsDev.length - 1}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  <FaChevronRight style={{ fontSize: "40px" }} />
+                </button>
+              </>
+            )}
+          </div>
+          <div className="flex flex-wrap">
+            {displayedFormationsBI.length === 0 ? (
+              // <tr>
+              //   <td
+              //     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+              //     colSpan="22"
+              //   >
+              //     Aucune formation trouvée.
+              //   </td>
+              // </tr>
+              <></>
+            ) : (
+              <>
+                <div className="container relative mx-auto">
+                  <div className="items-center flex flex-wrap">
+                    <div className="pr-12 pt-12 ">
+                      <h1 className="text-black font-semibold text-2xl">
+                        Explorez Tous les formations en Business Intelligence
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+                <hr className="my-4 md:min-w-full" />
+                <button
+                  onClick={handlePrevPageBI}
+                  disabled={startIndexBI === 0}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.boxShadow =
+                      "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.boxShadow = "none")
+                  }
+                >
+                  <FaChevronLeft style={{ fontSize: "40px" }} />
+                </button>
+                {displayedFormationsBI.map((formation) => (
+                  <div
+                    className="pt-6 w-full md:w-2/12 px-4 text-center"
+                    key={formation._id}
+                  >
+                    <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                      <div className="px-4 py-5 flex-auto">
+                        <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                          <Link to={`/DetailsFormation/${formation._id}`}>
+                            <img
+                              alt="..."
+                              className="align-middle border-none max-w-full h-auto rounded-lg"
+                              src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                              style={{ width: "350px", height: "220px" }}
+                              onMouseEnter={(e) =>
+                                (e.currentTarget.style.boxShadow =
+                                  "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.boxShadow = "none")
+                              }
+                            />
+                          </Link>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "5%",
+                              left: "82%",
+                              transform: "translate(-50%, -50%) ",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileFormateur/${formation.formateur._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "94%",
+                              left: "50%",
+                              transform: "translate(-50%, -50%)",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileCenter/${formation.centre._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap">
+                          {formation.competences
+                          .split(",")
+                          .slice(0, 3)
+                          .map((competence, index) => (
+                            <span
+                              key={index}
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight:
+                                  index ===
+                                  Math.min(
+                                    2,
+                                    formation.competences.split(",").length -
+                                    1
+                                  )
+                                    ? "0"
+                                    : "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                                {competence.trim()}
+                              </span>
+                          ))}
+                          {formation.competences.split(",").length > 3 && (
+                            <span
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight: "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                              ...
+                            </span>
+                          )}
+                        </div>
+                        <h6 className="text-xl font-semibold">
+                          {formation.titre}
+                        </h6>
+                        <p className="mt-2 mb-4 text-blueGray-500">
+                          {formation.description
+                          .split(" ")
+                          .slice(0, 15)
+                          .join(" ")}
+                          {formation.description.split(" ").length > 15 &&
+                            " ..."}
+                        </p>
+
+                        <div className="mt-auto">
+                          <button
+                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                          >
+                            Inscrivez-vous maintenant
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  onClick={handleNextPageBI}
+                  disabled={endIndexDev === formationsDev.length - 1}
                   className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                 >
                   <FaChevronRight style={{ fontSize: "40px" }} />
