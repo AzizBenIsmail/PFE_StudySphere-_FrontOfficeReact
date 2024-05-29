@@ -39,7 +39,7 @@ export default function Navbar (props) {
             id="example-navbar-warning"
           >
             <a
-              href="/auth"
+              href="/"
             >
             <img
               src={require('assets/img/LogoDark.png').default}
