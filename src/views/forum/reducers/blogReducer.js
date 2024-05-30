@@ -18,7 +18,6 @@ const blogSlice = createSlice({
         item.id === updatedBlog.id ? updatedBlog : item
       );
     },
-
     remove(state, action) {
       const id = action.payload;
       return state.filter((blogs) => blogs.id !== id);
@@ -32,42 +31,45 @@ const blogSlice = createSlice({
   },
 });
 
-export const { create, setBlogs, edit, remove } = blogSlice.actions;
+export const { create, setBlogs, edit, remove, comment } = blogSlice.actions;
 
 export const initializeBlogs = () => {
   return async (dispatch) => {
-    const blogs = await blogService.getAll();
+    const response = await blogService.getAll();
+    const blogs = response.data; // Only keep necessary data
     dispatch(setBlogs(blogs));
   };
 };
+
 export const createBlog = (blog) => {
   return async (dispatch) => {
-    const newBlog = await blogService.create(blog);
+    const response = await blogService.create(blog);
+    const newBlog = response.data; // Only keep necessary data
     dispatch(create(newBlog));
   };
 };
 
 export const updateBlog = (updatedBlog) => {
   return async (dispatch) => {
-    const updatedBlog1 = await blogService.update(updatedBlog);
-    dispatch(edit(updatedBlog1));
+    const response = await blogService.update(updatedBlog);
+    const updatedBlogData = response.data; // Only keep necessary data
+    dispatch(edit(updatedBlogData));
   };
 };
 
 export const deleteBlog = (id) => {
   return async (dispatch) => {
-    const response = await blogService.remove(id);
+    await blogService.remove(id);
     dispatch(remove(id));
   };
 };
 
 export const commentBlog = (comment, id) => {
-  const formattedComment = {
-    content: comment,
-  };
+  const formattedComment = { content: comment };
   return async (dispatch) => {
     const response = await blogService.postComment(formattedComment, id);
-    dispatch(edit(response));
+    const updatedBlog = response.data; // Only keep necessary data
+    dispatch(comment(updatedBlog));
   };
 };
 

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import * as  userService from "../../../Services/ApiUser";
+import * as userService from "../../../Services/ApiUser";
 import * as authService from "../../../Services/Apiauth";
-import { initializeUsers } from "./userReducer";
+import Cookies from 'js-cookie';
 
 const usersSlice = createSlice({
   name: "allUsers",
@@ -21,18 +21,25 @@ export const { setUsers, create } = usersSlice.actions;
 
 export const initializeAllUsers = () => {
   return async (dispatch) => {
-    try {
-      // Fetch users data from the API
-      const users = await userService.getUsers();
-      
-      // Log the users data
-      console.log("Users data from API:", users);
+    const jwt_token = Cookies.get('jwt_token');
 
-      // Dispatch the setUsers action to update the state
+    if (!jwt_token) {
+      window.location.replace('/login-page');
+      return;
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    };
+
+    try {
+      const response = await userService.getUsers(config);
+      const users = response.data; // Only keep necessary data
       dispatch(setUsers(users));
     } catch (error) {
       console.error('Error fetching users:', error);
-      // Dispatch an error action or handle the error as needed
     }
   };
 };
@@ -40,13 +47,11 @@ export const initializeAllUsers = () => {
 export const registerUser = (user) => {
   return async (dispatch) => {
     try {
-      const user1 = await authService.register(user);
-      dispatch(create(user1));
+      const response = await authService.register(user);
+      const newUser = response.data; // Only keep necessary data
+      dispatch(create(newUser));
     } catch (error) {
-      // Dispatch an action to handle the error, or log it
       console.error('Error registering user:', error);
-      // Optionally, dispatch an action to store the error in the Redux state
-      // dispatch(registerUserFailure(error));
     }
   };
 };

@@ -4,7 +4,7 @@ const apiURL = 'http://localhost:5000/blog';
 
 
 export async function getAll(config) {
-   return await axios.get(`${apiURL}`, config);
+   return await axios.get(`${apiURL}/`, config);
   }
 
   export async function create(blogData, config) {

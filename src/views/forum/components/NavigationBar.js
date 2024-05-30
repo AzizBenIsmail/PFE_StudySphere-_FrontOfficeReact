@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { AppBar, Toolbar, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import { setUser } from "../reducers/userReducer";
 import { useHistory } from "react-router-dom";
 import ForumIcon from "@mui/icons-material/Forum";
@@ -23,6 +30,8 @@ const NavigationBar = ({ user, handleThemeSwitch, theme }) => {
     history.push("/");
   };
 
+ // console.log("User in navbar:", user);
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -32,14 +41,32 @@ const NavigationBar = ({ user, handleThemeSwitch, theme }) => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Forum App
         </Typography>
-        {user === null && <Typography variant="h6" component="div">Create Post</Typography>}
-        {user && <Typography variant="h6" component="div">Create Post</Typography>}
-        {user === null && <Typography variant="h6" component="div">Log In</Typography>}
+        {user === null && (
+          <Typography variant="h6" component="div">
+            Create Post
+          </Typography>
+        )}
+        {user && (
+          <Typography variant="h6" component="div">
+            Create Post
+          </Typography>
+        )}
+        {user === null && (
+          <Typography variant="h6" component="div">
+            Log In
+          </Typography>
+        )}
         {user && (
           <div>
-            <IconButton aria-controls="user-menu" aria-haspopup="true" onClick={handleMenuOpen} color="inherit">
-              u/{user.username}
+            <IconButton
+              aria-controls="user-menu"
+              aria-haspopup="true"
+              onClick={handleMenuOpen}
+              color="inherit"
+            >
+              u/{user.user.nom}
             </IconButton>
+
             <Menu
               id="user-menu"
               anchorEl={anchorEl}

@@ -1,18 +1,18 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import Notif from "./components/Notif";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { initializeBlogs } from "./reducers/blogReducer";
-import { initializeUsers } from "./reducers/userReducer";
+import { initializeUsers, setUser } from "./reducers/userReducer";
 import BlogList from "./components/BlogList";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
-  useParams, // Import useParams
-  Redirect,
+  useParams,
+  useRouteMatch, // Import useRouteMatch instead of useMatch
 } from "react-router-dom";
 import NewBlog from "./components/NewBlog";
 import NavigationBar from "./components/NavigationBar";
+
 import { initializeAllUsers } from "./reducers/allUsersReducer";
 import BlogView from "./components/BlogView";
 import UserView from "./components/UserView";
@@ -21,69 +21,11 @@ import RegisterUser from "./components/RegisterUser";
 import About from "./components/About";
 import ErrorPage from "./components/ErrorPage";
 import BlogEdit from "./components/BlogEdit";
-import Cookies from 'js-cookie'
-import {
-  active,
-  archiver,
-  deleteUser,
-  desactive,
-  desarchiver,
-  downgrade,
-  getAdmin,
-  getCentre,
-  getFormateur,
-  getModerateur,
-  getSimpleUser,
-  getUserActive,
-  getUserConnecter,
-  getUserDeConnecter,
-  getUserDesactive,
-  getUsers,
-  getUsersarchive,
-  upgrade,
-  upgradeFormateur,
-  upgradeModerateur,
-} from '../../Services/ApiUser'
+import Notif from "./components/Notif";
 
 const App = () => {
-
-  const jwt_token = Cookies.get('jwt_token')
-  const [users, setUsers] = useState([])
-
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    }
-  }, [jwt_token])
-
-  
-
-  const getAllUsers = useCallback(async (config) => {
-
-    console.log(config);
-    await getUsers(config)
-    .then((res) => {
-      setUsers(res.data.users)
-      console.log(res.data.users)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }, [])
-useEffect(() => {
-    getAllUsers(config)
-   // console.log(users)
-
-    const interval = setInterval(() => {
-      getAllUsers(config)
-    }, 1000000)
-
-    return () => clearInterval(interval)
-  }, [getAllUsers, config])
-
   const dispatch = useDispatch();
+
   const user = useSelector((state) => state.users);
   const blogs = useSelector((state) => state.blogs);
   const allUsers = useSelector((state) => state.allUsers);
@@ -95,16 +37,27 @@ useEffect(() => {
 
   useEffect(() => {
     dispatch(initializeBlogs());
+  }, [dispatch]);
+
+  useEffect(() => {
     dispatch(initializeUsers());
+  }, [dispatch]);
+
+  useEffect(() => {
     dispatch(initializeAllUsers());
   }, [dispatch]);
 
-  // Use useParams hook instead of useMatch
-  const { id } = useParams();
-  const blog = blogs.find((blog) => blog.id === id);
-  const blog1 = blogs.find((blog) => blog.id === id);
+  const match = useRouteMatch("/posts/:id"); // Change useMatch to useRouteMatch
+  const blog = match ? blogs.find((blog) => blog.id === match.params.id) : null;
+  const match2 = useRouteMatch("/posts/edit/:id"); // Change useMatch to useRouteMatch
+  const blog1 = match2
+    ? blogs.find((blog) => blog.id === match2.params.id)
+    : null;
 
-  const userInView = allUsers.find((user) => user.username === id);
+  const match1 = useRouteMatch("/users/:id"); // Change useMatch to useRouteMatch
+  const userInView = match1
+    ? allUsers.find((user) => user.username === match1.params.id)
+    : null;
 
   const handleThemeSwitch = (event) => {
     event.preventDefault();
@@ -112,33 +65,52 @@ useEffect(() => {
     localStorage.setItem("color-theme", JSON.stringify(!theme));
   };
 
-
-   // Log allUsers state
-   console.log("allUsers state:", users);
-
+  // Log the state to check if they are imported correctly
+  console.log("User state:", user);
+  console.log("Blogs state:", blogs);
+  console.log("AllUsers state:", allUsers);
 
   return (
     <div className={theme ? "dark" : ""}>
       <div>
-        <NavigationBar
-          user={user}
-          handleThemeSwitch={handleThemeSwitch}
-          theme={theme}
-        />
-        <Switch>
-          <Route path="/create" element={<NewBlog />} />
-          <Route path="/" element={<BlogList user={user} />} />
-          <Route path="/posts/:id" element={<BlogView blog={blog} />} />
-          <Route
-            path="/users/:id"
-            element={<UserView userInView={userInView} />}
+        <div>
+          <NavigationBar
+            user={user}
+            handleThemeSwitch={handleThemeSwitch}
+            theme={theme}
           />
-          <Route path="/example" element={<ExampleBlog />} />
-          <Route path="/register" element={<RegisterUser />} />
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<ErrorPage />} />
-          <Route path="/posts/edit/:id" element={<BlogEdit blog={blog1} />} />
-        </Switch>
+
+          <Switch>
+            {" "}
+            {/* Replace Routes with Switch */}
+            <Route path="/create" component={NewBlog} />
+            <Route
+              path="/"
+              component={() => {
+                console.log("Rendering BlogList component");
+                return <BlogList />;
+              }}
+            />
+            <Route
+              path="/posts/:id"
+              render={(props) => <BlogView {...props} blog={blog} />}
+            />
+            <Route
+              path="/users/:id"
+              render={(props) => (
+                <UserView {...props} userInView={userInView} />
+              )}
+            />
+            <Route path="/example" component={ExampleBlog} />
+            <Route path="/register" component={RegisterUser} />
+            <Route path="/about" component={About} />
+            <Route
+              path="/posts/edit/:id"
+              render={(props) => <BlogEdit {...props} blog={blog1} />}
+            />
+            <Route path="*" component={ErrorPage} />
+          </Switch>
+        </div>
         <Notif />
       </div>
     </div>
