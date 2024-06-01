@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { createBlog } from "../reducers/blogReducer";
 import { useHistory } from "react-router-dom";
@@ -11,6 +11,10 @@ const NewBlog = () => {
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
   const history = useHistory();
+
+  useEffect(() => {
+    console.log("NewBlog component rendered"); // Add console log to verify rendering
+  }, []);
 
   const addBlog = async (event) => {
     event.preventDefault();
@@ -25,7 +29,7 @@ const NewBlog = () => {
         type: "success",
       };
       await dispatch(createBlog(blogObject));
-      history.push("/");
+      history.push("/forum");
       dispatch(setNotification(notif1, 2500));
     } catch (exception) {
       const notif2 = {

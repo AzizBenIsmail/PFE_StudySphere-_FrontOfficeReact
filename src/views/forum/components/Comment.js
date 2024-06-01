@@ -3,7 +3,15 @@ import { CircularProgress } from "@mui/material";
 
 const Comment = ({ comment }) => {
   const allUsers = useSelector((state) => state.allUsers);
-  const user = allUsers.find((user) => user.id === comment.user);
+  //console.log("AllUsers state in comment:", allUsers);
+  
+  
+
+  const usersArray = allUsers.users; // Access the array property
+  //console.log("usersArray state in comment:", usersArray);
+
+  const user = usersArray.find((user) => user._id === comment.user);
+  
   if (user === undefined) {
     return <CircularProgress />;
   }

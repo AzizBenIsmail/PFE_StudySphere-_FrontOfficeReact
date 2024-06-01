@@ -47,7 +47,7 @@ function Routes() {
           <Route path="/" exact component={Index} />
           <Route path="/chat" exact component={Chat} />
           <Route path="/userCalendar" exact component={Calendar} />
-          <Route path="/forum" exact component={Forum} />
+          <Route path="/forum"  component={Forum} />
           {/* add redirect for first page */}
           <Redirect from="*" to="/" />
         </Switch>

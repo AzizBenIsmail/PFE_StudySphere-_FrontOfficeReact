@@ -11,7 +11,7 @@ import Comment from "./Comment";
 import { Container, Typography, Button, CircularProgress } from "@mui/material"; // Import Material-UI components
 
 const BlogView = ({ blog }) => {
-  console.log(blog);
+  console.log("BlogView blog:", blog);
   const user = useSelector((state) => state.users);
   const allUsers = useSelector((state) => state.allUsers);
   const [newComment, setNewComment] = useState("");
@@ -22,8 +22,15 @@ const BlogView = ({ blog }) => {
     return <CircularProgress />;
   }
 
+  // console.log("User state in blogview :", user);
+  // console.log("Blogs state in blogview:", blogs);
+  // console.log("AllUsers state in blogview:", allUsers);
   const comments = blog.comments ? blog.comments : [];
-  const user1 = allUsers.find((user) => user.id === blog.user);
+
+  const user1 = Array.isArray(allUsers.users)
+    ? allUsers.users.find((user) => user._id === blog.user._id)
+    : null;
+  //console.log("User1 in blogview:", user1);
 
   const handleUpdateBlog = async (blogObject) => {
     try {
@@ -94,28 +101,39 @@ const BlogView = ({ blog }) => {
           <address className="flex items-center mb-6 not-italic">
             <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
               <div>
-                <Typography variant="h6" component="a" href={`/users/${blog.user.username || user1.username}`}>
-                  u/{blog.user.username || user1.username}
+                <Typography
+                  variant="h6"
+                  component="a"
+                  href={`/users/${user1.nom || "Unknown"}`}
+                >
+                  u/{user1.nom || "Unknown"}
                 </Typography>
+
                 <Typography variant="body2" color="textSecondary" component="p">
-                  Posted on {new Date(blog.dateCreated).toLocaleDateString("en-GB")}
+                  Posted on{" "}
+                  {new Date(blog.dateCreated).toLocaleDateString("en-GB")}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                   {blog.likes} {blog.likes === 1 ? "like" : "likes"}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  {comments.length} {comments.length === 1 ? "comment" : "comments"}
+                  {comments.length}{" "}
+                  {comments.length === 1 ? "comment" : "comments"}
                 </Typography>
                 <div className="flex flex-wrap items-center gap-2 mt-6">
                   <Button onClick={() => handleUpdateBlog(blog)}>
                     <FavoriteIcon className="h-6 w-6" />
                   </Button>
-                  {user && (user.id === blog.user.id || user.id === blog.user) ? (
+                  {user &&
+                  (user.id === blog.user.id || user.id === blog.user) ? (
                     <>
                       <Button href={`/posts/edit/${blog.id}`} color="warning">
                         <EditIcon className="h-6 w-6" />
                       </Button>
-                      <Button onClick={() => handleDeleteBlog(blog.id)} color="error">
+                      <Button
+                        onClick={() => handleDeleteBlog(blog.id)}
+                        color="error"
+                      >
                         <DeleteIcon className="h-6 w-6" />
                       </Button>
                     </>
@@ -137,7 +155,7 @@ const BlogView = ({ blog }) => {
                 <label htmlFor="comment" className="sr-only">
                   Your comment
                 </label>
-               
+
                 <textarea
                   id="comment"
                   rows="6"
@@ -157,11 +175,15 @@ const BlogView = ({ blog }) => {
             </form>
 
             {comments.length > 0 ? (
-              comments.map((comment) => <Comment key={comment.id} comment={comment} />)
+              comments.map((comment) => (
+                <Comment key={comment._id} comment={comment} />
+              ))
             ) : (
               <article className="p-6 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                 <footer className="flex justify-between items-center"></footer>
-                <p className="text-gray-500 dark:text-gray-400">No Comments Yet</p>
+                <p className="text-gray-500 dark:text-gray-400">
+                  No Comments Yet
+                </p>
               </article>
             )}
           </section>
