@@ -199,9 +199,9 @@ const App = () => {
   const match = useRouteMatch("/forum/posts/:id");
   //console.log("Match object for /posts/:id:", match);
 
-  if (match) {
-  //  console.log("match.params.id:", match.params.id);
-  }
+  // if (match) {
+  // //  console.log("match.params.id:", match.params.id);
+  // }
 
   const blog = match ? blogs.find((blog) => blog._id === match.params.id) : null;
   //console.log("Blog found:", blog);
@@ -212,11 +212,11 @@ const App = () => {
     : null;
  // console.log("BlogEdit found:", blogEdit);
 
-  const match1 = useRouteMatch("/forum/users/:id"); // Change useMatch to useRouteMatch
-    const userInView = match1
-       ? allUsers.find((user) => user.nom === match1.params.id)
-      : null;
-    console.log("userinview found:", userInView);
+  // const match1 = useRouteMatch("/forum/users/:id"); // Change useMatch to useRouteMatch
+  //   const userInView = match1
+  //      ? allUsers.find((user) => user._id === match1.params.id)
+  //     : null;
+  //   console.log("userinview found:", userInView);
 
 
   const handleThemeSwitch = (event) => {
@@ -260,12 +260,12 @@ const App = () => {
               path="/forum/"
               component={() => <BlogList user={user} setUser={setUser} />}
             />
-             <Route
+             {/* <Route
               path="/forum/users/:id"
                render={(props) => (
                 <UserView {...props} userInView={userInView} />
               )}
-            />
+            /> */}
             <Route path="*" component={ErrorPage} />
           </Switch>
         </div>

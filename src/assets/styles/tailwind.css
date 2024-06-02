@@ -1904,6 +1904,10 @@ select {
   margin-left: 800px;
 }
 
+.ml-30 {
+  margin-left: 15rem;
+}
+
 .ml-50 {
   margin-left: 50px;
 }

@@ -84,8 +84,8 @@ const BlogList = () => {
       <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 min-h-screen">
         <div className="flex justify-between px-4 mx-auto max-w-6xl ">
           <article className="mx-auto w-full max-w-6xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-            <header className="mb-4 lg:mb-6 not-format">
-              <Typography variant="h4" className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">
+            <header className="mb-4 ml-30 lg:mb-6 not-format">
+              <Typography variant="h4" className="mb-4  text-4xl tracking-tight font-bold text-gray-900 dark:text-white">
                 Posts
               </Typography>
             </header>
@@ -96,7 +96,7 @@ const BlogList = () => {
                   // Log the _id for debugging
                  // console.log("Blog ID:", blog._id);
                   return (
-                    <Card key={blog._id} className="p-6 mb-4">
+                    <Card key={blog._id} className="p-6 mb-4" style={{ width: '80%', marginLeft: '15rem' }}>
                       <Blog blog={blog} />
                     </Card>
                   );
@@ -112,7 +112,7 @@ const BlogList = () => {
         </div>
       </main>
 
-      <BlogFooter />
+   
     </div>
   );
 };

@@ -4,7 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { setNotification } from "../reducers/notificationReducer";
 import { updateBlog, deleteBlog, commentBlog } from "../reducers/blogReducer";
-import { useState } from "react";
+import { useState , useEffect  } from "react";
 import { useHistory } from "react-router-dom";
 import BlogFooter from "./BlogFooter";
 import Comment from "./Comment";
@@ -18,6 +18,15 @@ const BlogView = ({ blog }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const blogs = useSelector((state) => state.blogs);
+  const [commentSuccess, setCommentSuccess] = useState(false);
+
+
+  useEffect(() => {
+    if (commentSuccess) {
+      window.location.reload();
+    }
+  }, [commentSuccess]);
+
   if (blog === undefined) {
     return <CircularProgress />;
   }
@@ -42,6 +51,7 @@ console.log("likes of post :", blog.likes);
         likes: blog.likes + 1,
       };
       await dispatch(updateBlog(updatedBlog));
+      history.push("/forum/");
     } catch (error) {
       const notif = {
         message: error.response.data.error,
@@ -79,12 +89,13 @@ console.log("likes of post :", blog.likes);
 
   const handleComment = async (comment, id) => {
     try {
-      await dispatch(commentBlog(comment, id));
+       await dispatch(commentBlog(comment, id));
       const notif1 = {
         message: "Comment added successfully",
         type: "success",
       };
       dispatch(setNotification(notif1, 2500));
+      setCommentSuccess(true);
       setNewComment("");
     } catch (error) {
       const notif2 = {
@@ -95,6 +106,7 @@ console.log("likes of post :", blog.likes);
     }
   };
 
+ 
   // console.log("User:", user);
   // console.log("User ID:", user.user._id);
   // //console.log("User ID:", user._id);
@@ -115,11 +127,9 @@ console.log("likes of post :", blog.likes);
           <address className="flex items-center mb-6 not-italic">
             <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
               <div>
-                <Typography
-                  variant="h6"
-                  component="a"
-                  href={`/forum/users/${user1.nom || "Unknown"}`}
-                >
+                <Typography  >
+              
+
                   u/{user1.nom || "Unknown"}
                 </Typography>
 
@@ -204,7 +214,7 @@ console.log("likes of post :", blog.likes);
         </Container>
       </main>
 
-      <BlogFooter />
+   
     </div>
   );
 };

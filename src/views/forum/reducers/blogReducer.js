@@ -129,8 +129,8 @@ const blogSlice = createSlice({
       console.log("Adding comment to blogoooooo:", updatedBlogcomment);
       return state.map((item) => {
         console.log("Mapping item2:", item);
-        console.log("updatedBlog.id for comment:", updatedBlogcomment.id);
-        return item.id === updatedBlogcomment.id ? updatedBlogcomment : item;
+        console.log("updatedBlog.id for comment:", updatedBlogcomment._id);
+        return item._id === updatedBlogcomment._id ? updatedBlogcomment : item;
       });
     },
   },
@@ -244,28 +244,32 @@ export const deleteBlog = (id) => {
     dispatch(remove(id));
   };
 };
-
 export const commentBlog = (comment, id) => {
   const formattedComment = { content: comment };
   return async (dispatch) => {
-    const jwt_token = Cookies.get('jwt_token');
-    if (!jwt_token) {
-      window.location.replace('/login-page');
-      return;
-    }
-    
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    };
+    try {
+      const jwt_token = Cookies.get('jwt_token');
+      if (!jwt_token) {
+        window.location.replace('/login-page');
+        return;
+      }
+      
+      const config = {
+        headers: {
+          Authorization: `Bearer ${jwt_token}`,
+        },
+      };
 
-    const response = await blogService.postComment(formattedComment, id, config);
-    console.log("Response comment from update API:", response);
-    const updatedBlogcomment = response.data;
-    console.log("Adding comment to blog:", updatedBlogcomment);
-    dispatch(comment(updatedBlogcomment));
+      const response = await blogService.postComment(formattedComment, id, config);
+      console.log("Response from comment API:", response);
+      const updatedBlogcomment = response.data; // Extract the updated comment from the response
+      console.log("Adding comment to blog:", updatedBlogcomment);
+      dispatch(comment(updatedBlogcomment)); // Dispatch the comment action with the updated comment data
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
   };
 };
+
 
 export default blogSlice.reducer;

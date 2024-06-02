@@ -53,15 +53,15 @@ const NewBlog = () => {
           <div className="flex justify-between px-4 mx-auto max-w-6xl ">
             <article className="mx-auto w-full max-w-6xl	 format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
               <header className="mb-4 lg:mb-6 not-format">
-                <h1 className="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
+                <h1 className="ml-30 mt-12 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
                   Create a Post
                 </h1>
                 <address className="flex items-center mb-6 not-italic"></address>
               </header>
               <form onSubmit={addBlog} className="flex flex-col gap-4">
-                <div>
-                  <div className="mb-2 block">
-                    <label htmlFor="post-title" className="block text-sm font-medium text-gray-700 dark:text-gray-400">Title of Post</label>
+                <div className="ml-30 mt-4">
+                  <div className="  block">
+                    <label htmlFor="post-title" className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-400">Title of Post</label>
                   </div>
                   <TextField
                     id="post-title"
@@ -71,11 +71,12 @@ const NewBlog = () => {
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
                     variant="outlined"
+                    style={{ width: "90%" }} // Set the width here
                   />
                 </div>
-                <div>
-                  <div className="mb-2 block">
-                    <label htmlFor="post-content" className="block text-sm font-medium text-gray-700 dark:text-gray-400">Content of Post</label>
+                <div className="ml-30 mt-6">
+                  <div className="mb-2  block">
+                    <label htmlFor="post-content" className=" mb-2 block text-sm font-medium text-gray-700 dark:text-gray-400">Content of Post</label>
                   </div>
                   <TextareaAutosize
                     id="post-content"
@@ -83,20 +84,22 @@ const NewBlog = () => {
                     value={newContent}
                     placeholder="Text"
                     onChange={(e) => setNewContent(e.target.value)}
-                    rows={10}
+                    minRows={10}
+                    style={{ width: "90%" }} 
                   />
                 </div>
-
-                <Button className="mt-4 w-24" type="submit" variant="contained" color="primary">
+                <div className="ml-30 mt-6 ">      
+                <Button className=" w-7" type="submit" variant="contained" color="primary">
                   Submit
                 </Button>
+                </div>
               </form>
             </article>
           </div>
         </main>
       </div>
 
-      <BlogFooter />
+      
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { updateBlog } from "../reducers/blogReducer";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -15,8 +15,16 @@ const BlogEdit = ({ blog }) => {
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const [editSuccess, setEditSuccess] = useState(false);
 
   const history = useHistory();
+
+  useEffect(() => {
+    if (editSuccess) {
+      window.location.reload();
+    }
+  }, [editSuccess]);
+
 
   if (blog === undefined) {
     return <CircularProgress />;
@@ -25,6 +33,8 @@ const BlogEdit = ({ blog }) => {
     setNewTitle(blog.title);
     setNewContent(blog.content);
   }
+
+ 
 
   const editBlog = (event) => {
     event.preventDefault();
@@ -47,6 +57,7 @@ const BlogEdit = ({ blog }) => {
         type: "success",
       };
       await dispatch(updateBlog(blogObject));
+      setEditSuccess(true);
       history.push(`/forum/posts/edit/${blog._id}`);
       dispatch(setNotification(notif1, 2500));
     } catch (exception) {
@@ -66,23 +77,30 @@ const BlogEdit = ({ blog }) => {
           <div className="flex justify-between px-4 mx-auto max-w-6xl ">
             <article className="mx-auto w-full max-w-6xl	 format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
               <header className="mb-4 lg:mb-6 not-format">
-                <h1 className="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
+                <h1 className="ml-30 mt-12  text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
                   Edit Post
                 </h1>
                 <address className="flex items-center mb-6 not-italic"></address>
               </header>
               <form onSubmit={editBlog} className="flex flex-col gap-4">
-                <div>
+              <div className="ml-30 mt-4">
+                  <div className="  block">
+                    <label htmlFor="post-title" className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-400">Title of Post</label>
+                  </div>
                   <TextField
                     id="post-title"
-                    label="Title of Post"
+                    type="text"
                     variant="outlined"
                     required={true}
                     value={newTitle}
                     onChange={(event) => setNewTitle(event.target.value)}
+                    style={{ width: "90%" }} 
                   />
                 </div>
-                <div>
+                <div className="ml-30 mt-6">
+                  <div className="mb-2  block">
+                    <label htmlFor="post-content" className=" mb-2 block text-sm font-medium text-gray-700 dark:text-gray-400">Content of Post</label>
+                  </div>
                   <TextareaAutosize
                     id="post-content"
                     aria-label="minimum height"
@@ -90,8 +108,10 @@ const BlogEdit = ({ blog }) => {
                     placeholder="Content of Post"
                     value={newContent}
                     onChange={(event) => setNewContent(event.target.value)}
+                    style={{ width: "90%" }} 
                   />
                 </div>
+                <div className="ml-30 mt-6 "> 
                 <Button
                   type="submit"
                   variant="contained"
@@ -100,13 +120,14 @@ const BlogEdit = ({ blog }) => {
                 >
                   {loading ? <CircularProgress size={24} /> : "Submit"}
                 </Button>
+                </div>
               </form>
             </article>
           </div>
         </main>
       </div>
 
-      <BlogFooter />
+     
     </>
   );
 };
