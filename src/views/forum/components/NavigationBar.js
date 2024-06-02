@@ -10,8 +10,10 @@ import {
 import { setUser } from "../reducers/userReducer";
 import { useHistory } from "react-router-dom";
 import ForumIcon from "@mui/icons-material/Forum";
-import { DarkMode, LightMode } from "@mui/icons-material";
+//import { DarkMode, LightMode } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
 const NavigationBar = ({ user, handleThemeSwitch, theme }) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -30,7 +32,7 @@ const NavigationBar = ({ user, handleThemeSwitch, theme }) => {
     history.push("/");
   };
 
- // console.log("User in navbar:", user);
+  // console.log("User in navbar:", user);
 
   return (
     <AppBar position="static">
@@ -39,7 +41,12 @@ const NavigationBar = ({ user, handleThemeSwitch, theme }) => {
           <ForumIcon />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Forum App
+          <Link
+            to="/forum/"
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
+            Forum App
+          </Link>
         </Typography>
         {user === null && (
           <Typography variant="h6" component="div">
@@ -48,14 +55,21 @@ const NavigationBar = ({ user, handleThemeSwitch, theme }) => {
         )}
         {user && (
           <Typography variant="h6" component="div">
-            Create Post
+            <Link
+              to="/forum/create"
+              style={{ color: "inherit", textDecoration: "none" }}
+            >
+              Create Post
+            </Link>
           </Typography>
         )}
+
         {user === null && (
           <Typography variant="h6" component="div">
             Log In
           </Typography>
         )}
+
         {user && (
           <div>
             <IconButton
@@ -78,14 +92,14 @@ const NavigationBar = ({ user, handleThemeSwitch, theme }) => {
             </Menu>
           </div>
         )}
-        <IconButton
-          className={theme ? "dark" : ""}
+        {/* <IconButton
+          className={`${theme ? "dark-icon" : "light-icon"}`} // Apply different classes based on theme
           data-testid="dark-theme-toggle"
           onClick={handleThemeSwitch}
           aria-label="Toggle dark mode"
         >
           {theme ? <DarkMode /> : <LightMode />}
-        </IconButton>
+        </IconButton> */}
       </Toolbar>
     </AppBar>
   );

@@ -92,6 +92,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import CommentIcon from "@mui/icons-material/Comment";
 import TextareaAutosize from "@mui/material/TextareaAutosize"; // Import TextareaAutosize from Material-UI
 
+
 const Blog = ({ blog }) => {
   const user = useSelector((state) => state.users);
   const dispatch = useDispatch();
@@ -114,7 +115,7 @@ const Blog = ({ blog }) => {
     }
   };
   const handleDeleteBlog = async (id) => {
-    const blog1 = blogs.filter((b) => b.id === id);
+    const blog1 = blogs.filter((b) => b._id === id);
     const title = blog1[0].title;
     if (window.confirm(`Do you want to delete ${title}?`)) {
       try {
@@ -140,6 +141,7 @@ const Blog = ({ blog }) => {
       : summary;
 
   return (
+    <Link to={`/forum/posts/${blog._id}`} style={{ textDecoration: "none" }}>
     <Card className="mb-4">
       <CardContent>
         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -158,7 +160,9 @@ const Blog = ({ blog }) => {
         </div>
       </CardContent>
     </Card>
-  );
+  </Link>
+);
 };
+
 
 export default Blog;

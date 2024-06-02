@@ -10,6 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import BlogFooter from "./BlogFooter";
 
 const BlogEdit = ({ blog }) => {
+  console.log("Rendering BlogEdit component"); // Add console log here
   const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
@@ -46,7 +47,7 @@ const BlogEdit = ({ blog }) => {
         type: "success",
       };
       await dispatch(updateBlog(blogObject));
-      history.push(`/posts/${blog.id}`);
+      history.push(`/forum/posts/edit/${blog._id}`);
       dispatch(setNotification(notif1, 2500));
     } catch (exception) {
       const notif2 = {

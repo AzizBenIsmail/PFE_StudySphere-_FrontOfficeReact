@@ -12,24 +12,14 @@ const NewBlog = () => {
   const [newContent, setNewContent] = useState("");
   const history = useHistory();
 
-  useEffect(() => {
-    console.log("NewBlog component rendered"); // Add console log to verify rendering
-  }, []);
-
-  const addBlog = async (event) => {
-    event.preventDefault();
-    const blogObject = {
-      title: newTitle,
-      content: newContent,
-      dateCreated: new Date(),
-    };
+  const addNewBlog = async (blogObject) => {
     try {
       const notif1 = {
         message: `Post was successfully added`,
         type: "success",
       };
       await dispatch(createBlog(blogObject));
-      history.push("/forum");
+      history.push("/forum"); // Navigate to the "/forum" page
       dispatch(setNotification(notif1, 2500));
     } catch (exception) {
       const notif2 = {
@@ -38,9 +28,23 @@ const NewBlog = () => {
       };
       dispatch(setNotification(notif2, 2500));
     }
+  };
+
+
+  const addBlog = (event) => {
+    event.preventDefault();
+    const blogObject = {
+      title: newTitle,
+      content: newContent,
+      dateCreated: new Date(),
+    };
+    addNewBlog(blogObject);
     setNewContent("");
     setNewTitle("");
   };
+
+
+
 
   return (
     <>

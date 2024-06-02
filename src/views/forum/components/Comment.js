@@ -2,16 +2,18 @@ import { useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 
 const Comment = ({ comment }) => {
+  console.log("Comment in Comment.js:", comment);
   const allUsers = useSelector((state) => state.allUsers);
   //console.log("AllUsers state in comment:", allUsers);
   
   
 
   const usersArray = allUsers.users; // Access the array property
-  //console.log("usersArray state in comment:", usersArray);
+  console.log("usersArray state in comment:", usersArray);
 
   const user = usersArray.find((user) => user._id === comment.user);
-  
+  console.log("userstate in comment:", user);
+
   if (user === undefined) {
     return <CircularProgress />;
   }
@@ -21,7 +23,7 @@ const Comment = ({ comment }) => {
       <footer className="flex justify-between items-center mb-2">
         <div className="flex items-center">
           <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-            u/{user.username}
+            u/{user.nom}
           </p>
         </div>
       </footer>

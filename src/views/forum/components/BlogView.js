@@ -25,12 +25,15 @@ const BlogView = ({ blog }) => {
   // console.log("User state in blogview :", user);
   // console.log("Blogs state in blogview:", blogs);
   // console.log("AllUsers state in blogview:", allUsers);
-  const comments = blog.comments ? blog.comments : [];
+   const comments = blog.comments ? blog.comments : [];
+  // console.log("commentd in blogview:", comments);
 
   const user1 = Array.isArray(allUsers.users)
     ? allUsers.users.find((user) => user._id === blog.user._id)
     : null;
-  //console.log("User1 in blogview:", user1);
+  console.log("User1 in blogview:", user1);
+
+console.log("likes of post :", blog.likes);
 
   const handleUpdateBlog = async (blogObject) => {
     try {
@@ -57,7 +60,7 @@ const BlogView = ({ blog }) => {
           type: "success",
         };
         dispatch(setNotification(notif, 2500));
-        history.push("/");
+        history.push("/forum/");
       } catch (error) {
         const notif = {
           message: error.message,
@@ -68,9 +71,10 @@ const BlogView = ({ blog }) => {
     }
   };
 
+  
   const commentFormSubmit = (event) => {
     event.preventDefault();
-    handleComment(newComment, blog.id);
+    handleComment(newComment, blog._id);
   };
 
   const handleComment = async (comment, id) => {
@@ -84,12 +88,22 @@ const BlogView = ({ blog }) => {
       setNewComment("");
     } catch (error) {
       const notif2 = {
-        message: error.message,
+        message: "error.message",
         type: "failure",
       };
       dispatch(setNotification(notif2, 2500));
     }
   };
+
+  // console.log("User:", user);
+  // console.log("User ID:", user.user._id);
+  // //console.log("User ID:", user._id);
+  // console.log("Blog User ID:", blog.user._id);
+  // console.log("Blog User:", blog.user);
+  // console.log("Check if user ID matches blog user ID:", user && user.user._id=== blog.user._id);
+  // //console.log("Check if user ID matches blog user:", user && user.user._id === blog.user);
+  
+
 
   return (
     <div className="">
@@ -104,7 +118,7 @@ const BlogView = ({ blog }) => {
                 <Typography
                   variant="h6"
                   component="a"
-                  href={`/users/${user1.nom || "Unknown"}`}
+                  href={`/forum/users/${user1.nom || "Unknown"}`}
                 >
                   u/{user1.nom || "Unknown"}
                 </Typography>
@@ -125,13 +139,13 @@ const BlogView = ({ blog }) => {
                     <FavoriteIcon className="h-6 w-6" />
                   </Button>
                   {user &&
-                  (user.id === blog.user.id || user.id === blog.user) ? (
+                  ( user.user._id === blog.user._id) ? (
                     <>
-                      <Button href={`/posts/edit/${blog.id}`} color="warning">
+                      <Button href={`/forum/posts/edit/${blog._id}`} color="warning">
                         <EditIcon className="h-6 w-6" />
                       </Button>
                       <Button
-                        onClick={() => handleDeleteBlog(blog.id)}
+                        onClick={() => handleDeleteBlog(blog._id)}
                         color="error"
                       >
                         <DeleteIcon className="h-6 w-6" />

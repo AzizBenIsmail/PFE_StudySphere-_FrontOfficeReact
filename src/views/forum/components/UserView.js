@@ -22,7 +22,7 @@ const UserView = ({ userInView }) => {
           Posts added by {userInView.name}
         </h2>
         {userInView.blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog._id} blog={blog} />
         ))}
       </div>
     </section>

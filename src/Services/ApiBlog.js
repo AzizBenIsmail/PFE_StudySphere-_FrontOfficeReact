@@ -11,8 +11,13 @@ export async function getAll(config) {
     return await axios.post(`${apiURL}`, blogData, config);
   }
 
-export async function update(blogId, blogData, config) {
-    return await axios.put(`${apiURL}/${blogId}`, blogData, config);
+  export async function update(blogId, blogData, config) {
+    try {
+      const response = await axios.put(`${apiURL}/${blogId}`, blogData, config);
+      return response.data; // Return the updated blog data from the response
+    } catch (error) {
+      throw error; // Rethrow any errors for handling in the calling code
+    }
   }
   
   export async function remove(blogId, config) {
