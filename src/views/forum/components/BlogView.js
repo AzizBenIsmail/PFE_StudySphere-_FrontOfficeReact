@@ -118,7 +118,7 @@ console.log("likes of post :", blog.likes);
 
 
   return (
-    <div className="">
+    <div className="mt-16">
       <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900">
         <Container maxWidth="md">
           <Typography variant="h3" align="center" gutterBottom>

@@ -167,7 +167,7 @@ import {
 } from "react-router-dom";
 import NewBlog from "./components/NewBlog";
 import NavigationBar from "./components/NavigationBar";
-
+import Navbar from "./components/Navbar"
 import BlogView from "./components/BlogView";
 import UserView from "./components/UserView";
 import ErrorPage from "./components/ErrorPage";
@@ -233,11 +233,12 @@ const App = () => {
     <div className={theme ? "dark" : ""}>
       <div>
         <div>
-          <NavigationBar
+          {/* <NavigationBar
             user={user}
             handleThemeSwitch={handleThemeSwitch}
             theme={theme}
-          />
+          /> */}
+           <Navbar  />
 
           <Switch>
             <Route
