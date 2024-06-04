@@ -3496,4 +3496,7 @@ select {
   background-color: #9ca3af;
 }
 
-
+.guests-container {
+  height: 150px; /* Adjust this value to fit three guests */
+  overflow-y: auto;
+}

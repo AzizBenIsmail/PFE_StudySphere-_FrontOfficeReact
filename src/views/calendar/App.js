@@ -20,6 +20,7 @@ export default function UserCalendar() {
   useEffect(() => {
     // Fetch all events from the backend
     fetchEvents();
+ 
   }, []);
 
  
@@ -33,6 +34,7 @@ export default function UserCalendar() {
       }
   
       setEvents(response.data);
+      
     } catch (error) {
       console.error('Error fetching events:', error);
     }

@@ -10,16 +10,21 @@ import "assets/styles/tailwind.css";
 import { AuthContextProvider } from './views/chat/context/AuthContext'; 
 import {SocketContextProvider} from './views/chat/context/SocketContext'
 import ContextWrapperCalendar  from "views/admin/calendar/context/ContextWrapper";
+import ContextWrapper from "views/calendar/context/ContextWrapper";
 
 ReactDOM.render(
   <BrowserRouter>
   <AuthContextProvider> {/* Wrap Routes with AuthContextProvider */}
     <SocketContextProvider>
-    <ContextWrapperCalendar>
+   
   <Provider store={store}>
-    <Routes />
+  <ContextWrapperCalendar>
+        <ContextWrapper>
+      <Routes />
+      </ContextWrapper>
+      </ContextWrapperCalendar>
     </Provider>
-    </ContextWrapperCalendar>
+   
     </SocketContextProvider>
     </AuthContextProvider>
   </BrowserRouter>,

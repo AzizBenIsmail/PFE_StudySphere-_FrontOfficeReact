@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo ,useRef} from "react";
+import React, { useState, useContext, useEffect, useMemo, useRef } from "react";
 import GlobalContext from "../context/GlobalContext";
 import { createEvent, updateEvent, deleteEvent } from "../service/ApiEvents.js";
 import Draggable from "react-draggable";
@@ -40,7 +40,7 @@ export default function EventModal() {
   const [endTime, setEndTime] = useState(
     selectedEvent ? selectedEvent.endTime : null
   );
-  
+
   const [meetingUrl, setMeetingUrl] = useState(null);
   const [guests, setGuests] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -61,8 +61,6 @@ export default function EventModal() {
     }
   }, []);
 
-  
-
   useEffect(() => {
     // Reset selected guests when modal is opened for creating a new event
     if (!selectedEvent) {
@@ -70,7 +68,37 @@ export default function EventModal() {
     }
   }, [selectedEvent]);
 
-  
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
+  //   const calendarEvent = {
+  //     title,
+  //     description,
+  //     label: selectedLabel,
+  //     day: daySelected.valueOf(),
+  //     startTime,
+  //     endTime,
+  //     meetingUrl,
+  //     guests: selectedGuests.map((guest) => guest._id),
+  //     _id: selectedEvent ? selectedEvent._id : undefined,
+  //   };
+  //   console.log("Calendar Event:", calendarEvent);
+  //   try {
+  //     if (selectedEvent) {
+  //       await updateEvent(selectedEvent._id, calendarEvent, config);
+  //       dispatchCalEvent({
+  //         type: "update",
+  //         payload: { ...selectedEvent, ...calendarEvent },
+  //       });
+  //     } else {
+  //       const newEvent = await createEvent(calendarEvent, config);
+  //       dispatchCalEvent({ type: "push", payload: newEvent });
+  //     }
+  //     setShowEventModal(false);
+  //   } catch (error) {
+  //     console.error("Error saving event:", error);
+  //   }
+  // }
+
   async function handleSubmit(e) {
     e.preventDefault();
     const calendarEvent = {
@@ -81,20 +109,20 @@ export default function EventModal() {
       startTime,
       endTime,
       meetingUrl,
-      guests: selectedGuests.map(guest => guest._id),
+      guests: selectedGuests.map((guest) => guest._id),
       _id: selectedEvent ? selectedEvent._id : undefined,
     };
-    console.log("Calendar Event:", calendarEvent);
+
     try {
       if (selectedEvent) {
-        await updateEvent(selectedEvent._id, calendarEvent);
+        await updateEvent(selectedEvent._id, calendarEvent, config);
         dispatchCalEvent({
           type: "update",
           payload: { ...selectedEvent, ...calendarEvent },
         });
       } else {
-        const newEvent = await createEvent(calendarEvent);
-        dispatchCalEvent({ type: "push", payload: newEvent });
+        const newEvent = await createEvent(calendarEvent, config);
+        dispatchCalEvent({ type: "push", payload: newEvent.data });
       }
       setShowEventModal(false);
     } catch (error) {
@@ -104,7 +132,7 @@ export default function EventModal() {
 
   async function handleDelete() {
     try {
-      await deleteEvent(selectedEvent._id);
+      await deleteEvent(selectedEvent._id, config);
       dispatchCalEvent({ type: "delete", payload: selectedEvent });
       setShowEventModal(false);
     } catch (error) {
@@ -121,7 +149,7 @@ export default function EventModal() {
     console.log("New Meeting URL:", newMeetingUrl);
     setMeetingUrl(newMeetingUrl);
   }
-  
+
   useEffect(() => {
     // Fetch guests from the backend
     fetchGuests();
@@ -140,8 +168,6 @@ export default function EventModal() {
       console.error("Error fetching guests:", error);
     }
   };
-
-
 
   console.log("Guests:", guests);
   console.log("Filtered_Guests:", filteredGuests);
@@ -301,17 +327,19 @@ export default function EventModal() {
 
               {/* Render filtered guest suggestions */}
               {searchInput.length > 0 && (
-                <ul>
-                  {filteredGuests.map((guest) => (
-                    <li
-                      key={guest._id}
-                      onClick={() => handleAddGuest(guest)}
-                      style={{ color: "black", cursor: "pointer" }}
-                    >
-                      {guest.nom}
-                    </li>
-                  ))}
-                </ul>
+                <div className="guests-container">
+                  <ul>
+                    {filteredGuests.map((guest) => (
+                      <li
+                        key={guest._id}
+                        onClick={() => handleAddGuest(guest)}
+                        style={{ color: "black", cursor: "pointer" }}
+                      >
+                        {guest.nom}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
               {/* Render selected guests */}
               <div>
