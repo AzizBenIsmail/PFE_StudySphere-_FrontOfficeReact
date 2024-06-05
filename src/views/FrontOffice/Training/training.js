@@ -93,7 +93,7 @@ export default function Landing () {
       if (wordCount >= 15 && !truncated) {
         truncated = true
         return (
-          <Link key={index} to={`/DetailsFormation/${formationId}`}>
+          <Link key={index} to={`/landing/detailscours/${formationId}`}>
             (... voir plus)
           </Link>
         )
@@ -182,7 +182,7 @@ export default function Landing () {
                   <div className="p-4">
                     {/*<div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-centre w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">*/}
                     <div className="">
-                      <a href={`/DetailsFormation/${formation._id}`}>
+                      <Link to={`/landing/detailscours/${formation._id}`}>
                         <img
                           onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                           onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
@@ -191,7 +191,7 @@ export default function Landing () {
                           src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
                           style={{ width: '350px', height: '220px' }}
                         />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                   <div className="px-4 py-5 flex-auto">
