@@ -535,3 +535,17 @@
         margin-left: 30px;
     }
 }
+.details-content-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px; /* Adjust the gap as needed */
+}
+
+.details-sidebar-custom {
+    flex: 1;
+    max-width: 350px; /* Adjust the width as needed */
+}
+
+.details-content-custom {
+    flex: 2;
+}
