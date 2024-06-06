@@ -241,7 +241,7 @@ const Tabs = ({code}) => {
                         : 'text-lightBlue-800')
                     }
                     onClick={e => {
-                      e.preventDefault()
+                      history.push("/AccountManagement/GestionFav");
                       setOpenTab(code)
                     }}
                     data-toggle="tab"
@@ -253,7 +253,7 @@ const Tabs = ({code}) => {
 
                       <div className="ml-2">
                         <h3 className="text-1xl mt-2">
-                          Notifications par e-mail
+                          Liste favoris
                         </h3>
                       </div>
                     </div>
