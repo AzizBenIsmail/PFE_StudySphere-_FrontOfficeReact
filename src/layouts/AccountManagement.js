@@ -21,6 +21,9 @@ const updateStuff = lazy(() => import("../views/FrontOffice/AccountManagement/up
 const BadgesNiveauXp = lazy(() =>
   import("../views/FrontOffice/AccountManagement/BadgesNiveauXp.js")
 );
+const GestionFav = lazy(() =>
+  import("../views/FrontOffice/AccountManagement/GestionFav")
+);
 export default function AccountManagement () {
   const jwt_token = Cookies.get('jwt_token')
   const [user, setUser] = useState(null);
@@ -82,7 +85,8 @@ export default function AccountManagement () {
                 <Route path="/AccountManagement/updatePassword" exact component={updatePassword} />
                 <Route path="/AccountManagement/edit/:id" exact component={updateProfile} />
                 <Route path="/AccountManagement/stuff" exact component={updateStuff} />
-              <Route path="/AccountManagement/BadgesNiveauXp" exact component={BadgesNiveauXp} />
+                <Route path="/AccountManagement/GestionFav" exact component={GestionFav} />
+                <Route path="/AccountManagement/BadgesNiveauXp" exact component={BadgesNiveauXp} />
               <Redirect from="/AccountManagement" to="Setting"/>
             </Switch>
           </Suspense>
