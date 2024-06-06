@@ -1,25 +1,27 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import '../../../assets/styles/detailcours.css'
-import Cookies from 'js-cookie'
-import { Link, useHistory, useParams } from 'react-router-dom'
-import { getFormationById } from '../../../Services/ApiFormation'
-import { RiStarSLine , RiStarSFill } from "react-icons/ri";
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import '../../../assets/styles/detailcours.css';
+import Cookies from 'js-cookie';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { getFormationById } from '../../../Services/ApiFormation';
+import { RiStarSLine, RiStarSFill } from "react-icons/ri";
+import { getFavoris, addFavori, removeFavori } from '../../../Services/ApiFav';
 
 function Details() {
-  const jwt_token = Cookies.get('jwt_token')
-  const history = useHistory()
-  const param = useParams()
+  const jwt_token = Cookies.get('jwt_token');
+  const history = useHistory();
+  const param = useParams();
   const [isFilled, setIsFilled] = useState(false);
+  const [favoriId, setFavoriId] = useState(null);
 
   const config = useMemo(() => {
     return {
       headers: {
         Authorization: `Bearer ${jwt_token}`,
       },
-    }
-  }, [jwt_token])
+    };
+  }, [jwt_token]);
 
-  const [formation, setFormation] = useState(null)
+  const [formation, setFormation] = useState(null);
 
   const loadFormations = useCallback(async () => {
     try {
@@ -35,9 +37,23 @@ function Details() {
     }
   }, [param.id, config]);
 
+  const checkFavori = useCallback(async () => {
+    try {
+      const favoris = await getFavoris(config);
+      const foundFavori = favoris.find(favori => favori.formationId === param.id);
+      if (foundFavori) {
+        setIsFilled(true);
+        setFavoriId(foundFavori._id);
+      }
+    } catch (error) {
+      console.error('Error checking favoris:', error);
+    }
+  }, [param.id, config]);
+
   useEffect(() => {
-    loadFormations()
-  }, [loadFormations])
+    loadFormations();
+    checkFavori();
+  }, [loadFormations, checkFavori]);
 
   if (!formation) {
     return <div>Loading...</div>;
@@ -56,23 +72,33 @@ function Details() {
     const minutes = date.getMinutes().toString().padStart(2, '0');
 
     return `${dayName} ${day} ${month} ${year} at ${hours}:${minutes}`;
-  }
+  };
 
   const formatDuration = (minutes) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return `${hours} hour(s) and ${mins} minute(s)`;
-  }
+  };
 
-  const toggleIcon = () => {
-    setIsFilled(!isFilled);
+  const toggleIcon = async () => {
+    try {
+      if (isFilled) {
+        await removeFavori(favoriId, config);
+        setFavoriId(null);
+      } else {
+        const newFavori = await addFavori({ formationId: param.id }, config);
+        setFavoriId(newFavori._id);
+      }
+      setIsFilled(!isFilled);
+    } catch (error) {
+      console.error('Error toggling favori:', error);
+    }
   };
 
   return (
     <>
       {/* <Header /> */}
       <section className="pt-1 bg-blueGray-200 ">
-
         <div className='title-event-det mt-5 '>
           <h1 className="mb-5 text-center"> Détails des cours</h1>
         </div>
@@ -96,7 +122,6 @@ function Details() {
                     <div className="details-group-custom" onClick={toggleIcon} style={{ cursor: 'pointer' }}>
                       {isFilled ? <RiStarSFill size={40} /> : <RiStarSLine size={40} />}
                     </div>
-
                   </div>
                   <img className="details-image-custom img-fluid ml-15"
                        src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
