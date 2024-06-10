@@ -152,7 +152,9 @@ export default function EventModal() {
 
   useEffect(() => {
     // Fetch guests from the backend
+    
     fetchGuests();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchGuests = async () => {

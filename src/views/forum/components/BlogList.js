@@ -1,79 +1,10 @@
-// import React from 'react';
-// import { useSelector } from 'react-redux';
-// import Blog from './Blog';
-// import { Container, Typography } from '@mui/material';
-
-// const BlogList = () => {
-//   const blogs = useSelector((state) => state.blogs);
-//  // console.log("Blogs state in BlogList:", blogs);
-//   // Ensure that blogs is an array and sort it by likes
-
-//   const sortedBlogs = Array.isArray(blogs)
-//     ? [...blogs].sort((a, b) => b.likes - a.likes)
-//     : [];
-
-//     //console.log("Sorted Blogs:", sortedBlogs);
-
-//   return (
-//     <Container maxWidth="md">
-//       <Typography variant="h4" align="center" gutterBottom>
-//         Posts
-//       </Typography>
-//       {sortedBlogs.length > 0 ? (
-//         sortedBlogs.map((blog) => (
-//           <Blog key={blog._id} blog={blog} />
-//         ))
-//       ) : (
-//         <Typography variant="body1" align="center">
-//           No posts yet... Create one!
-//         </Typography>
-//       )}
-//     </Container>
-//   );
-// };
-
-// export default BlogList;
 
 
-// import React from 'react';
-// import { useSelector } from 'react-redux';
-// import Blog from './Blog';
-// import { Container, Typography } from '@mui/material';
 
-// const BlogList = () => {
-//   const blogs = useSelector((state) => state.blogs);
-//   // console.log("Blogs state in BlogList:", blogs);
-//   // Ensure that blogs is an array and sort it by likes
-
-//   const sortedBlogs = Array.isArray(blogs)
-//     ? [...blogs].sort((a, b) => b.likes - a.likes)
-//     : [];
-
-//   // console.log("Sorted Blogs:", sortedBlogs);
-
-//   return (
-//     <Container maxWidth="md">
-//       <Typography variant="h4" align="center" gutterBottom>
-//         Posts
-//       </Typography>
-//       {sortedBlogs.length > 0 ? (
-//         sortedBlogs.map((blog) => (
-//           <Blog key={blog._id} blog={blog} />
-//         ))
-//       ) : (
-//         <Typography variant="body1" align="center">
-//           No posts yet... Create one!
-//         </Typography>
-//       )}
-//     </Container>
-//   );
-// };
-
-// export default BlogList;
 import Blog from "../components/Blog";
 import { useSelector } from "react-redux";
 import { Card, Typography } from "@mui/material"; // Import Material-UI components
-import BlogFooter from "./BlogFooter";
+
 
 const BlogList = () => {
   const blogs = useSelector((state) => state.blogs);
@@ -91,7 +22,7 @@ const BlogList = () => {
             </header>
             {blogs1.length > 0 ? (
               blogs1
-                .sort((a, b) => (a.likes > b.likes ? -1 : 1))
+              .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)) // Sort by dateCreated
                 .map((blog) => {
                   // Log the _id for debugging
                  // console.log("Blog ID:", blog._id);

@@ -4,28 +4,33 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { setNotification } from "../reducers/notificationReducer";
 import { updateBlog, deleteBlog, commentBlog } from "../reducers/blogReducer";
-import { useState , useEffect  } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import BlogFooter from "./BlogFooter";
 import Comment from "./Comment";
 import { Container, Typography, Button, CircularProgress } from "@mui/material"; // Import Material-UI components
 
 const BlogView = ({ blog }) => {
-  console.log("BlogView blog:", blog);
+  //console.log("BlogView blog:", blog);
   const user = useSelector((state) => state.users);
   const allUsers = useSelector((state) => state.allUsers);
   const [newComment, setNewComment] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
-  const blogs = useSelector((state) => state.blogs);
+ // const blogs = useSelector((state) => state.blogs);
   const [commentSuccess, setCommentSuccess] = useState(false);
-
 
   useEffect(() => {
     if (commentSuccess) {
       window.location.reload();
     }
   }, [commentSuccess]);
+  const [comments, setComments] = useState(blog.comments ? blog.comments : []);
+
+  useEffect(() => {
+    // Update comments when blog data changes
+    setComments(blog.comments ? blog.comments : []);
+  }, [blog]);
+
 
   if (blog === undefined) {
     return <CircularProgress />;
@@ -34,15 +39,16 @@ const BlogView = ({ blog }) => {
   // console.log("User state in blogview :", user);
   // console.log("Blogs state in blogview:", blogs);
   // console.log("AllUsers state in blogview:", allUsers);
-   const comments = blog.comments ? blog.comments : [];
+
+
   // console.log("commentd in blogview:", comments);
 
   const user1 = Array.isArray(allUsers.users)
     ? allUsers.users.find((user) => user._id === blog.user._id)
     : null;
-  console.log("User1 in blogview:", user1);
+ // console.log("User1 in blogview:", user1);
 
-console.log("likes of post :", blog.likes);
+ // console.log("likes of post :", blog.likes);
 
   const handleUpdateBlog = async (blogObject) => {
     try {
@@ -51,7 +57,7 @@ console.log("likes of post :", blog.likes);
         likes: blog.likes + 1,
       };
       await dispatch(updateBlog(updatedBlog));
-      history.push("/forum/");
+  
     } catch (error) {
       const notif = {
         message: error.response.data.error,
@@ -81,7 +87,6 @@ console.log("likes of post :", blog.likes);
     }
   };
 
-  
   const commentFormSubmit = (event) => {
     event.preventDefault();
     handleComment(newComment, blog._id);
@@ -89,12 +94,14 @@ console.log("likes of post :", blog.likes);
 
   const handleComment = async (comment, id) => {
     try {
-       await dispatch(commentBlog(comment, id));
+      await dispatch(commentBlog(comment, id));
       const notif1 = {
         message: "Comment added successfully",
         type: "success",
       };
       dispatch(setNotification(notif1, 2500));
+      setComments([...comments, { content: comment, user: user._id, dateCreated: new Date().toISOString() }]);
+      //setComments([...comments, { comment, id }]);
       setCommentSuccess(true);
       setNewComment("");
     } catch (error) {
@@ -106,7 +113,6 @@ console.log("likes of post :", blog.likes);
     }
   };
 
- 
   // console.log("User:", user);
   // console.log("User ID:", user.user._id);
   // //console.log("User ID:", user._id);
@@ -114,8 +120,6 @@ console.log("likes of post :", blog.likes);
   // console.log("Blog User:", blog.user);
   // console.log("Check if user ID matches blog user ID:", user && user.user._id=== blog.user._id);
   // //console.log("Check if user ID matches blog user:", user && user.user._id === blog.user);
-  
-
 
   return (
     <div className="mt-16">
@@ -127,10 +131,8 @@ console.log("likes of post :", blog.likes);
           <address className="flex items-center mb-6 not-italic">
             <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
               <div>
-                <Typography  >
-              
-
-                  u/{user1.nom || "Unknown"}
+                <Typography>
+                  u/{user1 && user1.nom ? user1.nom : "Unknown"}
                 </Typography>
 
                 <Typography variant="body2" color="textSecondary" component="p">
@@ -148,10 +150,12 @@ console.log("likes of post :", blog.likes);
                   <Button onClick={() => handleUpdateBlog(blog)}>
                     <FavoriteIcon className="h-6 w-6" />
                   </Button>
-                  {user &&
-                  ( user.user._id === blog.user._id) ? (
+                  {user && user.user._id === blog.user._id ? (
                     <>
-                      <Button href={`/forum/posts/edit/${blog._id}`} color="warning">
+                      <Button
+                        href={`/forum/posts/edit/${blog._id}`}
+                        color="warning"
+                      >
                         <EditIcon className="h-6 w-6" />
                       </Button>
                       <Button
@@ -200,7 +204,7 @@ console.log("likes of post :", blog.likes);
 
             {comments.length > 0 ? (
               comments.map((comment) => (
-                <Comment key={comment._id} comment={comment} />
+                <Comment key={comment._id} comment={comment} user={user} />
               ))
             ) : (
               <article className="p-6 text-base bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900">
@@ -213,8 +217,6 @@ console.log("likes of post :", blog.likes);
           </section>
         </Container>
       </main>
-
-   
     </div>
   );
 };

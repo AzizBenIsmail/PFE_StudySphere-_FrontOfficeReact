@@ -1,6 +1,6 @@
 
 
-import React, { useContext ,useEffect } from "react";
+import React, { useContext  } from "react";
 import GlobalContext from "../context/GlobalContext";
 import Draggable from "react-draggable";
 import { useAuthContext } from "../../chat/context/AuthContext";

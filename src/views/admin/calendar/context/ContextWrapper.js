@@ -53,7 +53,7 @@ export default function ContextWrapper(props) {
     [], // Initialize with an empty array
     savedEvents => savedEvents // No need for initialization function
   );
-  const [loading, setLoading] = useState(true); // Add loading state
+ // const [loading, setLoading] = useState(true); // Add loading state
 
   //console.log('savedEvents:', savedEvents);
 
@@ -64,15 +64,16 @@ export default function ContextWrapper(props) {
       const events = await getAllEvents(config);
       //console.log('Fetched events:', events);
       dispatchCalEvent({ type: 'init', payload: events }); // Dispatch the fetched events
-      setLoading(false); // Set loading to false after fetching
+      //setLoading(false); // Set loading to false after fetching
     } catch (error) {
       //console.error('Error fetching events from the database:', error);
-      setLoading(false); // Set loading to false even if there's an error
+      //setLoading(false); // Set loading to false even if there's an error
     }
   };
 
   useEffect(() => {
     fetchEvents(); // Fetch events when component mounts
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   

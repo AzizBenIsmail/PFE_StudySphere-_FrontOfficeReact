@@ -1,10 +1,10 @@
-import React, { useState , useEffect } from "react";
+import React, { useState  } from "react";
 import { useDispatch } from "react-redux";
 import { createBlog } from "../reducers/blogReducer";
 import { useHistory } from "react-router-dom";
 import { setNotification } from "../reducers/notificationReducer";
 import { TextField, Button, TextareaAutosize } from "@mui/material"; // Import TextareaAutosize from Material-UI
-import BlogFooter from "./BlogFooter";
+
 
 const NewBlog = () => {
   const dispatch = useDispatch();

@@ -9,10 +9,10 @@ const Comment = ({ comment }) => {
   
 
   const usersArray = allUsers.users; // Access the array property
-  console.log("usersArray state in comment:", usersArray);
+  //console.log("usersArray state in comment:", usersArray);
 
   const user = usersArray.find((user) => user._id === comment.user);
-  console.log("userstate in comment:", user);
+  //console.log("userstate in comment:", user);
 
   if (user === undefined) {
     return <CircularProgress />;

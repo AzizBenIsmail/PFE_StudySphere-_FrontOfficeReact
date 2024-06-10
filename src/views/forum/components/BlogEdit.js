@@ -7,10 +7,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import CircularProgress from "@mui/material/CircularProgress";
-import BlogFooter from "./BlogFooter";
+
 
 const BlogEdit = ({ blog }) => {
-  console.log("Rendering BlogEdit component"); // Add console log here
+ // console.log("Rendering BlogEdit component"); // Add console log here
   const dispatch = useDispatch();
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
@@ -58,7 +58,7 @@ const BlogEdit = ({ blog }) => {
       };
       await dispatch(updateBlog(blogObject));
       setEditSuccess(true);
-      history.push(`/forum/posts/edit/${blog._id}`);
+      history.push(`/forum/`);
       dispatch(setNotification(notif1, 2500));
     } catch (exception) {
       const notif2 = {

@@ -1,6 +1,4 @@
-import { CircularProgress } from "@mui/material";
 import Blog from "./Blog";
-
 const UserView = ({ userInView }) => {
   if (userInView === undefined) {
     return null;
