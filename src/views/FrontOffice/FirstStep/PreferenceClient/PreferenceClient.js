@@ -878,9 +878,9 @@ export default function PreferenceClient () {
                               onChange={(e) => handleSelectChange(e)}
                             >
                               <option value="">Sélectionnez votre Style d'apprentissage</option>
-                              <option value="enligne">Enligne</option>
-                              <option value="hybride">Hybride</option>
-                              <option value="presentiel">Présentiel</option>
+                              <option value="Enligne">Enligne</option>
+                              <option value="Hybride">Hybride</option>
+                              <option value="Presentiel">Présentiel</option>
                             </select>
                           </div>
                         </div>
