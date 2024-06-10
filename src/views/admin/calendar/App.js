@@ -7,10 +7,9 @@ import Month from "./components/Month";
 import GlobalContext from "./context/GlobalContext";
 import EventModal from "./components/EventModal";
 
-
 function App() {
   const [currentMonth, setCurrentMonth] = useState(getMonth());
-  const { monthIndex, showEventModal } = useContext(GlobalContext);
+  const { monthIndex, showEventModal, filteredEvents } = useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentMonth(getMonth(monthIndex));
@@ -33,7 +32,7 @@ function App() {
 
           <div className="flex flex-1 p-4">
             <Sidebar />
-            <Month month={currentMonth} />
+            <Month month={currentMonth} events={filteredEvents} /> {/* Pass filteredEvents as props to Month component */}
           </div>
         </div>
       </div>
