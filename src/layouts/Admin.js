@@ -28,7 +28,7 @@ import Notification from "../views/admin/Notification/Notification";
 import Formation from "../views/admin/Formation/Formation";
 import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
-
+import Calendar from "../views/admin/calendar/App.js"
 
 export default function Admin() {
   const jwt_token = Cookies.get('jwt_token');
@@ -98,7 +98,7 @@ export default function Admin() {
             <Route path="/admin/Ajouterutilisateur" exact component={AddUser} />
             <Route path="/admin/Modifierutilisateur/:id" exact component={UpdateUser} />
             <Route path="/admin/UpdatePassword/:id" exact component={UpdatePassword} />
-
+            <Route path="/admin/calender" exact component={Calendar} />
             <Redirect from="/admin" to="/admin/dashboard" />
           </Switch>
           </Suspense>

@@ -3297,3 +3297,199 @@ select {
 .save-button:hover {
   background-color: #0056b3;
 }
+
+
+.w-8 {
+  width: 8rem;
+}
+.w-60 {
+  width: 18rem;
+}
+.w-64 {
+  width: 24rem;
+}
+.w-65 {
+  width: 40rem;
+}
+.w-66 {
+  width: 48rem;
+}
+.w-100 {
+  width: 76.5vw;
+}
+.w-17 {
+  width: 7rem;
+}
+.lg\:w-64 {
+  width: 23.5vw; /* Fixed width of 64px for large screens */
+}
+.lg\:w-2\/3 {
+  width: 55vw;
+}
+.lg\:w-63 {
+  width: 21.5vw; /* Fixed width of 64px for large screens */
+}
+.min-w-screen {
+  min-width: 100vw;
+}
+.lg\:w-4 {
+  width: 9.5vw; /* Fixed width of 64px for large screens */
+}
+.profile-sidebar {
+  width: 21.5vw; /* Adjust the width as needed */
+  right: 0;
+  max-width: 100%;
+  overflow-y: auto;
+  display: flex; /* Use flexbox */
+  flex-direction: column;
+  height: auto;
+  max-height: 80vh;
+}
+.containerv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+
+.btn {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 50%;
+  background-color: #ccc;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.btn-item:hover {
+  background-color: #999;
+}
+
+.btn-item:disabled {
+  background-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
+}
+
+
+
+.gride {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 400px));
+  /* grid-auto-rows: 330px; */
+  justify-content: center;
+  column-gap: 1rem;
+  row-gap: 1rem;
+}
+
+
+
+.sidebar-conversations {
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+}
+
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-7 {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.grid-rows-5 {
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+}
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+.h-modal{
+  height: 47vh;
+}
+.messages-container {
+  max-height: 60vh; /* Set a maximum height for the messages container */
+}
+
+.bg-gray-50 {
+  background-color: #f8fafc;
+}
+
+.bg-gray-100 {
+  background-color: #f1f5f9;
+}
+
+.bg-gray-200 {
+  background-color: #e2e8f0;
+}
+
+.bg-gray-300 {
+  background-color: #cbd5e1;
+}
+
+.bg-gray-400 {
+  background-color: #e5e7eb;
+}
+
+.bg-gray-500 {
+  background-color: #d1d5db;
+}
+.bg-gray-600 {
+  background-color: #9ca3af;
+}
+
+.guests-container {
+  height: 150px; /* Adjust this value to fit three guests */
+  overflow-y: auto;
+}
+
+.bg-blue-500 {
+  background-color: #06b6d4; /* Adjust color as needed */
+}
+.bg-teal-500 {
+  background-color: #0891b2; /* Adjust color as needed */
+}
+
+.bg-green-500 {
+  background-color: #cffafe; /* Adjust color as needed */
+}
+
+.bg-indigo-500 {
+  background-color: #1b97ad; /* Adjust color as needed */
+}
+
+.bg-blue-900 {
+  background-color: #0e7490; /* Adjust color as needed */
+}
+.bg-blue-200 {
+  background-color: #67e8f9; /* Adjust color as needed */
+}
+.bg-blue-300 {
+  background-color: #7dd3fc; /* Adjust color as needed */
+}
+.bg-blue-600 {
+  background-color: #0891b2; /* Adjust color as needed */
+}
+.bg-blue-500 {
+  background-color: #06b6d4; /* Adjust color as needed */
+}
+.bg-blue-200 {
+  background-color: #22d3ee; /* Adjust color as needed */
+}

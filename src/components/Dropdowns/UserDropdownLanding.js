@@ -217,6 +217,30 @@ const UserDropdown = ({ user }) => {
         </button>
         <button
           className={
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          }
+          onClick={() => history.push("/chat")}
+        >
+          Chat
+        </button>
+        <button
+          className={
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          }
+          onClick={() => history.push("/userCalendar")}
+        >
+          Calendar
+        </button>
+        <button
+          className={
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          }
+          onClick={() => history.push("/forum")}
+        >
+          Forum
+        </button>
+        <button
+          className={
             'flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
           }
           onClick={(e) => history.push('/landing/notification')}
@@ -224,6 +248,7 @@ const UserDropdown = ({ user }) => {
           <CiUser style={{ fontSize: '20px' }} className="mr-1"/>
           Mes Notification
         </button>
+       
         <div className="h-0 my-2 border border-solid border-blueGray-100"/>
         <a
           href="#pablo"
