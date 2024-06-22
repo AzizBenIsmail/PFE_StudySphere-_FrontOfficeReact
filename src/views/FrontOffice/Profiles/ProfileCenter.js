@@ -332,7 +332,7 @@ export default function Profile() {
                         <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                           <div className="px-4 py-5 flex-auto">
                             <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                              <a href={`/DetailsFormation/${formation._id}`}>
+                              <a href={`/landing/detailscours/${formation._id}`}>
                                 <img
                                   alt="..."
                                   className="align-middle border-none max-w-full h-auto rounded-lg"

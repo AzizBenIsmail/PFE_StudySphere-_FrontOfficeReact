@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import '../../../assets/styles/detailcours.css';
 import Cookies from 'js-cookie';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getFormationById } from '../../../Services/ApiFormation';
 import { RiStarSLine, RiStarSFill } from "react-icons/ri";
 import { getFavoris, addFavori, removeFavori } from '../../../Services/ApiFav';
 
 function Details() {
   const jwt_token = Cookies.get('jwt_token');
-  const history = useHistory();
   const param = useParams();
   const [isFilled, setIsFilled] = useState(false);
   const [favoriId, setFavoriId] = useState(null);
