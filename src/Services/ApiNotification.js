@@ -2,7 +2,9 @@
 
 import axios from 'axios';
 
-const apiURL = 'http://localhost:5000/notification';
+// const apiURL = 'http://localhost:5000/notification';
+const apiURL = 'https://forme-5wc0.onrender.com/notification'
+
 
 // Fonction pour créer une nouvelle notification
 export async function createNotification(notificationData, config) {

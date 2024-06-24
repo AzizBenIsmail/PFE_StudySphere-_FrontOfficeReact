@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const apiURL = 'http://localhost:5000/xp'
+// const apiURL = 'http://localhost:5000/xp'
+const apiURL = 'https://forme-5wc0.onrender.com/xp'
 
 export async function createXP(xpData, config) {
     return await axios.post(apiURL, xpData, config);

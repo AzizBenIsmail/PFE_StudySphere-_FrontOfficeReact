@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const apiURL = 'http://localhost:5000/niveau'
+// const apiURL = 'http://localhost:5000/niveau'
+const apiURL = 'https://forme-5wc0.onrender.com/niveau'
 
 export async function createNiveau(niveauData, config) {
   return await axios.post(apiURL, niveauData, config);
