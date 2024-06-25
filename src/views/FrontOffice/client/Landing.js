@@ -506,8 +506,8 @@ export default function Landing({ user }) {
                                   <img
                                     alt="..."
                                     className="align-middle border-none max-w-full h-auto rounded-lg"
-                                    // src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
-                                    src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
+                                     src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                                    //src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                                     style={{ width: "350px", height: "220px" }}
                                     onMouseEnter={(e) =>
                                       (e.currentTarget.style.boxShadow =
@@ -532,8 +532,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
+                                 src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -559,8 +559,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
+                                 src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                //src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -700,8 +700,8 @@ export default function Landing({ user }) {
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
-                              // src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
-                              src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
+                              src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                              //src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                               style={{ width: "350px", height: "220px" }}
                               onMouseEnter={(e) =>
                                 (e.currentTarget.style.boxShadow =
@@ -726,8 +726,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
+                                 src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -753,8 +753,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
+                                 src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -887,8 +887,8 @@ export default function Landing({ user }) {
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
-                              // src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
-                              src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
+                               src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                             // src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                               style={{ width: "350px", height: "220px" }}
                               onMouseEnter={(e) =>
                                 (e.currentTarget.style.boxShadow =
@@ -913,8 +913,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
+                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -940,8 +940,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
+                                 src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                //src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1074,8 +1074,8 @@ export default function Landing({ user }) {
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
-                              // src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
-                              src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
+                               src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                             // src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                               style={{ width: "350px", height: "220px" }}
                               onMouseEnter={(e) =>
                                 (e.currentTarget.style.boxShadow =
@@ -1100,8 +1100,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
+                                 src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1127,8 +1127,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
+                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1261,8 +1261,8 @@ export default function Landing({ user }) {
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
-                              // src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
-                              src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
+                               src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                              //src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                               style={{ width: "350px", height: "220px" }}
                               onMouseEnter={(e) =>
                                 (e.currentTarget.style.boxShadow =
@@ -1287,8 +1287,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
+                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1314,8 +1314,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
+                                 src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1448,8 +1448,8 @@ export default function Landing({ user }) {
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
-                              // src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
-                              src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
+                               src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                             // src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                               style={{ width: "350px", height: "220px" }}
                               onMouseEnter={(e) =>
                                 (e.currentTarget.style.boxShadow =
@@ -1474,8 +1474,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
+                                 src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1501,8 +1501,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                // src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
-                                src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
+                                 src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
