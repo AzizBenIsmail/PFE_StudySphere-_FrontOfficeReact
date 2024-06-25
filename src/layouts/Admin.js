@@ -47,7 +47,7 @@ export default function Admin() {
       try {
         const res = await getUserAuth(config);
         if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
-          window.location.replace(`/landing/`)
+          //window.location.replace(`/landing/`)
         }
         setUser(res.data.user);
       } catch (error) {
@@ -58,7 +58,7 @@ export default function Admin() {
     if (jwt_token) {
       fetchData();
     } else {
-      window.location.replace(`/`);
+      //window.location.replace(`/`);
     }
   }, [jwt_token, config]);
 
