@@ -36,7 +36,7 @@ export default function Dashboard() {
     }
     fetchData()
   } else {
-    window.location.replace(`/`)
+    //window.location.replace(`/`)
   }
   return (
     <>
