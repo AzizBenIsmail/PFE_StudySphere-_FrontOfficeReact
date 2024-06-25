@@ -42,29 +42,29 @@ export default function Admin() {
     }
   }, [jwt_token]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getUserAuth(config);
-        if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
-          window.location.replace(`/landing/`)
-        }
-        setUser(res.data.user);
-      } catch (error) {
-        console.log(error)
-      }
-    };
-
-    if (jwt_token) {
-      fetchData();
-    } else {
-      window.location.replace(`/`);
-    }
-  }, [jwt_token, config]);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await getUserAuth(config);
+  //       if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
+  //         window.location.replace(`/landing/`)
+  //       }
+  //       setUser(res.data.user);
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   };
+  //
+  //   if (jwt_token) {
+  //     fetchData();
+  //   } else {
+  //     window.location.replace(`/`);
+  //   }
+  // }, [jwt_token, config]);
+  //
+  // useEffect(() => {
+  //   console.log(user);
+  // }, [user]);
 
 
   return (
