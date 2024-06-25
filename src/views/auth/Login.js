@@ -75,7 +75,7 @@ export default function Login () {
         setN(3)
       } else {
         try {
-          const res = await LoginUser(user).then(res => {
+          await LoginUser(user).then(res => {
             if (res.data.user.role === 'admin' || res.data.user.role === 'moderateur') {
               // window.location.replace(`/admin`);
             } else if (res.data.user.role === 'client' || res.data.user.role === 'formateur' || res.data.user.role === 'centre') {
