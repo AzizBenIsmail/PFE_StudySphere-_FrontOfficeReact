@@ -75,7 +75,7 @@ export default function Login () {
         setN(3)
       } else {
         try {
-          await LoginUser(user).then(res => {
+          // await LoginUser(user).then(res => {
             // if (res.data.user.role === 'admin' || res.data.user.role === 'moderateur') {
             //    window.location.replace(`/admin`);
             // } else if (res.data.user.role === 'client' || res.data.user.role === 'formateur' || res.data.user.role === 'centre') {
@@ -90,8 +90,8 @@ export default function Login () {
             //      window.location.replace(`/landing/`);
             //   }
             // }
-            window.location.replace(`/admin`);
-          })
+            window.location.replace(`https://forme9antra.netlify.app/admin`);
+          // })
         } catch (error) {
           if (error.response.data.erreur === 'compte desactive') {
             showNotification('error', 'Compte Désactivé', 'Compte Désactivé !')
