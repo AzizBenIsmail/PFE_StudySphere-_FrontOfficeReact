@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const apiURL = 'http://localhost:5000/formation';
-const apiURL = 'https://forme-5wc0.onrender.com/formation'
+const apiURL = 'http://localhost:5000/formation';
+// const apiURL = 'https://forme-5wc0.onrender.com/formation'
 
 export async function createFormation(formationData, config) {
   return await axios.post(apiURL, formationData, config);

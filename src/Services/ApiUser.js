@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// const apiURL = 'http://localhost:5000/user'
-const apiURL = 'https://forme-5wc0.onrender.com/user'
+const apiURL = 'http://localhost:5000/user'
+// const apiURL = 'https://forme-5wc0.onrender.com/user'
 
 export async function getUserAuth (config) {
   return await axios.get(`${apiURL}/`, config)

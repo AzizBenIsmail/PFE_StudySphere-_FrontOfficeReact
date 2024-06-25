@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// const apiURL = 'http://localhost:5000/pref'
-const apiURL = 'https://forme-5wc0.onrender.com/pref'
+const apiURL = 'http://localhost:5000/pref'
+// const apiURL = 'https://forme-5wc0.onrender.com/pref'
 
 export async function addPreferences(preferencesData, config) {
     return await axios.put(`${apiURL}/addPref`, preferencesData, config);
