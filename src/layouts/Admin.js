@@ -1,12 +1,12 @@
-import React, { Suspense, useState ,} from 'react'
+import React, { Suspense, useMemo, useState , useEffect} from 'react'
 
 import { Switch, Route, Redirect } from "react-router-dom";
 
 // components
 
-// import AdminNavbar from "components/Navbars/AdminNavbar.js";
-// import Sidebar from "components/Sidebar/Sidebar.js";
-// import HeaderStats from "components/Headers/HeaderStats.js";
+import AdminNavbar from "components/Navbars/AdminNavbar.js";
+import Sidebar from "components/Sidebar/Sidebar.js";
+import HeaderStats from "components/Headers/HeaderStats.js";
 import FooterAdmin from "components/Footers/FooterAdmin.js";
 
 // views
@@ -26,56 +26,56 @@ import LitseXp from "../views/admin/xp/LitseXp.js";
 import DetailsFormation from "../views/admin/Formation/DetailsFormation.js";
 import Notification from "../views/admin/Notification/Notification";
 import Formation from "../views/admin/Formation/Formation";
-// import Cookies from 'js-cookie'
-// import { getUserAuth } from '../Services/Apiauth'
+import Cookies from 'js-cookie'
+import { getUserAuth } from '../Services/Apiauth'
 
 
 export default function Admin() {
-  // const jwt_token = Cookies.get('jwt_token');
-  const [user] = useState(null);
-  //
-  // const config = useMemo(() => {
-  //   return {
-  //     headers: {
-  //       Authorization: `Bearer ${jwt_token}`,
-  //     },
-  //   }
-  // }, [jwt_token]);
+  const jwt_token = Cookies.get('jwt_token');
+  const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await getUserAuth(config);
-  //       if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
-  //         window.location.replace(`/landing/`)
-  //       }
-  //       setUser(res.data.user);
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   };
-  //
-  //   if (jwt_token) {
-  //     fetchData();
-  //   } else {
-  //     window.location.replace(`/`);
-  //   }
-  // }, [jwt_token, config]);
-  //
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    }
+  }, [jwt_token]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getUserAuth(config);
+        if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
+          window.location.replace(`/landing/`)
+        }
+        setUser(res.data.user);
+      } catch (error) {
+        console.log(error)
+      }
+    };
+
+    if (jwt_token) {
+      fetchData();
+    } else {
+      window.location.replace(`/`);
+    }
+  }, [jwt_token, config]);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
 
   return (
     <>
     {user !== null && (
       <>
-        {/*<Sidebar user={user}/>*/}
+        <Sidebar user={user}/>
       <div className="relative md:ml-60 bg-blueGray-100">
-        {/*<AdminNavbar />*/}
+        <AdminNavbar />
         {/* Header */}
-        {/*<HeaderStats />*/}
+        <HeaderStats />
         <div className="px-4 md:px-10 mx-auto w-full -m-24">
             <Suspense
               fallback={
