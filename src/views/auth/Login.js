@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-// import { LoginUser } from '../../Services/Apiauth'
+import { LoginUser } from '../../Services/Apiauth'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
+import { useHistory } from 'react-router-dom';
 
 export default function Login () {
   const [User, setUser] = useState({
     email: '',
     password: '',
   })
+  const history = useHistory();
 
   const [n, setN] = useState(0) // Ajout de la variable n
   const [emailError, setEmailError] = useState('')
@@ -75,23 +77,30 @@ export default function Login () {
         setN(3)
       } else {
         try {
-          // await LoginUser(user).then(res => {
-            // if (res.data.user.role === 'admin' || res.data.user.role === 'moderateur') {
-            //    window.location.replace(`/admin`);
-            // } else if (res.data.user.role === 'client' || res.data.user.role === 'formateur' || res.data.user.role === 'centre') {
-            //   if (res.data.user.visitsCount === 0 && res.data.user.role === 'client') {
-            //     // window.location.replace(`/First/Step?n=1`);
-            //      window.location.replace(`/First/announcement`);
-            //   } else if (res.data.user.visitsCount === 0 && res.data.user.role === 'centre') {
-            //      window.location.replace(`/First/announcementCenter`);
-            //   } else if (res.data.user.visitsCount === 0 && res.data.user.role === 'formateur') {
-            //     window.location.replace(`/First/announcementFormateur`);
-            //   } else {
-            //      window.location.replace(`/landing/`);
-            //   }
-            // }
-            window.location.replace(`https://forme9antra.netlify.app/admin`);
-          // })
+          const res = await LoginUser(user)
+          if (res.data.user.role === 'admin' || res.data.user.role === 'moderateur' ) {
+            // window.location.replace(`/admin`)
+            history.push(`/admin`);
+          } else if (res.data.user.role === 'client' || res.data.user.role === 'formateur' || res.data.user.role === 'centre' ) {
+            if (res.data.user.visitsCount === 0 && res.data.user.role === 'client' ) {
+              // window.location.replace(`/First/Step?n=1`)
+              // window.location.replace(`/First/announcement`)
+              history.push(`/First/announcement`);
+            } else if (res.data.user.visitsCount === 0 && res.data.user.role === 'centre' ) {
+              // window.location.replace(`/First/announcementCenter`)
+              history.push(`/First/announcementCenter`);
+            }
+            else if (res.data.user.visitsCount === 0 && res.data.user.role === 'formateur' ) {
+              // window.location.replace(`/First/announcementFormateur`)
+              history.push(`/First/announcementFormateur`);
+
+            }
+            else {
+              // window.location.replace(`/landing/`)
+              history.push(`/landing/`);
+
+            }
+          }
         } catch (error) {
           if (error.response.data.erreur === 'compte desactive') {
             showNotification('error', 'Compte Désactivé', 'Compte Désactivé !')
