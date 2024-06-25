@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo, useState , useEffect} from 'react'
+import React, { Suspense, useState ,} from 'react'
 
 import { Switch, Route, Redirect } from "react-router-dom";
 
@@ -26,21 +26,21 @@ import LitseXp from "../views/admin/xp/LitseXp.js";
 import DetailsFormation from "../views/admin/Formation/DetailsFormation.js";
 import Notification from "../views/admin/Notification/Notification";
 import Formation from "../views/admin/Formation/Formation";
-import Cookies from 'js-cookie'
-import { getUserAuth } from '../Services/Apiauth'
+// import Cookies from 'js-cookie'
+// import { getUserAuth } from '../Services/Apiauth'
 
 
 export default function Admin() {
-  const jwt_token = Cookies.get('jwt_token');
-  const [user, setUser] = useState(null);
-
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    }
-  }, [jwt_token]);
+  // const jwt_token = Cookies.get('jwt_token');
+  const [user] = useState(null);
+  //
+  // const config = useMemo(() => {
+  //   return {
+  //     headers: {
+  //       Authorization: `Bearer ${jwt_token}`,
+  //     },
+  //   }
+  // }, [jwt_token]);
 
   // useEffect(() => {
   //   const fetchData = async () => {
