@@ -13,7 +13,7 @@ const Profiles = lazy(() => import("./layouts/Profiles.js"));
 
 // views without layouts
 const Setting = lazy(() => import("./views/FrontOffice/AccountManagement/Setting.js"));
-const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
+const DetailsFormation = lazy(() => import("./views/FrontOffice/Visisteur/DetailsFormation.js"));
 const Index = lazy(() => import("views/Index.js"));
 
 function Routes() {
