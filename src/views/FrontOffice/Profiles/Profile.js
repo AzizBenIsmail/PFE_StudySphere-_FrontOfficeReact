@@ -63,7 +63,7 @@ export default function Profile() {
                           // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
                           alt="UserImage"
                           className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
-                          src={`http://localhost:5000/images/Users/${User.image_user}`}
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${User.image_user}`}
                           // style={{ width: "80px", height: "80px" }}
                         />
                       ) : (

@@ -123,7 +123,7 @@ function Details() {
                     </div>
                   </div>
                   <img className="details-image-custom img-fluid ml-15"
-                       src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                       src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                        style={{ width: "550px", height: "320px" }}
                        alt="React Course"
                        onMouseEnter={(e) =>
@@ -140,7 +140,7 @@ function Details() {
                         <img
                           alt="..."
                           className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                          src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
                           onMouseEnter={(e) =>
                             (e.currentTarget.style.boxShadow =
                               "0px 0px 30px 0px rgba(0,0,0,0.3)")}
@@ -161,7 +161,7 @@ function Details() {
                       <img
                         alt="..."
                         className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                        src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                        src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
                         style={{ width: "70px" }}
                         onMouseEnter={(e) =>
                           (e.currentTarget.style.boxShadow =

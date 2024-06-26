@@ -40,7 +40,7 @@ export default function GestionFav() {
                   <li key={favori._id} style={{ display: "flex", alignItems: "center" }}>
                     <img
                       className="details-image-custom img-fluid"
-                      src={`http://localhost:5000/images/Formations/${favori.formation.image_Formation}`}
+                      src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${favori.formation.image_Formation}`}
                       style={{ width: "50px", height: "50px", marginRight: "10px" }}
                       alt="React Course"
                       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = "0px 0px 30px 0px rgba(0,0,0,0.3)")}

@@ -158,7 +158,7 @@ export default function Profile() {
                       <img
                         alt="UserImage"
                         className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
-                        src={`http://localhost:5000/images/Users/${User.image_user}`}
+                        src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${User.image_user}`}
                       />
                     ) : (
                       <div>
@@ -336,7 +336,7 @@ export default function Profile() {
                                 <img
                                   alt="..."
                                   className="align-middle border-none max-w-full h-auto rounded-lg"
-                                  src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                                  src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                                   // style={{ width: "350px", height: "350px" }}
                                   style={{ width: "250px", height: "120px" }}
                                   onMouseEnter={(e) =>
@@ -464,7 +464,7 @@ export default function Profile() {
                                   <img
                                     alt="..."
                                     className="align-middle border-none max-w-full h-auto rounded-lg"
-                                    src={`http://localhost:5000/images/Users/${center.image_user}`}
+                                    src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${center.image_user}`}
                                     // style={{ width: "350px", height: "350px" }}
                                     style={{ width: "250px", height: "120px" }}
                                     onMouseEnter={(e) =>
@@ -570,7 +570,7 @@ export default function Profile() {
                                   <img
                                     alt="..."
                                     className="align-middle border-none max-w-full h-auto rounded-lg"
-                                    src={`http://localhost:5000/images/Users/${Formateur.image_user}`}
+                                    src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${Formateur.image_user}`}
                                     // style={{ width: "350px", height: "350px" }}
                                     style={{ width: "250px", height: "120px" }}
                                     onMouseEnter={(e) =>
