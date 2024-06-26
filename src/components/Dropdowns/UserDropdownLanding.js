@@ -14,10 +14,6 @@ const UserDropdown = ({ user }) => {
 
   const jwt_token = Cookies.get('jwt_token')
 
-  if (!Cookies.get('jwt_token')) {
-    window.location.replace('/login-page')
-  }
-
   const config = useMemo(() => {
     return {
       headers: {

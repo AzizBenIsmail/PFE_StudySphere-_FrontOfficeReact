@@ -15,20 +15,6 @@ export default function Navbar ({ user }) {
   const history = useHistory()
 
   const [navbarOpen, setNavbarOpen] = React.useState(false)
-  //cookies
-  const jwt_token = Cookies.get('jwt_token')
-  /////cookies
-  if (!Cookies.get('jwt_token')) {
-    window.location.replace('/login-page')
-  }
-
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    }
-  }, [jwt_token])
 
   return (
     <>

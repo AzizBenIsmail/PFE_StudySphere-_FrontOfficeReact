@@ -11,9 +11,7 @@ import {
 import moment from "moment";
 
 const NotificationDropdown = ({user}) => {
-  if (!Cookies.get("jwt_token")) {
-    window.location.replace("/login-page");
-  }
+
   const jwt_token = Cookies.get("jwt_token");
 
   const config = useMemo(() => {
