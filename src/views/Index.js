@@ -408,7 +408,7 @@ export default function Index() {
           <div className="pt-6 w-full md:w-2/12 px-4 text-center">
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
               <div className="px-4 py-5 flex-auto">
-                Trouver des formations dans les domaines énumérés ci-dessous!
+                Trouver des formations dans les domaines énumérés ci-dessous! aziz
                 <select
                   value={selectedDomaine}
                   onChange={handleDomaineChange}
