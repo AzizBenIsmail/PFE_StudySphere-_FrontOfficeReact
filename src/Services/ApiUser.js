@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const apiURL = 'http://localhost:5000/user'
-// const apiURL = 'https://forme-5wc0.onrender.com/user'
+console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL); // Devrait afficher l'URL
+const apiURL = `${process.env.REACT_APP_API_URL}/user`;
 
 export async function getUserAuth (config) {
   return await axios.get(`${apiURL}/`, config)

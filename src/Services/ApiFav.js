@@ -4,8 +4,7 @@ import Cookies from 'js-cookie';
 const jwt_token = Cookies.get('jwt_token');
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/fav', // Remplacez par l'URL de votre API
-  // baseURL : 'https://forme-5wc0.onrender.com/fav',
+  baseURL: `${process.env.REACT_APP_API_URL}/fav`, // Remplacez par l'URL de votre API
   headers: {
     Authorization: `Bearer ${jwt_token}`,
   },
