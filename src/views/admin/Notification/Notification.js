@@ -242,7 +242,7 @@ export default function Notification() {
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 font-bold">
                   {notification && notification.recipient && notification.recipient.image_user ? (
                     <div className="flex items-center">
-                      <img src={`http://localhost:5000/images/Users/${notification.recipient.image_user}`}
+                      <img src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${notification.recipient.image_user}`}
                            alt="..."
                            className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
                       />

@@ -706,7 +706,7 @@ export default function ListeFormations ({ color }) {
                       onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                       alt="..."
                       className="align-middle border-none max-w-full h-auto rounded-lg"
-                      src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                      src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                       // style={{ width: "350px", height: "220px" }}
                     />
                   </a>

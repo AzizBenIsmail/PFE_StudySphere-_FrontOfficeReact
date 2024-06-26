@@ -72,7 +72,7 @@ const UserDropdown = ({ user }) => {
                 // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
                 alt="UserImage"
                 className="w-full rounded-full align-middle border-none shadow-lg"
-                src={`http://localhost:5000/images/Users/${user.image_user}`}
+                src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${user.image_user}`}
                 style={{ width: '80px' }}
                 onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                 onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
@@ -160,7 +160,7 @@ const UserDropdown = ({ user }) => {
                 // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
                 alt="UserImage"
                 className="shadow rounded-full max-w-full h-auto align-middle border-none"
-                src={`http://localhost:5000/images/Users/${user.image_user}`}
+                src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${user.image_user}`}
                 style={{ width: '40px' }}
               />
               <div className="ml-2 ">

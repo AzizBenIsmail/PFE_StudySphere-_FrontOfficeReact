@@ -82,7 +82,7 @@ const UserDropdownDashboard = () => {
           <img
            alt="..."
             className="w-full rounded-full align-middle border-none shadow-lg"
-           src={`http://localhost:5000/images/Users/${user.image_user}`}
+           src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${user.image_user}`}
           />
           )}
           </span>
