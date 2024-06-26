@@ -928,7 +928,7 @@ export default function Index() {
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                       <div className="px-4 py-5 flex-auto">
                         <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                          <Link to={`/landing/detailscours/${formation._id}`}>
+                          <Link to={`/DetailsFormation/${formation._id}`}>
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
@@ -1115,7 +1115,7 @@ export default function Index() {
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                       <div className="px-4 py-5 flex-auto">
                         <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                          <Link to={`/landing/detailscours/${formation._id}`}>
+                          <Link to={`/DetailsFormation/${formation._id}`}>
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
@@ -1302,7 +1302,7 @@ export default function Index() {
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                       <div className="px-4 py-5 flex-auto">
                         <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                          <Link to={`/landing/detailscours/${formation._id}`}>
+                          <Link to={`/DetailsFormation/${formation._id}`}>
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
@@ -1489,7 +1489,7 @@ export default function Index() {
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                       <div className="px-4 py-5 flex-auto">
                         <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                          <Link to={`/landing/detailscours/${formation._id}`}>
+                          <Link to={`/DetailsFormation/${formation._id}`}>
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
