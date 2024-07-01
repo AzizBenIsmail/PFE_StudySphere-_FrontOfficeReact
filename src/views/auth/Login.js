@@ -96,8 +96,8 @@ export default function Login () {
 
             }
             else {
-              // window.location.replace(`/landing/`)
-              history.push(`/landing/`);
+              window.location.replace(`/landing/`)
+              // history.push(`/landing/`);
 
             }
           }

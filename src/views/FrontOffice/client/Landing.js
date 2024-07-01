@@ -141,8 +141,8 @@ export default function Landing({ user }) {
   }, [config]);
 
   useEffect(() => {
-    loadFormations();
     loadUserInscriptions();
+    loadFormations();
     loadFormationsRecommanderByLocation();
   }, [loadFormations, loadFormationsRecommanderByLocation,loadUserInscriptions]);
 
@@ -354,7 +354,7 @@ export default function Landing({ user }) {
     }
   };
 
-  const handleDesinscription = async (id) => {
+  const handleDesinscription = async (id,config) => {
     try {
       const response = await desinscription(id, config);
       console.log('Desinscription successful:', response);
