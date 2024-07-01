@@ -48,11 +48,13 @@ export default function Landing () {
     )
     .sort((a, b) => {
       if (sortOrder === 'asc') {
-        return a.Prix - b.Prix
+        return a.Prix - b.Prix;
       } else if (sortOrder === 'desc') {
-        return b.Prix - a.Prix
+        return b.Prix - a.Prix;
       }
+      return 0; // Valeur de retour par défaut
     })
+
 
     setFilteredFormations(sortedFormations)
   }, [formations, searchTerm, sortOrder])
@@ -91,7 +93,7 @@ export default function Landing () {
       if (wordCount >= 15 && !truncated) {
         truncated = true
         return (
-          <Link key={index} to={`/DetailsFormation/${formationId}`}>
+          <Link key={index} to={`/landing/detailscours/${formationId}`}>
             (... voir plus)
           </Link>
         )
@@ -180,16 +182,16 @@ export default function Landing () {
                   <div className="p-4">
                     {/*<div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-centre w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">*/}
                     <div className="">
-                      <a href={`/DetailsFormation/${formation._id}`}>
+                      <Link to={`/landing/detailscours/${formation._id}`}>
                         <img
                           onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                           onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                           alt="..."
                           className="align-middle border-none max-w-full h-auto rounded-lg"
-                          src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                           style={{ width: '350px', height: '220px' }}
                         />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                   <div className="px-4 py-5 flex-auto">
@@ -226,7 +228,7 @@ export default function Landing () {
                           onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                           alt="..."
                           className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                          src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
                           style={{ width: '25px' }}
                         />
                       </Link>
@@ -237,7 +239,7 @@ export default function Landing () {
                           onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                           alt="..."
                           className="shadow ml-2 rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                          src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
                           style={{ width: '25px' }}
                         />
                       </Link>

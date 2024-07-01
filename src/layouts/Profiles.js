@@ -3,6 +3,7 @@ import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
 
 import FooterSmall from 'components/Footers/FooterSmall.js'
 import Navbar from '../components/Navbars/Navbar'
+import AuthNavbar from "components/Navbars/AuthNavbar.js";
 
 
 import { InfinitySpin } from 'react-loader-spinner'
@@ -34,8 +35,6 @@ export default function LandingLayout () {
           if (res.data.user.role === "admin") {
             history.replace("/admin/");
           }
-        } else {
-          history.replace("/");
         }
 
       } catch (error) {
@@ -47,7 +46,8 @@ export default function LandingLayout () {
   }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
   return (
     <>
-      <Navbar user={user}/>
+      {user ? <Navbar user={user}/> : <AuthNavbar />}
+
       <main className="profile-page">
         <section className="relative block h-350-px">
           <div

@@ -347,7 +347,7 @@ export default function ListeXP ({ color }) {
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                   <div className="flex">
                     {xp.badgeIds.map((badgeId, index) => (
-                      <img key={index} src={`http://localhost:5000/images/Badges/${badgeId.image_badge}`}
+                      <img key={index} src={`${process.env.REACT_APP_API_URL_IMAGE_BADGES}/${badgeId.image_badge}`}
                            alt="..."
                            className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
                       ></img>

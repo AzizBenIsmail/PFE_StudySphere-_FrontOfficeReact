@@ -706,7 +706,7 @@ export default function ListeFormations ({ color }) {
                       onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                       alt="..."
                       className="align-middle border-none max-w-full h-auto rounded-lg"
-                      src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                      src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                       // style={{ width: "350px", height: "220px" }}
                     />
                   </a>
@@ -716,7 +716,12 @@ export default function ListeFormations ({ color }) {
                   {formation.titre}
                 </td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
-                  {formation.description}
+                  {formation.description
+                  .split(" ")
+                  .slice(0, 10)
+                  .join(" ")}
+                  {formation.description.split(" ").length > 10 &&
+                    " ..."}
                 </td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                   {formation.niveauRequis}

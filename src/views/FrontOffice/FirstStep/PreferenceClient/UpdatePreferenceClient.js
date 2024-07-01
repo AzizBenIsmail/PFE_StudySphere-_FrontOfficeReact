@@ -96,6 +96,7 @@ export default function PreferenceClient () {
     Developpement_mobile: ['Flutter', 'React Native', 'Ionic', 'Swift', 'Kotlin'],
     Developpement_Web_Frontend: ['React', 'Angular', 'Vue', 'Svelte', 'Ember'],
     Developpement_Web_Backend: ['Node.js', 'Express', 'Django', 'Ruby on Rails', 'Spring Boot'],
+    intelligence_artificielle: ["Machine Learning", "Deep Learning", "Chatbots", "Data Mining"],
     Art_et_culture: ['Creation artistique', 'Ecriture creative', 'Performance musicale', 'Interpretation artistique', 'Gestion d\'evenements culturels'],
     Lettres: ['Analyse de texte','Communication ecrite et verbale', 'Competences interpersonnelles', 'Redaction et edition', 'Presentation orale','Recherche historique', 'Comprehension des evenements passes et de leur impact sur le present', 'Connaissance des differents contextes culturels',"Comprehension des processus geologiques","Capacite a interpreter les roches"],
     Langues_etrangeres: ['Anglais','Espagnol','Chinois (Mandarin)','Français','Arabe','Russe','Portugais','Allemand','Japonais','Hindi','Bengali','Swahili','Italien','Coréen','Néerlandais','Turc','Polonais','Persan (Farsi)','Vietnamien','Suédois'],

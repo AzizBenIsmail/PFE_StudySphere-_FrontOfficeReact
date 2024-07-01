@@ -159,7 +159,7 @@ export default function ProfileFormateur() {
                         <img
                           alt="UserImage"
                           className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
-                          src={`http://localhost:5000/images/Users/${User.image_user}`}
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${User.image_user}`}
                         />
                       ) : (
                         <div>
@@ -333,7 +333,7 @@ export default function ProfileFormateur() {
                                     <img
                                       alt="..."
                                       className="align-middle border-none max-w-full h-auto rounded-lg"
-                                      src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                                      src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                                       // style={{ width: "350px", height: "350px" }}
                                       style={{ width: "250px", height: "120px" }}
                                       onMouseEnter={(e) =>
@@ -454,14 +454,13 @@ export default function ProfileFormateur() {
                                 <div className="px-4 py-5 flex-auto">
                                   <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                                     <Link
-                                      to=""
-                                      // to={`/profile/ProfileCenter/${center._id}`}
-                                      onClick={(e) => window.location.replace(`/profile/ProfileCenter/${center._id}`)}
+
+                                      to={`/profile/ProfileCenter/${center._id}`}
                                     >
                                       <img
                                         alt="..."
                                         className="align-middle border-none max-w-full h-auto rounded-lg"
-                                        src={`http://localhost:5000/images/Users/${center.image_user}`}
+                                        src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${center.image_user}`}
                                         // style={{ width: "350px", height: "350px" }}
                                         style={{ width: "250px", height: "120px" }}
                                         onMouseEnter={(e) =>
@@ -560,14 +559,13 @@ export default function ProfileFormateur() {
                                 <div className="px-4 py-5 flex-auto">
                                   <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                                     <Link
-                                      to=""
-                                      // to={`/profile/ProfileCenter/${center._id}`}
-                                      onClick={(e) => window.location.replace(`/profile/ProfileFormateur/${Formateur._id}`)}
+                                      // to=""
+                                      to={`/profile/ProfileFormateur/${Formateur._id}`}
                                     >
                                       <img
                                         alt="..."
                                         className="align-middle border-none max-w-full h-auto rounded-lg"
-                                        src={`http://localhost:5000/images/Users/${Formateur.image_user}`}
+                                        src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${Formateur.image_user}`}
                                         // style={{ width: "350px", height: "350px" }}
                                         style={{ width: "250px", height: "120px" }}
                                         onMouseEnter={(e) =>

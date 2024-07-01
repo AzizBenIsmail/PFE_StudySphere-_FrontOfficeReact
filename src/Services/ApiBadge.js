@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const apiURL = 'http://localhost:5000/badge'
-
+const apiURL = `${process.env.REACT_APP_API_URL}/badge`;
 
 export async function createBadge(badgeData, config) {
   return await axios.post(apiURL, badgeData, config);

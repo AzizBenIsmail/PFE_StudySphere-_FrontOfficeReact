@@ -362,6 +362,7 @@ export default function ListeFormations({ color }) {
       "Kotlin",
     ],
     Developpement_Web_Frontend: ["React", "Angular", "Vue", "Svelte", "Ember"],
+    intelligence_artificielle: ["Machine Learning", "Deep Learning", "Chatbots", "Data Mining"],
     Developpement_Web_Backend: [
       "Node.js",
       "Express",
@@ -893,7 +894,7 @@ export default function ListeFormations({ color }) {
                             onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                             alt="..."
                             className="align-middle border-none max-w-full h-auto rounded-lg"
-                            src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                            src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                             // style={{ width: "350px", height: "220px" }}
                           />
                           </a>
@@ -902,7 +903,12 @@ export default function ListeFormations({ color }) {
                           {formation.titre}
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
-                          {formation.description}
+                          {formation.description
+                          .split(" ")
+                          .slice(0, 5)
+                          .join(" ")}
+                          {formation.description.split(" ").length > 10 &&
+                            " ..."}
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4 ">
                           {formation.niveauRequis}
@@ -1122,9 +1128,9 @@ export default function ListeFormations({ color }) {
                         onChange={(e) => handleSelectChange(e)}
                       >
                         <option value="">Style d'Enseignement</option>
-                        <option value="enligne">Enligne</option>
-                        <option value="hybride">Hybride</option>
-                        <option value="presentiel">Présentiel</option>
+                        <option value="Enligne">Enligne</option>
+                        <option value="Hybride">Hybride</option>
+                        <option value="Presentiel">Présentiel</option>
                       </select>
                       {errors.styleEnseignement && (
                         <span className="text-red-500">
@@ -1851,9 +1857,9 @@ export default function ListeFormations({ color }) {
                         onChange={(e) => handleSelectChange(e)}
                       >
                         <option value="">{newFormation.styleEnseignement}</option>
-                        <option value="enligne">Enligne</option>
-                        <option value="hybride">Hybride</option>
-                        <option value="presentiel">Présentiel</option>
+                        <option value="Enligne">Enligne</option>
+                        <option value="Hybride">Hybride</option>
+                        <option value="Presentiel">Présentiel</option>
                       </select>
                       {errors.styleEnseignement && (
                         <span className="text-red-500">

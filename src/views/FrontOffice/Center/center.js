@@ -60,7 +60,7 @@ export default function Landing() {
                           <img
                             alt="..."
                             className="align-middle border-none max-w-full h-auto rounded-lg"
-                            src={`http://localhost:5000/images/Users/${center.image_user}`}
+                            src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${center.image_user}`}
                             // style={{ width: "350px", height: "350px" }}
                             style={{ width: "200px", height: "120px" }}
                           />

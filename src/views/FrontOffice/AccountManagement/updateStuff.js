@@ -156,7 +156,7 @@ export default function ListeFormations({ color }) {
                           onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
                           alt="..."
                           className="align-middle border-none max-w-full ml-4 h-auto rounded-lg"
-                          src={`http://localhost:5000/images/Users/${formateur.image_user}`}
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formateur.image_user}`}
                           style={{ width: "50px", height: "50px" }}
                         />
                       </td>
@@ -260,7 +260,7 @@ export default function ListeFormations({ color }) {
                                 onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
                                 alt="..."
                                 className="align-middle border-none max-w-full h-auto rounded-lg"
-                                src={`http://localhost:5000/images/Users/${formateur.image_user}`}
+                                src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formateur.image_user}`}
                                 style={{ width: "100px", height: "50px" }}
                               />
                             </td>

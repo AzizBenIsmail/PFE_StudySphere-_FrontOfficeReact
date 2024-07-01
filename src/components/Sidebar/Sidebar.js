@@ -25,7 +25,10 @@ export default function Sidebar( user ) {
             className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
             to="/admin"
           >
-            StudySphere
+            <img
+              src={require('assets/img/LogoDark.png').default}
+              alt="..."
+            />
           </Link>
           <ul className="md:hidden items-center flex flex-wrap list-none">
             <li className="inline-block relative">
@@ -112,7 +115,7 @@ export default function Sidebar( user ) {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Gestion Utilisateur
+                  Gestion Utilisateurs
                 </Link>
               </li>
                 : null }
@@ -135,7 +138,7 @@ export default function Sidebar( user ) {
                     }
 
                     ></i>
-                  Badge
+                  Gestion Badges
                 </Link>
               </li>
               <li className="items-center">
@@ -156,7 +159,7 @@ export default function Sidebar( user ) {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Niveau
+                  Gestion Niveaux
                 </Link>
               </li>
               <li className="items-center">
@@ -177,7 +180,7 @@ export default function Sidebar( user ) {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Xp
+                  Gestion Xps
                 </Link>
               </li>
 
@@ -199,7 +202,7 @@ export default function Sidebar( user ) {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Notification
+                  Gestion Notifications
                 </Link>
               </li>
               <li className="items-center">
@@ -244,7 +247,7 @@ export default function Sidebar( user ) {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Formation
+                  Gestion Formations
                 </Link>
               </li>
 

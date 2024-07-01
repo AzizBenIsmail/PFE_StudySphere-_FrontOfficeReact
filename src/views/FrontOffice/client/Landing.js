@@ -9,17 +9,31 @@ import {
   getFormationsByDomaine,
   getFormationsByLocation,
   getFormationsRecommanderByLocation,
+  inscription,
+  desinscription
 } from "../../../Services/ApiFormation";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export default function Landing({ user }) {
   const [formations, setFormations] = useState([]);
   const [formationsByLocation, setFormationsByLocation] = useState([]);
-  const [startIndex, setStartIndex] = useState(0);
+  const [startIndexDev, setStartIndexDev] = useState(0);
+  const [endIndexDev, setEndIndexDev] = useState(2);
+  const [startIndexBI, setStartIndexBI] = useState(0);
+  const [endIndexBI, setEndIndexBI] = useState(2);
+  const [endIndexFormationsArtsVisuels, setEndIndexFormationsArtsVisuels] =
+    useState(2);
+  const [startIndexFormationsArtsVisuels, setStartIndexFormationsArtsVisuels] =
+    useState(0);
+  const [endIndexFormationsLangues_etrangeres, setEndIndexFormationsLangues_etrangeres] =
+    useState(2);
+  const [startIndexFormationsLangues_etrangeres, setStartIndexFormationsLangues_etrangeres] =
+    useState(0);
   const [endIndexFormationsByLocation, setEndIndexFormationsByLocation] =
     useState(2);
   const [startIndexFormationsByLocation, setStartIndexFormationsByLocation] =
     useState(0);
+  const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(2);
   const jwt_token = Cookies.get("jwt_token");
   const [selectedState, setSelectedState] = useState("");
@@ -27,6 +41,10 @@ export default function Landing({ user }) {
   const [selectedDomaine, setSelectedDomaine] = useState("");
   const [jours, setJours] = useState("");
   const [tranchesHoraires, setTranchesHoraires] = useState("");
+  const [formationsArtsVisuels, setFormationsArtsVisuels] = useState([]);
+  const [formationsLangues_etrangeres, setFormationsLangues_etrangeres] = useState([]);
+  const [formationsBI, setFormationsBI] = useState([]);
+  const [formationsDev, setFormationsDev] = useState([]);
 
   const states = ['Ariana', 'Beja', 'Ben_Arous', 'Bizerte', 'Gabes', 'Gafsa', 'Jendouba', 'Kairouan', 'Kasserine',
     'Kebili', 'Le_Kef', 'Mahdia', 'La_Manouba', 'Medenine', 'Monastir', 'Nabeul', 'Sfax', 'Sidi_Bouzid',
@@ -84,6 +102,14 @@ export default function Landing({ user }) {
     try {
       const res = await getAllFormations(config);
       setFormations(res.data.formations);
+      const artsVisuels = res.data.formations.filter(formation => formation.sujetInteret === 'Arts visuels');
+      const Langues_etrangeres = res.data.formations.filter(formation => formation.sujetInteret === 'Langues etrangeres');
+      const Dev = res.data.formations.filter(formation => formation.sujetInteret === 'Developpement');
+      const BI = res.data.formations.filter(formation => formation.sujetInteret === 'Business Intelligence');
+      setFormationsBI(BI);
+      setFormationsDev(Dev);
+      setFormationsArtsVisuels(artsVisuels);
+      setFormationsLangues_etrangeres(Langues_etrangeres);
     } catch (error) {
       console.error("Error loading formations:", error);
     }
@@ -110,6 +136,19 @@ export default function Landing({ user }) {
     }
   };
 
+  const handlePrevPage = () => {
+    if (startIndex > 0) {
+      setStartIndex((prevStartIndex) => prevStartIndex - 1);
+      setEndIndex((prevEndIndex) => prevEndIndex - 1);
+    }
+  };
+  const handleNextPageFormationsArtsVisuels = () => {
+    if (endIndexFormationsArtsVisuels < formationsArtsVisuels.length - 1) {
+      setStartIndexFormationsArtsVisuels((prevStartIndex) => prevStartIndex + 1);
+      setEndIndexFormationsArtsVisuels((prevEndIndex) => prevEndIndex + 1);
+    }
+  };
+
   const handleNextPageRecommanderByLocation = () => {
     if (endIndexFormationsByLocation < formationsByLocation.length - 1) {
       setStartIndexFormationsByLocation(
@@ -122,12 +161,55 @@ export default function Landing({ user }) {
       );
     }
   };
-  const handlePrevPage = () => {
-    if (startIndex > 0) {
-      setStartIndex((prevStartIndex) => prevStartIndex - 1);
-      setEndIndex((prevEndIndex) => prevEndIndex - 1);
+  const handlePrevPageFormationsArtsVisuels = () => {
+    if (startIndexFormationsArtsVisuels > 0) {
+      setStartIndexFormationsArtsVisuels((prevStartIndex) => prevStartIndex - 1);
+      setEndIndexFormationsArtsVisuels((prevEndIndex) => prevEndIndex - 1);
     }
   };
+
+  const handleNextPageLangues_etrangeres = () => {
+    if (endIndexFormationsLangues_etrangeres < formationsLangues_etrangeres.length - 1) {
+      setStartIndexFormationsLangues_etrangeres((prevStartIndex) => prevStartIndex + 1);
+      setEndIndexFormationsLangues_etrangeres((prevEndIndex) => prevEndIndex + 1);
+    }
+  };
+
+  const handlePrevPageLangues_etrangeres = () => {
+    if (startIndexFormationsLangues_etrangeres > 0) {
+      setStartIndexFormationsLangues_etrangeres((prevStartIndex) => prevStartIndex - 1);
+      setEndIndexFormationsLangues_etrangeres((prevEndIndex) => prevEndIndex - 1);
+    }
+  };
+
+  const handleNextPageDev = () => {
+    if (endIndexDev < formationsDev.length - 1) {
+      setStartIndexDev((prevStartIndex) => prevStartIndex + 1);
+      setEndIndexDev((prevEndIndex) => prevEndIndex + 1);
+    }
+  };
+
+  const handlePrevPageDev = () => {
+    if (startIndexDev > 0) {
+      setStartIndexDev((prevStartIndex) => prevStartIndex - 1);
+      setEndIndexDev((prevEndIndex) => prevEndIndex - 1);
+    }
+  };
+
+  const handleNextPageBI = () => {
+    if (endIndexBI < formationsBI.length - 1) {
+      setStartIndexBI((prevStartIndex) => prevStartIndex + 1);
+      setEndIndexBI((prevEndIndex) => prevEndIndex + 1);
+    }
+  };
+
+  const handlePrevPageBI = () => {
+    if (startIndexBI > 0) {
+      setStartIndexBI((prevStartIndex) => prevStartIndex - 1);
+      setEndIndexBI((prevEndIndex) => prevEndIndex - 1);
+    }
+  };
+
 
   const handlePrevPageRecommanderByLocation = () => {
     if (startIndexFormationsByLocation > 0) {
@@ -147,12 +229,35 @@ export default function Landing({ user }) {
       ? formations.slice(startIndex, endIndex + 1)
       : [];
 
+  const displayedformationsArtsVisuels =
+    formationsArtsVisuels && formationsArtsVisuels.length > 0
+      ? formationsArtsVisuels.slice(startIndexFormationsArtsVisuels, endIndexFormationsArtsVisuels + 1)
+      : [];
+
   const displayedFormationsFormationsByLocation =
     formationsByLocation && formationsByLocation.length > 0
       ? formationsByLocation.slice(
           startIndexFormationsByLocation,
           endIndexFormationsByLocation + 1
         )
+      : [];
+
+  const displayedFormationsFormationsLangues_etrangeres=
+    formationsLangues_etrangeres && formationsLangues_etrangeres.length > 0
+      ? formationsLangues_etrangeres.slice(
+        startIndexFormationsLangues_etrangeres,
+        endIndexFormationsLangues_etrangeres + 1
+      )
+      : [];
+
+  const displayedFormationsDev =
+    formationsDev && formationsDev.length > 0
+      ? formationsDev.slice(startIndexDev, endIndexDev + 1)
+      : [];
+
+  const displayedFormationsBI =
+    formationsBI && formationsBI.length > 0
+      ? formationsBI.slice(startIndexBI, endIndexBI + 1)
       : [];
 
   const handleStateChange = (event) => {
@@ -221,6 +326,27 @@ export default function Landing({ user }) {
     setTranchesHoraires(event.target.value);
   };
 
+  const handleInscription = async (id, config) => {
+    try {
+      const response = await inscription(id, config);
+      console.log('Inscription successful:', response);
+      // Handle successful inscription (e.g., update state, show notification)
+    } catch (error) {
+      console.error('Error during inscription:', error);
+      // Handle error (e.g., show error notification)
+    }
+  };
+
+  const handleDesinscription = async (id) => {
+    try {
+      const response = await desinscription(id, config);
+      console.log('Desinscription successful:', response);
+      // Handle successful desinscription (e.g., update state, show notification)
+    } catch (error) {
+      console.error('Error during desinscription:', error);
+      // Handle error (e.g., show error notification)
+    }
+  };
   return (
     <>
       <section className="pb-20 bg-blueGray-200 -mt-24">
@@ -398,11 +524,12 @@ export default function Landing({ user }) {
                           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                             <div className="px-4 py-5 flex-auto">
                               <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                                <Link to={`/DetailsFormation/${formation._id}`}>
+                                <Link to={`/landing/detailscours/${formation._id}`}>
                                   <img
                                     alt="..."
                                     className="align-middle border-none max-w-full h-auto rounded-lg"
-                                    src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                                     src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                                    //src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                                     style={{ width: "350px", height: "220px" }}
                                     onMouseEnter={(e) =>
                                       (e.currentTarget.style.boxShadow =
@@ -421,25 +548,25 @@ export default function Landing({ user }) {
                                     transform: "translate(-50%, -50%) ",
                                   }}
                                 >
-                                  <Link
-                                    to={`/profile/ProfileFormateur/${formation.formateur._id}`}
-                                  >
-                                    <img
-                                      alt="..."
-                                      className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                      src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
-                                      style={{ width: "70px" }}
-                                      onMouseEnter={(e) =>
-                                        (e.currentTarget.style.boxShadow =
-                                          "0px 0px 30px 0px rgba(0,0,0,0.3)")
-                                      }
-                                      onMouseLeave={(e) =>
-                                        (e.currentTarget.style.boxShadow =
-                                          "none")
-                                      }
-                                    />
-                                  </Link>
-                                </span>
+                            <Link
+                              to={`/profile/ProfileFormateur/${formation.formateur._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
                                 <span
                                   style={{
                                     position: "absolute",
@@ -448,63 +575,60 @@ export default function Landing({ user }) {
                                     transform: "translate(-50%, -50%)",
                                   }}
                                 >
-                                  <Link
-                                    to={`/profile/ProfileCenter/${formation.centre._id}`}
-                                  >
-                                    <img
-                                      alt="..."
-                                      className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                      src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
-                                      style={{ width: "70px" }}
-                                      onMouseEnter={(e) =>
-                                        (e.currentTarget.style.boxShadow =
-                                          "0px 0px 30px 0px rgba(0,0,0,0.3)")
-                                      }
-                                      onMouseLeave={(e) =>
-                                        (e.currentTarget.style.boxShadow =
-                                          "none")
-                                      }
-                                    />
-                                  </Link>
-                                </span>
+                            <Link
+                              to={`/profile/ProfileCenter/${formation.centre._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                                //src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
                               </div>
                               <div className="flex flex-wrap">
                                 {formation.competences
-                                  .split(",")
-                                  .slice(0, 3)
-                                  .map((competence, index) => (
-                                    <span
-                                      key={index}
-                                      style={{
-                                        border:
-                                          "2px solid rgba(186, 230, 253, 1)",
-                                        marginRight:
-                                          index ===
-                                          Math.min(
-                                            2,
-                                            formation.competences.split(",")
-                                              .length - 1
-                                          )
-                                            ? "0"
-                                            : "5px",
-                                      }}
-                                      className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
-                                    >
-                                      {competence.trim()}
-                                    </span>
-                                  ))}
-                                {formation.competences.split(",").length >
-                                  3 && (
+                                .split(",")
+                                .slice(0, 3)
+                                .map((competence, index) => (
+                                  <span
+                                    key={index}
+                                    style={{
+                                      border: "2px solid rgba(186, 230, 253, 1)",
+                                      marginRight:
+                                        index ===
+                                        Math.min(
+                                          2,
+                                          formation.competences.split(",").length -
+                                          1
+                                        )
+                                          ? "0"
+                                          : "5px",
+                                    }}
+                                    className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                                  >
+                                {competence.trim()}
+                              </span>
+                                ))}
+                                {formation.competences.split(",").length > 3 && (
                                   <span
                                     style={{
-                                      border:
-                                        "2px solid rgba(186, 230, 253, 1)",
+                                      border: "2px solid rgba(186, 230, 253, 1)",
                                       marginRight: "5px",
                                     }}
                                     className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
                                   >
-                                    ...
-                                  </span>
+                              ...
+                            </span>
                                 )}
                               </div>
                               <h6 className="text-xl font-semibold">
@@ -512,19 +636,22 @@ export default function Landing({ user }) {
                               </h6>
                               <p className="mt-2 mb-4 text-blueGray-500">
                                 {formation.description
-                                  .split(" ")
-                                  .slice(0, 10)
-                                  .join(" ")}
-                                {formation.description.split(" ").length > 10 &&
+                                .split(" ")
+                                .slice(0, 15)
+                                .join(" ")}
+                                {formation.description.split(" ").length > 15 &&
                                   " ..."}
                               </p>
+
                               <div className="mt-auto">
                                 <button
                                   className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                                   type="button"
+                                  onClick={() => handleInscription(formation._id,config)}
                                 >
                                   Inscrivez-vous maintenant
                                 </button>
+                                <button onClick={() => handleDesinscription(formation.id)}>Desinscription</button>
                               </div>
                             </div>
                           </div>
@@ -593,11 +720,12 @@ export default function Landing({ user }) {
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                       <div className="px-4 py-5 flex-auto">
                         <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                          <Link to={`/DetailsFormation/${formation._id}`}>
+                          <Link to={`/landing/detailscours/${formation._id}`}>
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
-                              src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                              src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                              //src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                               style={{ width: "350px", height: "220px" }}
                               onMouseEnter={(e) =>
                                 (e.currentTarget.style.boxShadow =
@@ -622,7 +750,7 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -648,7 +776,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -703,9 +832,9 @@ export default function Landing({ user }) {
                         <p className="mt-2 mb-4 text-blueGray-500">
                           {formation.description
                             .split(" ")
-                            .slice(0, 10)
+                            .slice(0, 15)
                             .join(" ")}
-                          {formation.description.split(" ").length > 10 &&
+                          {formation.description.split(" ").length > 15 &&
                             " ..."}
                         </p>
 
@@ -713,6 +842,8 @@ export default function Landing({ user }) {
                           <button
                             className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                             type="button"
+                            onClick={() => handleInscription(formation._id,config)}
+
                           >
                             Inscrivez-vous maintenant
                           </button>
@@ -725,6 +856,762 @@ export default function Landing({ user }) {
                 <button
                   onClick={handleNextPage}
                   disabled={endIndex === formations.length - 1}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  <FaChevronRight style={{ fontSize: "40px" }} />
+                </button>
+              </>
+            )}
+          </div>
+          <div className="flex flex-wrap">
+            {displayedFormations.length === 0 ? (
+              // <tr>
+              //   <td
+              //     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+              //     colSpan="22"
+              //   >
+              //     Aucune formation trouvée.
+              //   </td>
+              // </tr>
+              <></>
+            ) : (
+              <>
+                <div className="container relative mx-auto">
+                  <div className="items-center flex flex-wrap">
+                    <div className="pr-12 pt-12 ">
+                      <h1 className="text-black font-semibold text-2xl">
+                        Explorez Tous les formations en Developpement
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+                <hr className="my-4 md:min-w-full" />
+                <button
+                  onClick={handlePrevPageDev}
+                  disabled={startIndexDev === 0}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.boxShadow =
+                      "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.boxShadow = "none")
+                  }
+                >
+                  <FaChevronLeft style={{ fontSize: "40px" }} />
+                </button>
+                {displayedFormationsDev.map((formation) => (
+                  <div
+                    className="pt-6 w-full md:w-2/12 px-4 text-center"
+                    key={formation._id}
+                  >
+                    <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                      <div className="px-4 py-5 flex-auto">
+                        <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                          <Link to={`/landing/detailscours/${formation._id}`}>
+                            <img
+                              alt="..."
+                              className="align-middle border-none max-w-full h-auto rounded-lg"
+                               src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                             // src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
+                              style={{ width: "350px", height: "220px" }}
+                              onMouseEnter={(e) =>
+                                (e.currentTarget.style.boxShadow =
+                                  "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.boxShadow = "none")
+                              }
+                            />
+                          </Link>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "5%",
+                              left: "82%",
+                              transform: "translate(-50%, -50%) ",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileFormateur/${formation.formateur._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "94%",
+                              left: "50%",
+                              transform: "translate(-50%, -50%)",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileCenter/${formation.centre._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                                //src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap">
+                          {formation.competences
+                          .split(",")
+                          .slice(0, 3)
+                          .map((competence, index) => (
+                            <span
+                              key={index}
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight:
+                                  index ===
+                                  Math.min(
+                                    2,
+                                    formation.competences.split(",").length -
+                                    1
+                                  )
+                                    ? "0"
+                                    : "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                                {competence.trim()}
+                              </span>
+                          ))}
+                          {formation.competences.split(",").length > 3 && (
+                            <span
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight: "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                              ...
+                            </span>
+                          )}
+                        </div>
+                        <h6 className="text-xl font-semibold">
+                          {formation.titre}
+                        </h6>
+                        <p className="mt-2 mb-4 text-blueGray-500">
+                          {formation.description
+                          .split(" ")
+                          .slice(0, 15)
+                          .join(" ")}
+                          {formation.description.split(" ").length > 15 &&
+                            " ..."}
+                        </p>
+
+                        <div className="mt-auto">
+                          <button
+                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => handleInscription(formation._id,config)}
+
+                          >
+                            Inscrivez-vous maintenant
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  onClick={handleNextPageDev}
+                  disabled={endIndexDev === formationsDev.length - 1}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  <FaChevronRight style={{ fontSize: "40px" }} />
+                </button>
+              </>
+            )}
+          </div>
+          <div className="flex flex-wrap">
+            {displayedFormationsBI.length === 0 ? (
+              // <tr>
+              //   <td
+              //     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+              //     colSpan="22"
+              //   >
+              //     Aucune formation trouvée.
+              //   </td>
+              // </tr>
+              <></>
+            ) : (
+              <>
+                <div className="container relative mx-auto">
+                  <div className="items-center flex flex-wrap">
+                    <div className="pr-12 pt-12 ">
+                      <h1 className="text-black font-semibold text-2xl">
+                        Explorez Tous les formations en Business Intelligence
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+                <hr className="my-4 md:min-w-full" />
+                <button
+                  onClick={handlePrevPageBI}
+                  disabled={startIndexBI === 0}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.boxShadow =
+                      "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.boxShadow = "none")
+                  }
+                >
+                  <FaChevronLeft style={{ fontSize: "40px" }} />
+                </button>
+                {displayedFormationsBI.map((formation) => (
+                  <div
+                    className="pt-6 w-full md:w-2/12 px-4 text-center"
+                    key={formation._id}
+                  >
+                    <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                      <div className="px-4 py-5 flex-auto">
+                        <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                          <Link to={`/landing/detailscours/${formation._id}`}>
+                            <img
+                              alt="..."
+                              className="align-middle border-none max-w-full h-auto rounded-lg"
+                               src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                             // src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
+                              style={{ width: "350px", height: "220px" }}
+                              onMouseEnter={(e) =>
+                                (e.currentTarget.style.boxShadow =
+                                  "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.boxShadow = "none")
+                              }
+                            />
+                          </Link>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "5%",
+                              left: "82%",
+                              transform: "translate(-50%, -50%) ",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileFormateur/${formation.formateur._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "94%",
+                              left: "50%",
+                              transform: "translate(-50%, -50%)",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileCenter/${formation.centre._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap">
+                          {formation.competences
+                          .split(",")
+                          .slice(0, 3)
+                          .map((competence, index) => (
+                            <span
+                              key={index}
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight:
+                                  index ===
+                                  Math.min(
+                                    2,
+                                    formation.competences.split(",").length -
+                                    1
+                                  )
+                                    ? "0"
+                                    : "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                                {competence.trim()}
+                              </span>
+                          ))}
+                          {formation.competences.split(",").length > 3 && (
+                            <span
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight: "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                              ...
+                            </span>
+                          )}
+                        </div>
+                        <h6 className="text-xl font-semibold">
+                          {formation.titre}
+                        </h6>
+                        <p className="mt-2 mb-4 text-blueGray-500">
+                          {formation.description
+                          .split(" ")
+                          .slice(0, 15)
+                          .join(" ")}
+                          {formation.description.split(" ").length > 15 &&
+                            " ..."}
+                        </p>
+
+                        <div className="mt-auto">
+                          <button
+                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => handleInscription(formation._id,config)}
+
+                          >
+                            Inscrivez-vous maintenant
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  onClick={handleNextPageBI}
+                  disabled={endIndexDev === formationsDev.length - 1}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  <FaChevronRight style={{ fontSize: "40px" }} />
+                </button>
+              </>
+            )}
+          </div>
+          <div className="flex flex-wrap">
+            {displayedFormations.length === 0 ? (
+              // <tr>
+              //   <td
+              //     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+              //     colSpan="22"
+              //   >
+              //     Aucune formation trouvée.
+              //   </td>
+              // </tr>
+              <></>
+            ) : (
+              <>
+                <div className="container relative mx-auto">
+                  <div className="items-center flex flex-wrap">
+                    <div className="pr-12 pt-12 ">
+                      <h1 className="text-black font-semibold text-2xl">
+                        Explorez Tous les formations en Arts Visuels
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+                <hr className="my-4 md:min-w-full" />
+                <button
+                  onClick={handlePrevPageFormationsArtsVisuels}
+                  disabled={startIndexFormationsArtsVisuels === 0}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.boxShadow =
+                      "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.boxShadow = "none")
+                  }
+                >
+                  <FaChevronLeft style={{ fontSize: "40px" }} />
+                </button>
+                {displayedformationsArtsVisuels.map((formation) => (
+                  <div
+                    className="pt-6 w-full md:w-2/12 px-4 text-center"
+                    key={formation._id}
+                  >
+                    <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                      <div className="px-4 py-5 flex-auto">
+                        <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                          <Link to={`/landing/detailscours/${formation._id}`}>
+                            <img
+                              alt="..."
+                              className="align-middle border-none max-w-full h-auto rounded-lg"
+                               src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                              //src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
+                              style={{ width: "350px", height: "220px" }}
+                              onMouseEnter={(e) =>
+                                (e.currentTarget.style.boxShadow =
+                                  "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.boxShadow = "none")
+                              }
+                            />
+                          </Link>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "5%",
+                              left: "82%",
+                              transform: "translate(-50%, -50%) ",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileFormateur/${formation.formateur._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "94%",
+                              left: "50%",
+                              transform: "translate(-50%, -50%)",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileCenter/${formation.centre._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap">
+                          {formation.competences
+                          .split(",")
+                          .slice(0, 3)
+                          .map((competence, index) => (
+                            <span
+                              key={index}
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight:
+                                  index ===
+                                  Math.min(
+                                    2,
+                                    formation.competences.split(",").length -
+                                    1
+                                  )
+                                    ? "0"
+                                    : "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                                {competence.trim()}
+                              </span>
+                          ))}
+                          {formation.competences.split(",").length > 3 && (
+                            <span
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight: "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                              ...
+                            </span>
+                          )}
+                        </div>
+                        <h6 className="text-xl font-semibold">
+                          {formation.titre}
+                        </h6>
+                        <p className="mt-2 mb-4 text-blueGray-500">
+                          {formation.description
+                          .split(" ")
+                          .slice(0, 15)
+                          .join(" ")}
+                          {formation.description.split(" ").length > 15 &&
+                            " ..."}
+                        </p>
+
+                        <div className="mt-auto">
+                          <button
+                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => handleInscription(formation._id,config)}
+
+                          >
+                            Inscrivez-vous maintenant
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  onClick={handleNextPageFormationsArtsVisuels}
+                  disabled={endIndexFormationsArtsVisuels === formationsArtsVisuels.length - 1}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  <FaChevronRight style={{ fontSize: "40px" }} />
+                </button>
+              </>
+            )}
+          </div>
+          <div className="flex flex-wrap">
+            {displayedFormations.length === 0 ? (
+              // <tr>
+              //   <td
+              //     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+              //     colSpan="22"
+              //   >
+              //     Aucune formation trouvée.
+              //   </td>
+              // </tr>
+              <></>
+            ) : (
+              <>
+                <div className="container relative mx-auto">
+                  <div className="items-center flex flex-wrap">
+                    <div className="pr-12 pt-12 ">
+                      <h1 className="text-black font-semibold text-2xl">
+                        Explorez Tous les formations en Langues etrangeres
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+                <hr className="my-4 md:min-w-full" />
+                <button
+                  onClick={handlePrevPageLangues_etrangeres}
+                  disabled={startIndexFormationsLangues_etrangeres === 0}
+                  className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.boxShadow =
+                      "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.boxShadow = "none")
+                  }
+                >
+                  <FaChevronLeft style={{ fontSize: "40px" }} />
+                </button>
+                {displayedFormationsFormationsLangues_etrangeres.map((formation) => (
+                  <div
+                    className="pt-6 w-full md:w-2/12 px-4 text-center"
+                    key={formation._id}
+                  >
+                    <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                      <div className="px-4 py-5 flex-auto">
+                        <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                          <Link to={`/landing/detailscours/${formation._id}`}>
+                            <img
+                              alt="..."
+                              className="align-middle border-none max-w-full h-auto rounded-lg"
+                               src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                             // src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
+                              style={{ width: "350px", height: "220px" }}
+                              onMouseEnter={(e) =>
+                                (e.currentTarget.style.boxShadow =
+                                  "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.boxShadow = "none")
+                              }
+                            />
+                          </Link>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "5%",
+                              left: "82%",
+                              transform: "translate(-50%, -50%) ",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileFormateur/${formation.formateur._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "94%",
+                              left: "50%",
+                              transform: "translate(-50%, -50%)",
+                            }}
+                          >
+                            <Link
+                              to={`/profile/ProfileCenter/${formation.centre._id}`}
+                            >
+                              <img
+                                alt="..."
+                                className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
+                                style={{ width: "70px" }}
+                                onMouseEnter={(e) =>
+                                  (e.currentTarget.style.boxShadow =
+                                    "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.currentTarget.style.boxShadow = "none")
+                                }
+                              />
+                            </Link>
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap">
+                          {formation.competences
+                          .split(",")
+                          .slice(0, 3)
+                          .map((competence, index) => (
+                            <span
+                              key={index}
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight:
+                                  index ===
+                                  Math.min(
+                                    2,
+                                    formation.competences.split(",").length -
+                                    1
+                                  )
+                                    ? "0"
+                                    : "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                                {competence.trim()}
+                              </span>
+                          ))}
+                          {formation.competences.split(",").length > 3 && (
+                            <span
+                              style={{
+                                border: "2px solid rgba(186, 230, 253, 1)",
+                                marginRight: "5px",
+                              }}
+                              className="text-xs font-semibold mb-2 inline-block py-1 px-2 uppercase rounded-full text-blueGray-600 uppercase last:mr-0 mr-1"
+                            >
+                              ...
+                            </span>
+                          )}
+                        </div>
+                        <h6 className="text-xl font-semibold">
+                          {formation.titre}
+                        </h6>
+                        <p className="mt-2 mb-4 text-blueGray-500">
+                          {formation.description
+                          .split(" ")
+                          .slice(0, 15)
+                          .join(" ")}
+                          {formation.description.split(" ").length > 15 &&
+                            " ..."}
+                        </p>
+
+                        <div className="mt-auto">
+                          <button
+                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => handleInscription(formation._id,config)}
+
+                          >
+                            Inscrivez-vous maintenant
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  onClick={handleNextPageLangues_etrangeres}
+                  disabled={endIndexFormationsLangues_etrangeres === formationsLangues_etrangeres.length - 1}
                   className="bg-blue-500 text-white rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                 >
                   <FaChevronRight style={{ fontSize: "40px" }} />

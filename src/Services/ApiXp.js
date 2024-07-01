@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const apiURL = 'http://localhost:5000/xp'
+const apiURL = `${process.env.REACT_APP_API_URL}/xp`;
 
 export async function createXP(xpData, config) {
     return await axios.post(apiURL, xpData, config);
