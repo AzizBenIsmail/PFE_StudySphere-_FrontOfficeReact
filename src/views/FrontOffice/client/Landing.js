@@ -9,6 +9,8 @@ import {
   getFormationsByDomaine,
   getFormationsByLocation,
   getFormationsRecommanderByLocation,
+  inscription,
+  desinscription
 } from "../../../Services/ApiFormation";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -324,7 +326,27 @@ export default function Landing({ user }) {
     setTranchesHoraires(event.target.value);
   };
 
+  const handleInscription = async (id, config) => {
+    try {
+      const response = await inscription(id, config);
+      console.log('Inscription successful:', response);
+      // Handle successful inscription (e.g., update state, show notification)
+    } catch (error) {
+      console.error('Error during inscription:', error);
+      // Handle error (e.g., show error notification)
+    }
+  };
 
+  const handleDesinscription = async (id) => {
+    try {
+      const response = await desinscription(id, config);
+      console.log('Desinscription successful:', response);
+      // Handle successful desinscription (e.g., update state, show notification)
+    } catch (error) {
+      console.error('Error during desinscription:', error);
+      // Handle error (e.g., show error notification)
+    }
+  };
   return (
     <>
       <section className="pb-20 bg-blueGray-200 -mt-24">
@@ -625,9 +647,11 @@ export default function Landing({ user }) {
                                 <button
                                   className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                                   type="button"
+                                  onClick={() => handleInscription(formation._id,config)}
                                 >
                                   Inscrivez-vous maintenant
                                 </button>
+                                <button onClick={() => handleDesinscription(formation.id)}>Desinscription</button>
                               </div>
                             </div>
                           </div>
@@ -818,6 +842,8 @@ export default function Landing({ user }) {
                           <button
                             className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                             type="button"
+                            onClick={() => handleInscription(formation._id,config)}
+
                           >
                             Inscrivez-vous maintenant
                           </button>
@@ -1005,6 +1031,8 @@ export default function Landing({ user }) {
                           <button
                             className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                             type="button"
+                            onClick={() => handleInscription(formation._id,config)}
+
                           >
                             Inscrivez-vous maintenant
                           </button>
@@ -1192,6 +1220,8 @@ export default function Landing({ user }) {
                           <button
                             className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                             type="button"
+                            onClick={() => handleInscription(formation._id,config)}
+
                           >
                             Inscrivez-vous maintenant
                           </button>
@@ -1379,6 +1409,8 @@ export default function Landing({ user }) {
                           <button
                             className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                             type="button"
+                            onClick={() => handleInscription(formation._id,config)}
+
                           >
                             Inscrivez-vous maintenant
                           </button>
@@ -1566,6 +1598,8 @@ export default function Landing({ user }) {
                           <button
                             className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                             type="button"
+                            onClick={() => handleInscription(formation._id,config)}
+
                           >
                             Inscrivez-vous maintenant
                           </button>

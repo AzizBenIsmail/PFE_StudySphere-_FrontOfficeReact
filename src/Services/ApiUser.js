@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL); // Devrait afficher l'URL
 const apiURL = `${process.env.REACT_APP_API_URL}/user`;
 
 export async function getUserAuth (config) {

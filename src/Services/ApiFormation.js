@@ -1,7 +1,15 @@
 import axios from 'axios';
+import Cookies from 'js-cookie'
 
-console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL); // Devrait afficher l'URL
 const apiURL = `${process.env.REACT_APP_API_URL}/formation`;
+const jwt_token = Cookies.get('jwt_token');
+
+const api = axios.create({
+  baseURL: `${process.env.REACT_APP_API_URL}/formation`, // Remplacez par l'URL de votre API
+  headers: {
+    Authorization: `Bearer ${jwt_token}`,
+  },
+});
 
 export async function createFormation(formationData, config) {
   return await axios.post(apiURL, formationData, config);
@@ -49,4 +57,12 @@ export async function getFormationsByDomaine(sujetInteret, config) {
 
 export async function FormationByDayAndTime(jours, tranchesHoraires, config) {
   return await axios.get(`${apiURL}/FormationByDayAndTime?jours=${jours}&tranchesHoraires=${tranchesHoraires}`, config);
+}
+
+export async function inscription(id, config) {
+  return await api.post(`/inscription/${id}`, config);
+}
+
+export async function desinscription(id, config) {
+  return await api.post(`/desinscription/${id}`, config);
 }
