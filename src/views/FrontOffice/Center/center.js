@@ -70,7 +70,7 @@ export default function Landing() {
                         {center.nom}
                       </h6>
                       <p className="mt-2 mb-4 text-blueGray-500">
-                        {center.preferences && center.preferences.domaine_actuelle ? center.preferences.domaine_actuelle : "Le centre ne prend pas en compte les détails."}
+                        {center.preferences && center.preferences.domaine_actuelle ? center.preferences.domaine_actuelle : "Domaine non renseigné "}
                       </p>
                     </div>
                   </div>
