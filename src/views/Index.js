@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link , useHistory } from "react-router-dom";
 
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import Footer from "components/Footers/Footer.js";
@@ -18,7 +18,7 @@ import {
 export default function Index() {
   const jwt_token = Cookies.get('jwt_token')
   const [user, setUser] = useState()
-
+const histoy = useHistory()
   const config = useMemo(() => {
     return {
       headers: {
@@ -672,6 +672,8 @@ export default function Index() {
                                 <button
                                   className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                                   type="button"
+                                  onClick={event =>            histoy.push(`/auth/login`)}
+
                                 >
                                   Inscrivez-vous maintenant
                                 </button>
@@ -864,6 +866,8 @@ export default function Index() {
                           <button
                             className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                             type="button"
+                            onClick={event =>            histoy.push(`/auth/login`)}
+
                           >
                             Inscrivez-vous maintenant
                           </button>
@@ -1051,6 +1055,8 @@ export default function Index() {
                           <button
                             className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                             type="button"
+                            onClick={event =>            histoy.push(`/auth/login`)}
+
                           >
                             Inscrivez-vous maintenant
                           </button>
@@ -1238,6 +1244,7 @@ export default function Index() {
                           <button
                             className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                             type="button"
+                            onClick={event =>            histoy.push(`/auth/login`)}
                           >
                             Inscrivez-vous maintenant
                           </button>
@@ -1425,6 +1432,8 @@ export default function Index() {
                           <button
                             className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                             type="button"
+                            onClick={event =>            histoy.push(`/auth/login`)}
+
                           >
                             Inscrivez-vous maintenant
                           </button>
@@ -1612,6 +1621,8 @@ export default function Index() {
                           <button
                             className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                             type="button"
+                            onClick={event =>            histoy.push(`/auth/login`)}
+
                           >
                             Inscrivez-vous maintenant
                           </button>
