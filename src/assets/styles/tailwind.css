@@ -3425,7 +3425,7 @@ select {
   height: 47vh;
 }
 .messages-container {
-  max-height: 60vh; /* Set a maximum height for the messages container */
+  max-height: 100vh; /* Set a maximum height for the messages container */
 }
 
 .bg-gray-50 {
@@ -3492,4 +3492,12 @@ select {
 }
 .bg-blue-200 {
   background-color: #22d3ee; /* Adjust color as needed */
+}
+
+.chat-start {
+  justify-content: flex-start;
+}
+
+.chat-end {
+  justify-content: flex-end;
 }
