@@ -169,3 +169,7 @@ export async function affecterEnseignant(enseignantId, config) {
 export async function desinfecterFormateur(enseignantId, config) {
   return await axios.put(`${apiURL}/desinfecterFormateur/${enseignantId}`, null, config);
 }
+
+export async function getUsersForSidebar( config) {
+  return await axios.get(`${ apiURL }/sidebarUser`, config);
+}

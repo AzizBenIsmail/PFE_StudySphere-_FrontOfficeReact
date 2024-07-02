@@ -1,6 +1,14 @@
 const plugin = require("tailwindcss/plugin");
 const colors = require("tailwindcss/colors");
 
+const labelsClasses = [
+  
+  "gray",
+  "blue",
+  "red",
+  "purple",
+];
+
 module.exports = {
   purge: {
     enabled: true,
