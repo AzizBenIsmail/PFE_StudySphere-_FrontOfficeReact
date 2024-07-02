@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const apiURL = 'http://localhost:5000/notification';
+const apiURL = `${process.env.REACT_APP_API_URL}/notification`;
 
 // Fonction pour créer une nouvelle notification
 export async function createNotification(notificationData, config) {

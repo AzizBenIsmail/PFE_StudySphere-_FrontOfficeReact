@@ -1010,7 +1010,7 @@ export default function ListUsers ({ color }) {
                     <img
                       // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
                       alt="UserImage"
-                      src={`http://localhost:5000/images/Users/${user.image_user}`}
+                      src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${user.image_user}`}
                       style={{ width: '80px', height: '80px' }}
                     />
                   ) : (

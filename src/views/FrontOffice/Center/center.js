@@ -60,7 +60,7 @@ export default function Landing() {
                           <img
                             alt="..."
                             className="align-middle border-none max-w-full h-auto rounded-lg"
-                            src={`http://localhost:5000/images/Users/${center.image_user}`}
+                            src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${center.image_user}`}
                             // style={{ width: "350px", height: "350px" }}
                             style={{ width: "200px", height: "120px" }}
                           />
@@ -70,7 +70,7 @@ export default function Landing() {
                         {center.nom}
                       </h6>
                       <p className="mt-2 mb-4 text-blueGray-500">
-                        {center.preferences && center.preferences.domaine_actuelle ? center.preferences.domaine_actuelle : "Le centre ne prend pas en compte les détails."}
+                        {center.preferences && center.preferences.domaine_actuelle ? center.preferences.domaine_actuelle : "Domaine non renseigné "}
                       </p>
                     </div>
                   </div>

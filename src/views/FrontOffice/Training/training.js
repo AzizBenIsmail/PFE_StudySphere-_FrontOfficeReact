@@ -188,7 +188,7 @@ export default function Landing () {
                           onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                           alt="..."
                           className="align-middle border-none max-w-full h-auto rounded-lg"
-                          src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                           style={{ width: '350px', height: '220px' }}
                         />
                       </Link>
@@ -228,7 +228,7 @@ export default function Landing () {
                           onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                           alt="..."
                           className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                          src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
                           style={{ width: '25px' }}
                         />
                       </Link>
@@ -239,7 +239,7 @@ export default function Landing () {
                           onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                           alt="..."
                           className="shadow ml-2 rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                          src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
                           style={{ width: '25px' }}
                         />
                       </Link>

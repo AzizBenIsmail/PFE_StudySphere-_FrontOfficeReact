@@ -33,12 +33,12 @@ export default function LandingLayout () {
           const res = await getUserAuth(config);
           setUser(() => {
             if (res.data.user.role === 'admin') {
-              history.replace('/admin/');
+              // history.replace('/admin/');
             }
             return res.data.user;
           });
         } else {
-          history.replace('/');
+          // history.replace('/');
         }
 
       } catch (error) {

@@ -83,7 +83,7 @@ export default function Index () {
               {formation && formation.image_Formation ? (
                 <img
                   alt="..."
-                  src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                  src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                   className="w-full align-middle rounded-t-lg"
                 />
               ) : (

@@ -232,7 +232,7 @@ export default function ListeBadge({ color }) {
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 font-bold">
                   <img
                     alt="UserImage"
-                    src={`http://localhost:5000/images/Badges/${badge.image_badge}`}
+                    src={`${process.env.REACT_APP_API_URL_IMAGE_BADGES}/${badge.image_badge}`}
                     style={{ width: '80px', height: '80px' }}
                   />
                 </td>

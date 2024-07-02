@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import { getFormationById } from '../../../Services/ApiFormation';
 import { RiStarSLine, RiStarSFill } from "react-icons/ri";
 import { getFavoris, addFavori, removeFavori } from '../../../Services/ApiFav';
+import AuthNavbar from '../../../components/Navbars/AuthNavbar'
 
 function Details() {
   const jwt_token = Cookies.get('jwt_token');
@@ -96,8 +97,31 @@ function Details() {
 
   return (
     <>
-      {/* <Header /> */}
-      <section className="pt-1 bg-blueGray-200 ">
+       <AuthNavbar />
+        <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-55">
+          <div className="absolute top-0 w-full h-full bg-center bg-cover">
+            <span
+              id="blackOverlay"
+              className="w-full h-full absolute opacity-100 bg-bleu-500"
+            ></span>
+          </div>
+          <div className="container relative mx-auto">
+            <div className="items-center flex flex-wrap">
+              <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
+                <div className="pr-12 pt-12 mt-2">
+                  <h1 className="text-white font-semibold text-5xl">
+                    Your story starts with us.
+                  </h1>
+                  <p className="mt-4 text-lg text-blueGray-200">
+                    "Chaque formation est une passerelle vers de nouvelles opportunités.
+                    Inscris-toi aujourd'hui et dessine ton avenir avec assurance."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <section className="pt-1 bg-blueGray-200 ">
         <div className='title-event-det mt-5 '>
           <h1 className="mb-5 text-center"> Détails des cours</h1>
         </div>
@@ -221,7 +245,6 @@ function Details() {
                 <span className='details-course-tag-custom'>Web development</span>
                 <h4>Learn Full Stack NodeJs</h4>
                 <button className='details-enroll-button-custom-det'>Enroll Now</button>
-                <div className='marqua'> azer</div>
               </div>
             </div>
             <div className='details-course-card-custom col-lg-4 col-md-6 col-sm-12 mb-3'>
@@ -229,7 +252,6 @@ function Details() {
                 <span className='details-course-tag-custom'>Web development</span>
                 <h4>MongoDB Course</h4>
                 <button className='details-enroll-button-custom-det'>Enroll Now</button>
-                <div className='marqua'> azer</div>
               </div>
             </div>
             <div className='details-course-card-custom col-lg-4 col-md-6 col-sm-12 mb-3'>
@@ -237,7 +259,6 @@ function Details() {
                 <span className='details-course-tag-custom'>Web development</span>
                 <h4>Discover Angular</h4>
                 <button className='details-enroll-button-custom-det'>Enroll Now</button>
-                <div className='marqua'> azer</div>
               </div>
             </div>
             <div className='details-course-card-custom col-lg-4 col-md-6 col-sm-12 mb-3'>
@@ -245,7 +266,6 @@ function Details() {
                 <span className='details-course-tag-custom'>Web development</span>
                 <h4>Discover Angular</h4>
                 <button className='details-enroll-button-custom-det'>Enroll Now</button>
-                <div className='marqua'> azer</div>
               </div>
             </div>
           </div>

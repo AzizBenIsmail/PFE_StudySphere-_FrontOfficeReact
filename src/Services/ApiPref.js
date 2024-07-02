@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const apiURL = 'http://localhost:5000/pref'
+const apiURL = `${process.env.REACT_APP_API_URL}/pref`;
 
 export async function addPreferences(preferencesData, config) {
     return await axios.put(`${apiURL}/addPref`, preferencesData, config);

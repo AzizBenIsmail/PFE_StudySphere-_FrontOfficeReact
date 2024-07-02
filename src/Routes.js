@@ -13,12 +13,13 @@ const Profiles = lazy(() => import("./layouts/Profiles.js"));
 
 // views without layouts
 const Setting = lazy(() => import("./views/FrontOffice/AccountManagement/Setting.js"));
-const DetailsFormation = lazy(() => import("./views/FrontOffice/client/DetailsFormation.js"));
+const DetailsFormation = lazy(() => import("./views/FrontOffice/Visisteur/DetailsFormation.js"));
 const Index = lazy(() => import("views/Index.js"));
 // const createFormation = lazy(() => import("views/FrontOffice/Center/GestionFormation.js"));
 const Calendar = lazy(() => import("./views/calendar/App.js"));
 const Chat = lazy(() => import("./views/chat/Main.js"));
 const Forum = lazy(() => import("views/forum/App.js"));
+
 function Routes() {
   return (
     <>

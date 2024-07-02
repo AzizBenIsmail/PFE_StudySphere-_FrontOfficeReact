@@ -173,7 +173,7 @@ export default function BadgesNiveauXp() {
                       <div className="px-6">
                         <img
                           alt="..."
-                          src={`http://localhost:5000/images/badges/${badge.image_badge}`}
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_BADGES}/${badge.image_badge}`}
                           className="shadow-lg rounded-full bg-blueGray-100 mx-auto max-w-120-px"
                         />
                         <div className="pt-6 text-center">

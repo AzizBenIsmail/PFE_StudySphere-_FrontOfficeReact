@@ -9,16 +9,25 @@ import {
   getFormationsByDomaine,
   getFormationsByLocation,
   getFormationsRecommanderByLocation,
+  inscription,
+  desinscription
 } from "../../../Services/ApiFormation";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { getUserAuth } from '../../../Services/Apiauth'
 
 export default function Landing({ user }) {
+  const jwt_token = Cookies.get('jwt_token')
+
   const [formations, setFormations] = useState([]);
   const [formationsByLocation, setFormationsByLocation] = useState([]);
   const [startIndexDev, setStartIndexDev] = useState(0);
   const [endIndexDev, setEndIndexDev] = useState(2);
   const [startIndexBI, setStartIndexBI] = useState(0);
   const [endIndexBI, setEndIndexBI] = useState(2);
+  const [userInscriptions, setUserInscriptions] = useState([]);
+  const isUserEnrolled = (formationId) => {
+    return userInscriptions.includes(formationId);
+  };
   const [endIndexFormationsArtsVisuels, setEndIndexFormationsArtsVisuels] =
     useState(2);
   const [startIndexFormationsArtsVisuels, setStartIndexFormationsArtsVisuels] =
@@ -33,7 +42,6 @@ export default function Landing({ user }) {
     useState(0);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(2);
-  const jwt_token = Cookies.get("jwt_token");
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedDomaine, setSelectedDomaine] = useState("");
@@ -96,6 +104,16 @@ export default function Landing({ user }) {
     };
   }, [jwt_token]);
 
+  const loadUserInscriptions = useCallback(async () => {
+    try {
+      const res = await getUserAuth(config);
+      console.log(res.data.user.inscriptions)
+      setUserInscriptions(res.data.user.inscriptions);
+    } catch (error) {
+      console.error("Error loading user inscriptions:", error);
+    }
+  }, [config]);
+
   const loadFormations = useCallback(async () => {
     try {
       const res = await getAllFormations(config);
@@ -123,9 +141,10 @@ export default function Landing({ user }) {
   }, [config]);
 
   useEffect(() => {
+    loadUserInscriptions();
     loadFormations();
     loadFormationsRecommanderByLocation();
-  }, [loadFormations, loadFormationsRecommanderByLocation]);
+  }, [loadFormations, loadFormationsRecommanderByLocation,loadUserInscriptions]);
 
   const handleNextPage = () => {
     if (endIndex < formations.length - 1) {
@@ -324,7 +343,27 @@ export default function Landing({ user }) {
     setTranchesHoraires(event.target.value);
   };
 
+  const handleInscription = async (id, config) => {
+    try {
+      const response = await inscription(id, config);
+      console.log('Inscription successful:', response);
+      loadUserInscriptions();
+    } catch (error) {
+      console.error('Error during inscription:', error);
+      // Handle error (e.g., show error notification)
+    }
+  };
 
+  const handleDesinscription = async (id,config) => {
+    try {
+      const response = await desinscription(id, config);
+      console.log('Desinscription successful:', response);
+      loadUserInscriptions();
+    } catch (error) {
+      console.error('Error during desinscription:', error);
+      // Handle error (e.g., show error notification)
+    }
+  };
   return (
     <>
       <section className="pb-20 bg-blueGray-200 -mt-24">
@@ -468,15 +507,14 @@ export default function Landing({ user }) {
               <hr className="my-4 md:min-w-full" />
               <div className="flex flex-wrap">
                 {displayedFormationsFormationsByLocation.length === 0 ? (
-                  <tr>
-                    <td
+                  <div
                       className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
                       colSpan="22"
                     >
                       Aucune formation trouvée a
                       {user.preferences.emplacement_actuelle} et {user.preferences.Domaine_dinteret} {user.preferences.domaine_actuelle}
-                    </td>
-                  </tr>
+
+                  </div>
                 ) : (
                   <>
                     <button
@@ -506,7 +544,8 @@ export default function Landing({ user }) {
                                   <img
                                     alt="..."
                                     className="align-middle border-none max-w-full h-auto rounded-lg"
-                                    src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                                     src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                                    //src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                                     style={{ width: "350px", height: "220px" }}
                                     onMouseEnter={(e) =>
                                       (e.currentTarget.style.boxShadow =
@@ -531,7 +570,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -557,7 +597,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                                //src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -619,12 +660,19 @@ export default function Landing({ user }) {
                               </p>
 
                               <div className="mt-auto">
+                                {!isUserEnrolled(formation._id) ? (
                                 <button
                                   className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                                   type="button"
+                                  onClick={() => handleInscription(formation._id,config)}
                                 >
                                   Inscrivez-vous maintenant
-                                </button>
+                                </button>  ) : (
+                                <button
+                                  className="bg-red-500 text-white active:bg-red-500 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                                  type="button"
+                                  onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -661,14 +709,13 @@ export default function Landing({ user }) {
             <hr className="my-4 md:min-w-full" />
 
             {displayedFormations.length === 0 ? (
-              <tr>
-                <td
+              <div
+
                   className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
                   colSpan="22"
                 >
                   Aucune formation trouvée.
-                </td>
-              </tr>
+              </div>
             ) : (
               <>
                 <button
@@ -697,7 +744,8 @@ export default function Landing({ user }) {
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
-                              src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                              src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                              //src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                               style={{ width: "350px", height: "220px" }}
                               onMouseEnter={(e) =>
                                 (e.currentTarget.style.boxShadow =
@@ -722,7 +770,7 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -748,7 +796,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -810,12 +859,19 @@ export default function Landing({ user }) {
                         </p>
 
                         <div className="mt-auto">
-                          <button
-                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
-                            type="button"
-                          >
-                            Inscrivez-vous maintenant
-                          </button>
+                          {!isUserEnrolled(formation._id) ? (
+                            <button
+                              className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={() => handleInscription(formation._id,config)}
+                            >
+                              Inscrivez-vous maintenant
+                            </button>  ) : (
+                            <button
+                              className="bg-red-500 text-white active:bg-red-500 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -834,15 +890,8 @@ export default function Landing({ user }) {
           </div>
           <div className="flex flex-wrap">
             {displayedFormations.length === 0 ? (
-              // <tr>
-              //   <td
-              //     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
-              //     colSpan="22"
-              //   >
-              //     Aucune formation trouvée.
-              //   </td>
-              // </tr>
-              <></>
+
+              <div></div>
             ) : (
               <>
                 <div className="container relative mx-auto">
@@ -881,7 +930,8 @@ export default function Landing({ user }) {
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
-                              src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                               src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                             // src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                               style={{ width: "350px", height: "220px" }}
                               onMouseEnter={(e) =>
                                 (e.currentTarget.style.boxShadow =
@@ -906,7 +956,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -932,7 +983,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                                //src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -994,12 +1046,19 @@ export default function Landing({ user }) {
                         </p>
 
                         <div className="mt-auto">
-                          <button
-                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
-                            type="button"
-                          >
-                            Inscrivez-vous maintenant
-                          </button>
+                          {!isUserEnrolled(formation._id) ? (
+                            <button
+                              className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={() => handleInscription(formation._id,config)}
+                            >
+                              Inscrivez-vous maintenant
+                            </button>  ) : (
+                            <button
+                              className="bg-red-500 text-white active:bg-red-500 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1018,15 +1077,8 @@ export default function Landing({ user }) {
           </div>
           <div className="flex flex-wrap">
             {displayedFormationsBI.length === 0 ? (
-              // <tr>
-              //   <td
-              //     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
-              //     colSpan="22"
-              //   >
-              //     Aucune formation trouvée.
-              //   </td>
-              // </tr>
-              <></>
+
+              <div></div>
             ) : (
               <>
                 <div className="container relative mx-auto">
@@ -1065,7 +1117,8 @@ export default function Landing({ user }) {
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
-                              src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                               src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                             // src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                               style={{ width: "350px", height: "220px" }}
                               onMouseEnter={(e) =>
                                 (e.currentTarget.style.boxShadow =
@@ -1090,7 +1143,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1116,7 +1170,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1178,12 +1233,19 @@ export default function Landing({ user }) {
                         </p>
 
                         <div className="mt-auto">
-                          <button
-                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
-                            type="button"
-                          >
-                            Inscrivez-vous maintenant
-                          </button>
+                          {!isUserEnrolled(formation._id) ? (
+                            <button
+                              className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={() => handleInscription(formation._id,config)}
+                            >
+                              Inscrivez-vous maintenant
+                            </button>  ) : (
+                            <button
+                              className="bg-red-500 text-white active:bg-red-500 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1202,15 +1264,8 @@ export default function Landing({ user }) {
           </div>
           <div className="flex flex-wrap">
             {displayedFormations.length === 0 ? (
-              // <tr>
-              //   <td
-              //     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
-              //     colSpan="22"
-              //   >
-              //     Aucune formation trouvée.
-              //   </td>
-              // </tr>
-              <></>
+
+              <div></div>
             ) : (
               <>
                 <div className="container relative mx-auto">
@@ -1249,7 +1304,8 @@ export default function Landing({ user }) {
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
-                              src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                               src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                              //src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                               style={{ width: "350px", height: "220px" }}
                               onMouseEnter={(e) =>
                                 (e.currentTarget.style.boxShadow =
@@ -1274,7 +1330,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1300,7 +1357,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1362,12 +1420,19 @@ export default function Landing({ user }) {
                         </p>
 
                         <div className="mt-auto">
-                          <button
-                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
-                            type="button"
-                          >
-                            Inscrivez-vous maintenant
-                          </button>
+                          {!isUserEnrolled(formation._id) ? (
+                            <button
+                              className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={() => handleInscription(formation._id,config)}
+                            >
+                              Inscrivez-vous maintenant
+                            </button>  ) : (
+                            <button
+                              className="bg-red-500 text-white active:bg-red-500 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1386,15 +1451,8 @@ export default function Landing({ user }) {
           </div>
           <div className="flex flex-wrap">
             {displayedFormations.length === 0 ? (
-              // <tr>
-              //   <td
-              //     className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
-              //     colSpan="22"
-              //   >
-              //     Aucune formation trouvée.
-              //   </td>
-              // </tr>
-              <></>
+
+              <div></div>
             ) : (
               <>
                 <div className="container relative mx-auto">
@@ -1433,7 +1491,8 @@ export default function Landing({ user }) {
                             <img
                               alt="..."
                               className="align-middle border-none max-w-full h-auto rounded-lg"
-                              src={`http://localhost:5000/images/Formations/${formation.image_Formation}`}
+                               src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                             // src={`https://forme-5wc0.onrender.com/images/Formations/${formation.image_Formation}`}
                               style={{ width: "350px", height: "220px" }}
                               onMouseEnter={(e) =>
                                 (e.currentTarget.style.boxShadow =
@@ -1458,7 +1517,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.formateur.image_user}`}
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
+                               // src={`https://forme-5wc0.onrender.com/images/Users/${formation.formateur.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1484,7 +1544,8 @@ export default function Landing({ user }) {
                               <img
                                 alt="..."
                                 className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
-                                src={`http://localhost:5000/images/Users/${formation.centre.image_user}`}
+                                 src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+                              //  src={`https://forme-5wc0.onrender.com/images/Users/${formation.centre.image_user}`}
                                 style={{ width: "70px" }}
                                 onMouseEnter={(e) =>
                                   (e.currentTarget.style.boxShadow =
@@ -1546,12 +1607,19 @@ export default function Landing({ user }) {
                         </p>
 
                         <div className="mt-auto">
-                          <button
-                            className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
-                            type="button"
-                          >
-                            Inscrivez-vous maintenant
-                          </button>
+                          {!isUserEnrolled(formation._id) ? (
+                            <button
+                              className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={() => handleInscription(formation._id,config)}
+                            >
+                              Inscrivez-vous maintenant
+                            </button>  ) : (
+                            <button
+                              className="bg-red-500 text-white active:bg-red-500 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                              type="button"
+                              onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
+                          )}
                         </div>
                       </div>
                     </div>

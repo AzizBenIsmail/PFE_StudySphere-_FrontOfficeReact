@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const apiURL = 'http://localhost:5000/auth'
+const apiURL = `${process.env.REACT_APP_API_URL}/auth`;
 
 export async function getUserAuth (config) {
   return await axios.get(`${apiURL}/`, config)
