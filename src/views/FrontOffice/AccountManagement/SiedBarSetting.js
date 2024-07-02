@@ -294,13 +294,15 @@ const Tabs = ({code}) => {
                   <a
                     className={
                       'text-xs px-5 py-3 shadow-lg rounded block leading-normal ' +
-                      (openTab === "6"
+                      (openTab === "7"
                         ? 'text-lightBlue-600'
                         : 'text-lightBlue-800')
                     }
                     onClick={e => {
                       e.preventDefault()
                       setOpenTab(code)
+                      history.push("/AccountManagement/GestionInscription");
+
                     }}
                     data-toggle="tab"
                     href="#link3"
@@ -310,7 +312,7 @@ const Tabs = ({code}) => {
                       <BiSolidUserAccount style={{ fontSize: '25px' }} className="mt-1"/>
                       <div className="ml-2">
                         <h3 className="text-1xl mt-2">
-                          Confientialiter
+                          Inscriptions
                         </h3>
                       </div>
                     </div>
