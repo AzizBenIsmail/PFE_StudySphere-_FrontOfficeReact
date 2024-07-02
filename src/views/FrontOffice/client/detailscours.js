@@ -2,16 +2,20 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import '../../../assets/styles/detailcours.css';
 import Cookies from 'js-cookie';
 import { Link, useParams } from 'react-router-dom';
-import { getFormationById } from '../../../Services/ApiFormation';
+import { desinscription, getFormationById, inscription } from '../../../Services/ApiFormation'
 import { RiStarSLine, RiStarSFill } from "react-icons/ri";
 import { getFavoris, addFavori, removeFavori } from '../../../Services/ApiFav';
+import { getUserAuth } from '../../../Services/Apiauth'
 
 function Details() {
   const jwt_token = Cookies.get('jwt_token');
   const param = useParams();
   const [isFilled, setIsFilled] = useState(false);
   const [favoriId, setFavoriId] = useState(null);
-
+  const [userInscriptions, setUserInscriptions] = useState([]);
+  const isUserEnrolled = (formationId) => {
+    return userInscriptions.includes(formationId);
+  };
   const config = useMemo(() => {
     return {
       headers: {
@@ -49,10 +53,21 @@ function Details() {
     }
   }, [param.id, config]);
 
+  const loadUserInscriptions = useCallback(async () => {
+    try {
+      const res = await getUserAuth(config);
+      console.log(res.data.user.inscriptions)
+      setUserInscriptions(res.data.user.inscriptions);
+    } catch (error) {
+      console.error("Error loading user inscriptions:", error);
+    }
+  }, [config]);
+
   useEffect(() => {
     loadFormations();
     checkFavori();
-  }, [loadFormations, checkFavori]);
+    loadUserInscriptions();
+  }, [loadFormations,loadUserInscriptions, checkFavori]);
 
   if (!formation) {
     return <div>Loading...</div>;
@@ -94,6 +109,31 @@ function Details() {
     }
   };
 
+
+
+
+
+  const handleDesinscription = async (id,config) => {
+    try {
+      const response = await desinscription(id, config);
+      console.log('Desinscription successful:', response);
+      loadUserInscriptions();
+    } catch (error) {
+      console.error('Error during desinscription:', error);
+      // Handle error (e.g., show error notification)
+    }
+  };
+  const handleInscription = async (id, config) => {
+    try {
+      const response = await inscription(id, config);
+      console.log('Inscription successful:', response);
+      loadUserInscriptions();
+    } catch (error) {
+      console.error('Error during inscription:', error);
+      // Handle error (e.g., show error notification)
+    }
+  };
+
   return (
     <>
       {/* <Header /> */}
@@ -108,15 +148,9 @@ function Details() {
                 <div className="details-content-custom">
                   <h1 className="details-title-custom">{formation.titre}</h1>
                   <div className="details-header-custom">
-                    <div className="details-reviews-custom">
-                      <span>Reviews (15 reviews)</span>
-                    </div>
                     <div className="details-category-custom">
                       <span>Category</span>
                       <p>{formation.sujetInteret}</p>
-                    </div>
-                    <div className="details-group-custom">
-                      <p>Group 20 people</p>
                     </div>
                     <div className="details-group-custom" onClick={toggleIcon} style={{ cursor: 'pointer' }}>
                       {isFilled ? <RiStarSFill size={40} /> : <RiStarSLine size={40} />}
@@ -175,13 +209,13 @@ function Details() {
                 </div>
                 <div className="details-sidebar-custom">
                   <div className="details-features-custom">
-                    <h3>Course Features</h3>
+                    <h3>Caractéristiques du cours</h3>
                     <ul>
                       <li><span>Competences</span><span className='details-blue-custom'>{formation.competences}</span></li>
                       <hr />
                       <li><span>jours</span><span className='details-blue-custom'>{formation.jours}</span></li>
                       <hr />
-                      <li><span>niveauRequis</span><span className='details-blue-custom'>{formation.niveauRequis}</span></li>
+                      <li><span>niveau requis</span><span className='details-blue-custom'>{formation.niveauRequis}</span></li>
                       <hr />
                       <li><span>typeContenu</span><span className='details-blue-custom'>{formation.typeContenu}</span></li>
                       <hr />
@@ -191,21 +225,36 @@ function Details() {
                       <hr />
                       <li><span>Date Fin</span><span className='details-blue-custom'>{formatDate(formation.dateFin)}</span></li>
                       <hr />
-                      <li><span>Duration</span><span className='details-blue-custom'>{formatDuration(formation.duree)}</span></li>
+                      <li><span>Durée</span><span className='details-blue-custom'>{formatDuration(formation.duree)}</span></li>
                       <hr />
                       <li><span>Method</span><span className='details-blue-custom'>{formation.styleEnseignement}</span></li>
                       <hr />
-                      <li><span>Engagement Required</span><span className='details-blue-custom'>{formation.niveauDengagementRequis}</span></li>
+                      <li><span>Engagement requis</span><span className='details-blue-custom'>{formation.niveauDengagementRequis}</span></li>
                       <hr />
-                      <li><span>Skill level</span><span className='details-blue-custom'>{formation.niveauDeDifficulte}</span></li>
+                      <li><span>Niveau de compétence</span><span className='details-blue-custom'>{formation.niveauDeDifficulte}</span></li>
                       <hr />
                       <li><span>Emplacement</span><span className='details-blue-custom'>{formation.emplacement}</span></li>
                       <hr />
                       <li><span>Language</span><span className='details-blue-custom'>{formation.langue}</span></li>
                       <hr />
                     </ul>
-                    <h5 className='details-price-custom'>Course price: <span className='details-price-value-custom'>{formation.Prix} dt</span></h5>
-                    <button className="details-btn-register-custom">Register now</button>
+                    <h5 className='details-price-custom'>Prix du cours: <span className='details-price-value-custom'>{formation.Prix} dt</span></h5>
+                    {/*<button className="details-btn-register-custom">Register now</button>*/}
+                    <div className="mt-auto">
+                      {!isUserEnrolled(formation._id) ? (
+                        <button
+                          className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={() => handleInscription(formation._id,config)}
+                        >
+                          Inscrivez-vous maintenant
+                        </button>  ) : (
+                        <button
+                          className="bg-red-500 text-white active:bg-red-500 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -213,43 +262,6 @@ function Details() {
           </div>
         </div>
         <hr />
-        <div className='details-suggestions-custom container'>
-          <h3 className="text-center">Other similar courses</h3>
-          <div className='details-course-cards-custom row'>
-            <div className='details-course-card-custom col-lg-4 col-md-6 col-sm-12 mb-3'>
-              <div className='details-card-content-custom'>
-                <span className='details-course-tag-custom'>Web development</span>
-                <h4>Learn Full Stack NodeJs</h4>
-                <button className='details-enroll-button-custom-det'>Enroll Now</button>
-                <div className='marqua'> azer</div>
-              </div>
-            </div>
-            <div className='details-course-card-custom col-lg-4 col-md-6 col-sm-12 mb-3'>
-              <div className='details-card-content-custom'>
-                <span className='details-course-tag-custom'>Web development</span>
-                <h4>MongoDB Course</h4>
-                <button className='details-enroll-button-custom-det'>Enroll Now</button>
-                <div className='marqua'> azer</div>
-              </div>
-            </div>
-            <div className='details-course-card-custom col-lg-4 col-md-6 col-sm-12 mb-3'>
-              <div className='details-card-content-custom'>
-                <span className='details-course-tag-custom'>Web development</span>
-                <h4>Discover Angular</h4>
-                <button className='details-enroll-button-custom-det'>Enroll Now</button>
-                <div className='marqua'> azer</div>
-              </div>
-            </div>
-            <div className='details-course-card-custom col-lg-4 col-md-6 col-sm-12 mb-3'>
-              <div className='details-card-content-custom'>
-                <span className='details-course-tag-custom'>Web development</span>
-                <h4>Discover Angular</h4>
-                <button className='details-enroll-button-custom-det'>Enroll Now</button>
-                <div className='marqua'> azer</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
     </>
   );
