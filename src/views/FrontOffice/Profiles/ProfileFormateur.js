@@ -329,22 +329,29 @@ export default function ProfileFormateur() {
                             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                               <div className="px-4 py-5 flex-auto">
                                 <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
-                                  <a href={`/DetailsFormation/${formation._id}`}>
-                                    <img
-                                      alt="..."
-                                      className="align-middle border-none max-w-full h-auto rounded-lg"
-                                      src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
-                                      // style={{ width: "350px", height: "350px" }}
-                                      style={{ width: "250px", height: "120px" }}
-                                      onMouseEnter={(e) =>
-                                        (e.currentTarget.style.boxShadow =
-                                          "0px 0px 30px 0px rgba(0,0,0,0.3)")
-                                      }
-                                      onMouseLeave={(e) =>
-                                        (e.currentTarget.style.boxShadow = "none")
-                                      }
-                                    />
-                                  </a>
+                                  {jwt_token ? (
+                                      <img
+                                        alt="..."
+                                        className="align-middle border-none max-w-full h-auto rounded-lg"
+                                        src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                                        style={{ width: '250px', height: '120px' }}
+                                        onMouseEnter={(e) => e.currentTarget.classList.add('hovered')}
+                                        onMouseLeave={(e) => e.currentTarget.classList.remove('hovered')}
+                                        onClick={(e) => {window.location.replace(`/landing/detailscours/${formation._id}`)}}
+
+                                      />
+                                  ) : (
+                                      <img
+                                        alt="..."
+                                        className="align-middle border-none max-w-full h-auto rounded-lg"
+                                        src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                                        style={{ width: '250px', height: '120px' }}
+                                        onMouseEnter={(e) => e.currentTarget.classList.add('hovered')}
+                                        onMouseLeave={(e) => e.currentTarget.classList.remove('hovered')}
+                                        onClick={(e) => {window.location.replace(`/DetailsFormation/${formation._id}`)} }
+
+                                      />
+                                  )}
                                 </div>
                                 <div className="flex flex-wrap">
                                   {formation.competences
