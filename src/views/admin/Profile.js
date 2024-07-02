@@ -74,7 +74,7 @@ export default function Profile () {
                     {User.image_user ? (
                       <img
                         alt="..."
-                        src={`http://localhost:5000/images/${User.image_user}`}
+                        src={`http://localhost:5000/images/Users/${User.image_user}`}
                         className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
                       />
                     ) : (
