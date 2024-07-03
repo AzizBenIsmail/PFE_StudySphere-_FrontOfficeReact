@@ -658,9 +658,9 @@ export default function Landing({ user }) {
                                 {formation.description.split(" ").length > 15 &&
                                   " ..."}
                               </p>
-
+                              {user && user.role !== "centre" ?
                               <div className="mt-auto">
-                                {!isUserEnrolled(formation._id) ? (
+                                { !isUserEnrolled(formation._id) ? (
                                 <button
                                   className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                                   type="button"
@@ -674,6 +674,8 @@ export default function Landing({ user }) {
                                   onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
                                 )}
                               </div>
+                               : null }
+
                             </div>
                           </div>
                         </div>
@@ -857,7 +859,7 @@ export default function Landing({ user }) {
                           {formation.description.split(" ").length > 15 &&
                             " ..."}
                         </p>
-
+                        {user && user.role !== "centre" ?
                         <div className="mt-auto">
                           {!isUserEnrolled(formation._id) ? (
                             <button
@@ -873,6 +875,7 @@ export default function Landing({ user }) {
                               onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
                           )}
                         </div>
+                          : null }
                       </div>
                     </div>
                   </div>
@@ -1044,7 +1047,7 @@ export default function Landing({ user }) {
                           {formation.description.split(" ").length > 15 &&
                             " ..."}
                         </p>
-
+                        {user && user.role !== "centre" ?
                         <div className="mt-auto">
                           {!isUserEnrolled(formation._id) ? (
                             <button
@@ -1060,6 +1063,7 @@ export default function Landing({ user }) {
                               onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
                           )}
                         </div>
+                          : null }
                       </div>
                     </div>
                   </div>
@@ -1231,7 +1235,7 @@ export default function Landing({ user }) {
                           {formation.description.split(" ").length > 15 &&
                             " ..."}
                         </p>
-
+                        {user && user.role !== "centre" ?
                         <div className="mt-auto">
                           {!isUserEnrolled(formation._id) ? (
                             <button
@@ -1247,6 +1251,7 @@ export default function Landing({ user }) {
                               onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
                           )}
                         </div>
+                          : null }
                       </div>
                     </div>
                   </div>
@@ -1418,7 +1423,7 @@ export default function Landing({ user }) {
                           {formation.description.split(" ").length > 15 &&
                             " ..."}
                         </p>
-
+                        {user && user.role !== "centre" ?
                         <div className="mt-auto">
                           {!isUserEnrolled(formation._id) ? (
                             <button
@@ -1434,6 +1439,7 @@ export default function Landing({ user }) {
                               onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
                           )}
                         </div>
+                          :  null }
                       </div>
                     </div>
                   </div>
@@ -1605,7 +1611,7 @@ export default function Landing({ user }) {
                           {formation.description.split(" ").length > 15 &&
                             " ..."}
                         </p>
-
+                        {user && user.role !== "centre" ?
                         <div className="mt-auto">
                           {!isUserEnrolled(formation._id) ? (
                             <button
@@ -1621,6 +1627,7 @@ export default function Landing({ user }) {
                               onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
                           )}
                         </div>
+                          : null }
                       </div>
                     </div>
                   </div>
