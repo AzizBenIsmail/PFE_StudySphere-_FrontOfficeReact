@@ -152,6 +152,10 @@ function Details() {
                       <span>Category</span>
                       <p>{formation.sujetInteret}</p>
                     </div>
+                    <div className="details-category-custom">
+                      <span>Nombre D'Inscriptions</span>
+                      <p>{formation.participants.length}</p>
+                    </div>
                     <div className="details-group-custom" onClick={toggleIcon} style={{ cursor: 'pointer' }}>
                       {isFilled ? <RiStarSFill size={40} /> : <RiStarSLine size={40} />}
                     </div>
