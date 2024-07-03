@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Cookies from 'js-cookie'
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import { IoSchoolSharp } from "react-icons/io5";
@@ -12,6 +12,8 @@ import { MdEmail, MdShareLocation } from 'react-icons/md'
 import { HiLanguage } from 'react-icons/hi2'
 import { GoGoal } from 'react-icons/go'
 import { GiGiftOfKnowledge } from 'react-icons/gi'
+import { getByCurrUser } from '../../../Services/ApiXp'
+import { getAllNiveaux } from '../../../Services/ApiNiveau'
 
 export default function Profile() {
   const jwt_token = Cookies.get('jwt_token')
@@ -47,6 +49,59 @@ export default function Profile() {
     return () => clearInterval(interval)
   }, [config, param.id])
 
+  const [xpEntry, setXPEntry] = useState(null);
+  const [niveaux, setNiveaux] = useState([]);
+
+  const loadXPEntries = useCallback(async () => {
+    try {
+      const res = await getByCurrUser(config);
+      setXPEntry(res.data);
+    } catch (error) {
+      console.error("Error loading XP entries:", error);
+    }
+  }, [config]);
+
+  useEffect(() => {
+    loadXPEntries();
+  }, [loadXPEntries]);
+
+
+  const loadNiveaux = useCallback(async () => {
+    try {
+      const res = await getAllNiveaux(config);
+      setNiveaux(res.data);
+    } catch (error) {
+      console.error("Error loading niveaux:", error);
+    }
+  }, [config]); // Assurez-vous d'inclure toutes les dépendances nécessaires ici
+
+  // Effet pour charger les niveaux au chargement du composant
+  useEffect(() => {
+    loadNiveaux();
+  }, [loadNiveaux]);
+
+  const calculerPourcentageProgression = () => {
+    if (!xpEntry || niveaux.length === 0) return 0;
+
+    const niveauActuel = niveaux.find(
+      (niveau) => niveau.nom === xpEntry.niveauAtteint.nom
+    );
+    const indexNiveauActuel = niveaux.indexOf(niveauActuel);
+
+    if (indexNiveauActuel === niveaux.length - 1) {
+      // L'utilisateur a atteint le dernier niveau
+      return 100;
+    }
+
+    const xpRequisNiveauActuel = niveauActuel.xpRequis;
+    const xpRequisNiveauSuivant = niveaux[indexNiveauActuel + 1].xpRequis;
+
+    const xpNiveauActuel = xpEntry.pointsGagnes - xpRequisNiveauActuel;
+    const xpNiveauSuivant = xpRequisNiveauSuivant - xpRequisNiveauActuel;
+
+    const pourcentageProgression = (xpNiveauActuel / xpNiveauSuivant) * 100;
+    return pourcentageProgression;
+  };
   return (
     <>
 
@@ -145,31 +200,41 @@ export default function Profile() {
                       </div>
                       <div className="lg:mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          {
-                            User
-                              ? (User.role === "formateur" && User.Formations
-                                  ? User.centresTravailAssocies.length
-                                  : (User.role === "client" && User.inscriptions
-                                      ? User.xp.badgeIds.length
-                                      : "Nombre_Formation"
-                                  )
-                              )
-                              : "Aucune_centresTravailAssocies"
-                          }
+                         {
+                           User ? (
+                             User.role === "formateur" && User.Formations ? (
+                               User.centresTravailAssocies.length
+                             ) : (
+                               User.role === "client" && User.inscriptions ? (
+                                 User.xp && User.xp.badgeIds ? (
+                                   User.xp.badgeIds.length
+                                 ) : "Nombre_Inscriptions"
+                               ) : (
+                                 User.role === "centre" && User.Formations ? (
+                                   User.Formations.reduce((total, formation) => total + formation.participants.length, 0)
+                                 ) : "Aucune_Info"
+                               )
+                             )
+                           ) : "Aucune_Info"
+                         }
 
                         </span>
                         <span className="text-sm text-blueGray-400">
-                          {
-                            User
-                              ? (User.role === "formateur" && User.Formations
-                                  ? "centresTravailAssocies"
-                                  : (User.role === "client" && User.inscriptions
-                                      ? "Nombre_Badges"
-                                      : null
-                                  )
+                        {
+                          User ? (
+                            User.role === "formateur" && User.Formations ? (
+                              "Nombre_CentresTravailAssocies"
+                            ) : (
+                              User.role === "client" && User.inscriptions ? (
+                                "Nombre_Badges"
+                              ) : (
+                                User.role === "centre" && User.Formations ? (
+                                  "Nombre_Participants"
+                                ) : null
                               )
-                              : null
-                          }
+                            )
+                          ) : null
+                        }
                         </span>
 
                       </div>
@@ -316,6 +381,57 @@ export default function Profile() {
                   </div>
                 </div>
                   <br/><hr/><br/>
+                  <div className="w-full lg:w-6/12 px-4">
+                    <h2 className="text-5xl mt-4 font-semibold">
+                      {xpEntry && xpEntry.niveauAtteint ?  xpEntry.niveauAtteint.nom : null} | Xp : {xpEntry ? xpEntry.pointsGagnes : null}
+                    </h2>
+                  </div>
+                  <div className="relative pt-1">
+                    <div className="flex mb-2 items-center justify-between">
+                      <div>
+                      <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-purple-600 bg-purple-200">
+                        {xpEntry && xpEntry.niveauAtteint ? xpEntry.niveauAtteint.nom: null} in progress
+                      </span>
+                      </div>
+                      <div className="text-right">
+                      <span className="text-xs font-semibold inline-block text-purple-600">
+                        {calculerPourcentageProgression()}%
+                      </span>
+                      </div>
+                    </div>
+                    <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-purple-200">
+                      <div
+                        style={{ width: `${calculerPourcentageProgression()}%` }}
+                        className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500"
+                      ></div>
+                    </div>
+                  </div>
+                  <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-purple-600 bg-purple-200 ">
+                  Badges
+                </span><div className="flex flex-wrap">
+                  {xpEntry  ? xpEntry.badgeIds.map((badge) => (
+                    <div
+                      className="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4"
+                      key={badge._id}
+                    >
+                      <div className="px-6">
+                        <img
+                          alt="..."
+                          src={`${process.env.REACT_APP_API_URL_IMAGE_BADGES}/${badge.image_badge}`}
+                          className="shadow-lg rounded-full bg-blueGray-100 mx-auto max-w-120-px"
+                        />
+                        <div className="pt-6 text-center">
+                          <h5 className="text-xl font-bold">{badge.nom}</h5>
+                          <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
+                            {badge.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )): null}
+                </div>
+                  <br/><hr/><br/>
+
                 </div>
               </div>
             </div>
