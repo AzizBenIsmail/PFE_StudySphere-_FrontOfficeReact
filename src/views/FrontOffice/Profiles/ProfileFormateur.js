@@ -180,27 +180,25 @@ export default function ProfileFormateur() {
                     <div className="flex justify-center py-4 lg:pt-4 pt-8">
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          22
+                          {User && User.Formations ? User.Formations.length : "Aucune_Formation"}
                         </span>
                         <span className="text-sm text-blueGray-400">
-                          Friends
-                        </span>
-                      </div>
-                      <div className="mr-4 p-3 text-center">
-                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          10
-                        </span>
-                        <span className="text-sm text-blueGray-400">
-                          Photos
+                          Nombre_Formation
                         </span>
                       </div>
                       <div className="lg:mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                          89
+                         {User && User.centresTravailAssocies ? User.centresTravailAssocies.length : "Aucune_centresTravailAssocies"}
                         </span>
                         <span className="text-sm text-blueGray-400">
-                          Comments
+                          centresTravailAssocies
                         </span>
+                      </div>
+                      <div className="lg:mr-4 p-3 text-center">
+                      <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+                        {User && User.Formations ? User.Formations.reduce((total, formation) => total + formation.participants.length, 0) : 'Aucune inscription'}
+                      </span>
+                        <span className="text-sm text-blueGray-400">nombre_étudiant</span>
                       </div>
                     </div>
                   </div>

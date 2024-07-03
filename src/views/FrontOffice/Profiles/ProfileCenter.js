@@ -1,150 +1,147 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Cookies from "js-cookie";
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import Cookies from 'js-cookie'
 
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getCentersByDomain, getInstructorsByCenter, getUserByID } from '../../../Services/ApiUser'
-import { MdShareLocation } from "react-icons/md";
-import { MdEmail } from "react-icons/md";
-import { HiLanguage } from "react-icons/hi2";
-import { GoGoal } from "react-icons/go";
-import { GiGiftOfKnowledge } from "react-icons/gi";
-import { TailSpin } from "react-loader-spinner";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { getFormationByIdCentre } from "../../../Services/ApiFormation";
-import { Link } from "react-router-dom";
+import { MdEmail, MdShareLocation } from 'react-icons/md'
+import { HiLanguage } from 'react-icons/hi2'
+import { GoGoal } from 'react-icons/go'
+import { GiGiftOfKnowledge } from 'react-icons/gi'
+import { TailSpin } from 'react-loader-spinner'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { getFormationByIdCentre } from '../../../Services/ApiFormation'
 
-export default function Profile() {
-  const jwt_token = Cookies.get("jwt_token");
+export default function Profile () {
+  const jwt_token = Cookies.get('jwt_token')
 
   const config = useMemo(() => {
     return {
       headers: {
         Authorization: `Bearer ${jwt_token}`,
       },
-    };
-  }, [jwt_token]);
+    }
+  }, [jwt_token])
 
-  const param = useParams();
+  const param = useParams()
 
-  const [User, setUser] = useState({});
+  const [User, setUser] = useState({})
 
   useEffect(() => {
     const getUser = async (config) => {
       await getUserByID(param.id, config)
-        .then((res) => {
-          setUser(res.data.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
+      .then((res) => {
+        setUser(res.data.user)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
 
-    getUser(config);
+    getUser(config)
 
-    const interval = setInterval(() => {}, 1000000);
+    const interval = setInterval(() => {}, 1000000)
 
-    return () => clearInterval(interval);
-  }, [config, param.id]);
-  const [formations, setFormations] = useState([]);
-  const [startIndex, setStartIndex] = useState(0);
-  const [endIndex, setEndIndex] = useState(3);
+    return () => clearInterval(interval)
+  }, [config, param.id])
+  const [formations, setFormations] = useState([])
+  const [startIndex, setStartIndex] = useState(0)
+  const [endIndex, setEndIndex] = useState(3)
 
   const loadFormations = useCallback(async () => {
     try {
-      const res = await getFormationByIdCentre(param.id, config);
-      setFormations(res.data.formations);
+      const res = await getFormationByIdCentre(param.id, config)
+      setFormations(res.data.formations)
     } catch (error) {
-      console.error("Error loading formations:", error);
+      console.error('Error loading formations:', error)
     }
-  }, [config,param.id,]);
+  }, [config, param.id,])
 
   useEffect(() => {
-    loadFormations();
-  }, [loadFormations]);
+    loadFormations()
+  }, [loadFormations])
 
   const handleNextPage = () => {
     if (endIndex < formations.length - 1) {
-      setStartIndex((prevStartIndex) => prevStartIndex + 1);
-      setEndIndex((prevEndIndex) => prevEndIndex + 1);
+      setStartIndex((prevStartIndex) => prevStartIndex + 1)
+      setEndIndex((prevEndIndex) => prevEndIndex + 1)
     }
-  };
+  }
 
   const handlePrevPage = () => {
     if (startIndex > 0) {
-      setStartIndex((prevStartIndex) => prevStartIndex - 1);
-      setEndIndex((prevEndIndex) => prevEndIndex - 1);
+      setStartIndex((prevStartIndex) => prevStartIndex - 1)
+      setEndIndex((prevEndIndex) => prevEndIndex - 1)
     }
-  };
+  }
 
-  const displayedFormations = formations.slice(startIndex, endIndex + 1);
+  const displayedFormations = formations.slice(startIndex, endIndex + 1)
 
-  const [centers, setCenters] = useState([]);
-  const [startIndexCenter, setStartIndexCenter] = useState(0);
-  const [endIndexCenter, setEndIndexCenter] = useState(3);
+  const [centers, setCenters] = useState([])
+  const [startIndexCenter, setStartIndexCenter] = useState(0)
+  const [endIndexCenter, setEndIndexCenter] = useState(3)
 
   const loadCenters = useCallback(async () => {
     try {
-      const res = await getCentersByDomain(User.preferences.competences_dinteret, config);
-      setCenters(res.data.centers);
+      const res = await getCentersByDomain(User.preferences.competences_dinteret, config)
+      setCenters(res.data.centers)
     } catch (error) {
-      console.error("Error loading formations:", error);
+      console.error('Error loading formations:', error)
     }
-  }, [User,config]);
+  }, [User, config])
 
   useEffect(() => {
-    loadCenters();
-  }, [loadCenters]);
-
+    loadCenters()
+  }, [loadCenters])
 
   const handleNextPageCenter = () => {
     if (endIndexCenter < centers.length - 1) {
-      setStartIndexCenter((prevStartIndex) => prevStartIndex + 1);
-      setEndIndexCenter((prevEndIndex) => prevEndIndex + 1);
+      setStartIndexCenter((prevStartIndex) => prevStartIndex + 1)
+      setEndIndexCenter((prevEndIndex) => prevEndIndex + 1)
     }
-  };
+  }
 
   const handlePrevPageCenter = () => {
     if (startIndexCenter > 0) {
-      setStartIndexCenter((prevStartIndex) => prevStartIndex - 1);
-      setEndIndexCenter((prevEndIndex) => prevEndIndex - 1);
+      setStartIndexCenter((prevStartIndex) => prevStartIndex - 1)
+      setEndIndexCenter((prevEndIndex) => prevEndIndex - 1)
     }
-  };
+  }
 
-  const displayedCenter = centers.slice(startIndexCenter, endIndexCenter + 1);
+  const displayedCenter = centers.slice(startIndexCenter, endIndexCenter + 1)
 
-  const [formateurs, setFormateurs] = useState([]);
-  const [startIndexFormateurs, setStartIndexFormateurs] = useState(0);
-  const [endIndexFormateurs, setEndIndexFormateurs] = useState(3);
+  const [formateurs, setFormateurs] = useState([])
+  const [startIndexFormateurs, setStartIndexFormateurs] = useState(0)
+  const [endIndexFormateurs, setEndIndexFormateurs] = useState(3)
 
   const loadFormateurs = useCallback(async () => {
     try {
-      const res = await getInstructorsByCenter(param.id, config);
-      setFormateurs(res.data.instructors);
+      const res = await getInstructorsByCenter(param.id, config)
+      setFormateurs(res.data.instructors)
     } catch (error) {
-      console.error("Error loading formations:", error);
+      console.error('Error loading formations:', error)
     }
-  }, [param.id,config]);
+  }, [param.id, config])
 
   useEffect(() => {
-    loadFormateurs();
-  }, [loadFormateurs]);
-
+    loadFormateurs()
+  }, [loadFormateurs])
 
   const handleNextPageFormateurs = () => {
     if (endIndexFormateurs < formateurs.length - 1) {
-      setStartIndexFormateurs((prevStartIndex) => prevStartIndex + 1);
-      setEndIndexFormateurs((prevEndIndex) => prevEndIndex + 1);
+      setStartIndexFormateurs((prevStartIndex) => prevStartIndex + 1)
+      setEndIndexFormateurs((prevEndIndex) => prevEndIndex + 1)
     }
-  };
+  }
 
   const handlePrevPageFormateurs = () => {
     if (startIndexFormateurs > 0) {
-      setStartIndexFormateurs((prevStartIndex) => prevStartIndex - 1);
-      setEndIndexFormateurs((prevEndIndex) => prevEndIndex - 1);
+      setStartIndexFormateurs((prevStartIndex) => prevStartIndex - 1)
+      setEndIndexFormateurs((prevEndIndex) => prevEndIndex - 1)
     }
-  };
+  }
 
-  const displayedFormateurs = formateurs.slice(startIndexFormateurs, endIndexFormateurs + 1);
+  const displayedFormateurs = formateurs.slice(startIndexFormateurs, endIndexFormateurs + 1)
+
   return (
     <>
       <section className="relative py-15 bg-blueGray-200">
@@ -165,7 +162,7 @@ export default function Profile() {
                         <img
                           alt="..."
                           src={
-                            require("../../../assets/img/client.png").default
+                            require('../../../assets/img/client.png').default
                           }
                           className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
                         />
@@ -182,28 +179,27 @@ export default function Profile() {
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                         {User && User.Formations
                           ? User.Formations.length
-                          : "Pas de formation"}
+                          : 'Pas de formation'}
                       </span>
                       <span className="text-sm text-blueGray-400">
-                        Formation
+                        Nombre_Formation
                       </span>
                     </div>
                     <div className="mr-4 p-3 text-center">
-                      <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                        10
-                      </span>
+                        <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+                          {User && User.staff_enseignant ? User.staff_enseignant.length : 'Aucune_Info'}
+                        </span>
                       <span className="text-sm text-blueGray-400">
-                        Feedbacks
-                      </span>
+                          Staff_enseignant
+                        </span>
                     </div>
                     <div className="lg:mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-                        89
+                          {User && User.Formations ? User.Formations.reduce((total, formation) => total + formation.participants.length, 0) : 'Aucune inscription'}
                       </span>
-                      <span className="text-sm text-blueGray-400">
-                        Event
-                      </span>
+                      <span className="text-sm text-blueGray-400">nombre_étudiant</span>
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -214,7 +210,7 @@ export default function Profile() {
                 <div className="flex flex-wrap mt-12 justify-center">
                   <div className="w-full lg:w-2/12 px-4 text-center">
                     <h6 className="text-xl mt-5 font-semibold flex items-center ml-8 ">
-                      <MdEmail className="mr-2" style={{ fontSize: "25px" }} />
+                      <MdEmail className="mr-2" style={{ fontSize: '25px' }}/>
                       Email
                     </h6>
                     <p className="mt-2 mb-4 text-blueGray-400">{User.email}</p>
@@ -223,7 +219,7 @@ export default function Profile() {
                     <h6 className="text-xl mt-5 font-semibold flex items-center ml-8">
                       <MdShareLocation
                         className="mr-2"
-                        style={{ fontSize: "25px" }}
+                        style={{ fontSize: '25px' }}
                       />
                       Localisation
                     </h6>
@@ -232,14 +228,14 @@ export default function Profile() {
                       User.preferences &&
                       User.preferences.emplacement_actuelle
                         ? User.preferences.emplacement_actuelle
-                        : "Non saisire"}
+                        : 'Non saisire'}
                     </p>
                   </div>
                   <div className="w-full lg:w-2/12 px-4 text-center">
                     <h5 className="text-xl font-semibold flex items-center ml-8">
                       <HiLanguage
                         className="mr-2"
-                        style={{ fontSize: "50px" }}
+                        style={{ fontSize: '50px' }}
                       />
                       préférences linguistiques
                     </h5>
@@ -248,12 +244,12 @@ export default function Profile() {
                       User.preferences &&
                       User.preferences.preferences_linguistiques
                         ? User.preferences.preferences_linguistiques
-                        : "Non saisire"}
+                        : 'Non saisire'}
                     </p>
                   </div>
                   <div className="w-full lg:w-2/12 px-4 text-center">
                     <h5 className="text-xl mt-5 font-semibold flex items-center ml-8">
-                      <GoGoal className="mr-2" style={{ fontSize: "25px" }} />
+                      <GoGoal className="mr-2" style={{ fontSize: '25px' }}/>
                       Domaine
                     </h5>
                     <p className="mt-2 mb-4 text-blueGray-400">
@@ -261,12 +257,12 @@ export default function Profile() {
                       User.preferences &&
                       User.preferences.domaine_actuelle
                         ? User.preferences.domaine_actuelle
-                        : "Non saisire"}
+                        : 'Non saisire'}
                     </p>
                   </div>
                   <div className="w-full lg:w-2/12 px-4 text-center">
                     <h5 className="text-xl font-semibold flex items-center ">
-                      <GiGiftOfKnowledge style={{ fontSize: "50px" }} />
+                      <GiGiftOfKnowledge style={{ fontSize: '50px' }}/>
                       compétences d'intérêt
                     </h5>
                     <p className="mt-2 mb-4 text-blueGray-400">
@@ -274,7 +270,7 @@ export default function Profile() {
                       User.preferences &&
                       User.preferences.competences_dinteret
                         ? User.preferences.competences_dinteret
-                        : "Non saisire"}
+                        : 'Non saisire'}
                     </p>
                   </div>
                 </div>
@@ -316,65 +312,68 @@ export default function Profile() {
                       className=" bg-blue-500  rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                       onMouseEnter={(e) =>
                         (e.currentTarget.style.boxShadow =
-                          "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                          '0px 0px 30px 0px rgba(0,0,0,0.3)')
                       }
                       onMouseLeave={(e) =>
-                        (e.currentTarget.style.boxShadow = "none")
+                        (e.currentTarget.style.boxShadow = 'none')
                       }
                     >
-                      <FaChevronLeft style={{ fontSize: "40px" }} />
+                      <FaChevronLeft style={{ fontSize: '40px' }}/>
                     </button>
                     {displayedFormations.map((formation) => (
                       <div
                         className=" w-full md:w-0/12 px-4 text-center"
                         key={formation._id}
                       >
-                        <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                        <div
+                          className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                           <div className="px-4 py-5 flex-auto">
-                            <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                            <div
+                              className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                               {jwt_token ? (
 
-                                  <img
-                                    alt="..."
-                                    className="align-middle border-none max-w-full h-auto rounded-lg"
-                                    src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
-                                    style={{ width: '250px', height: '120px' }}
-                                    onMouseEnter={(e) => e.currentTarget.classList.add('hovered')}
-                                    onMouseLeave={(e) => e.currentTarget.classList.remove('hovered')}
-                                    onClick={(e) => {window.location.replace(`/landing/detailscours/${formation._id}`)}}
-                                  />
+                                <img
+                                  alt="..."
+                                  className="align-middle border-none max-w-full h-auto rounded-lg"
+                                  src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                                  style={{ width: '250px', height: '120px' }}
+                                  onMouseEnter={(e) => e.currentTarget.classList.add('hovered')}
+                                  onMouseLeave={(e) => e.currentTarget.classList.remove('hovered')}
+                                  onClick={(e) => {window.location.replace(`/landing/detailscours/${formation._id}`)}}
+                                />
                               ) : (
-                                  <img
-                                    alt="..."
-                                    className="align-middle border-none max-w-full h-auto rounded-lg"
-                                    src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
-                                    style={{ width: '250px', height: '120px' }}
-                                    onMouseEnter={(e) => e.currentTarget.classList.add('hovered')}
-                                    onMouseLeave={(e) => e.currentTarget.classList.remove('hovered')}
-                                    onClick={(e) => {window.location.replace(`/DetailsFormation/${formation._id}`)} }
+                                <img
+                                  alt="..."
+                                  className="align-middle border-none max-w-full h-auto rounded-lg"
+                                  src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                                  style={{ width: '250px', height: '120px' }}
+                                  onMouseEnter={(e) => e.currentTarget.classList.add('hovered')}
+                                  onMouseLeave={(e) => e.currentTarget.classList.remove('hovered')}
+                                  onClick={(e) => {window.location.replace(`/DetailsFormation/${formation._id}`)}}
 
-                                  />
+                                />
                               )}
                             </div>
                             <div className="flex flex-wrap">
                               {formation.competences
-                                .split(",")
-                                .slice(0, 2) // Récupère seulement les deux premières compétences
-                                .map((competence, index) => (
-                                  <span
-                                    key={index}
-                                    style={{
-                                      border:
-                                        "2px solid rgba(186, 230, 253, 1)",
-                                      marginRight: index === 1 ? "0" : "5px", // Ne pas ajouter de marge à droite pour la dernière compétence
-                                    }}
-                                    className="text-xs font-semibold mb-2 inline-block py-1 px-2 rounded-full text-blueGray-600  last:mr-0 mr-1"
-                                  >
+                              .split(',')
+                              .slice(0, 2) // Récupère seulement les deux premières compétences
+                              .map((competence, index) => (
+                                <span
+                                  key={index}
+                                  style={{
+                                    border:
+                                      '2px solid rgba(186, 230, 253, 1)',
+                                    marginRight: index === 1 ? '0' : '5px', // Ne pas ajouter de marge à droite pour la dernière compétence
+                                  }}
+                                  className="text-xs font-semibold mb-2 inline-block py-1 px-2 rounded-full text-blueGray-600  last:mr-0 mr-1"
+                                >
                                     {competence.trim()}
                                   </span>
-                                ))}
-                              {formation.competences.split(",").length > 2 && (
-                                <span className="text-xs font-semibold mb-2 inline-block py-1 px-2 rounded-full text-blueGray-600">
+                              ))}
+                              {formation.competences.split(',').length > 2 && (
+                                <span
+                                  className="text-xs font-semibold mb-2 inline-block py-1 px-2 rounded-full text-blueGray-600">
                                   Autres compétences...
                                 </span>
                               )}
@@ -394,7 +393,7 @@ export default function Profile() {
                       disabled={endIndex === centers.length - 1}
                       className="bg-blue-500 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                     >
-                      <FaChevronRight style={{ fontSize: "40px" }} />
+                      <FaChevronRight style={{ fontSize: '40px' }}/>
                     </button>
                   </>
                 )}
@@ -447,22 +446,24 @@ export default function Profile() {
                         className=" bg-blue-500  rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                         onMouseEnter={(e) =>
                           (e.currentTarget.style.boxShadow =
-                            "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                            '0px 0px 30px 0px rgba(0,0,0,0.3)')
                         }
                         onMouseLeave={(e) =>
-                          (e.currentTarget.style.boxShadow = "none")
+                          (e.currentTarget.style.boxShadow = 'none')
                         }
                       >
-                        <FaChevronLeft style={{ fontSize: "40px" }} />
+                        <FaChevronLeft style={{ fontSize: '40px' }}/>
                       </button>
                       {displayedCenter.map((center) => (
                         <div
                           className=" w-full md:w-0/12 px-4 text-center"
                           key={center._id}
                         >
-                          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                          <div
+                            className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                             <div className="px-4 py-5 flex-auto">
-                              <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                              <div
+                                className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                                 <Link
                                   to={`/profile/ProfileCenter/${center._id}`}
                                 >
@@ -471,13 +472,13 @@ export default function Profile() {
                                     className="align-middle border-none max-w-full h-auto rounded-lg"
                                     src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${center.image_user}`}
                                     // style={{ width: "350px", height: "350px" }}
-                                    style={{ width: "250px", height: "120px" }}
+                                    style={{ width: '250px', height: '120px' }}
                                     onMouseEnter={(e) =>
                                       (e.currentTarget.style.boxShadow =
-                                        "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                        '0px 0px 30px 0px rgba(0,0,0,0.3)')
                                     }
                                     onMouseLeave={(e) =>
-                                      (e.currentTarget.style.boxShadow = "none")
+                                      (e.currentTarget.style.boxShadow = 'none')
                                     }
                                   />
                                 </Link>
@@ -497,7 +498,7 @@ export default function Profile() {
                         disabled={endIndexCenter === centers.length - 1}
                         className="bg-blue-500 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                       >
-                        <FaChevronRight style={{ fontSize: "40px" }} />
+                        <FaChevronRight style={{ fontSize: '40px' }}/>
                       </button>
                     </>
                   )}
@@ -551,22 +552,24 @@ export default function Profile() {
                         className=" bg-blue-500  rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                         onMouseEnter={(e) =>
                           (e.currentTarget.style.boxShadow =
-                            "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                            '0px 0px 30px 0px rgba(0,0,0,0.3)')
                         }
                         onMouseLeave={(e) =>
-                          (e.currentTarget.style.boxShadow = "none")
+                          (e.currentTarget.style.boxShadow = 'none')
                         }
                       >
-                        <FaChevronLeft style={{ fontSize: "40px" }} />
+                        <FaChevronLeft style={{ fontSize: '40px' }}/>
                       </button>
                       {displayedFormateurs.map((Formateur) => (
                         <div
                           className=" w-full md:w-0/12 px-4 text-center"
                           key={Formateur._id}
                         >
-                          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                          <div
+                            className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                             <div className="px-4 py-5 flex-auto">
-                              <div className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                              <div
+                                className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                                 <Link
                                   // to=""
                                   to={`/profile/ProfileFormateur/${Formateur._id}`}
@@ -576,13 +579,13 @@ export default function Profile() {
                                     className="align-middle border-none max-w-full h-auto rounded-lg"
                                     src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${Formateur.image_user}`}
                                     // style={{ width: "350px", height: "350px" }}
-                                    style={{ width: "250px", height: "120px" }}
+                                    style={{ width: '250px', height: '120px' }}
                                     onMouseEnter={(e) =>
                                       (e.currentTarget.style.boxShadow =
-                                        "0px 0px 30px 0px rgba(0,0,0,0.3)")
+                                        '0px 0px 30px 0px rgba(0,0,0,0.3)')
                                     }
                                     onMouseLeave={(e) =>
-                                      (e.currentTarget.style.boxShadow = "none")
+                                      (e.currentTarget.style.boxShadow = 'none')
                                     }
                                   />
                                 </Link>
@@ -602,7 +605,7 @@ export default function Profile() {
                         disabled={endIndexFormateurs === formateurs.length - 1}
                         className="bg-blue-500 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
                       >
-                        <FaChevronRight style={{ fontSize: "40px" }} />
+                        <FaChevronRight style={{ fontSize: '40px' }}/>
                       </button>
                     </>
                   )}
@@ -625,5 +628,5 @@ export default function Profile() {
         </div>
       </section>
     </>
-  );
+  )
 }
