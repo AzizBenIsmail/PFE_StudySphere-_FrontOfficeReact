@@ -16,7 +16,9 @@ import {
 } from '../Services/ApiFormation'
 
 export default function Index() {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
+
   const [user, setUser] = useState()
 const histoy = useHistory()
   const config = useMemo(() => {
@@ -28,7 +30,7 @@ const histoy = useHistory()
   }, [jwt_token])
 
   //session
-  if (Cookies.get('jwt_token')) {
+  if (jwt_token) {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {
