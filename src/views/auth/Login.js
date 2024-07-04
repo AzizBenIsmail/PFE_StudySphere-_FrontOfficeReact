@@ -80,23 +80,23 @@ export default function Login () {
           const res = await LoginUser(user)
           if (res.data.user.role === 'admin' || res.data.user.role === 'moderateur' ) {
             // window.location.replace(`/admin`)
-            history.push(`/admin/tables`);
+           // history.push(`/admin/tables`);
           } else if (res.data.user.role === 'client' || res.data.user.role === 'formateur' || res.data.user.role === 'centre' ) {
             if (res.data.user.visitsCount === 0 && res.data.user.role === 'client' ) {
               // window.location.replace(`/First/Step?n=1`)
               // window.location.replace(`/First/announcement`)
-              history.push(`/First/announcement`);
+              // history.push(`/First/announcement`);
             } else if (res.data.user.visitsCount === 0 && res.data.user.role === 'centre' ) {
               // window.location.replace(`/First/announcementCenter`)
-              history.push(`/First/announcementCenter`);
+              // history.push(`/First/announcementCenter`);
             }
             else if (res.data.user.visitsCount === 0 && res.data.user.role === 'formateur' ) {
               // window.location.replace(`/First/announcementFormateur`)
-              history.push(`/First/announcementFormateur`);
+              // history.push(`/First/announcementFormateur`);
 
             }
             else {
-              window.location.replace(`/landing/`)
+              // window.location.replace(`/landing/`)
               // history.push(`/landing/`);
 
             }
