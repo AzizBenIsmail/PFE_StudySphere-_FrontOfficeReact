@@ -231,7 +231,7 @@ export default function Login () {
               </div>
               <div className="w-1/2 text-right">
                 <Link to="/auth/registerEmail" className="text-blueGray-200">
-                  <small> Créer un nouveau </small>
+                  <small> Créer un nouveau Test</small>
                 </Link>
               </div>
             </div>
