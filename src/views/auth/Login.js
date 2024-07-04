@@ -3,14 +3,14 @@ import { Link, useLocation } from 'react-router-dom'
 import { LoginUser } from '../../Services/Apiauth'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 export default function Login () {
   const [User, setUser] = useState({
     email: '',
     password: '',
   })
-  const history = useHistory();
+  // const history = useHistory();
 
   const [n, setN] = useState(0) // Ajout de la variable n
   const [emailError, setEmailError] = useState('')
