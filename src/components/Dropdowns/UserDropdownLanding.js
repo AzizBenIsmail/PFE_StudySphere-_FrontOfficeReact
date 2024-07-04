@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { createPopper } from '@popperjs/core'
 import { logout } from '../../Services/Apiauth'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { Link, useHistory } from 'react-router-dom'
 import { AiOutlineFieldNumber } from 'react-icons/ai'
 import { CiUser } from 'react-icons/ci'
@@ -12,7 +12,8 @@ import { GrWorkshop } from 'react-icons/gr'
 const UserDropdown = ({ user }) => {
   const history = useHistory()
 
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

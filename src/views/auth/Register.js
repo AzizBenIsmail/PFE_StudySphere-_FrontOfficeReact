@@ -1,11 +1,12 @@
 import { React, useEffect, useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { getUserAuth, register } from '../../Services/Apiauth'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 export default function Register () {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {
@@ -16,7 +17,7 @@ export default function Register () {
   }, [jwt_token])
 
   //session
-  if (Cookies.get('jwt_token')) {
+  if (jwt_token) {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {

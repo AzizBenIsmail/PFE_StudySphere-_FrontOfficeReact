@@ -13,8 +13,8 @@ import { SiVerizon, SiVexxhost } from 'react-icons/si'
 
 export default function Profile () {
 
-  const jwt_token = Cookies.get('jwt_token')
-
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const config = useMemo(() => {
     return {
       headers: {

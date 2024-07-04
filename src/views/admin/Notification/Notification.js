@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { getAllNotifications, deleteNotification, createNotification, updateNotification } from "../../../Services/ApiNotification";
 import { FaAngleDown } from 'react-icons/fa';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { getUsers } from '../../../Services/ApiUser';
 
 export default function Notification() {
-  const jwt_token = Cookies.get('jwt_token');
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

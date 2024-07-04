@@ -11,7 +11,8 @@ export default function Tables() {
   // const navigate = useNavigate()
 
   //cookies
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

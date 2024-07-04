@@ -2,10 +2,11 @@ import React, { useState, useEffect, useMemo , useCallback } from 'react'
 import PropTypes from "prop-types";
 import { getAllBadges, deleteBadge, createBadge, updateBadge } from "../../../Services/ApiBadge";
 import { FaAngleDown } from 'react-icons/fa';
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
 export default function ListeBadge({ color }) {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

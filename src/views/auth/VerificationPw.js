@@ -1,11 +1,11 @@
 import { React, useMemo, } from 'react'
 import { Link, } from 'react-router-dom'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { getUserAuth } from '../../Services/Apiauth'
 
 export default function VerificationPw () {
-  const jwt_token = Cookies.get('jwt_token')
-
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const config = useMemo(() => {
     return {
       headers: {
@@ -15,7 +15,7 @@ export default function VerificationPw () {
   }, [jwt_token])
 
   //session
-  if (Cookies.get('jwt_token')) {
+  if (jwt_token) {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {

@@ -10,7 +10,7 @@ import Navbar from '../components/Navbars/Navbar'
 // import Login from "views/auth/Login.js";
 
 import { InfinitySpin } from 'react-loader-spinner'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 // import Cookies from 'js-cookie'
 // import { getUserAuth } from '../Services/Apiauth'
@@ -25,7 +25,8 @@ const PreferenceFormateur = lazy(() => import("../views/FrontOffice/FirstStep/Pr
 const UpdatePreferenceFormateur = lazy(() => import("../views/FrontOffice/FirstStep/PreferenceFormateur/UpdatePreferenceFormateur.js"));
 
 export default function First () {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const [user, setUser] = useState(null);
   const history = useHistory()
 

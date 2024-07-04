@@ -13,7 +13,8 @@ import { useLocation } from "react-router-dom";
 
 export default function AddUser() {
   //cookies
-  const jwt_token = Cookies.get("jwt_token");
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

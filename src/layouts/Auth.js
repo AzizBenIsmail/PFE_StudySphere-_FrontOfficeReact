@@ -17,12 +17,12 @@ import VerificationPw from "../views/auth/VerificationPw.js";
 import ResetPw from "../views/auth/ResetPw.js";
 
 import { InfinitySpin } from 'react-loader-spinner'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
 export default function Auth() {
-  const jwt_token = Cookies.get('jwt_token')
-
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const config = useMemo(() => {
     return {
       headers: {
@@ -32,15 +32,15 @@ export default function Auth() {
   }, [jwt_token])
 
   //session
-  if (Cookies.get('jwt_token')) {
+  if (jwt_token) {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {
           if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
-           // window.location.replace(`/landing/`)
+            window.location.replace(`/landing/`)
           }
           if (res.data.user.role === 'admin') {
-            //window.location.replace(`/admin/`)
+            window.location.replace(`/admin/`)
           }
         })
       } catch (error) {

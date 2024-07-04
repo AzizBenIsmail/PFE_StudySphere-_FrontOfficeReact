@@ -4,11 +4,12 @@ import { createXP, delete50xp, deleteXP, getAllXP, updateXP, add50xp} from '../.
 import { getAllNiveaux } from '../../../Services/ApiNiveau' // Importez le service pour récupérer les niveaux
 import { getUsers } from '../../../Services/ApiUser' // Importez le service pour récupérer les utilisateurs
 import { FaAngleDown } from 'react-icons/fa'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { getAllBadges } from '../../../Services/ApiBadge'
 
 export default function ListeXP ({ color }) {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

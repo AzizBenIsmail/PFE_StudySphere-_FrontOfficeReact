@@ -2,14 +2,14 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import PropTypes from "prop-types";
 // components
 
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import {
   getNotificationByUser,
 } from '../../../Services/ApiNotification'
 
 export default function CardTable({ color }) {
-  const jwt_token = Cookies.get('jwt_token');
-
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const config = useMemo(() => {
     return {
       headers: {

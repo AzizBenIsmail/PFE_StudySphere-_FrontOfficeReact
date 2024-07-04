@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { createFormation, deleteFormation, getAllFormations, updateFormation } from '../../../Services/ApiFormation'
 import { getCentre, getFormateur } from '../../../Services/ApiUser'
 import { CiSquareRemove } from 'react-icons/ci'
 
 export default function ListeFormations ({ color }) {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

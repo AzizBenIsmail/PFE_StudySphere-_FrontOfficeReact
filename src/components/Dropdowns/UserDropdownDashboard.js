@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { createPopper } from '@popperjs/core'
 import { getUserAuth, logout } from '../../Services/Apiauth'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 // import { useHistory } from 'react-router-dom';
 
 const UserDropdownDashboard = () => {
@@ -13,9 +13,9 @@ const UserDropdownDashboard = () => {
   const popoverDropdownRef = React.createRef()
   // const history = useHistory();
   //cookies
-  const jwt_token = Cookies.get('jwt_token')
-
-  if (!Cookies.get('jwt_token')) {
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
+  if (jwt_token) {
     window.location.replace('/login-page')
   }
 

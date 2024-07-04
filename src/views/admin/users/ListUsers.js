@@ -49,7 +49,8 @@ import { MdOutlinePassword } from "react-icons/md";
 
 export default function ListUsers ({ color }) {
   //cookies
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

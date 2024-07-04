@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { UpdatePassword } from '../../../Services/ApiUser';
 // import Navbar from '../../../../components/Navbars/Navbar'
 // import Footer from '../../../../components/Footers/FooterSmall'
@@ -8,7 +8,8 @@ import SiedBarSetting from './SiedBarSetting'
 
 export default function ResetPw() {
 
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

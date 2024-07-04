@@ -10,7 +10,7 @@ import Navbar from '../components/Navbars/Navbar'
 // import Login from "views/auth/Login.js";
 
 import { InfinitySpin } from 'react-loader-spinner'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 // import Cookies from 'js-cookie'
 // import { getUserAuth } from '../Services/Apiauth'
@@ -21,7 +21,8 @@ const warning = lazy(() => import("../views/FrontOffice/info/warning.js"));
 const warningAuth = lazy(() => import("../views/FrontOffice/info/warningAuth.js"));
 
 export default function Info () {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const [user, setUser] = useState(null);
   const history = useHistory()
 

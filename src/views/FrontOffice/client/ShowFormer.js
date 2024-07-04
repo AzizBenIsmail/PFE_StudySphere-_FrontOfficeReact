@@ -11,7 +11,8 @@ import { GiMoneyStack } from 'react-icons/gi'
 
 export default function Index () {
   const [user, setUser] = useState(null)
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const history = useHistory()
   const param = useParams()
 
