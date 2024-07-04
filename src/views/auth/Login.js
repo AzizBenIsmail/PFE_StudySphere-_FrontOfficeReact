@@ -3,14 +3,14 @@ import { Link, useLocation } from 'react-router-dom'
 import { LoginUser } from '../../Services/Apiauth'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 export default function Login () {
   const [User, setUser] = useState({
     email: '',
     password: '',
   })
-  // const history = useHistory();
+  const history = useHistory();
 
   const [n, setN] = useState(0) // Ajout de la variable n
   const [emailError, setEmailError] = useState('')
@@ -80,23 +80,23 @@ export default function Login () {
           const res = await LoginUser(user)
           if (res.data.user.role === 'admin' || res.data.user.role === 'moderateur' ) {
             // window.location.replace(`/admin`)
-           // history.push(`/admin/tables`);
+            history.push(`/admin/tables`);
           } else if (res.data.user.role === 'client' || res.data.user.role === 'formateur' || res.data.user.role === 'centre' ) {
             if (res.data.user.visitsCount === 0 && res.data.user.role === 'client' ) {
               // window.location.replace(`/First/Step?n=1`)
               // window.location.replace(`/First/announcement`)
-              // history.push(`/First/announcement`);
+              history.push(`/First/announcement`);
             } else if (res.data.user.visitsCount === 0 && res.data.user.role === 'centre' ) {
               // window.location.replace(`/First/announcementCenter`)
-              // history.push(`/First/announcementCenter`);
+              history.push(`/First/announcementCenter`);
             }
             else if (res.data.user.visitsCount === 0 && res.data.user.role === 'formateur' ) {
               // window.location.replace(`/First/announcementFormateur`)
-              // history.push(`/First/announcementFormateur`);
+              history.push(`/First/announcementFormateur`);
 
             }
             else {
-              // window.location.replace(`/landing/`)
+              window.location.replace(`/landing/`)
               // history.push(`/landing/`);
 
             }
@@ -231,7 +231,7 @@ export default function Login () {
               </div>
               <div className="w-1/2 text-right">
                 <Link to="/auth/registerEmail" className="text-blueGray-200">
-                  <small> Créer un nouveau Test</small>
+                  <small> Créer un nouveau </small>
                 </Link>
               </div>
             </div>
