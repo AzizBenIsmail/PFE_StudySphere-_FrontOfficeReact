@@ -13,7 +13,7 @@ export default function Navbar(props) {
     try {
       logout(config)
       .then(() => {
-        // console.log(res.data.user);
+        localStorage.removeItem('jwt_token');
         window.location.replace(`/login/`)
       })
       .catch((err) => {

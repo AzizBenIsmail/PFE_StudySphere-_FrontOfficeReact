@@ -44,7 +44,7 @@ const UserDropdownDashboard = () => {
     try {
       logout(config, user._id)
       .then(() => {
-        // console.log(res.data.user);
+        localStorage.removeItem('jwt_token');
         window.location.replace(`/login/`)
       })
       .catch((err) => {
