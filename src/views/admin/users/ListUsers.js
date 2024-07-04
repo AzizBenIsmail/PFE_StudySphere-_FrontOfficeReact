@@ -18,7 +18,7 @@ import { GiTeacher } from 'react-icons/gi'
 import { MdAdminPanelSettings, MdSettingsVoice } from 'react-icons/md'
 import { RiAdminFill } from 'react-icons/ri'
 
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { getUserAuth } from '../../../Services/Apiauth'
 import {
   active,
