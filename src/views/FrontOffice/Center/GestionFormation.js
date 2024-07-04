@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import {
   createFormation,
   deleteFormation,
@@ -12,8 +12,9 @@ import SiedBarSetting from "../AccountManagement/SiedBarSetting";
 import { getUserAuth } from '../../../Services/Apiauth'
 
 export default function ListeFormations({ color }) {
-  const jwt_token = Cookies.get("jwt_token");
-
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
+  
   const config = useMemo(() => {
     return {
       headers: {
