@@ -78,6 +78,9 @@ export default function Login () {
       } else {
         try {
           const res = await LoginUser(user)
+          if (res.data.token) {
+            localStorage.setItem('jwt_token', res.data.token); // Stocker le token dans le localStorage
+          }
           if (res.data.user.role === 'admin' || res.data.user.role === 'moderateur' ) {
             // window.location.replace(`/admin`)
             history.push(`/admin/tables`);
