@@ -37,10 +37,10 @@ export default function Auth() {
       try {
         await getUserAuth(config).then((res) => {
           if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
-            window.location.replace(`/landing/`)
+           // window.location.replace(`/landing/`)
           }
           if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin/`)
+            //window.location.replace(`/admin/`)
           }
         })
       } catch (error) {
