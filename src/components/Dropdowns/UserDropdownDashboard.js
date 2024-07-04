@@ -15,8 +15,8 @@ const UserDropdownDashboard = () => {
   //cookies
   //const jwt_token = Cookies.get('jwt_token')
   const jwt_token = localStorage.getItem('jwt_token');
-  if (jwt_token) {
-    window.location.replace('/login-page')
+  if (!jwt_token) {
+     window.location.replace('/login-page')
   }
 
   const config = useMemo(() => {
