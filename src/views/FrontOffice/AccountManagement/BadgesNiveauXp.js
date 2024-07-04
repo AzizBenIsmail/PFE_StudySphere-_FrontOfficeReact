@@ -39,32 +39,6 @@ export default function BadgesNiveauXp() {
     loadXPEntries();
   }, [loadXPEntries]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       if (jwt_token) {
-  //         const config = {
-  //           headers: {
-  //             Authorization: `Bearer ${jwt_token}`,
-  //           },
-  //         };
-  //         const res = await getUserAuth(config);
-  //         setUser(() => {
-  //           if (res.data.user.role === "admin") {
-  //             history.replace("/admin/");
-  //           }
-  //           return res.data.user;
-  //         });
-  //       } else {
-  //         history.replace("/");
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //
-  //   fetchData();
-  // }, [history, jwt_token]); // Inclure history et jwt_token dans le tableau de dépendances
 
   const loadNiveaux = useCallback(async () => {
     try {
@@ -105,27 +79,6 @@ export default function BadgesNiveauXp() {
 
   return (
     <>
-      {/*<main className="profile-page">*/}
-      {/*  <section className="relative block h-550-px">*/}
-      {/*    <div*/}
-      {/*      className="absolute top-0 w-full h-full bg-center bg-cover"*/}
-      {/*    >*/}
-      {/*      <span*/}
-      {/*        id="blackOverlay"*/}
-      {/*        className="w-full h-full absolute opacity-100 bg-bleu-500"*/}
-      {/*      ></span>*/}
-      {/*    </div>*/}
-      {/*    <div*/}
-      {/*      className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"*/}
-      {/*      style={{ transform: "translateZ(0)" }}*/}
-      {/*    >*/}
-      {/*    </div>*/}
-      {/*<Navbar user={user} />*/}
-      {/*<main className="profile-page">*/}
-      {/*  <section className="relative block h-550-px">*/}
-      {/*    <div className="absolute top-0 w-full h-full bg-center bg-cover">*/}
-      {/*      <div className="flex flex-wrap justify-center"></div>*/}
-      {/*    </div>*/}
 
         {xpEntry ? (
           <div className="flex py-30 flex-wrap">

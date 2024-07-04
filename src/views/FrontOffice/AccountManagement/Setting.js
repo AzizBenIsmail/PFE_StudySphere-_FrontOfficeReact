@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import Cookies from 'js-cookie'
+import { MdOutlineAppRegistration } from "react-icons/md";
 
 import Navbar from '../../../components/Navbars/Navbar.js'
 import Footer from '../../../components/Footers/FooterSmall.js'
@@ -276,27 +277,28 @@ export default function Profile () {
               <div
                 className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
                 onClick={() => {
-                  if (User.role === 'client') {
-                    console.log(User)
-                    console.log(User.preferences)
-                    if (User.preferences === undefined) {
-                      history.push("/First");
-                    } else {
-                      history.push("/First/UpdatePreferences");
-                    }
-                  }
+                  // if (User.role === 'client') {
+                  //   console.log(User)
+                  //   console.log(User.preferences)
+                  //   if (User.preferences === undefined) {
+                  //     history.push("/First");
+                  //   } else {
+                  //     history.push("/First/UpdatePreferences");
+                  //   }
+                  // }
+                  history.push("/AccountManagement/GestionInscription");
 
                 }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
                 onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                 onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
                 <div className="px-6 flex py-6">
-                  <BiSolidUserAccount style={{ fontSize: '50px' }} className="mt-3"/>
+                  <MdOutlineAppRegistration  style={{ fontSize: '50px' }} className="mt-3"/>
                   <div className="ml-4 leading-parametre mt-2">
                     <h3 className="text-2xl font-semibold mb-2 text-blueGray-700 ">
-                      Confidential
+                      Inscriptions
                     </h3>
                     <h3 className="text-1xl font-normal mb-2 text-blueGray-600">
-                      Exercez vos droits relatifs a la protection de la confidentialite
+                      Veuillez suivre attentivement votre inscription dans nos formations.
                     </h3>
                   </div>
                 </div>

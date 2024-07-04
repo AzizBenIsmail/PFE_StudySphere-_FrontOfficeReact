@@ -73,7 +73,7 @@ export default function Navbar ({ user }) {
 
                   <Link
                     className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs "
-                    to="/landing/center"
+                    to="/landing/Formateurs"
                   >
                     <LiaChalkboardTeacherSolid   className="mr-2" style={{ fontSize: '24px' }}/>
                     Formateur

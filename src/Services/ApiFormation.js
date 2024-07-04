@@ -66,3 +66,7 @@ export async function inscription(id, config) {
 export async function desinscription(id, config) {
   return await api.post(`/desinscription/${id}`, config);
 }
+
+export async function FormationsByInscriptionByUserAuth(config) {
+  return await api.get(`/FormationsByInscriptionByUserAuth`, config);
+}

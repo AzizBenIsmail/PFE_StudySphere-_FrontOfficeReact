@@ -123,7 +123,7 @@ function Details() {
         </div>
         <section className="pt-1 bg-blueGray-200 ">
         <div className='title-event-det mt-5 '>
-          <h1 className="mb-5 text-center"> Détails des cours</h1>
+          <h1 className="mb-5 text-center"> Caractéristiques du cours</h1>
         </div>
         <div className="details-container-custom container mt-20">
           <div className="row">
@@ -132,15 +132,9 @@ function Details() {
                 <div className="details-content-custom">
                   <h1 className="details-title-custom">{formation.titre}</h1>
                   <div className="details-header-custom">
-                    <div className="details-reviews-custom">
-                      <span>Reviews (15 reviews)</span>
-                    </div>
                     <div className="details-category-custom">
                       <span>Category</span>
                       <p>{formation.sujetInteret}</p>
-                    </div>
-                    <div className="details-group-custom">
-                      <p>Group 20 people</p>
                     </div>
                     <div className="details-group-custom" onClick={toggleIcon} style={{ cursor: 'pointer' }}>
                       {isFilled ? <RiStarSFill size={40} /> : <RiStarSLine size={40} />}
@@ -199,13 +193,13 @@ function Details() {
                 </div>
                 <div className="details-sidebar-custom">
                   <div className="details-features-custom">
-                    <h3>Course Features</h3>
+                    <h3>Caractéristiques du cours</h3>
                     <ul>
                       <li><span>Competences</span><span className='details-blue-custom'>{formation.competences}</span></li>
                       <hr />
                       <li><span>jours</span><span className='details-blue-custom'>{formation.jours}</span></li>
                       <hr />
-                      <li><span>niveauRequis</span><span className='details-blue-custom'>{formation.niveauRequis}</span></li>
+                      <li><span>niveau requis</span><span className='details-blue-custom'>{formation.niveauRequis}</span></li>
                       <hr />
                       <li><span>typeContenu</span><span className='details-blue-custom'>{formation.typeContenu}</span></li>
                       <hr />
@@ -215,61 +209,35 @@ function Details() {
                       <hr />
                       <li><span>Date Fin</span><span className='details-blue-custom'>{formatDate(formation.dateFin)}</span></li>
                       <hr />
-                      <li><span>Duration</span><span className='details-blue-custom'>{formatDuration(formation.duree)}</span></li>
+                      <li><span>Durée</span><span className='details-blue-custom'>{formatDuration(formation.duree)}</span></li>
                       <hr />
                       <li><span>Method</span><span className='details-blue-custom'>{formation.styleEnseignement}</span></li>
                       <hr />
-                      <li><span>Engagement Required</span><span className='details-blue-custom'>{formation.niveauDengagementRequis}</span></li>
+                      <li><span>Engagement requis</span><span className='details-blue-custom'>{formation.niveauDengagementRequis}</span></li>
                       <hr />
-                      <li><span>Skill level</span><span className='details-blue-custom'>{formation.niveauDeDifficulte}</span></li>
+                      <li><span>Niveau de compétence</span><span className='details-blue-custom'>{formation.niveauDeDifficulte}</span></li>
                       <hr />
                       <li><span>Emplacement</span><span className='details-blue-custom'>{formation.emplacement}</span></li>
                       <hr />
                       <li><span>Language</span><span className='details-blue-custom'>{formation.langue}</span></li>
                       <hr />
                     </ul>
-                    <h5 className='details-price-custom'>Course price: <span className='details-price-value-custom'>{formation.Prix} dt</span></h5>
-                    <button className="details-btn-register-custom">Register now</button>
-                  </div>
+                    <h5 className='details-price-custom'>Prix du cours: <span className='details-price-value-custom'>{formation.Prix} dt</span></h5>
+                    <button
+                      className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => window.location.replace(`/auth`)
+                      }
+                    >
+                      Inscrivez-vous maintenant
+                    </button>                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <hr />
-        <div className='details-suggestions-custom container'>
-          <h3 className="text-center">Other similar courses</h3>
-          <div className='details-course-cards-custom row'>
-            <div className='details-course-card-custom col-lg-4 col-md-6 col-sm-12 mb-3'>
-              <div className='details-card-content-custom'>
-                <span className='details-course-tag-custom'>Web development</span>
-                <h4>Learn Full Stack NodeJs</h4>
-                <button className='details-enroll-button-custom-det'>Enroll Now</button>
-              </div>
-            </div>
-            <div className='details-course-card-custom col-lg-4 col-md-6 col-sm-12 mb-3'>
-              <div className='details-card-content-custom'>
-                <span className='details-course-tag-custom'>Web development</span>
-                <h4>MongoDB Course</h4>
-                <button className='details-enroll-button-custom-det'>Enroll Now</button>
-              </div>
-            </div>
-            <div className='details-course-card-custom col-lg-4 col-md-6 col-sm-12 mb-3'>
-              <div className='details-card-content-custom'>
-                <span className='details-course-tag-custom'>Web development</span>
-                <h4>Discover Angular</h4>
-                <button className='details-enroll-button-custom-det'>Enroll Now</button>
-              </div>
-            </div>
-            <div className='details-course-card-custom col-lg-4 col-md-6 col-sm-12 mb-3'>
-              <div className='details-card-content-custom'>
-                <span className='details-course-tag-custom'>Web development</span>
-                <h4>Discover Angular</h4>
-                <button className='details-enroll-button-custom-det'>Enroll Now</button>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </section>
     </>
   );

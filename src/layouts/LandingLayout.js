@@ -10,6 +10,7 @@ import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
 const center = lazy(() => import("../views/FrontOffice/Center/center"));
+const former = lazy(() => import("../views/FrontOffice/Former/former"));
 const training = lazy(() => import("../views/FrontOffice/Training/training"));
 const Landing = lazy(() => import("../views/FrontOffice/client/Landing"));
 const notification = lazy(() => import("../views/FrontOffice/notification/listeNotifcation"));
@@ -38,7 +39,7 @@ export default function LandingLayout () {
             return res.data.user;
           });
         } else {
-          history.replace('/');
+          history.replace('/auth/login');
         }
 
       } catch (error) {
@@ -83,7 +84,8 @@ export default function LandingLayout () {
           }
         >
           <Switch>
-          <Route path="/landing/center" exact component={center} />
+            <Route path="/landing/center" exact component={center} />
+            <Route path="/landing/Formateurs" exact component={former} />
           <Route path="/landing/training" exact component={training} />
             <Route path="/landing/landing" exact render={(props) => <Landing {...props} user={user} />} />
           <Route path="/landing/notification" exact component={notification} />
