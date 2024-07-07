@@ -56,7 +56,7 @@ export default function Admin() {
     if (jwt_token) {
       fetchData();
     } else {
-      window.location.replace(`/`);
+      window.location.replace(`/auth/login`);
     }
   }, [jwt_token, config]);
 

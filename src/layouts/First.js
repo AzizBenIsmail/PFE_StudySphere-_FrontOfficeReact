@@ -48,7 +48,7 @@ export default function First () {
             return res.data.user;
           });
         } else {
-          history.replace('/');
+          history.replace('/auth/login');
         }
 
       } catch (error) {

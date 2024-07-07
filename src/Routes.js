@@ -37,9 +37,7 @@ function Routes() {
           <Route path="/profile" component={Profiles} />
 
           {/* add routes without layouts */}
-          {/*<Route path="/profile" exact component={Profile} />*/}
           <Route path="/Setting" exact component={Setting} />
-          {/*<Route path="/createFormation" exact component={createFormation} />*/}
           <Route path="/DetailsFormation/:id" exact component={DetailsFormation} />
           <Route path="/" exact component={Index} />
           {/* add redirect for first page */}

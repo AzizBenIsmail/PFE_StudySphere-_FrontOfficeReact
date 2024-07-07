@@ -24,13 +24,8 @@ export default function Index () {
           }
           const res = await getUserAuth(config)
           setUser(() => {
-            if (res.data.user.role === 'admin') {
-              history.replace('/admin/')
-            }
             return res.data.user
           })
-        } else {
-          history.replace('/')
         }
 
       } catch (error) {

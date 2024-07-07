@@ -19,7 +19,6 @@ import { MdAdminPanelSettings, MdSettingsVoice } from 'react-icons/md'
 import { RiAdminFill } from 'react-icons/ri'
 
 // import Cookies from 'js-cookie'
-import { getUserAuth } from '../../../Services/Apiauth'
 import {
   active,
   archiver,
@@ -60,23 +59,6 @@ export default function ListUsers ({ color }) {
     }
   }, [jwt_token])
 
-  //session
-  if (jwt_token) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'client') {
-            window.location.replace(`/landing/`)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  } else {
-    window.location.replace(`/`)
-  }
 
   const getAllUsers = useCallback(async (config) => {
     closeDropdownPopover()

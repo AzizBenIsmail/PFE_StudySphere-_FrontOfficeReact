@@ -1,9 +1,6 @@
 import React, { useMemo, useState } from 'react'
-// import Cookies from 'js-cookie';
 import { UpdatePassword } from '../../../Services/ApiUser';
-// import Navbar from '../../../../components/Navbars/Navbar'
-// import Footer from '../../../../components/Footers/FooterSmall'
-// import { getUserAuth } from '../../../../Services/Apiauth'
+
 import SiedBarSetting from './SiedBarSetting'
 
 export default function ResetPw() {
@@ -19,42 +16,6 @@ export default function ResetPw() {
     }
   }, [jwt_token])
 
-  // //session
-  // if (Cookies.get('jwt_token')) {
-  //   const fetchData = async () => {
-  //     try {
-  //       await getUserAuth(config).then((res) => {
-  //         if (res.data.user.role === 'admin') {
-  //           window.location.replace(`/admin/`)
-  //         }
-  //       })
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  //   fetchData()
-  // } else {
-  //   window.location.replace(`/`)
-  // }
-  //
-  // const [userAuth, setUserAuth] = useState({});
-
-  // useEffect(() => {
-  //   const getUser = async (config) => {
-  //     await getUserAuth(config).then((res) => {
-  //       setUserAuth(res.data.user)
-  //       //console.log(res.data.user)
-  //     }).catch((err) => {
-  //       console.log(err)
-  //     })
-  //   }
-  //
-  //   getUser(config)
-  //
-  //   const interval = setInterval(() => {}, 1000000)
-  //
-  //   return () => clearInterval(interval)
-  // }, [config])
 
   const [isLoading, setIsLoading] = useState(false);
   const [n, setN] = useState(0) // Ajout de la variable n

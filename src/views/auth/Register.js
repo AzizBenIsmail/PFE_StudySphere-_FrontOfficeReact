@@ -1,7 +1,7 @@
 import { React, useEffect, useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 // import Cookies from 'js-cookie'
-import { getUserAuth, register } from '../../Services/Apiauth'
+import { register } from '../../Services/Apiauth'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 export default function Register () {
@@ -16,24 +16,6 @@ export default function Register () {
     }
   }, [jwt_token])
 
-  //session
-  if (jwt_token) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'client') {
-            window.location.replace(`/landing/`)
-          }
-          if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin/`)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  }
 
   const location = useLocation()
   const message = new URLSearchParams(location.search).get('message')

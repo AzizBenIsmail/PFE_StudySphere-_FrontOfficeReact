@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 
 // components
-import { getUserAuth, register, registerCentre } from '../../../Services/Apiauth'
+import { register, registerCentre } from '../../../Services/Apiauth'
 import { useLocation } from "react-router-dom";
 
 
@@ -18,23 +18,6 @@ export default function AddUser() {
     };
   }, [jwt_token]);
 
-  //session
-  if (jwt_token) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === "client") {
-            window.location.replace(`/landing/`);
-          }
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  } else {
-    window.location.replace(`/`);
-  }
 
   const location = useLocation();
   const message = new URLSearchParams(location.search).get("u");

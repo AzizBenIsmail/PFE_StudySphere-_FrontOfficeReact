@@ -39,11 +39,6 @@ export default function Dashboard() {
           const data = res.data.user
           console.log(data)
           setUser(data)
-          if (res.data.user.role === "admin") {
-            history.replace("/admin/");
-          }
-        } else {
-          history.replace("/");
         }
       } catch (error) {
         console.log(error);

@@ -26,24 +26,6 @@ export default function Profile () {
     }
   }, [jwt_token])
 
-  //session
-  if (jwt_token) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin/`)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  } else {
-    window.location.replace(`/`)
-  }
-
   const param = useParams()
 
   const [User, setUser] = useState({})
