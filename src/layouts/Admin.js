@@ -12,8 +12,6 @@ import FooterAdmin from "components/Footers/FooterAdmin.js";
 // views
 
 import Dashboard from "views/admin/Dashboard.js";
-// import Maps from "views/admin/Maps.js";
-import Settings from "views/admin/Settings.js";
 import Profile from "views/admin/Profile.js";
 import ListUsers from "views/admin/users/ListUsers.js";
 import { InfinitySpin } from 'react-loader-spinner'
@@ -26,12 +24,12 @@ import LitseXp from "../views/admin/xp/LitseXp.js";
 import DetailsFormation from "../views/admin/Formation/DetailsFormation.js";
 import Notification from "../views/admin/Notification/Notification";
 import Formation from "../views/admin/Formation/Formation";
-import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
 
 export default function Admin() {
-  const jwt_token = Cookies.get('jwt_token');
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const [user, setUser] = useState(null);
 
   const config = useMemo(() => {
@@ -58,7 +56,7 @@ export default function Admin() {
     if (jwt_token) {
       fetchData();
     } else {
-      window.location.replace(`/`);
+      window.location.replace(`/auth/login`);
     }
   }, [jwt_token, config]);
 
@@ -91,7 +89,6 @@ export default function Admin() {
             <Route path="/admin/Formation" exact component={Formation} />
             <Route path="/admin/LitseXp" exact component={LitseXp} />
             <Route path="/admin/ListeBadge" exact component={ListeBadge} />
-            <Route path="/admin/settings" exact component={Settings} />
             <Route path="/admin/Profile/:id" exact component={Profile} />
             <Route path="/admin/tables" exact component={ListUsers} />
             <Route path="/admin/DetailsFormation/:id" exact component={DetailsFormation} />

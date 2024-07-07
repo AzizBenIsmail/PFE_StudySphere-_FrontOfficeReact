@@ -1,39 +1,13 @@
-import { React, useMemo, useState } from 'react'
+import { React, useState } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
-import Cookies from 'js-cookie'
-import { forgetPassword, getUserAuth, registerEmail } from '../../Services/Apiauth'
+// import Cookies from 'js-cookie'
+import { forgetPassword, registerEmail } from '../../Services/Apiauth'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import { MdMarkEmailUnread } from "react-icons/md";
 
 export default function Register () {
-  const jwt_token = Cookies.get('jwt_token')
 
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    }
-  }, [jwt_token])
 
-  //session
-  if (Cookies.get('jwt_token')) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'client') {
-            window.location.replace(`/landing/`)
-          }
-          if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin/`)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  }
 
   const location = useLocation()
   const message = new URLSearchParams(location.search).get('message')

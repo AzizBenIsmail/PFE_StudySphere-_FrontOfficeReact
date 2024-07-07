@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { createPopper } from '@popperjs/core'
 import { logout } from '../../Services/Apiauth'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { Link, useHistory } from 'react-router-dom'
 import { AiOutlineFieldNumber } from 'react-icons/ai'
 import { CiUser } from 'react-icons/ci'
@@ -12,7 +12,8 @@ import { GrWorkshop } from 'react-icons/gr'
 const UserDropdown = ({ user }) => {
   const history = useHistory()
 
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {
@@ -26,7 +27,7 @@ const UserDropdown = ({ user }) => {
     try {
       logout(config, user._id)
       .then(() => {
-        // console.log(res.data.user);
+        localStorage.removeItem('jwt_token');
         window.location.replace(`/login/`)
       })
       .catch((err) => {
@@ -180,28 +181,6 @@ const UserDropdown = ({ user }) => {
         </button>
         <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100"/>
 
-        {/*<button*/}
-        {/*  className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"*/}
-        {/*  onClick={() => {*/}
-        {/*    if (user.role === 'client') {*/}
-        {/*      console.log(user)*/}
-        {/*      console.log(user.preferences)*/}
-        {/*      if (user.preferences === undefined) {*/}
-        {/*        history.push("/First");*/}
-        {/*      } else {*/}
-        {/*        history.push("/First/UpdatePreferences");*/}
-        {/*      }*/}
-        {/*    }*/}
-
-        {/*    if (user.role === 'centre') {*/}
-        {/*      if (!user.xp) {*/}
-        {/*        history.push("/First");*/}
-        {/*      }            }*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  Preference*/}
-        {/*</button>*/}
-
         <button
           className={
             'flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
@@ -221,8 +200,7 @@ const UserDropdown = ({ user }) => {
           Mes Notification
         </button>
         <div className="h-0 my-2 border border-solid border-blueGray-100"/>
-        <a
-          href="#pablo"
+        <button
           className={
             'flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
           }
@@ -230,7 +208,7 @@ const UserDropdown = ({ user }) => {
         >
           <RiLogoutCircleLine style={{ fontSize: '20px' }} className="mr-1"/>
           Se déconnecter
-        </a>
+        </button>
       </div>
     </>
   )

@@ -5,16 +5,13 @@ import { BiBeenHere, BiSolidBeenHere } from 'react-icons/bi'
 // import { useLocation } from 'react-router-dom'
 import { CiSquareRemove } from 'react-icons/ci'
 import {addPreferencesCentre }from '../../../../Services/ApiPref'
-import Cookies from 'js-cookie'
 import { useHistory } from 'react-router-dom'
 
 export default function PreferenceCenter () {
 
-  const jwt_token = Cookies.get("jwt_token");
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
-  if (!Cookies.get("jwt_token")) {
-    window.location.replace("/login-page");
-  }
 
   const config = useMemo(() => {
     return {

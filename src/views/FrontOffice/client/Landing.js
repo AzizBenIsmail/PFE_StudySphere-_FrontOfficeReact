@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 // components
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import {
   FormationByDayAndTime,
   getAllFormations,
@@ -16,7 +16,8 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { getUserAuth } from '../../../Services/Apiauth'
 
 export default function Landing({ user }) {
-  const jwt_token = Cookies.get('jwt_token')
+  // const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const [formations, setFormations] = useState([]);
   const [formationsByLocation, setFormationsByLocation] = useState([]);

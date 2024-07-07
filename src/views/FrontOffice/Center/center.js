@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 // components
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import { FaChevronRight , FaChevronLeft  } from "react-icons/fa";
 import { getCentre } from '../../../Services/ApiUser'
 import { Link } from "react-router-dom";
@@ -9,7 +9,8 @@ export default function Landing() {
   const [centers, setCenters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const centersPerPage = 6;
-  const jwt_token = Cookies.get("jwt_token");
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

@@ -1,18 +1,15 @@
 /*eslint-disable*/
-import React, { useMemo } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 // components
-import Cookies from 'js-cookie'
 import UserDropdown from '../Dropdowns/UserDropdownLanding'
 import NotificationDropdown from '../Dropdowns/NotificationDropdown'
-import { FaRegStar, FaSchool } from 'react-icons/fa'
 import { MdCastForEducation } from 'react-icons/md'
 import { BiSolidSchool  } from "react-icons/bi";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 
 export default function Navbar ({ user }) {
-  const history = useHistory()
 
   const [navbarOpen, setNavbarOpen] = React.useState(false)
 
@@ -39,12 +36,6 @@ export default function Navbar ({ user }) {
             id="example-navbar-warning"
           >
             <ul className="flex flex-col lg:flex-row list-none mr-auto">
-                {/*<img*/}
-                {/*  src={require('assets/img/LogoDark.png').default}*/}
-                {/*  alt="..."*/}
-                {/*  className="w-1/8 sm:w-4/12 "*/}
-                {/*  // onClick={() => history.push('/landing')}*/}
-                {/*/>*/}
               <Link
                 className="text-white text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap text-2xl"
                 to="/landing"
@@ -86,20 +77,6 @@ export default function Navbar ({ user }) {
               <div
                 className="lg:text-white lg:hover:text-lightBlue-800 text-blueGray-600 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold ml-3"
               >
-                {/*<Link*/}
-                {/*  to="/BadgesNiveauXp"*/}
-                {/*>*/}
-                {/*  <li className="flex items-center">*/}
-
-                {/*  <FaRegStar className="mr-1" style={{ fontSize: '24px' }}/>*/}
-
-                {/*{user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && `${user.xp.niveauAtteint.nom}`}*/}
-
-                {/*  <SiNintendogamecube className="mr-2 ml-2" style={{ fontSize: '24px' }}/>*/}
-                {/*  {user && user.xp && typeof user.xp.pointsGagnes === 'number' && user.xp.niveauAtteint && ` Xp : ${user.xp.pointsGagnes}`}*/}
-                {/*  </li>*/}
-                {/*  </Link>*/}
-
               </div>
               <li className="flex items-center">
                 <NotificationDropdown user={user}/>

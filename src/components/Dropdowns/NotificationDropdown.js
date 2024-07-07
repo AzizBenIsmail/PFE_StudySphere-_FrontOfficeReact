@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { createPopper } from "@popperjs/core";
 import { MdNotifications, MdNotificationAdd } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
-import Cookies from "js-cookie";
 import {
   getNotificationByUser,
   markNotificationAsRead,
@@ -12,7 +11,8 @@ import moment from "moment";
 
 const NotificationDropdown = ({user}) => {
 
-  const jwt_token = Cookies.get("jwt_token");
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

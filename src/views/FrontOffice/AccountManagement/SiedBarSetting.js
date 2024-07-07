@@ -3,13 +3,14 @@ import { FaRegUserCircle } from 'react-icons/fa'
 import { MdOutlineClass, MdFavoriteBorder, MdOutlineSecurity, MdRoomPreferences } from 'react-icons/md'
 import { SiOpslevel } from 'react-icons/si'
 import { BiSolidUserAccount } from 'react-icons/bi'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { useHistory, useParams } from 'react-router-dom'
 import { getUserAuth } from '../../../Services/Apiauth'
 
 const Tabs = ({code}) => {
   const [openTab, setOpenTab] = React.useState(code)
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const history = useHistory()
 
   const config = useMemo(() => {
@@ -19,24 +20,6 @@ const Tabs = ({code}) => {
       },
     }
   }, [jwt_token])
-
-  //session
-  if (Cookies.get('jwt_token')) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin/`)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  } else {
-    window.location.replace(`/`)
-  }
 
   const param = useParams()
 

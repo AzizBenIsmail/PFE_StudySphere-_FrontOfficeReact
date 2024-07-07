@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getFormationById } from '../../../Services/ApiFormation'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { GiEmptyHourglass } from "react-icons/gi";
 
 export default function Settings() {
   const param = useParams()
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

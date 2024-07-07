@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
 import { Link, useParams } from 'react-router-dom'
 import { getCentersByDomain, getInstructorsByCenter, getUserByID } from '../../../Services/ApiUser'
@@ -12,7 +12,8 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { getFormationByIdCentre } from '../../../Services/ApiFormation'
 
 export default function Profile () {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

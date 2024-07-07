@@ -1,24 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
 
 // components
-import Cookies from "js-cookie";
 import { getUserAuth } from "../../../Services/Apiauth";
 import { updatecentre, updateUser } from "../../../Services/ApiUser";
 
 import { useHistory, useLocation } from 'react-router-dom'
-// import Navbar from "../../../components/Navbars/Navbar";
-// import Footer from "../../../components/Footers/FooterSmall";
-import SiedBarSetting from './SiedBarSetting'
-// import { NotificationManager } from 'react-notifications'
 
-// import CardLineChart from "components/Cards/CardLineChart.js";
-// import CardBarChart from "components/Cards/CardBarChart.js";
-// import CardPageVisits from "components/Cards/CardPageVisits.js";
-// import CardSocialTraffic from "components/Cards/CardSocialTraffic.js";
+import SiedBarSetting from './SiedBarSetting'
+
 
 export default function Dashboard() {
   //cookies
-  const jwt_token = Cookies.get("jwt_token");
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const history = useHistory();
   const location = useLocation();
   const message = new URLSearchParams(location.search).get("u");
@@ -45,11 +39,6 @@ export default function Dashboard() {
           const data = res.data.user
           console.log(data)
           setUser(data)
-          if (res.data.user.role === "admin") {
-            history.replace("/admin/");
-          }
-        } else {
-          history.replace("/");
         }
       } catch (error) {
         console.log(error);

@@ -6,7 +6,7 @@ import Navbar from '../components/Navbars/Navbar'
 
 
 import { InfinitySpin } from 'react-loader-spinner'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
 const center = lazy(() => import("../views/FrontOffice/Center/center"));
@@ -17,7 +17,9 @@ const notification = lazy(() => import("../views/FrontOffice/notification/listeN
 const detailscours = lazy(() => import("../views/FrontOffice/client/detailscours.js"));
 
 export default function LandingLayout () {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
+
   const [user, setUser] = useState(null);
   const history = useHistory()
 
@@ -34,7 +36,7 @@ export default function LandingLayout () {
           const res = await getUserAuth(config);
           setUser(() => {
             if (res.data.user.role === 'admin') {
-               history.replace('/admin/');
+              history.replace('/admin/');
             }
             return res.data.user;
           });

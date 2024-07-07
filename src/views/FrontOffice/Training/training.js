@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { GiEmptyHourglass } from 'react-icons/gi'
 import { getAllFormations } from '../../../Services/ApiFormation'
@@ -13,7 +13,8 @@ export default function Landing () {
   const [sortOrder, setSortOrder] = useState('')
 
   const formationsPerPage = 6
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

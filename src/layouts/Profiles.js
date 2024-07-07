@@ -7,7 +7,7 @@ import AuthNavbar from "components/Navbars/AuthNavbar.js";
 
 
 import { InfinitySpin } from 'react-loader-spinner'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
 const Profile = lazy(() => import("../views/FrontOffice/Profiles/Profile"));
@@ -15,7 +15,8 @@ const ProfileCenter = lazy(() => import("../views/FrontOffice/Profiles/ProfileCe
 const ProfileFormateur = lazy(() => import("../views/FrontOffice/Profiles/ProfileFormateur"));
 
 export default function LandingLayout () {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const [user, setUser] = useState(null);
   const history = useHistory()
 

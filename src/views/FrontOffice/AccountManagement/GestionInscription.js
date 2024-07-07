@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FormationsByInscriptionByUserAuth, desinscription } from '../../../Services/ApiFormation';
 import SiedBarSetting from './SiedBarSetting';
-import Cookies from 'js-cookie';
 
 export default function GestionInscription() {
   const [formations, setFormations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [formationsPerPage] = useState(3);
   const [error, setError] = useState(null);
-  const jwt_token = Cookies.get("jwt_token");
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   useEffect(() => {
     const fetchFormations = async () => {

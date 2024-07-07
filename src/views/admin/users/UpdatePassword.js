@@ -1,11 +1,11 @@
 import React, {  useMemo, useState } from 'react';
-import Cookies from 'js-cookie';
 import { UpdatePasswordByAdmin } from '../../../Services/ApiUser';
 import { useParams } from 'react-router-dom'
 
 export default function ResetPw() {
 
-  const token = Cookies.get("jwt_token");
+  //const jwt_token = Cookies.get('jwt_token')
+  const token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

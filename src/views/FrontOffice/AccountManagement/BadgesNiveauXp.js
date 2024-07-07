@@ -1,20 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-// import { useHistory } from "react-router-dom";
-// components
-// import Navbar from "../../../components/Navbars/Navbar.js";
-// import Footer from "../../../components/Footers/FooterSmall.js";
-import Cookies from "js-cookie";
-// import { getUserAuth } from "../../../Services/Apiauth";
 import { getByCurrUser } from "../../../Services/ApiXp";
 import { getAllNiveaux } from "../../../Services/ApiNiveau";
 import SiedBarSetting from './SiedBarSetting'
 
 export default function BadgesNiveauXp() {
   // const [user, setUser] = useState(null);
-  const jwt_token = Cookies.get("jwt_token");
-  if (!Cookies.get("jwt_token")) {
-    window.location.replace("/login-page");
-  }
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
+
   const config = useMemo(() => {
     return {
       headers: {

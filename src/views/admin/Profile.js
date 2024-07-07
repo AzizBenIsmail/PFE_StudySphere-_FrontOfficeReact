@@ -1,20 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { getUserByID } from '../../Services/ApiUser'
-import Cookies from 'js-cookie'
-import { getUserAuth } from '../../Services/Apiauth'
 import { useParams } from 'react-router-dom'
 import { MdMarkEmailRead } from 'react-icons/md'
 import { TbUserHexagon } from 'react-icons/tb'
 import { FiWifiOff , FiWifi   } from 'react-icons/fi'
 import { SiVerizon, SiVexxhost } from 'react-icons/si'
-// import { FaArchive } from 'react-icons/fa'
 
 // components
 
 export default function Profile () {
 
-  const jwt_token = Cookies.get('jwt_token')
-
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const config = useMemo(() => {
     return {
       headers: {
@@ -22,24 +19,6 @@ export default function Profile () {
       },
     }
   }, [jwt_token])
-
-  //session
-  if (Cookies.get('jwt_token')) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'client') {
-            window.location.replace(`/landing/`)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  } else {
-    window.location.replace(`/`)
-  }
 
   const param = useParams()
 

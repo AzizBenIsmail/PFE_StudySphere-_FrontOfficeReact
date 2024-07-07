@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import '../../../assets/styles/detailcours.css';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { Link, useParams } from 'react-router-dom';
 import { desinscription, getFormationById, inscription } from '../../../Services/ApiFormation'
 import { RiStarSLine, RiStarSFill } from "react-icons/ri";
@@ -8,7 +8,8 @@ import { getFavoris, addFavori, removeFavori } from '../../../Services/ApiFav';
 import { getUserAuth } from '../../../Services/Apiauth'
 
 function Details() {
-  const jwt_token = Cookies.get('jwt_token');
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const param = useParams();
   const [isFilled, setIsFilled] = useState(false);
   const [favoriId, setFavoriId] = useState(null);

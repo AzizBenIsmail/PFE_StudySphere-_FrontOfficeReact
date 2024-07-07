@@ -18,8 +18,7 @@ import { GiTeacher } from 'react-icons/gi'
 import { MdAdminPanelSettings, MdSettingsVoice } from 'react-icons/md'
 import { RiAdminFill } from 'react-icons/ri'
 
-import Cookies from 'js-cookie'
-import { getUserAuth } from '../../../Services/Apiauth'
+// import Cookies from 'js-cookie'
 import {
   active,
   archiver,
@@ -49,7 +48,8 @@ import { MdOutlinePassword } from "react-icons/md";
 
 export default function ListUsers ({ color }) {
   //cookies
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {
@@ -59,23 +59,6 @@ export default function ListUsers ({ color }) {
     }
   }, [jwt_token])
 
-  //session
-  if (Cookies.get('jwt_token')) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'client') {
-            window.location.replace(`/landing/`)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  } else {
-    window.location.replace(`/`)
-  }
 
   const getAllUsers = useCallback(async (config) => {
     closeDropdownPopover()

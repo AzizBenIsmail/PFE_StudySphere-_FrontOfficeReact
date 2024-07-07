@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { MdOutlineAppRegistration } from "react-icons/md";
 
 import Navbar from '../../../components/Navbars/Navbar.js'
@@ -14,7 +14,8 @@ import { BiSolidUserAccount } from 'react-icons/bi'
 import { MdOutlineClass } from "react-icons/md";
 
 export default function Profile () {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const history = useHistory()
 
   const config = useMemo(() => {
@@ -24,24 +25,6 @@ export default function Profile () {
       },
     }
   }, [jwt_token])
-
-  //session
-  if (Cookies.get('jwt_token')) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === 'admin') {
-            window.location.replace(`/admin/`)
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchData()
-  } else {
-    window.location.replace(`/`)
-  }
 
   const param = useParams()
 

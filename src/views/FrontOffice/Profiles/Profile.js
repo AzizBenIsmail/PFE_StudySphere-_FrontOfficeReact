@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import { IoSchoolSharp } from "react-icons/io5";
 import { MdOutlineCastForEducation } from "react-icons/md";
@@ -16,7 +16,8 @@ import { getByCurrUser } from '../../../Services/ApiXp'
 import { getAllNiveaux } from '../../../Services/ApiNiveau'
 
 export default function Profile() {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const history = useHistory();
 
   const config = useMemo(() => {

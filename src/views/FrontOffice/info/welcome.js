@@ -1,26 +1,11 @@
 /*eslint-disable*/
-import React, { useEffect, useMemo, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import React from 'react'
 
-import IndexNavbar from "../../../components/Navbars/Navbar.js";
-import Footer from "../../../components/Footers/Footer.js";
-import Cookies from 'js-cookie'
-import { getUserByID } from "../../../Services/ApiUser";
-import { getUserAuth } from '../../../Services/Apiauth'
-import Navbar from "../../../components/Navbars/Navbar.js";
 import { SiWelcometothejungle } from "react-icons/si";
-import { IoSchoolSharp } from "react-icons/io5";
 
 export default function Index() {
   return (
     <>
-      {/*<Navbar user={user} />*/}
-      {/*<section className="py-16 bg-bleu-500 overflow-hidden">*/}
-      {/*  <div className="container mx-auto pb-20">*/}
-      {/*    <div className="flex flex-wrap justify-center">*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*</section>*/}
       <div className="container mx-auto py-2">
         <div className="flex flex-wrap items-center">
           <div className="w-13/12 md:w-6/12 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-32">

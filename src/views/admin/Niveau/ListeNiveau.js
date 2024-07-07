@@ -2,10 +2,11 @@ import React, { useState, useEffect, useMemo ,useCallback} from 'react'
 import PropTypes from "prop-types";
 import { getAllNiveaux, deleteNiveau, createNiveau , updateNiveau } from "../../../Services/ApiNiveau";
 import { FaAngleDown } from 'react-icons/fa'
-import Cookies from 'js-cookie' // Importez les fonctions CRUD depuis le fichier apiNiveau
+// import Cookies from 'js-cookie' // Importez les fonctions CRUD depuis le fichier apiNiveau
 
 export default function ListeNiveau({ color }) {
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {

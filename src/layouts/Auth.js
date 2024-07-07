@@ -17,12 +17,12 @@ import VerificationPw from "../views/auth/VerificationPw.js";
 import ResetPw from "../views/auth/ResetPw.js";
 
 import { InfinitySpin } from 'react-loader-spinner'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import { getUserAuth } from '../Services/Apiauth'
 
 export default function Auth() {
-  const jwt_token = Cookies.get('jwt_token')
-
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const config = useMemo(() => {
     return {
       headers: {
@@ -32,7 +32,7 @@ export default function Auth() {
   }, [jwt_token])
 
   //session
-  if (Cookies.get('jwt_token')) {
+  if (jwt_token) {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {
@@ -73,7 +73,6 @@ export default function Auth() {
               <Route path="/auth/registerEmail" exact component={RegisterEmail} />
               <Route path="/auth/register" exact component={Register} />
               <Route path="/auth/Resetmdp" exact component={ResetPw} />
-              <Route path="/auth/registerCentre" exact component={RegisterCentre} />
               <Route path="/auth/registerCentre" exact component={RegisterCentre} />
               <Route path="/auth/VerificationEmail" exact component={VerificationEmail} />
               <Route path="/auth/VerificationMotDePasse" exact component={VerificationPw} />

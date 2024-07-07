@@ -9,7 +9,8 @@ import { getUserAuth } from '../../../Services/Apiauth'
 
 export default function Index () {
   const [user, setUser] = useState(null)
-  const jwt_token = Cookies.get('jwt_token')
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const history = useHistory()
 
   useEffect(() => {
@@ -23,13 +24,8 @@ export default function Index () {
           }
           const res = await getUserAuth(config)
           setUser(() => {
-            if (res.data.user.role === 'admin') {
-              history.replace('/admin/')
-            }
             return res.data.user
           })
-        } else {
-          history.replace('/')
         }
 
       } catch (error) {

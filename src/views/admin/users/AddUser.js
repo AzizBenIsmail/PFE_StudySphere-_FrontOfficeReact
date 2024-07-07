@@ -1,19 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
 
 // components
-import Cookies from "js-cookie";
-import { getUserAuth, register, registerCentre } from '../../../Services/Apiauth'
+import { register, registerCentre } from '../../../Services/Apiauth'
 import { useLocation } from "react-router-dom";
-// import { NotificationManager } from 'react-notifications'
 
-// import CardLineChart from "components/Cards/CardLineChart.js";
-// import CardBarChart from "components/Cards/CardBarChart.js";
-// import CardPageVisits from "components/Cards/CardPageVisits.js";
-// import CardSocialTraffic from "components/Cards/CardSocialTraffic.js";
 
 export default function AddUser() {
   //cookies
-  const jwt_token = Cookies.get("jwt_token");
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {
@@ -23,23 +18,6 @@ export default function AddUser() {
     };
   }, [jwt_token]);
 
-  //session
-  if (Cookies.get("jwt_token")) {
-    const fetchData = async () => {
-      try {
-        await getUserAuth(config).then((res) => {
-          if (res.data.user.role === "client") {
-            window.location.replace(`/landing/`);
-          }
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  } else {
-    window.location.replace(`/`);
-  }
 
   const location = useLocation();
   const message = new URLSearchParams(location.search).get("u");
