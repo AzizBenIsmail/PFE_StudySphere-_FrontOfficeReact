@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { createPopper } from '@popperjs/core';
-import { getUserAuth, logout } from '../../Services/Apiauth';
+import { getUserAuth } from '../../Services/Apiauth';
 
 const UserDropdownDashboard = () => {
   const [user, setUser] = useState({});
@@ -35,7 +35,7 @@ const UserDropdownDashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await logout(config, user._id);
+      //await logout(config, user._id);
       console.log('JWT before removal:', localStorage.getItem('jwt_token'));
       localStorage.removeItem('jwt_token');
       console.log('JWT after removal:', localStorage.getItem('jwt_token'));
@@ -93,7 +93,7 @@ const UserDropdownDashboard = () => {
           }
           onClick={handleLogout}
         >
-          Se déconnecter
+          Se déconnecter a
         </a>
       </div>
     </>
