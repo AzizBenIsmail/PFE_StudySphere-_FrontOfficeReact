@@ -93,7 +93,7 @@ const UserDropdownDashboard = () => {
           }
           onClick={handleLogout}
         >
-          Se déconnecter
+          Se déconnecter ye haj
         </a>
       </div>
     </>
