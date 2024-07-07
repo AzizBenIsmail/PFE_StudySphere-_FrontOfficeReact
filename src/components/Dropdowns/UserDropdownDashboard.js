@@ -1,22 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { createPopper } from '@popperjs/core'
-import { getUserAuth, logout } from '../../Services/Apiauth'
-// import Cookies from 'js-cookie'
-// import { useHistory } from 'react-router-dom';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
+import { createPopper } from '@popperjs/core';
+import { getUserAuth, logout } from '../../Services/Apiauth';
 
 const UserDropdownDashboard = () => {
-  const [user, setUser] = useState([])
+  const [user, setUser] = useState({});
+  const [dropdownPopoverShow, setDropdownPopoverShow] = useState(false);
+  const btnDropdownRef = useRef(null);
+  const popoverDropdownRef = useRef(null);
 
-  // dropdown props
-  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false)
-  const btnDropdownRef = React.createRef()
-  const popoverDropdownRef = React.createRef()
-  // const history = useHistory();
-  //cookies
-  //const jwt_token = Cookies.get('jwt_token')
   const jwt_token = localStorage.getItem('jwt_token');
   if (!jwt_token) {
-     window.location.replace('/login-page')
+    window.location.replace('/login-page');
   }
 
   const config = useMemo(() => {
@@ -24,46 +18,42 @@ const UserDropdownDashboard = () => {
       headers: {
         Authorization: `Bearer ${jwt_token}`,
       },
-    }
-  }, [jwt_token])
+    };
+  }, [jwt_token]);
 
   useEffect(() => {
-    const getAuthUser = async (config) => {
-      await getUserAuth(config)
-      .then((res) => {
-        setUser(res.data.user)
-        // console.log(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    }
-    getAuthUser(config)
-  }, [config])
-  const log = async (config, user) => {
-    try {
-      logout(config, user._id)
-      .then(() => {
-        localStorage.removeItem('jwt_token');
-        window.location.replace(`/login/`)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const openDropdownPopover = () => {
+    const getAuthUser = async () => {
+      try {
+        const res = await getUserAuth(config);
+        setUser(res.data.user);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getAuthUser();
+  }, [config]);
 
+  const handleLogout = async () => {
+    try {
+      await logout(config, user._id);
+      localStorage.removeItem('jwt_token');
+      window.location.replace('/login/');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: 'bottom-start',
-    })
-    setDropdownPopoverShow(true)
-  }
+    });
+    setDropdownPopoverShow(true);
+  };
+
   const closeDropdownPopover = () => {
-    setDropdownPopoverShow(false)
-  }
+    setDropdownPopoverShow(false);
+  };
+
   return (
     <>
       <a
@@ -71,20 +61,19 @@ const UserDropdownDashboard = () => {
         href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {
-          e.preventDefault()
-          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover()
+          e.preventDefault();
+          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
         }}
       >
         <div className="items-center flex">
-          <span
-            className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
-          {user.image_user && (
-          <img
-           alt="..."
-            className="w-full rounded-full align-middle border-none shadow-lg"
-           src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${user.image_user}`}
-          />
-          )}
+          <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
+            {user.image_user && (
+              <img
+                alt="..."
+                className="w-full rounded-full align-middle border-none shadow-lg"
+                src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${user.image_user}`}
+              />
+            )}
           </span>
         </div>
       </a>
@@ -95,45 +84,18 @@ const UserDropdownDashboard = () => {
           'bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48'
         }
       >
-        {/*<a*/}
-        {/*  href="#pablo"*/}
-        {/*  className={*/}
-        {/*    'text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'*/}
-        {/*  }*/}
-        {/*  onClick={(e) => e.preventDefault()}*/}
-        {/*>*/}
-        {/*  Gestion Utilisateurs*/}
-        {/*</a>*/}
-        {/*<a*/}
-        {/*  href="#pablo"*/}
-        {/*  className={*/}
-        {/*    'text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'*/}
-        {/*  }*/}
-        {/*  onClick={(e) => window.location.href.indexOf("/admin/Formation")}*/}
-        {/*>*/}
-        {/*  Gestion Formations*/}
-        {/*</a>*/}
-        {/*<a*/}
-        {/*  href="#pablo"*/}
-        {/*  className={*/}
-        {/*    'text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'*/}
-        {/*  }*/}
-        {/*  onClick={(e) => e.preventDefault()}*/}
-        {/*>*/}
-        {/*  Something else here*/}
-        {/*</a>*/}
-        {/*<div className="h-0 my-2 border border-solid border-blueGray-100"/>*/}
         <a
           href="/"
           className={
             'text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
           }
-          onClick={() => log(config, user)}>
+          onClick={handleLogout}
+        >
           Se déconnecter
         </a>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default UserDropdownDashboard
+export default UserDropdownDashboard;
