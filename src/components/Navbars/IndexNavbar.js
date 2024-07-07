@@ -3,9 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 // components
 
-import IndexDropdown from "components/Dropdowns/IndexDropdown.js";
-import { GiBurningDot } from 'react-icons/gi'
-import { SlLogin } from 'react-icons/sl'
+
 import { logout } from '../../Services/Apiauth'
 
 export default function Navbar(props) {

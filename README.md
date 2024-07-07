@@ -175,7 +175,6 @@ notus-react
 │       ├── admin
 │       │   ├── Dashboard.js
 │       │   ├── Maps.js
-│       │   ├── Settings.js
 │       │   └── Tables.js
 │       └── auth
 │           ├── Login.js
