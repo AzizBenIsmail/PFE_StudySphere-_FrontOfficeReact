@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { createPopper } from '@popperjs/core';
-import { getUserAuth } from '../../Services/Apiauth';
+import { getUserAuth, logout } from '../../Services/Apiauth';
 
 const UserDropdownDashboard = () => {
   const [user, setUser] = useState({});
@@ -9,9 +9,6 @@ const UserDropdownDashboard = () => {
   const popoverDropdownRef = useRef(null);
 
   const jwt_token = localStorage.getItem('jwt_token');
-  // if (!jwt_token) {
-  //   window.location.replace('/login-page');
-  // }
 
   const config = useMemo(() => {
     return {
@@ -35,11 +32,9 @@ const UserDropdownDashboard = () => {
 
   const handleLogout = async () => {
     try {
-      //await logout(config, user._id);
-      console.log('JWT before removal:', localStorage.getItem('jwt_token'));
-      // localStorage.removeItem('jwt_token');
-      console.log('JWT after removal:', localStorage.getItem('jwt_token'));
-      // window.location.replace('/login/');
+      await logout(config, user._id);
+      localStorage.removeItem('jwt_token');
+      window.location.replace('/login/');
     } catch (err) {
       console.error(err);
     }
@@ -86,15 +81,14 @@ const UserDropdownDashboard = () => {
           'bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48'
         }
       >
-        <a
-          href="/"
+        <button
           className={
             'text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
           }
           onClick={handleLogout}
         >
           Se déconnecter 
-        </a>
+        </button>
       </div>
     </>
   );

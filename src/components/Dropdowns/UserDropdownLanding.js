@@ -181,28 +181,6 @@ const UserDropdown = ({ user }) => {
         </button>
         <div className="h-0 mx-4 my-2 border border-solid border-blueGray-100"/>
 
-        {/*<button*/}
-        {/*  className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"*/}
-        {/*  onClick={() => {*/}
-        {/*    if (user.role === 'client') {*/}
-        {/*      console.log(user)*/}
-        {/*      console.log(user.preferences)*/}
-        {/*      if (user.preferences === undefined) {*/}
-        {/*        history.push("/First");*/}
-        {/*      } else {*/}
-        {/*        history.push("/First/UpdatePreferences");*/}
-        {/*      }*/}
-        {/*    }*/}
-
-        {/*    if (user.role === 'centre') {*/}
-        {/*      if (!user.xp) {*/}
-        {/*        history.push("/First");*/}
-        {/*      }            }*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  Preference*/}
-        {/*</button>*/}
-
         <button
           className={
             'flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
@@ -222,8 +200,7 @@ const UserDropdown = ({ user }) => {
           Mes Notification
         </button>
         <div className="h-0 my-2 border border-solid border-blueGray-100"/>
-        <a
-          href="/"
+        <button
           className={
             'flex items-center text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700'
           }
@@ -231,7 +208,7 @@ const UserDropdown = ({ user }) => {
         >
           <RiLogoutCircleLine style={{ fontSize: '20px' }} className="mr-1"/>
           Se déconnecter
-        </a>
+        </button>
       </div>
     </>
   )
