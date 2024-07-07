@@ -9,7 +9,7 @@ export default function Landing() {
   const [formers, setFormers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const formersPerPage = 6;
-  const jwt_token = Cookies.get("jwt_token");
+  const jwt_token = localStorage.getItem('jwt_token');
 
   const config = useMemo(() => {
     return {
