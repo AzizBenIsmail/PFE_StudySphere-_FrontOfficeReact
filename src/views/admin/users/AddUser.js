@@ -1,15 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 
 // components
-import Cookies from "js-cookie";
 import { getUserAuth, register, registerCentre } from '../../../Services/Apiauth'
 import { useLocation } from "react-router-dom";
-// import { NotificationManager } from 'react-notifications'
 
-// import CardLineChart from "components/Cards/CardLineChart.js";
-// import CardBarChart from "components/Cards/CardBarChart.js";
-// import CardPageVisits from "components/Cards/CardPageVisits.js";
-// import CardSocialTraffic from "components/Cards/CardSocialTraffic.js";
 
 export default function AddUser() {
   //cookies
@@ -25,7 +19,7 @@ export default function AddUser() {
   }, [jwt_token]);
 
   //session
-  if (Cookies.get("jwt_token")) {
+  if (jwt_token) {
     const fetchData = async () => {
       try {
         await getUserAuth(config).then((res) => {

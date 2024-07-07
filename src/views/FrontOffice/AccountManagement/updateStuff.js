@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Cookies from "js-cookie";
 import { getFormateur, affecterEnseignant, desinfecterFormateur } from '../../../Services/ApiUser';
 import SiedBarSetting from "../AccountManagement/SiedBarSetting";
 import { getUserAuth } from '../../../Services/Apiauth';
 
 export default function ListeFormations({ color }) {
-  const jwt_token = Cookies.get("jwt_token");
+  //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const [user, setUser] = useState(null);
   const [formateurs, setFormateurs] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
