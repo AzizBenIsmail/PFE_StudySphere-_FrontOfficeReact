@@ -78,8 +78,14 @@ export default function Login () {
       } else {
         try {
           const res = await LoginUser(user)
+          const now = new Date();
+          const expiration = now.getTime() + 2 * 60 * 1000; // 2 minutes in milliseconds
+          const tokenObject = {
+            value: res.data.token,
+            expiration: expiration
+          };
           if (res.data.token) {
-            localStorage.setItem('jwt_token', res.data.token); // Stocker le token dans le localStorage
+            localStorage.setItem('jwt_token', tokenObject); // Stocker le token dans le localStorage
           }
           if (res.data.user.role === 'admin' || res.data.user.role === 'moderateur' ) {
             // window.location.replace(`/admin`)
