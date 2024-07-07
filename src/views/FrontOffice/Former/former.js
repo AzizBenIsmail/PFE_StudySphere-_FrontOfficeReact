@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 // components
-import Cookies from "js-cookie";
 import { FaChevronRight , FaChevronLeft  } from "react-icons/fa";
 import { getFormateur } from '../../../Services/ApiUser'
 import { Link } from "react-router-dom";
