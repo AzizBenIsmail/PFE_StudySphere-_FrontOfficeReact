@@ -37,7 +37,7 @@ const UserDropdownDashboard = () => {
     try {
       //await logout(config, user._id);
       console.log('JWT before removal:', localStorage.getItem('jwt_token'));
-      localStorage.removeItem('jwt_token');
+      // localStorage.removeItem('jwt_token');
       console.log('JWT after removal:', localStorage.getItem('jwt_token'));
       // window.location.replace('/login/');
     } catch (err) {
