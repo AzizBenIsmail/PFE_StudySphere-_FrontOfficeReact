@@ -153,7 +153,7 @@ export default function Profile() {
                           {User.visitsCount}
                         </span>
                         <span className="text-sm text-blueGray-400">
-                          Nombre_connexion
+                          Nbr_connexion
                         </span>
                       </div>
                       <div className="mr-4 p-3 text-center">
@@ -182,10 +182,10 @@ export default function Profile() {
                            User
                              ? (
                                User.role === "formateur" && User.Formations
-                                 ? "Nombre_Formation"
+                                 ? "Nbr_Formation"
                                  : (
                                    User.role === "client" && User.inscriptions
-                                     ? "Nombre_Inscriptions"
+                                     ? "Nbr_Inscriptions"
                                      : (
                                        User.role === "centre" && User.staff_enseignant
                                          ? "Staff_enseignant"
@@ -209,7 +209,7 @@ export default function Profile() {
                                User.role === "client" && User.inscriptions ? (
                                  User.xp && User.xp.badgeIds ? (
                                    User.xp.badgeIds.length
-                                 ) : "Nombre_Inscriptions"
+                                 ) : "Nbr_Inscriptions"
                                ) : (
                                  User.role === "centre" && User.Formations ? (
                                    User.Formations.reduce((total, formation) => total + formation.participants.length, 0)
@@ -224,13 +224,13 @@ export default function Profile() {
                         {
                           User ? (
                             User.role === "formateur" && User.Formations ? (
-                              "Nombre_CentresTravailAssocies"
+                              "Nbr_CentresTravailAssocies"
                             ) : (
                               User.role === "client" && User.inscriptions ? (
-                                "Nombre_Badges"
+                                "Nbr_Badges"
                               ) : (
                                 User.role === "centre" && User.Formations ? (
-                                  "Nombre_Participants"
+                                  "Nbr_Participants"
                                 ) : null
                               )
                             )
