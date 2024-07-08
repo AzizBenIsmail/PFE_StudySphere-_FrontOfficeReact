@@ -115,6 +115,7 @@ function Details() {
                     className="details-image-custom img-fluid"
                     src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                     // style={{ width: "100%", height: "auto" }}
+                    style={{ width: "550px", height: "320px" }}
                     alt="React Course"
                     onMouseEnter={(e) =>
                       (e.currentTarget.style.boxShadow = "0px 0px 30px 0px rgba(0,0,0,0.3)")}
@@ -159,7 +160,7 @@ function Details() {
                     <span>{formation.formateur.nom} {formation.formateur.prenom} (IT Engineer)</span>
                   </div>
                 </div>
-                <div className="details-sidebar-custom mt-16  ml-3 lg:mt-0 lg:ml-8">
+                <div className="details-sidebar-custom mt-16  ml-8 lg:mt-0 lg:ml-8">
                   <div className="details-features-custom">
                     <h3>Caractéristiques du cours</h3>
                     <ul>
