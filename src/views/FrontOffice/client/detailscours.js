@@ -68,7 +68,7 @@ function Details() {
     loadFormations();
     checkFavori();
     loadUserInscriptions();
-  }, [loadFormations,loadUserInscriptions, checkFavori]);
+  }, [loadFormations, loadUserInscriptions, checkFavori]);
 
   if (!formation) {
     return <div>Loading...</div>;
@@ -110,11 +110,7 @@ function Details() {
     }
   };
 
-
-
-
-
-  const handleDesinscription = async (id,config) => {
+  const handleDesinscription = async (id, config) => {
     try {
       const response = await desinscription(id, config);
       console.log('Desinscription successful:', response);
@@ -137,15 +133,14 @@ function Details() {
 
   return (
     <>
-      {/* <Header /> */}
-      <section className="pt-1 bg-blueGray-200 ">
-        <div className='title-event-det mt-5 '>
-          <h1 className="mb-5 text-center"> Détails des cours</h1>
+      <section className="pt-1 bg-blueGray-200">
+        <div className='title-event-det mt-5'>
+          <h1 className="mb-5 text-center">Détails des cours</h1>
         </div>
-        <div className="details-container-custom container mt-20">
+        <div className="details-container-custom mb-2 container">
           <div className="row">
             <div className="col-lg-8 col-md-12">
-              <div className="details-content-wrapper d-flex align-items-start">
+              <div className="details-content-wrapper flex flex-col lg:flex-row items-start">
                 <div className="details-content-custom">
                   <h1 className="details-title-custom">{formation.titre}</h1>
                   <div className="details-header-custom">
@@ -158,106 +153,108 @@ function Details() {
                       <p>{formation.participants.length}</p>
                     </div>
                     <div className="details-group-custom" onClick={toggleIcon} style={{ cursor: 'pointer' }}>
-                      {isFilled ? <RiStarSFill size={40} /> : <RiStarSLine size={40} />}
+                      {isFilled ? <RiStarSFill size={40}/> : <RiStarSLine size={40}/>}
                     </div>
                   </div>
-                  <img className="details-image-custom img-fluid ml-15"
-                       src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
-                       style={{ width: "550px", height: "320px" }}
-                       alt="React Course"
-                       onMouseEnter={(e) =>
-                         (e.currentTarget.style.boxShadow =
-                           "0px 0px 30px 0px rgba(0,0,0,0.3)")}
-                       onMouseLeave={(e) =>
-                         (e.currentTarget.style.boxShadow = "none")}
+                  <img
+                    className="details-image-custom  img-fluid"
+                    src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
+                    style={{ width: "550px", height: "320px" }}
+                    alt="React Course"
                   />
                   {formation.centre && (
                     <div className='details-center-custom'>
-                      <Link
-                        to={`/profile/ProfileCenter/${formation.centre._id}`}
-                      >
+                      <Link to={`/profile/ProfileCenter/${formation.centre._id}`}>
                         <img
                           alt="..."
                           className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
                           src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
-                          onMouseEnter={(e) =>
-                            (e.currentTarget.style.boxShadow =
-                              "0px 0px 30px 0px rgba(0,0,0,0.3)")}
-                          onMouseLeave={(e) =>
-                            (e.currentTarget.style.boxShadow = "none")}
+                          style={{ width: "50px" , height:'50px'  }}
                         />
                       </Link>
                       <p className="mt-3">{formation.centre.nom}</p>
                     </div>
                   )}
-                  <p className="details-description-custom">
-                    {formation.description}
-                  </p>
+                  <p className="details-description-custom">{formation.description}</p>
                   <div className='details-instructor-custom'>
-                    <Link
-                      to={`/profile/ProfileFormateur/${formation.formateur._id}`}
-                    >
+                    <Link to={`/profile/ProfileFormateur/${formation.formateur._id}`}>
                       <img
                         alt="..."
                         className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
                         src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.formateur.image_user}`}
                         style={{ width: "70px" }}
-                        onMouseEnter={(e) =>
-                          (e.currentTarget.style.boxShadow =
-                            "0px 0px 30px 0px rgba(0,0,0,0.3)")}
-                        onMouseLeave={(e) =>
-                          (e.currentTarget.style.boxShadow = "none")}
                       />
                     </Link>
                     <span>{formation.formateur.nom} {formation.formateur.prenom} (IT Engineer)</span>
                   </div>
                 </div>
-                <div className="details-sidebar-custom">
+                <div className="details-sidebar-custom mt-16 ml-8 lg:mt-0 lg:ml-8">
                   <div className="details-features-custom">
                     <h3>Caractéristiques du cours</h3>
-                    <ul>
-                      <li><span>Competences</span><span className='details-blue-custom'>{formation.competences}</span></li>
-                      <hr />
-                      <li><span>jours</span><span className='details-blue-custom'>{formation.jours}</span></li>
-                      <hr />
-                      <li><span>niveau requis</span><span className='details-blue-custom'>{formation.niveauRequis}</span></li>
-                      <hr />
-                      <li><span>typeContenu</span><span className='details-blue-custom'>{formation.typeContenu}</span></li>
-                      <hr />
-                      <li><span>Domaine</span><span className='details-blue-custom'>{formation.sujetInteret}</span></li>
-                      <hr />
-                      <li><span>Date Debut</span><span className='details-blue-custom'>{formatDate(formation.dateDebut)}</span></li>
-                      <hr />
-                      <li><span>Date Fin</span><span className='details-blue-custom'>{formatDate(formation.dateFin)}</span></li>
-                      <hr />
-                      <li><span>Durée</span><span className='details-blue-custom'>{formatDuration(formation.duree)}</span></li>
-                      <hr />
-                      <li><span>Method</span><span className='details-blue-custom'>{formation.styleEnseignement}</span></li>
-                      <hr />
-                      <li><span>Engagement requis</span><span className='details-blue-custom'>{formation.niveauDengagementRequis}</span></li>
-                      <hr />
-                      <li><span>Niveau de compétence</span><span className='details-blue-custom'>{formation.niveauDeDifficulte}</span></li>
-                      <hr />
-                      <li><span>Emplacement</span><span className='details-blue-custom'>{formation.emplacement}</span></li>
-                      <hr />
-                      <li><span>Language</span><span className='details-blue-custom'>{formation.langue}</span></li>
-                      <hr />
+                    <ul className="list-group">
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Competences</span><span className='details-blue-custom'>{formation.competences}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>jours</span><span className='details-blue-custom'>{formation.jours}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>niveau requis</span><span className='details-blue-custom'>{formation.niveauRequis}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>typeContenu</span><span className='details-blue-custom'>{formation.typeContenu}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Domaine</span><span className='details-blue-custom'>{formation.sujetInteret}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Date Debut</span><span
+                        className='details-blue-custom'>{formatDate(formation.dateDebut)}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Date Fin</span><span
+                        className='details-blue-custom'>{formatDate(formation.dateFin)}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Durée</span><span className='details-blue-custom'>{formatDuration(formation.duree)}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Method</span><span className='details-blue-custom'>{formation.styleEnseignement}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Engagement requis</span><span
+                        className='details-blue-custom'>{formation.niveauDengagementRequis}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Niveau de compétence</span><span
+                        className='details-blue-custom'>{formation.niveauDeDifficulte}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Emplacement</span><span className='details-blue-custom'>{formation.emplacement}</span>
+                      </li>
+                      <li className="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Language</span><span className='details-blue-custom'>{formation.langue}</span>
+                      </li>
                     </ul>
-                    <h5 className='details-price-custom'>Prix du cours: <span className='details-price-value-custom'>{formation.Prix} dt</span></h5>
-                    {/*<button className="details-btn-register-custom">Register now</button>*/}
+                    <h5 className='details-price-custom'>Prix du cours: <span
+                      className='details-price-value-custom'>{formation.Prix} dt</span></h5>
                     <div className="mt-auto">
                       {!isUserEnrolled(formation._id) ? (
                         <button
                           className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                           type="button"
-                          onClick={() => handleInscription(formation._id,config)}
+                          onClick={() => handleInscription(formation._id, config)}
                         >
                           Inscrivez-vous maintenant
-                        </button>  ) : (
+                        </button>
+                      ) : (
                         <button
                           className="bg-red-500 text-white active:bg-red-500 font-bold uppercase text-xs px-4 py-2 rounded-full shadow hover:shadow-md outline-none focus:outline-none mr-8 mb-1 ease-linear transition-all duration-150"
                           type="button"
-                          onClick={() => handleDesinscription(formation._id)}>Annulez votre inscription</button>
+                          onClick={() => handleDesinscription(formation._id)}
+                        >
+                          Annulez votre inscription
+                        </button>
                       )}
                     </div>
                   </div>
@@ -266,10 +263,10 @@ function Details() {
             </div>
           </div>
         </div>
-        <hr />
+        <hr/>
       </section>
     </>
   );
 }
 
-export default Details;
+  export default Details;

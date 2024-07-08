@@ -314,7 +314,7 @@ export default function PreferenceClient () {
 
   return (
     <>
-      <div className=" container mx-auto px-1 h-full ">
+      <div className=" container mx-auto px-2 h-full ">
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-9/12 pb-6 ">
             <div

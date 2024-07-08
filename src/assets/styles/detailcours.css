@@ -1,7 +1,7 @@
 
 .details-container-custom {
-    margin: 20px ;
-    margin-left: 70px;
+    /*margin: 20px ;*/
+    /*margin-left: 50px;*/
 }
 
 .details-content-custom {
@@ -75,6 +75,7 @@
 
 .details-image-custom {
     width:800px;
+    margin-left: 18px;
     border-radius: 10px;
     margin-bottom: 20px;
 }
