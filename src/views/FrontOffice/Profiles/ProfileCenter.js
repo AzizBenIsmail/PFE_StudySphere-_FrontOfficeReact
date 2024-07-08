@@ -401,7 +401,7 @@ export default function Profile () {
               </div>
                 <div className="pb-6 border-blueGray-200 text-center">
                   <div className="flex flex-wrap justify-center">
-                    <div className=" lg\:w-auto px-20">
+                    <div className=" lg\:w-auto ">
                       <a
                         href="/landing/training"
                         className="font-normal text-lightBlue-500 text-center"
@@ -507,7 +507,7 @@ export default function Profile () {
                 </div>
                   <div className="pb-6 border-blueGray-200 text-center">
                     <div className="flex flex-wrap justify-center">
-                      <div className=" lg\:w-auto px-20">
+                      <div className=" lg\:w-auto ">
                         <a
                           href="/landing/center"
                           className="font-normal text-lightBlue-500 text-center"
@@ -615,7 +615,7 @@ export default function Profile () {
                 </div>
                   <div className="pb-6 border-blueGray-200 text-center">
                     <div className="flex flex-wrap justify-center">
-                      <div className=" lg\:w-auto px-20">
+                      <div className=" lg\:w-auto ">
                         <a
                           href="/landing/center"
                           className="font-normal text-lightBlue-500 text-center"
