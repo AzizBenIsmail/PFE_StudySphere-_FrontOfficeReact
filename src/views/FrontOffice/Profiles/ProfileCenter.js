@@ -147,10 +147,10 @@ export default function Profile () {
     <>
       <section className="relative py-15 bg-blueGray-200">
         <div className="container mx-auto px-4">
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
+          <div className="relative flex flex-col min-w-0 break-words bg-white  mb-6 shadow-xl rounded-lg -mt-64">
             <div className="px-6">
               <div className="flex flex-wrap justify-center">
-                <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+                <div className=" lg:w-3/12 px-4 lg:order-2 flex justify-center">
                   <div className="relative">
                     {User && User.image_user ? (
                       <img
@@ -171,10 +171,10 @@ export default function Profile () {
                     )}
                   </div>
                 </div>
-                <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
+                <div className=" lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
                   <div className="py-6 px-3 mt-32 sm:mt-0"></div>
                 </div>
-                <div className="w-full lg:w-4/12 px-4 lg:order-2">
+                <div className=" lg:w-4/12 px-4 lg:order-2">
                   <div className="flex justify-center py-4 lg:pt-4 pt-8">
                     <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
@@ -183,7 +183,7 @@ export default function Profile () {
                           : 'Pas de formation'}
                       </span>
                       <span className="text-sm text-blueGray-400">
-                        Nombre_Formation
+                        Nbr_Formation
                       </span>
                     </div>
                     <div className="mr-4 p-3 text-center">
@@ -198,7 +198,7 @@ export default function Profile () {
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                           {User && User.Formations ? User.Formations.reduce((total, formation) => total + formation.participants.length, 0) : 'Aucune inscription'}
                       </span>
-                      <span className="text-sm text-blueGray-400">nombre_étudiant</span>
+                      <span className="text-sm text-blueGray-400">Nbr_étudiant</span>
                     </div>
 
                   </div>
@@ -209,14 +209,14 @@ export default function Profile () {
                   {User.nom}
                 </h3>
                 <div className="flex flex-wrap mt-12 justify-center">
-                  <div className="w-full lg:w-2/12 px-4 text-center">
+                  <div className=" lg:w-2/12 px-4 text-center">
                     <h6 className="text-xl mt-5 font-semibold flex items-center ml-8 ">
                       <MdEmail className="mr-2" style={{ fontSize: '25px' }}/>
                       Email
                     </h6>
                     <p className="mt-2 mb-4 text-blueGray-400">{User.email}</p>
                   </div>
-                  <div className="w-full lg:w-2/12 px-4 text-center">
+                  <div className=" lg:w-2/12 px-4 text-center">
                     <h6 className="text-xl mt-5 font-semibold flex items-center ml-8">
                       <MdShareLocation
                         className="mr-2"
@@ -232,7 +232,7 @@ export default function Profile () {
                         : 'Non saisire'}
                     </p>
                   </div>
-                  <div className="w-full lg:w-2/12 px-4 text-center">
+                  <div className=" lg:w-2/12 px-4 text-center">
                     <h5 className="text-xl font-semibold flex items-center ml-8">
                       <HiLanguage
                         className="mr-2"
@@ -248,7 +248,7 @@ export default function Profile () {
                         : 'Non saisire'}
                     </p>
                   </div>
-                  <div className="w-full lg:w-2/12 px-4 text-center">
+                  <div className="lg:w-2/12 px-4 text-center">
                     <h5 className="text-xl mt-5 font-semibold flex items-center ml-8">
                       <GoGoal className="mr-2" style={{ fontSize: '25px' }}/>
                       Domaine
@@ -261,7 +261,7 @@ export default function Profile () {
                         : 'Non saisire'}
                     </p>
                   </div>
-                  <div className="w-full lg:w-2/12 px-4 text-center">
+                  <div className="lg:w-2/12 px-4 text-center">
                     <h5 className="text-xl font-semibold flex items-center ">
                       <GiGiftOfKnowledge style={{ fontSize: '50px' }}/>
                       compétences d'intérêt
@@ -278,7 +278,7 @@ export default function Profile () {
               </div>
               <div className="mt-10 py-3 border-t border-blueGray-200 ">
                 <div className="flex flex-wrap justify-center">
-                  <div className="w-full lg\:w-auto px-4">
+                  <div className="lg\:w-auto px-4">
                     <p className="text-lg leading-relaxed text-blueGray-700">
                       Les Formations de {User.nom}
                     </p>
@@ -323,19 +323,19 @@ export default function Profile () {
                     </button>
                     {displayedFormations.map((formation) => (
                       <div
-                        className=" w-full md:w-0/12 px-4 text-center"
+                        className=" md:w-0/12 px-4 text-center"
                         key={formation._id}
                       >
                         <div
-                          className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                          className="relative flex flex-col min-w-0 break-words bg-white  mb-8 shadow-lg rounded-lg">
                           <div className="px-4 py-5 flex-auto">
                             <div
-                              className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                              className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white  mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                               {jwt_token ? (
 
                                 <img
                                   alt="..."
-                                  className="align-middle border-none max-w-full h-auto rounded-lg"
+                                  className="align-middle border-none  h-auto rounded-lg"
                                   src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                                   style={{ width: '250px', height: '120px' }}
                                   onMouseEnter={(e) => e.currentTarget.classList.add('hovered')}
@@ -345,7 +345,7 @@ export default function Profile () {
                               ) : (
                                 <img
                                   alt="..."
-                                  className="align-middle border-none max-w-full h-auto rounded-lg"
+                                  className="align-middle border-none  h-auto rounded-lg"
                                   src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                                   style={{ width: '250px', height: '120px' }}
                                   onMouseEnter={(e) => e.currentTarget.classList.add('hovered')}
@@ -398,9 +398,10 @@ export default function Profile () {
                     </button>
                   </>
                 )}
+              </div>
                 <div className="pb-6 border-blueGray-200 text-center">
                   <div className="flex flex-wrap justify-center">
-                    <div className="w-full lg\:w-auto px-20">
+                    <div className=" lg\:w-auto px-20">
                       <a
                         href="/landing/training"
                         className="font-normal text-lightBlue-500 text-center"
@@ -412,7 +413,7 @@ export default function Profile () {
                 </div>
                 <div className="mt-10 py-3 border-t border-blueGray-200 ">
                   <div className="flex flex-wrap justify-center">
-                    <div className="w-full lg\:w-auto px-4">
+                    <div className=" lg\:w-auto px-4">
                       <p className="text-lg leading-relaxed text-blueGray-700">
                         Autre Center utiles
                       </p>
@@ -457,20 +458,20 @@ export default function Profile () {
                       </button>
                       {displayedCenter.map((center) => (
                         <div
-                          className=" w-full md:w-0/12 px-4 text-center"
+                          className="  md:w-0/12 px-4 text-center"
                           key={center._id}
                         >
                           <div
-                            className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                            className="relative flex flex-col min-w-0 break-words bg-white  mb-8 shadow-lg rounded-lg">
                             <div className="px-4 py-5 flex-auto">
                               <div
-                                className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                                className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white  mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                                 <Link
                                   to={`/profile/ProfileCenter/${center._id}`}
                                 >
                                   <img
                                     alt="..."
-                                    className="align-middle border-none max-w-full h-auto rounded-lg"
+                                    className="align-middle border-none  h-auto rounded-lg"
                                     src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${center.image_user}`}
                                     // style={{ width: "350px", height: "350px" }}
                                     style={{ width: '250px', height: '120px' }}
@@ -503,9 +504,10 @@ export default function Profile () {
                       </button>
                     </>
                   )}
+                </div>
                   <div className="pb-6 border-blueGray-200 text-center">
                     <div className="flex flex-wrap justify-center">
-                      <div className="w-full lg\:w-auto px-20">
+                      <div className=" lg\:w-auto px-20">
                         <a
                           href="/landing/center"
                           className="font-normal text-lightBlue-500 text-center"
@@ -518,7 +520,7 @@ export default function Profile () {
                 </div>
                 <div className="mt-10 py-3 border-t border-blueGray-200 ">
                   <div className="flex flex-wrap justify-center">
-                    <div className="w-full lg\:w-auto px-4">
+                    <div className=" lg\:w-auto px-4">
                       <p className="text-lg leading-relaxed text-blueGray-700">
                         Formateur Relier au Center {User.nom}
                       </p>
@@ -563,21 +565,21 @@ export default function Profile () {
                       </button>
                       {displayedFormateurs.map((Formateur) => (
                         <div
-                          className=" w-full md:w-0/12 px-4 text-center"
+                          className="  md:w-0/12 px-4 text-center"
                           key={Formateur._id}
                         >
                           <div
-                            className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
+                            className="relative flex flex-col min-w-0 break-words bg-white  mb-8 shadow-lg rounded-lg">
                             <div className="px-4 py-5 flex-auto">
                               <div
-                                className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
+                                className="hover:-mt-4 mt-1 relative flex flex-col min-w-0 break-words bg-white  mb-6 shadow-lg rounded-lg ease-linear transition-all duration-150">
                                 <Link
                                   // to=""
                                   to={`/profile/ProfileFormateur/${Formateur._id}`}
                                 >
                                   <img
                                     alt="..."
-                                    className="align-middle border-none max-w-full h-auto rounded-lg"
+                                    className="align-middle border-none  h-auto rounded-lg"
                                     src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${Formateur.image_user}`}
                                     // style={{ width: "350px", height: "350px" }}
                                     style={{ width: '250px', height: '120px' }}
@@ -610,9 +612,10 @@ export default function Profile () {
                       </button>
                     </>
                   )}
+                </div>
                   <div className="pb-6 border-blueGray-200 text-center">
                     <div className="flex flex-wrap justify-center">
-                      <div className="w-full lg\:w-auto px-20">
+                      <div className=" lg\:w-auto px-20">
                         <a
                           href="/landing/center"
                           className="font-normal text-lightBlue-500 text-center"
@@ -623,9 +626,6 @@ export default function Profile () {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
     </>

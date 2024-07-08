@@ -174,7 +174,7 @@ export default function ProfileFormateur() {
                     </div>
                   </div>
                   <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                    <div className="py-6 px-3 mt-32 sm:mt-0">
+                    <div className="py-6 px-3 sm:mt-0">
                     </div>
                   </div>
                   <div className="w-full lg:w-4/12 px-4 lg:order-1">
@@ -184,7 +184,7 @@ export default function ProfileFormateur() {
                           {User && User.Formations ? User.Formations.length : "Aucune_Formation"}
                         </span>
                         <span className="text-sm text-blueGray-400">
-                          Nombre_Formation
+                          Nbr_Formation
                         </span>
                       </div>
                       <div className="lg:mr-4 p-3 text-center">
@@ -199,7 +199,7 @@ export default function ProfileFormateur() {
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                         {User && User.Formations ? User.Formations.reduce((total, formation) => total + formation.participants.length, 0) : 'Aucune inscription'}
                       </span>
-                        <span className="text-sm text-blueGray-400">nombre_étudiant</span>
+                        <span className="text-sm text-blueGray-400">Nbr_étudiant</span>
                       </div>
                     </div>
                   </div>
@@ -394,9 +394,11 @@ export default function ProfileFormateur() {
                         </button>
                       </>
                     )}
-                    <div className="pb-6 border-blueGray-200 text-center">
+                  </div>
+
+                  <div className="pb-6 border-blueGray-200 text-center">
                       <div className="flex flex-wrap justify-center">
-                        <div className="w-full lg\:w-auto px-20">
+                        <div className=" lg\:w-auto px-20">
                           <a
                             href="/landing/training"
                             className="font-normal text-lightBlue-500 text-center"
@@ -453,7 +455,7 @@ export default function ProfileFormateur() {
                           </button>
                           {displayedCenter.map((center) => (
                             <div
-                              className=" w-full md:w-0/12 px-4 text-center"
+                              className="  md:w-0/12 px-4 text-center"
                               key={center._id}
                             >
                               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
@@ -616,7 +618,6 @@ export default function ProfileFormateur() {
                         </div>
                       </div>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
