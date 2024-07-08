@@ -71,11 +71,13 @@ export default function Navbar ({ user }) {
                   </>
                 ) : null }
 
+
+              </ul>
+              <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+
                 <li className="flex items-center">
                   <NotificationDropdown user={user} />
                 </li>
-              </ul>
-              <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
 
                 <li className="flex items-center">
                   <UserDropdown user={user} />
