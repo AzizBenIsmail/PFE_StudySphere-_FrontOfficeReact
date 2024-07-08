@@ -112,7 +112,7 @@ export default function Register () {
                   ) : (
                     <h6 className="text-3xl font-semibold leading-normal mt-0 mb-2 text-lightBlue-800">
                       <MdMarkEmailUnread />
-                      Se connecter ou créer un compte
+                     Créer un compte
                     </h6>
                   )}
 
