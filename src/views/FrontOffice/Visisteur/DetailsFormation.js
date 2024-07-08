@@ -101,7 +101,7 @@ function Details() {
             <div className="col-lg-8 col-md-12">
               <div className="details-content-wrapper flex flex-col lg:flex-row items-start">
                 <div className="details-content-custom">
-                  <h1 className="details-title-custom">{formation.titre}</h1>
+                  <h1 className="details-title-custom ml-3">{formation.titre}</h1>
                   <div className="details-header-custom">
                     <div className="details-category-custom">
                       <span>Category</span>
@@ -114,7 +114,7 @@ function Details() {
                   <img
                     className="details-image-custom img-fluid"
                     src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
-                    style={{ width: "550px", height: "320px" }}
+                    // style={{ width: "100%", height: "auto" }}
                     alt="React Course"
                     onMouseEnter={(e) =>
                       (e.currentTarget.style.boxShadow = "0px 0px 30px 0px rgba(0,0,0,0.3)")}
@@ -128,6 +128,9 @@ function Details() {
                           alt="..."
                           className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
                           src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
+
+                          style={{ width: "50px" , height:'50px'  }}
+
                           onMouseEnter={(e) =>
                             (e.currentTarget.style.boxShadow = "0px 0px 30px 0px rgba(0,0,0,0.3)")}
                           onMouseLeave={(e) =>
@@ -156,7 +159,7 @@ function Details() {
                     <span>{formation.formateur.nom} {formation.formateur.prenom} (IT Engineer)</span>
                   </div>
                 </div>
-                <div className="details-sidebar-custom mt-4  ml-3 lg:mt-0 lg:ml-8">
+                <div className="details-sidebar-custom mt-16  ml-3 lg:mt-0 lg:ml-8">
                   <div className="details-features-custom">
                     <h3>Caractéristiques du cours</h3>
                     <ul>
