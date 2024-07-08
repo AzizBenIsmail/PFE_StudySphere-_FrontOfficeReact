@@ -63,7 +63,6 @@ export default function Landing() {
                             className="align-middle border-none max-w-full h-auto rounded-lg"
                             src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${center.image_user}`}
                             // style={{ width: "350px", height: "350px" }}
-                            style={{ width: "200px", height: "120px" }}
                           />
                         </Link>
                       </div>
