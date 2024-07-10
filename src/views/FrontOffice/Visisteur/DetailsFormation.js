@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { getFormationById } from '../../../Services/ApiFormation';
 import { RiStarSLine } from "react-icons/ri";
 import AuthNavbar from '../../../components/Navbars/AuthNavbar'
+import { Puff } from 'react-loader-spinner'
 
 function Details() {
   //const jwt_token = Cookies.get('jwt_token')
@@ -40,8 +41,21 @@ function Details() {
   }, [loadFormations]);
 
   if (!formation) {
-    return <div>Loading...</div>;
+    return (
+      <div className="spinner-wrapper">
+        <Puff
+          visible={true}
+          height="200"
+          width="200"
+          color="#4fa94d"
+          ariaLabel="puff-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
   }
+
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

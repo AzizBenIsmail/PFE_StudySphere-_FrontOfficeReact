@@ -14,6 +14,7 @@ import {
   getFormationsByLocation,
   getFormationsRecommanderByLocation
 } from '../Services/ApiFormation'
+import { Puff } from 'react-loader-spinner'
 
 export default function Index() {
   //const jwt_token = Cookies.get('jwt_token')
@@ -718,7 +719,16 @@ const histoy = useHistory()
                   className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
                   colSpan="22"
                 >
-                  Aucune formation trouvée.
+                    <Puff
+                      visible={true}
+                      height="70"
+                      width="70"
+                      color="#4fa94d"
+                      ariaLabel="puff-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  Aucune formation trouvée pour le moment .
                 </div>
               </div>
             ) : (

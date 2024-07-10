@@ -3297,3 +3297,10 @@ select {
 .save-button:hover {
   background-color: #0056b3;
 }
+
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Prend toute la hauteur de la fenêtre */
+}
