@@ -72,7 +72,6 @@ function Details() {
   }, [loadFormations, loadUserInscriptions, checkFavori]);
 
   if (!formation) {
-    if (!formation) {
       return (
         <div className="spinner-wrapper">
           <Puff
@@ -86,7 +85,6 @@ function Details() {
           />
         </div>
       );
-    }
   }
 
   const formatDate = (dateString) => {

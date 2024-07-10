@@ -14,6 +14,7 @@ import {
 } from "../../../Services/ApiFormation";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { getUserAuth } from '../../../Services/Apiauth'
+import { Puff } from 'react-loader-spinner'
 
 export default function Landing({ user }) {
   // const jwt_token = Cookies.get('jwt_token')
@@ -713,11 +714,19 @@ export default function Landing({ user }) {
 
             {displayedFormations.length === 0 ? (
               <div
-
-                  className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
-                  colSpan="22"
-                >
-                  Aucune formation trouvée.
+                className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+                colSpan="22"
+              >
+                <Puff
+                  visible={true}
+                  height="70"
+                  width="70"
+                  color="#4fa94d"
+                  ariaLabel="puff-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+                Aucune formation trouvée pour le moment .
               </div>
             ) : (
               <>
