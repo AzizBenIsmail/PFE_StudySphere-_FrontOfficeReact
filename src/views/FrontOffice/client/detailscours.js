@@ -6,6 +6,7 @@ import { desinscription, getFormationById, inscription } from '../../../Services
 import { RiStarSLine, RiStarSFill } from "react-icons/ri";
 import { getFavoris, addFavori, removeFavori } from '../../../Services/ApiFav';
 import { getUserAuth } from '../../../Services/Apiauth'
+import { Puff } from "react-loader-spinner";
 
 function Details() {
   //const jwt_token = Cookies.get('jwt_token')
@@ -71,7 +72,21 @@ function Details() {
   }, [loadFormations, loadUserInscriptions, checkFavori]);
 
   if (!formation) {
-    return <div>Loading...</div>;
+    if (!formation) {
+      return (
+        <div className="spinner-wrapper">
+          <Puff
+            visible={true}
+            height="200"
+            width="200"
+            color="#4fa94d"
+            ariaLabel="puff-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        </div>
+      );
+    }
   }
 
   const formatDate = (dateString) => {
