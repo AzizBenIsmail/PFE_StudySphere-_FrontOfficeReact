@@ -174,7 +174,7 @@ function Details() {
                     <span>{formation.formateur.nom} {formation.formateur.prenom} (IT Engineer)</span>
                   </div>
                 </div>
-                <div className="details-sidebar-custom mt-16  ml-8 lg:mt-0 lg:ml-8">
+                <div className="details-sidebar-custom mt-16 ml-4 lg:mt-0 lg:ml-8">
                   <div className="details-features-custom">
                     <h3>Caractéristiques du cours</h3>
                     <ul>
