@@ -228,16 +228,6 @@ export default function Profile () {
             <div
               className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
               onClick={() => {
-              if (User.role === 'client') {
-                // console.log(User)
-                // console.log(User.preferences)
-                // if (User.preferences === undefined) {
-                //   history.push("/First");
-                // } else {
-                //   history.push("/First/UpdatePreferences");
-                // }
-              }
-
               if (User.role === 'centre') {
                 history.push("/AccountManagement/stuff");
               }
@@ -260,17 +250,7 @@ export default function Profile () {
               <div
                 className="relative flex flex-col min-w-0 break-words bg-white w-1/2 mb-2 mr-2 shadow-xl rounded-lg -mt-4"
                 onClick={() => {
-                  // if (User.role === 'client') {
-                  //   console.log(User)
-                  //   console.log(User.preferences)
-                  //   if (User.preferences === undefined) {
-                  //     history.push("/First");
-                  //   } else {
-                  //     history.push("/First/UpdatePreferences");
-                  //   }
-                  // }
                   history.push("/AccountManagement/GestionInscription");
-
                 }} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
                 onMouseEnter={e => e.currentTarget.style.boxShadow = '0px 0px 30px 0px rgba(0,0,0,0.3)'}
                 onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}>
