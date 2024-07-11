@@ -1,23 +1,25 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import '../../../assets/styles/detailcours.css';
-// import Cookies from 'js-cookie';
 import { Link, useParams } from 'react-router-dom';
-import { desinscription, getFormationById, inscription } from '../../../Services/ApiFormation'
+import { desinscription, getFormationById, inscription, feedback } from '../../../Services/ApiFormation';
 import { RiStarSLine, RiStarSFill } from "react-icons/ri";
 import { getFavoris, addFavori, removeFavori } from '../../../Services/ApiFav';
-import { getUserAuth } from '../../../Services/Apiauth'
+import { getUserAuth } from '../../../Services/Apiauth';
 import { Puff } from "react-loader-spinner";
+import ReactStars from "react-rating-stars-component";
 
 function Details() {
-  //const jwt_token = Cookies.get('jwt_token')
   const jwt_token = localStorage.getItem('jwt_token');
   const param = useParams();
   const [isFilled, setIsFilled] = useState(false);
   const [favoriId, setFavoriId] = useState(null);
   const [userInscriptions, setUserInscriptions] = useState([]);
+  const [feedbackScore, setFeedbackScore] = useState(0);
+
   const isUserEnrolled = (formationId) => {
     return userInscriptions.includes(formationId);
   };
+
   const config = useMemo(() => {
     return {
       headers: {
@@ -33,7 +35,6 @@ function Details() {
       const res = await getFormationById(param.id, config);
       if (res.data && res.data.formation) {
         setFormation(res.data.formation);
-        console.log(res.data.formation);
       } else {
         console.error('Error: Formation data is missing in the response');
       }
@@ -41,6 +42,7 @@ function Details() {
       console.error('Error loading formations:', error);
     }
   }, [param.id, config]);
+
 
   const checkFavori = useCallback(async () => {
     try {
@@ -58,7 +60,6 @@ function Details() {
   const loadUserInscriptions = useCallback(async () => {
     try {
       const res = await getUserAuth(config);
-      console.log(res.data.user.inscriptions)
       setUserInscriptions(res.data.user.inscriptions);
     } catch (error) {
       console.error("Error loading user inscriptions:", error);
@@ -72,19 +73,19 @@ function Details() {
   }, [loadFormations, loadUserInscriptions, checkFavori]);
 
   if (!formation) {
-      return (
-        <div className="spinner-wrapper">
-          <Puff
-            visible={true}
-            height="200"
-            width="200"
-            color="#4fa94d"
-            ariaLabel="puff-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-          />
-        </div>
-      );
+    return (
+      <div className="spinner-wrapper">
+        <Puff
+          visible={true}
+          height="200"
+          width="200"
+          color="#4fa94d"
+          ariaLabel="puff-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
   }
 
   const formatDate = (dateString) => {
@@ -123,26 +124,41 @@ function Details() {
     }
   };
 
-  const handleDesinscription = async (id, config) => {
+  const handleDesinscription = async (id) => {
     try {
       const response = await desinscription(id, config);
       console.log('Desinscription successful:', response);
       loadUserInscriptions();
     } catch (error) {
       console.error('Error during desinscription:', error);
-      // Handle error (e.g., show error notification)
     }
   };
-  const handleInscription = async (id, config) => {
+
+  const handleInscription = async (id) => {
     try {
       const response = await inscription(id, config);
       console.log('Inscription successful:', response);
       loadUserInscriptions();
     } catch (error) {
       console.error('Error during inscription:', error);
-      // Handle error (e.g., show error notification)
     }
   };
+
+  const handleFeedbackChange = (newRating) => {
+    setFeedbackScore(newRating);
+  };
+
+  const handleFeedbackSubmit = async () => {
+    try {
+      const response = await feedback(param.id, feedbackScore, config);
+      console.log('Feedback submitted:', response);
+      loadFormations();
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+    }
+  };
+
+  const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
 
   return (
     <>
@@ -170,7 +186,7 @@ function Details() {
                     </div>
                   </div>
                   <img
-                    className="details-image-custom  img-fluid"
+                    className="details-image-custom img-fluid"
                     src={`${process.env.REACT_APP_API_URL_IMAGE_FORMATIONS}/${formation.image_Formation}`}
                     style={{ width: "550px", height: "320px" }}
                     alt="React Course"
@@ -182,7 +198,7 @@ function Details() {
                           alt="..."
                           className="shadow rounded-full max-w-full h-auto align-middle border-none bg-indigo-500"
                           src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${formation.centre.image_user}`}
-                          style={{ width: "50px" , height:'50px'  }}
+                          style={{ width: "50px", height:'50px'  }}
                         />
                       </Link>
                       <p className="mt-3">{formation.centre.nom}</p>
@@ -199,6 +215,24 @@ function Details() {
                       />
                     </Link>
                     <span>{formation.formateur.nom} {formation.formateur.prenom} (IT Engineer)</span>
+                  </div>
+                  <div className="mt-3">
+                    <label htmlFor="feedback">Rate this formation:</label>
+                    <ReactStars
+                      count={5}
+                      onChange={handleFeedbackChange}
+                      size={24}
+                      activeColor="#ffd700"
+                    />
+                    <button
+                      className="btn btn-success mt-2"
+                      onClick={handleFeedbackSubmit}
+                    >
+                      Submit Feedback
+                    </button>
+                  </div>
+                  <div className="mt-3">
+                    <h4>Average Rating: {formation.averageFeedback.toFixed(2)}/10</h4>
                   </div>
                 </div>
                 <div className="details-sidebar-custom mt-16 ml-4 lg:mt-0 lg:ml-8">
@@ -221,12 +255,10 @@ function Details() {
                         <span>Domaine</span><span className='details-blue-custom'>{formation.sujetInteret}</span>
                       </li>
                       <li className="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Date Debut</span><span
-                        className='details-blue-custom'>{formatDate(formation.dateDebut)}</span>
+                        <span>Date Debut</span><span className='details-blue-custom'>{formatDate(formation.dateDebut)}</span>
                       </li>
                       <li className="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Date Fin</span><span
-                        className='details-blue-custom'>{formatDate(formation.dateFin)}</span>
+                        <span>Date Fin</span><span className='details-blue-custom'>{formatDate(formation.dateFin)}</span>
                       </li>
                       <li className="list-group-item d-flex justify-content-between align-items-center">
                         <span>Durée</span><span className='details-blue-custom'>{formatDuration(formation.duree)}</span>
@@ -235,12 +267,10 @@ function Details() {
                         <span>Method</span><span className='details-blue-custom'>{formation.styleEnseignement}</span>
                       </li>
                       <li className="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Engagement requis</span><span
-                        className='details-blue-custom'>{formation.niveauDengagementRequis}</span>
+                        <span>Engagement requis</span><span className='details-blue-custom'>{formation.niveauDengagementRequis}</span>
                       </li>
                       <li className="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Niveau de compétence</span><span
-                        className='details-blue-custom'>{formation.niveauDeDifficulte}</span>
+                        <span>Niveau de compétence</span><span className='details-blue-custom'>{formation.niveauDeDifficulte}</span>
                       </li>
                       <li className="list-group-item d-flex justify-content-between align-items-center">
                         <span>Emplacement</span><span className='details-blue-custom'>{formation.emplacement}</span>
@@ -249,8 +279,7 @@ function Details() {
                         <span>Language</span><span className='details-blue-custom'>{formation.langue}</span>
                       </li>
                     </ul>
-                    <h5 className='details-price-custom'>Prix du cours: <span
-                      className='details-price-value-custom'>{formation.Prix} dt</span></h5>
+                    <h5 className='details-price-custom'>Prix du cours: <span className='details-price-value-custom'>{formation.Prix} dt</span></h5>
                     <div className="mt-auto">
                       {!isUserEnrolled(formation._id) ? (
                         <button
@@ -282,4 +311,4 @@ function Details() {
   );
 }
 
-  export default Details;
+export default Details;

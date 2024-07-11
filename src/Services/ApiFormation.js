@@ -70,3 +70,7 @@ export async function desinscription(id, config) {
 export async function FormationsByInscriptionByUserAuth(config) {
   return await api.get(`/FormationsByInscriptionByUserAuth`, config);
 }
+
+export async function feedback(id, score, config) {
+  return await api.put(`/feedback/${id}`, { score }, config);
+}
