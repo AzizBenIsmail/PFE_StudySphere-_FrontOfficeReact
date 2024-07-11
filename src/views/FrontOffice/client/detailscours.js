@@ -15,6 +15,7 @@ function Details() {
   const [favoriId, setFavoriId] = useState(null);
   const [userInscriptions, setUserInscriptions] = useState([]);
   const [feedbackScore, setFeedbackScore] = useState(0);
+  const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false); // State to track if feedback has been submitted
 
   const isUserEnrolled = (formationId) => {
     return userInscriptions.includes(formationId);
@@ -29,12 +30,17 @@ function Details() {
   }, [jwt_token]);
 
   const [formation, setFormation] = useState(null);
+  const [user, setUser] = useState(null);
 
   const loadFormations = useCallback(async () => {
     try {
       const res = await getFormationById(param.id, config);
       if (res.data && res.data.formation) {
         setFormation(res.data.formation);
+        // Check if user has already submitted feedback
+        if (res.data.formation.feedback.some(f => f.userId === getCurrentUserId())) {
+          setHasSubmittedFeedback(true);
+        }
       } else {
         console.error('Error: Formation data is missing in the response');
       }
@@ -43,6 +49,10 @@ function Details() {
     }
   }, [param.id, config]);
 
+  const getCurrentUserId = () => {
+
+    return user; // Dummy implementation
+  };
 
   const checkFavori = useCallback(async () => {
     try {
@@ -61,6 +71,7 @@ function Details() {
     try {
       const res = await getUserAuth(config);
       setUserInscriptions(res.data.user.inscriptions);
+      setUser(res.data.user._id)
     } catch (error) {
       console.error("Error loading user inscriptions:", error);
     }
@@ -150,14 +161,18 @@ function Details() {
 
   const handleFeedbackSubmit = async () => {
     try {
+      if (hasSubmittedFeedback) {
+        console.log('Vous avez déjà soumis un avis pour cette formation.');
+        return;
+      }
       const response = await feedback(param.id, feedbackScore, config);
       console.log('Feedback submitted:', response);
+      setHasSubmittedFeedback(true); // Set state to true after feedback submission
       loadFormations();
     } catch (error) {
       console.error('Error submitting feedback:', error);
     }
   };
-
 
   return (
     <>
@@ -226,6 +241,7 @@ function Details() {
                     <button
                       className="btn btn-success mt-2"
                       onClick={handleFeedbackSubmit}
+                      disabled={hasSubmittedFeedback} // Disable button if feedback has already been submitted
                     >
                       Submit Feedback
                     </button>
