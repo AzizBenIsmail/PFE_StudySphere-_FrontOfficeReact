@@ -158,7 +158,6 @@ function Details() {
     }
   };
 
-  const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
 
   return (
     <>
