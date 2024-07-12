@@ -32,13 +32,14 @@ function Details() {
   const [formation, setFormation] = useState(null);
   const [user, setUser] = useState(null);
 
+
   const loadFormations = useCallback(async () => {
     try {
       const res = await getFormationById(param.id, config);
       if (res.data && res.data.formation) {
         setFormation(res.data.formation);
         // Check if user has already submitted feedback
-        if (res.data.formation.feedback.some(f => f.userId === getCurrentUserId())) {
+        if (res.data.formation.feedback.some(f => f.userId === user)) {
           setHasSubmittedFeedback(true);
         }
       } else {
@@ -47,12 +48,7 @@ function Details() {
     } catch (error) {
       console.error('Error loading formations:', error);
     }
-  }, [param.id, config]);
-
-  const getCurrentUserId = () => {
-
-    return user; // Dummy implementation
-  };
+  }, [param.id, config, user]);
 
   const checkFavori = useCallback(async () => {
     try {
@@ -71,7 +67,7 @@ function Details() {
     try {
       const res = await getUserAuth(config);
       setUserInscriptions(res.data.user.inscriptions);
-      setUser(res.data.user._id)
+      setUser(res.data.user._id);
     } catch (error) {
       console.error("Error loading user inscriptions:", error);
     }
@@ -188,8 +184,19 @@ function Details() {
                   <h1 className="details-title-custom">{formation.titre}</h1>
                   <div className="details-header-custom">
                     <div className="details-category-custom">
-                      <span>Category</span>
-                      <p>{formation.sujetInteret}</p>
+                      <span>Avis</span>
+                        <ReactStars
+                          count={5}
+                          value={formation.averageFeedback}
+                          size={24}
+                          isHalf={true}
+                          edit={false}
+                          emptyIcon={<i className="far fa-star"></i>}
+                          halfIcon={<i className="fa fa-star-half-alt"></i>}
+                          fullIcon={<i className="fa fa-star"></i>}
+                          activeColor="#ffd700"
+                        />
+                      ({formation.feedbacks.length})
                     </div>
                     <div className="details-category-custom">
                       <span>Nombre D'Inscriptions</span>
@@ -231,11 +238,15 @@ function Details() {
                     <span>{formation.formateur.nom} {formation.formateur.prenom} (IT Engineer)</span>
                   </div>
                   <div className="mt-3">
-                    <label htmlFor="feedback">Rate this formation:</label>
+                    <label htmlFor="feedback">Évaluez cette formation :</label>
                     <ReactStars
                       count={5}
                       onChange={handleFeedbackChange}
                       size={24}
+                      isHalf={true}
+                      emptyIcon={<i className="far fa-star"></i>}
+                      halfIcon={<i className="fa fa-star-half-alt"></i>}
+                      fullIcon={<i className="fa fa-star"></i>}
                       activeColor="#ffd700"
                     />
                     <button
@@ -243,11 +254,11 @@ function Details() {
                       onClick={handleFeedbackSubmit}
                       disabled={hasSubmittedFeedback} // Disable button if feedback has already been submitted
                     >
-                      Submit Feedback
+                      Submit Évaluation
                     </button>
                   </div>
                   <div className="mt-3">
-                    <h4>Average Rating: {formation.averageFeedback.toFixed(2)}/10</h4>
+                    <h4>Average Rating: {formation.averageFeedback.toFixed(2)}/5  ({formation.feedbacks.length} avis vérifiés)</h4>
                   </div>
                 </div>
                 <div className="details-sidebar-custom mt-16 ml-4 lg:mt-0 lg:ml-8">

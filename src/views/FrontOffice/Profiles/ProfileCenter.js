@@ -294,8 +294,8 @@ export default function Profile () {
                     >
                       <TailSpin
                         visible={true}
-                        width="200"
-                        height="200"
+                        width="50"
+                        height="50"
                         color="#4fa94d"
                         ariaLabel="tail-spin-loading"
                         radius="1"
@@ -424,13 +424,13 @@ export default function Profile () {
                   {displayedCenter.length === 0 ? (
                     <tr>
                       <td
-                        className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-pre-wrap p-4"
+                        className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs  whitespace-pre-wrap p-4"
                         colSpan="22"
                       >
                         <TailSpin
                           visible={true}
-                          width="200"
-                          height="200"
+                          width="50"
+                          height="50"
                           color="#4fa94d"
                           ariaLabel="tail-spin-loading"
                           radius="1"
@@ -536,8 +536,8 @@ export default function Profile () {
                       >
                         <TailSpin
                           visible={true}
-                          width="200"
-                          height="200"
+                          width="50"
+                          height="50"
                           color="#4fa94d"
                           ariaLabel="tail-spin-loading"
                           radius="1"

@@ -264,8 +264,8 @@ export default function ProfileFormateur() {
                         >
                           <TailSpin
                             visible={true}
-                            width="200"
-                            height="200"
+                            width="50"
+                            height="50"
                             color="#4fa94d"
                             ariaLabel="tail-spin-loading"
                             radius="1"
@@ -397,8 +397,8 @@ export default function ProfileFormateur() {
                           >
                             <TailSpin
                               visible={true}
-                              width="200"
-                              height="200"
+                              width="50"
+                              height="50"
                               color="#4fa94d"
                               ariaLabel="tail-spin-loading"
                               radius="1"
