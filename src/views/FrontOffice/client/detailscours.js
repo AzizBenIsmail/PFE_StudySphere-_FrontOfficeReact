@@ -32,13 +32,14 @@ function Details() {
   const [formation, setFormation] = useState(null);
   const [user, setUser] = useState(null);
 
+
   const loadFormations = useCallback(async () => {
     try {
       const res = await getFormationById(param.id, config);
       if (res.data && res.data.formation) {
         setFormation(res.data.formation);
         // Check if user has already submitted feedback
-        if (res.data.formation.feedback.some(f => f.userId === getCurrentUserId())) {
+        if (res.data.formation.feedback.some(f => f.userId === user)) {
           setHasSubmittedFeedback(true);
         }
       } else {
@@ -47,12 +48,7 @@ function Details() {
     } catch (error) {
       console.error('Error loading formations:', error);
     }
-  }, [param.id, config]);
-
-  const getCurrentUserId = () => {
-
-    return user; // Dummy implementation
-  };
+  }, [param.id, config, user]);
 
   const checkFavori = useCallback(async () => {
     try {
@@ -71,7 +67,7 @@ function Details() {
     try {
       const res = await getUserAuth(config);
       setUserInscriptions(res.data.user.inscriptions);
-      setUser(res.data.user._id)
+      setUser(res.data.user._id);
     } catch (error) {
       console.error("Error loading user inscriptions:", error);
     }
