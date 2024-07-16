@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { createPopper } from '@popperjs/core';
 import { getUserAuth, logout } from '../../Services/Apiauth';
 
@@ -8,31 +8,21 @@ const UserDropdownDashboard = () => {
   const btnDropdownRef = useRef(null);
   const popoverDropdownRef = useRef(null);
 
-  const jwt_token = localStorage.getItem('jwt_token');
-
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    };
-  }, [jwt_token]);
-
   useEffect(() => {
     const getAuthUser = async () => {
       try {
-        const res = await getUserAuth(config);
+        const res = await getUserAuth();
         setUser(res.data.user);
       } catch (err) {
         console.error(err);
       }
     };
     getAuthUser();
-  }, [config]);
+  }, []);
 
   const handleLogout = async () => {
     try {
-      await logout(config, user._id);
+      await logout( user._id);
       localStorage.removeItem('jwt_token');
       window.location.replace('/login/');
     } catch (err) {

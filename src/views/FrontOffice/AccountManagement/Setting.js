@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import Cookies from 'js-cookie'
 import { MdOutlineAppRegistration } from "react-icons/md";
 
@@ -15,16 +15,7 @@ import { MdOutlineClass } from "react-icons/md";
 
 export default function Profile () {
   //const jwt_token = Cookies.get('jwt_token')
-  const jwt_token = localStorage.getItem('jwt_token');
   const history = useHistory()
-
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    }
-  }, [jwt_token])
 
   const param = useParams()
 
@@ -32,8 +23,8 @@ export default function Profile () {
 
   useEffect(() => {
 
-    const getUser = async (config) => {
-      await getUserAuth(config).then((res) => {
+    const getUser = async () => {
+      await getUserAuth().then((res) => {
         setUser(res.data.user)
         console.log(res.data.user)
       }).catch((err) => {
@@ -41,12 +32,12 @@ export default function Profile () {
       })
     }
 
-    getUser(config)
+    getUser()
 
     const interval = setInterval(() => {}, 1000000)
 
     return () => clearInterval(interval)
-  }, [config, param.id])
+  }, [ param.id])
 
   return (
     <>

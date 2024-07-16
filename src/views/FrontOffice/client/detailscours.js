@@ -65,13 +65,13 @@ function Details() {
 
   const loadUserInscriptions = useCallback(async () => {
     try {
-      const res = await getUserAuth(config);
+      const res = await getUserAuth();
       setUserInscriptions(res.data.user.inscriptions);
       setUser(res.data.user._id);
     } catch (error) {
       console.error("Error loading user inscriptions:", error);
     }
-  }, [config]);
+  }, []);
 
   useEffect(() => {
     loadFormations();

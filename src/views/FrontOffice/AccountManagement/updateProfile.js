@@ -30,12 +30,7 @@ export default function Dashboard() {
     const fetchData = async () => {
       try {
         if (jwt_token) {
-          const config = {
-            headers: {
-              Authorization: `Bearer ${jwt_token}`,
-            },
-          };
-          const res = await getUserAuth(config);
+          const res = await getUserAuth();
           const data = res.data.user
           console.log(data)
           setUser(data)

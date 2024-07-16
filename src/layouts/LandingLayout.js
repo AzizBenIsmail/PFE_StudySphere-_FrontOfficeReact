@@ -28,12 +28,7 @@ export default function LandingLayout () {
     const fetchData = async () => {
       try {
         if (jwt_token) {
-          const config = {
-            headers: {
-              Authorization: `Bearer ${jwt_token}`,
-            },
-          };
-          const res = await getUserAuth(config);
+          const res = await getUserAuth();
           setUser(() => {
             if (res.data.user.role === 'admin') {
               history.replace('/admin/');

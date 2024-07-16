@@ -1,4 +1,4 @@
-import { React, Suspense, useMemo } from 'react'
+import { React, Suspense } from 'react'
 import { Switch, Route, Redirect } from "react-router-dom";
 
 // components
@@ -23,19 +23,12 @@ import { getUserAuth } from '../Services/Apiauth'
 export default function Auth() {
   //const jwt_token = Cookies.get('jwt_token')
   const jwt_token = localStorage.getItem('jwt_token');
-  const config = useMemo(() => {
-    return {
-      headers: {
-        Authorization: `Bearer ${jwt_token}`,
-      },
-    }
-  }, [jwt_token])
 
   //session
   if (jwt_token) {
     const fetchData = async () => {
       try {
-        await getUserAuth(config).then((res) => {
+        await getUserAuth().then((res) => {
           if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
             window.location.replace(`/landing/`)
           }

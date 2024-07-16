@@ -26,7 +26,7 @@ export default function PreferenceCenter () {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userResponse = await getUserAuth(config);
+        const userResponse = await getUserAuth();
         const prefResponse = await getPreferences(userResponse.data.user._id, config);
         setPreferences(prefResponse.data); // Remplir le state preferences avec les données de préférences
         setSelectedCompetences(convertToFrameworkArray(prefResponse.data.competences_dinteret));
