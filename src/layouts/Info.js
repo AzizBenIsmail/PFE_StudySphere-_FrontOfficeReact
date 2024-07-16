@@ -31,7 +31,12 @@ export default function Info () {
     const fetchData = async () => {
       try {
         if (jwt_token) {
-          const res = await getUserAuth();
+          const config = {
+            headers: {
+              Authorization: `Bearer ${jwt_token}`,
+            },
+          };
+          const res = await getUserAuth(config);
           setUser(() => {
             if (res.data.user.role === 'admin') {
               history.replace('/admin/');

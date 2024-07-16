@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FaRegUserCircle } from 'react-icons/fa'
 import { MdOutlineClass, MdFavoriteBorder, MdOutlineSecurity, MdRoomPreferences } from 'react-icons/md'
 import { SiOpslevel } from 'react-icons/si'
@@ -10,7 +10,16 @@ import { getUserAuth } from '../../../Services/Apiauth'
 const Tabs = ({code}) => {
   const [openTab, setOpenTab] = React.useState(code)
   //const jwt_token = Cookies.get('jwt_token')
+  const jwt_token = localStorage.getItem('jwt_token');
   const history = useHistory()
+
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    }
+  }, [jwt_token])
 
   const param = useParams()
 
@@ -18,20 +27,20 @@ const Tabs = ({code}) => {
 
   useEffect(() => {
 
-    const getUser = async () => {
-      await getUserAuth().then((res) => {
+    const getUser = async (config) => {
+      await getUserAuth(config).then((res) => {
         setUser(res.data.user)
       }).catch((err) => {
         console.log(err)
       })
     }
 
-    getUser()
+    getUser(config)
 
     const interval = setInterval(() => {}, 1000000)
 
     return () => clearInterval(interval)
-  }, [ param.id])
+  }, [config, param.id])
 
   return (
     <>

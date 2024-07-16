@@ -108,13 +108,13 @@ export default function Landing({ user }) {
 
   const loadUserInscriptions = useCallback(async () => {
     try {
-      const res = await getUserAuth();
+      const res = await getUserAuth(config);
       console.log(res.data.user.inscriptions)
       setUserInscriptions(res.data.user.inscriptions);
     } catch (error) {
       console.error("Error loading user inscriptions:", error);
     }
-  }, []);
+  }, [config]);
 
   const loadFormations = useCallback(async () => {
     try {

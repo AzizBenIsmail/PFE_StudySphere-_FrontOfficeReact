@@ -82,12 +82,12 @@ export default function ListeFormations({ color }) {
 
   const loadFormateurs = useCallback(async () => {
     try {
-      const res = await getUserAuth();
+      const res = await getUserAuth(config);
       setUsers(res.data.user.staff_enseignant);
     } catch (error) {
       console.error("Error loading formateurs:", error);
     }
-  }, []);
+  }, [config]);
 
   useEffect(() => {
     loadFormateurs();

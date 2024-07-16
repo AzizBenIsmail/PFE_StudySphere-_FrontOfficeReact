@@ -23,7 +23,7 @@ export default function ListeFormations({ color }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getUserAuth();
+        const res = await getUserAuth(config);
         const data = res.data.user;
         setUser(data);
       } catch (error) {
@@ -32,7 +32,7 @@ export default function ListeFormations({ color }) {
     };
 
     fetchData();
-  }, [ jwt_token]);
+  }, [ config, jwt_token]);
 
   const loadFormateurs = useCallback(async () => {
     try {
@@ -50,7 +50,7 @@ export default function ListeFormations({ color }) {
   // Définition de la fonction fetchData ici
   const fetchData = async () => {
     try {
-      const res = await getUserAuth();
+      const res = await getUserAuth(config);
       const data = res.data.user;
       setUser(data);
     } catch (error) {

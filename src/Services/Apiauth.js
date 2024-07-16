@@ -1,56 +1,56 @@
 import axios from 'axios'
 
-// const apiURL = `${process.env.REACT_APP_API_URL}/auth`;
+const apiURL = `${process.env.REACT_APP_API_URL}/auth`;
 
-const jwt_token = localStorage.getItem('jwt_token');
+// const jwt_token = localStorage.getItem('jwt_token');
+//
+// const api = axios.create({
+//   baseURL: `${process.env.REACT_APP_API_URL}/fav`, // Remplacez par l'URL de votre API
+//   headers: {
+//     Authorization: `Bearer ${jwt_token}`,
+//   },
+// });
 
-const api = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/auth`, // Remplacez par l'URL de votre API
-  headers: {
-    Authorization: `Bearer ${jwt_token}`,
-  },
-});
-
-export async function getUserAuth () {
-  return await api.get(`/`)
+export async function getUserAuth (config) {
+  return await axios.get(`${apiURL}/`, config)
 }
 
 export async function registerEmail (email) {
-  return await api.post(`/verification`, email)
+  return await axios.post(`${apiURL}/verification`, email)
 }
 
 export async function register (user) {
-  return await api.post(`/inscrire`, user)
+  return await axios.post(`${apiURL}/inscrire`, user)
 }
 
 export async function registerCentre (formData) {
-  return await api.post(`/inscrireCentre`, formData, {
+  return await axios.post(`${apiURL}/inscrireCentre`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true,
   })
 }
 
 export async function LoginUser (user) {
-  return await api.post(`/login`, user, {
+  return await axios.post(`${apiURL}/login`, user, {
     withCredentials: true,
   })
 }
 
 export async function forgetPassword (email) {
-  return await api.put(`/forgetPassword`, { email })
+  return await axios.put(`${apiURL}/forgetPassword`, { email })
 }
 
 export async function Password (user, config) {
-  return await api.put(`/Password`, { user, config, withCredentials: true })
+  return await axios.put(`${apiURL}/Password`, { user, config, withCredentials: true })
 }
 
 export async function logout (config,id) {
-  return await api.get(`/logout/${id}`, {
-    withCredentials: true,
+  return await axios.get(`${apiURL}/logout/${id}`, {
+    config, withCredentials: true,
   })
 }
 
 export async function AddUserService(formData, config) {
-  return await api.post(`/register`, formData, config, {
+  return await axios.post(`${ apiURL }/register`, formData, config, {
     headers: {"Content-Type": "multipart/form-data"}, withCredentials: true,
   });
 }

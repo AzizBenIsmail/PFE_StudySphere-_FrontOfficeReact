@@ -1,4 +1,4 @@
-import React, { Suspense, useState , useEffect} from 'react'
+import React, { Suspense, useMemo, useState , useEffect} from 'react'
 
 import { Switch, Route, Redirect } from "react-router-dom";
 
@@ -32,10 +32,18 @@ export default function Admin() {
   const jwt_token = localStorage.getItem('jwt_token');
   const [user, setUser] = useState(null);
 
+  const config = useMemo(() => {
+    return {
+      headers: {
+        Authorization: `Bearer ${jwt_token}`,
+      },
+    }
+  }, [jwt_token]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getUserAuth();
+        const res = await getUserAuth(config);
         if (res.data.user.role === 'client' || res.data.user.role === 'centre' || res.data.user.role === 'formateur') {
           window.location.replace(`/landing/`)
         }
@@ -50,7 +58,7 @@ export default function Admin() {
     } else {
       window.location.replace(`/auth/login`);
     }
-  }, [jwt_token]);
+  }, [jwt_token, config]);
 
   useEffect(() => {
     console.log(user);

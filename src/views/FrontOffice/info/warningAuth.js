@@ -17,7 +17,12 @@ export default function Index () {
     const fetchData = async () => {
       try {
         if (jwt_token) {
-          const res = await getUserAuth()
+          const config = {
+            headers: {
+              Authorization: `Bearer ${jwt_token}`,
+            },
+          }
+          const res = await getUserAuth(config)
           setUser(() => {
             return res.data.user
           })

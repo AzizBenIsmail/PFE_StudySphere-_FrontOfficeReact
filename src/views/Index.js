@@ -34,7 +34,7 @@ const histoy = useHistory()
   if (jwt_token) {
     const fetchData = async () => {
       try {
-        await getUserAuth().then((res) => {
+        await getUserAuth(config).then((res) => {
           setUser(res.data.user);
           if (res.data.user.role === 'admin' || res.data.user.role === 'moderateur') {
             window.location.replace(`/admin/`)
