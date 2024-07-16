@@ -1,17 +1,6 @@
-// apiNotification.js
-
 import axios from 'axios';
 
 const apiURL = `${process.env.REACT_APP_API_URL}/notification`;
-
-// const jwt_token = localStorage.getItem('jwt_token');
-//
-// const api = axios.create({
-//   baseURL: `${process.env.REACT_APP_API_URL}/fav`, // Remplacez par l'URL de votre API
-//   headers: {
-//     Authorization: `Bearer ${jwt_token}`,
-//   },
-// });
 
 // Fonction pour créer une nouvelle notification
 export async function createNotification(notificationData, config) {

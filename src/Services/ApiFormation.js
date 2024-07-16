@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiURL = `${process.env.REACT_APP_API_URL}/formation`;
-// const jwt_token = Cookies.get('jwt_token');
+
 const jwt_token = localStorage.getItem('jwt_token');
 
 const api = axios.create({
