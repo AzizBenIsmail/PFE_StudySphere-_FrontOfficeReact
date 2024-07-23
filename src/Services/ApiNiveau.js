@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const apiURL = `${process.env.REACT_APP_API_URL}/niveau`;
 
+
 export async function createNiveau(niveauData, config) {
   return await axios.post(apiURL, niveauData, config);
 }

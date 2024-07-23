@@ -3,6 +3,12 @@ import React, { useEffect } from 'react'
 import { Link } from "react-router-dom";
 
 import UserDropdownDashboard from "../Dropdowns/UserDropdownDashboard.js";
+import { SiCoursera } from "react-icons/si";
+import { IoNotificationsSharp } from "react-icons/io5";
+import { FaUsersCog } from "react-icons/fa";
+import { SiOpenbadges } from "react-icons/si";
+import { SiOpslevel } from "react-icons/si";
+import { MdEventAvailable } from "react-icons/md";
 
 export default function Sidebar( user ) {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
@@ -99,21 +105,23 @@ export default function Sidebar( user ) {
                 <li className="items-center">
                 <Link
                   className={
-                    "text-xs uppercase py-3 font-bold block " +
+                    "text-xs uppercase py-3 font-bold block flex " +
                     (window.location.href.indexOf("/admin/tables") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
                   to="/admin/tables"
                 >
-                  <i
+                  <div
                     className={
-                      "fas fa-table mr-2 text-sm " +
+                      "text-sm " +
                       (window.location.href.indexOf("/admin/tables") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
-                  ></i>{" "}
+                  >
+                    <FaUsersCog className="mr-2" />
+                  </div>
                   Gestion Utilisateurs
                 </Link>
               </li>
@@ -121,43 +129,47 @@ export default function Sidebar( user ) {
               <li className="items-center">
                 <Link
                   className={
-                    "text-xs uppercase py-3 font-bold block " +
+                    "text-xs uppercase py-3 font-bold block flex " +
                     (window.location.href.indexOf("/admin/ListeBadge") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
                   to="/admin/ListeBadge"
                 >
-                  <i
+                  <div
                     className={
-                      "fa fa-certificate mr-2 text-sm " +
+                      "mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/ListeBadge") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
 
-                    ></i>
+                    >
+                    <SiOpenbadges />
+                  </div>
                   Gestion Badges
                 </Link>
               </li>
               <li className="items-center">
                 <Link
                   className={
-                    "text-xs uppercase py-3 font-bold block " +
+                    "text-xs uppercase py-3 font-bold block flex " +
                     (window.location.href.indexOf("/admin/ListeNiveau") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
                   to="/admin/ListeNiveau"
                 >
-                  <i
+                  <div
                     className={
-                      "fas fa-map-marked mr-2 text-sm " +
+                      " mr-2 text-sm " +
                       (window.location.href.indexOf("/admin/ListeNiveau") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
-                  ></i>{" "}
+                  >
+                    <SiOpslevel className="mr-2"/>
+                  </div>
                   Gestion Niveaux
                 </Link>
               </li>
@@ -186,21 +198,23 @@ export default function Sidebar( user ) {
               <li className="items-center">
                 <Link
                   className={
-                    "text-xs uppercase py-3 font-bold block " +
+                    "text-xs uppercase py-3 font-bold flex  " +
                     (window.location.href.indexOf("/admin/Notification") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
                   to="/admin/Notification"
                 >
-                  <i
+                  <div
                     className={
-                      "fas fa-map-marked mr-2 text-sm " +
+                      "text-sm " +
                       (window.location.href.indexOf("/admin/Notification") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
-                  ></i>{" "}
+                  >
+                  <IoNotificationsSharp  className="mr-2" />
+                  </div>
                   Gestion Notifications
                 </Link>
               </li>
@@ -210,22 +224,48 @@ export default function Sidebar( user ) {
               <li className="items-center">
                 <Link
                   className={
-                    "text-xs uppercase py-3 font-bold block " +
+                    "text-xs uppercase py-3 font-bold flex " + // Added 'flex items-center' for flexbox alignment
                     (window.location.href.indexOf("/admin/Formation") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
                   to="/admin/Formation"
                 >
-                  <i
+                  <div
                     className={
-                      "fas fa-map-marked mr-2 text-sm " +
+                      "text-sm " +
                       (window.location.href.indexOf("/admin/Formation") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
-                  ></i>{" "}
+                  >
+                  <SiCoursera className="mr-2" />
+                  </div>
                   Gestion Formations
+                </Link>
+              </li>
+
+
+              <li className="items-center">
+                <Link
+                  className={
+                    "text-xs uppercase py-3 font-bold block flex " +
+                    (window.location.href.indexOf("/admin/Event") !== -1
+                      ? "text-lightBlue-500 hover:text-lightBlue-600"
+                      : "text-blueGray-700 hover:text-blueGray-500")
+                  }
+                  to="/admin/Event"
+                >
+                  <div
+                    className={
+                      " mr-2 text-sm " +
+                      (window.location.href.indexOf("/admin/Event") !== -1
+                        ? "opacity-75"
+                        : "text-blueGray-300")
+                    }
+                  ><MdEventAvailable />
+                  </div>
+                  Gestion Evenements
                 </Link>
               </li>
 
