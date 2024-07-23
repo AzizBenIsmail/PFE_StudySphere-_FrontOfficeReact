@@ -120,18 +120,18 @@ export default function Landing () {
     <>
       <section className="pb-20 bg-blueGray-200 -mt-24">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap justify-center">
             <div className="pt-6 w-full md:w-2/12 px-4 text-center">
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                 <div className="px-4 py-5 flex-auto">
-                  Trouvez des Formations par Nom ou par competences !
-                  <br></br>
+                  Trouvez des Formations par Nom ou par compétences !
+                  <br />
                   <input
                     type="text"
-                    placeholder="Nom , Competences ..."
+                    placeholder="Nom, Compétences ..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="  rounded-lg px-12 py-2"
+                    className="rounded-lg px-12 py-2"
                   />
                 </div>
               </div>
@@ -140,29 +140,24 @@ export default function Landing () {
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                 <div className="px-4 py-5 mt-1 flex-auto">
                   Trier les formations par !
-                  <br></br>
+                  <br />
                   <button
-                    className="bg-bleu-500 hover:bg-blue-700 text-orange-500 font-bold py-2 px-4 mt-5 rounded transition duration-300 mr-2"
-                    onClick={() => setSortOrder('asc')}>
+                    className="bg-blue-500 hover:bg-blue-700 text-orange-500 font-bold py-2 px-4 mt-5 rounded transition duration-300 mr-2"
+                    onClick={() => setSortOrder('asc')}
+                  >
                     Prix croissant
                   </button>
                   <button
-                    className="bg-bleu-500 hover:bg-blue-700 text-orange-500 font-bold py-2 px-4 rounded transition duration-300"
-                    onClick={() => setSortOrder('desc')}>
+                    className="bg-blue-500 hover:bg-blue-700 text-orange-500 font-bold py-2 px-4 rounded transition duration-300"
+                    onClick={() => setSortOrder('desc')}
+                  >
                     Prix décroissant
                   </button>
-
-                </div>
-              </div>
-            </div>
-            <div className="pt-6 w-full md:w-2/12 px-4 text-center">
-              <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                <div className="px-4 py-5 flex-auto">
-                  Trouvez des Formation par un center !
                 </div>
               </div>
             </div>
           </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="flex flex-wrap">
             {currentFormations.map((formation) => (
