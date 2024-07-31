@@ -103,47 +103,51 @@ export default function Event() {
           <h4 className="font-semibold text-white mb-2">Ajouter un nouvel événement</h4>
           <form onSubmit={handleCreateEvent}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="Titre"
-                value={newEvent.title}
-                onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-                className="block w-full mb-2 px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-              <input
-                type="text"
-                placeholder="Description"
-                value={newEvent.description}
-                onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-                className="block w-full mb-2 px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-              <input
-                type="date"
-                value={newEvent.date}
-                onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
-                className="block w-full mb-2 px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-              <input
-                type="text"
-                placeholder="Lieu"
-                value={newEvent.location}
-                onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
-                className="block w-full mb-2 px-3 py-2 border border-gray-300 rounded-md"
-                required
-              />
-              <input
-                className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                placeholder="image_user"
-                type="file"
-                name="image_user"
-                onChange={(e) => handlechangeFile(e)}
-                label="image_user"
-                aria-label="image_user"
-                // value={User.image_user}
-              />
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  placeholder="Titre"
+                  value={newEvent.title}
+                  onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                  className="border-0 px-3 py-3  mr-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Description"
+                  value={newEvent.description}
+                  onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+                  className="border-0 px-3 py-3  mr-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Lieu"
+                  value={newEvent.location}
+                  onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
+                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  required
+                />
+              </div>
+              <div className="flex space-x-2">
+                <input
+                  type="date"
+                  value={newEvent.date}
+                  onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
+                  className="border-0 px-3 py-3 mr-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  required
+                />
+                <input
+                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  placeholder="image_user"
+                  type="file"
+                  name="image_user"
+                  onChange={(e) => handlechangeFile(e)}
+                  label="image_user"
+                  aria-label="image_user"
+                />
+              </div>
+
             </div>
             <button
               type="submit"
