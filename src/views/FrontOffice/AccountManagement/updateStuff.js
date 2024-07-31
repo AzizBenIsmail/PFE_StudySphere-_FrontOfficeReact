@@ -132,7 +132,7 @@ export default function ListeFormations({ color }) {
                   type="button"
                   onClick={() => setShowAddForm(true)}
                 >
-                  <div className="flex items-center">Ajouter un Formation</div>
+                  <div className="flex items-center">Ajouter un Formateur</div>
                 </button>
               </div>
             </div>
