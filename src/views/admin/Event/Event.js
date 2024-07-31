@@ -19,6 +19,7 @@ export default function Event() {
     try {
       const data = await getAllEvents();
       setEvents(data);
+      console.log(events)
       setFilteredEvents(data);
     } catch (err) {
       setError(err.message || "Erreur lors de la récupération des événements.");
@@ -29,7 +30,7 @@ export default function Event() {
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, );
 
   const handleCreateEvent = async (e) => {
     e.preventDefault();

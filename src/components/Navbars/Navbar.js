@@ -8,6 +8,7 @@ import NotificationDropdown from '../Dropdowns/NotificationDropdown'
 import { MdCastForEducation } from 'react-icons/md'
 import { BiSolidSchool  } from "react-icons/bi";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
+import { MdOutlineEventNote } from "react-icons/md";
 
 export default function Navbar ({ user }) {
 
@@ -67,6 +68,14 @@ export default function Navbar ({ user }) {
                     >
                       <LiaChalkboardTeacherSolid   className="mr-2" style={{ fontSize: '24px' }}/>
                       Formateur
+                    </Link>
+
+                    <Link
+                      className="lg:text-white lg:hover:text-lightBlue-800 text-white px-3 py-4 lg:py-2 flex items-center text-xs "
+                      to="/landing/event"
+                    >
+                      <MdOutlineEventNote    className="mr-2" style={{ fontSize: '24px' }}/>
+                      Evénement
                     </Link>
                   </>
                 ) : null }

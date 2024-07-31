@@ -15,6 +15,8 @@ const training = lazy(() => import("../views/FrontOffice/Training/training"));
 const Landing = lazy(() => import("../views/FrontOffice/client/Landing"));
 const notification = lazy(() => import("../views/FrontOffice/notification/listeNotifcation"));
 const detailscours = lazy(() => import("../views/FrontOffice/client/detailscours.js"));
+const Event = lazy(() => import("../views/FrontOffice/Event/Event"));
+const EventDetail = lazy(() => import("../views/FrontOffice/Event/EventDetail"));
 
 export default function LandingLayout () {
   //const jwt_token = Cookies.get('jwt_token')
@@ -92,6 +94,8 @@ export default function LandingLayout () {
             <Route path="/landing/landing" exact render={(props) => <Landing {...props} user={user} />} />
           <Route path="/landing/notification" exact component={notification} />
             <Route path="/landing/detailscours/:id" exact component={detailscours} />
+            <Route path="/landing/Event" exact component={Event} />
+            <Route path="/landing/EventDetail/:id" exact component={EventDetail} />
 
             <Redirect from="/landing" to="/landing/landing"/>
         </Switch>
