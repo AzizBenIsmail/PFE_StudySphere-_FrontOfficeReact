@@ -24,6 +24,8 @@ import LitseXp from "../views/admin/xp/LitseXp.js";
 import DetailsFormation from "../views/admin/Formation/DetailsFormation.js";
 import Notification from "../views/admin/Notification/Notification";
 import Formation from "../views/admin/Formation/Formation";
+import Logs from "../views/admin/Logs/Logs";
+import Event from "../views/admin/Event/Event";
 import { getUserAuth } from '../Services/Apiauth'
 
 
@@ -95,6 +97,8 @@ export default function Admin() {
             <Route path="/admin/Ajouterutilisateur" exact component={AddUser} />
             <Route path="/admin/Modifierutilisateur/:id" exact component={UpdateUser} />
             <Route path="/admin/UpdatePassword/:id" exact component={UpdatePassword} />
+            <Route path="/admin/Logs" exact component={Logs} />
+            <Route path="/admin/Event" exact component={Event} />
 
             <Redirect from="/admin" to="/admin/dashboard" />
           </Switch>

@@ -9,6 +9,7 @@ import { FaUsersCog } from "react-icons/fa";
 import { SiOpenbadges } from "react-icons/si";
 import { SiOpslevel } from "react-icons/si";
 import { MdEventAvailable } from "react-icons/md";
+import { LuFolderRoot } from "react-icons/lu";
 
 export default function Sidebar( user ) {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
@@ -124,6 +125,28 @@ export default function Sidebar( user ) {
                   </div>
                   Gestion Utilisateurs
                 </Link>
+                  <Link
+                    className={
+                      "text-xs uppercase py-3 font-bold block flex " +
+                      (window.location.href.indexOf("/admin/logs") !== -1
+                        ? "text-lightBlue-500 hover:text-lightBlue-600"
+                        : "text-blueGray-700 hover:text-blueGray-500")
+                    }
+                    to="/admin/logs"
+                  >
+                    <div
+                      className={
+                        "text-sm " +
+                        (window.location.href.indexOf("/admin/logs") !== -1
+                          ? "opacity-75"
+                          : "text-blueGray-300")
+                      }
+                    >
+                      <LuFolderRoot className="mr-2"/>
+
+                    </div>
+                    Logs
+                  </Link>
               </li>
                 : null }
               <li className="items-center">
