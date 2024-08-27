@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { AiOutlineFieldNumber } from "react-icons/ai";
 
 export default function CardStats({
   statSubtitle,
@@ -17,7 +18,8 @@ export default function CardStats({
         <div className="flex-auto p-4">
           <div className="flex flex-wrap">
             <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
-              <h5 className="text-blueGray-400 uppercase font-bold text-xs">
+              <h5 className="text-blueGray-400 uppercase font-bold text-xs flex items-center">
+                <AiOutlineFieldNumber className="mr-2" style={{ fontSize: '24px' }} />
                 {statSubtitle}
               </h5>
               <span className="font-semibold text-xl text-blueGray-700">
@@ -35,21 +37,6 @@ export default function CardStats({
               </div>
             </div>
           </div>
-          <p className="text-sm text-blueGray-400 mt-4">
-            <span className={statPercentColor + " mr-2"}>
-              <i
-                className={
-                  statArrow === "up"
-                    ? "fas fa-arrow-up"
-                    : statArrow === "down"
-                    ? "fas fa-arrow-down"
-                    : ""
-                }
-              ></i>{" "}
-              {statPercent}%
-            </span>
-            <span className="whitespace-nowrap">{statDescripiron}</span>
-          </p>
         </div>
       </div>
     </>
