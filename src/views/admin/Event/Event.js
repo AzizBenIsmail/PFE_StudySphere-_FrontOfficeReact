@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getAllEvents, createEvent, deleteEvent } from '../../../Services/ApiEvent';
 
 export default function Event() {
-  const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,22 +14,20 @@ export default function Event() {
     location: '',
   });
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
       const data = await getAllEvents();
-      setEvents(data);
-      console.log(events)
       setFilteredEvents(data);
     } catch (err) {
       setError(err.message || "Erreur lors de la récupération des événements.");
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchEvents();
-  }, );
+  }, [fetchEvents]);
 
   const handleCreateEvent = async (e) => {
     e.preventDefault();
@@ -47,7 +44,7 @@ export default function Event() {
     formData.append('location', newEvent.location);
 
     if (image !== undefined) {
-      formData.append("image", image, `${newEvent.title}+.png`);
+      formData.append("image", image, `${newEvent.title}.png`);
     }
 
     try {
@@ -71,9 +68,8 @@ export default function Event() {
   };
 
   const handlechangeFile = (e) => {
-    setImage(e.target.files[0])
-    console.log(e.target.files[0])
-  }
+    setImage(e.target.files[0]);
+  };
 
   if (loading) {
     return <div>Chargement...</div>;
@@ -110,7 +106,7 @@ export default function Event() {
                   placeholder="Titre"
                   value={newEvent.title}
                   onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-                  className="border-0 px-3 py-3  mr-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className="border-0 px-3 py-3 mr-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   required
                 />
                 <input
@@ -118,7 +114,7 @@ export default function Event() {
                   placeholder="Description"
                   value={newEvent.description}
                   onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-                  className="border-0 px-3 py-3  mr-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  className="border-0 px-3 py-3 mr-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   required
                 />
                 <input
@@ -144,11 +140,9 @@ export default function Event() {
                   type="file"
                   name="image_user"
                   onChange={(e) => handlechangeFile(e)}
-                  label="image_user"
                   aria-label="image_user"
                 />
               </div>
-
             </div>
             <button
               type="submit"
@@ -189,7 +183,6 @@ export default function Event() {
             <tr key={event._id}>
               <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 font-bold">
                 <img
-                  // onClick={() => navigate(`/admin/UserDetails/${user._id}`)}
                   alt="UserImage"
                   src={`${process.env.REACT_APP_API_URL_IMAGE_USERS}/${event.image}`}
                   style={{ width: '80px', height: '80px' }}
